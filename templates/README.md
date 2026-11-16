@@ -21,5 +21,7 @@ Each week adds a development template: A small, working Python program that carr
 | [Week 8](../weeks/week-08/README.md) | [`modbus_rtu_frames.py`](modbus_rtu_frames.py) | Builds and parses Modbus RTU frames with their CRC, decodes registers into integers and floats and computes the poll cycle of a bus. |
 | [Week 8](../weeks/week-08/README.md) | [`mqtt_topics_and_bridge.py`](mqtt_topics_and_bridge.py) | Matches MQTT topic filters, publishes on change with a deadband and a heartbeat, and bridges Modbus values to MQTT when the client library paho-mqtt is installed. |
 | [Week 8](../weeks/week-08/README.md) | [`networked_loop_sim.py`](networked_loop_sim.py) | Simulates a first-order control loop with network delay, sampling and packet loss, and computes its delay margin. |
+| [Week 9](../weeks/week-09/README.md) | [`battery_schedule_lp.py`](battery_schedule_lp.py) | The daily schedule of a battery and of flexible loads as a linear program with SciPy: the cheapest charging and discharging for hourly prices, an export price, a peak charge and loads that must receive their energy within a window. |
+| [Week 9](../weeks/week-09/README.md) | [`economic_dispatch.py`](economic_dispatch.py) | The economic dispatch of generating units with quadratic costs and limits, by bisection on the incremental cost, with the price of each hour that follows from it. |
 
 Run a template with `python <file>` in a terminal or paste it into a Colab cell. The templates are licensed under the MIT License of the repository.

@@ -27,6 +27,10 @@
   "text": "Bennett, W. R. (1948). Spectra of quantized signals. Bell System Technical Journal, 27(3), 446-472.",
   "link": "https://doi.org/10.1002/j.1538-7305.1948.tb01340.x"
  },
+ "boyd2004": {
+  "text": "Boyd, S., & Vandenberghe, L. (2004). Convex Optimization. Cambridge University Press.",
+  "link": "https://doi.org/10.1017/CBO9780511804441"
+ },
  "brearley2017": {
   "text": "Brearley, B. J., & Prabu, R. R. (2017). A review on issues and approaches for microgrid protection. Renewable and Sustainable Energy Reviews, 67, 988-997.",
   "link": "https://doi.org/10.1016/j.rser.2016.09.047"
@@ -70,6 +74,10 @@
  "hespanha2007": {
   "text": "Hespanha, J. P., Naghshtabrizi, P., & Xu, Y. (2007). A survey of recent results in networked control systems. Proceedings of the IEEE, 95(1), 138-162.",
   "link": "https://doi.org/10.1109/JPROC.2006.887288"
+ },
+ "huangfu2018": {
+  "text": "Huangfu, Q., & Hall, J. A. J. (2018). Parallelizing the dual revised simplex method. Mathematical Programming Computation, 10(1), 119-142.",
+  "link": "https://doi.org/10.1007/s12532-017-0130-5"
  },
  "iec60255_151": {
   "text": "International Electrotechnical Commission. (2009). Measuring relays and protection equipment - Part 151: Functional requirements for over/under current protection (IEC 60255-151:2009, Edition 1.0). IEC.",
@@ -187,9 +195,17 @@
   "text": "Olivares, D. E., Mehrizi-Sani, A., Etemadi, A. H., Cañizares, C. A., Iravani, R., Kazerani, M., Hajimiragha, A. H., Gomis-Bellmunt, O., Saeedifard, M., Palma-Behnke, R., Jiménez-Estévez, G. A., & Hatziargyriou, N. D. (2014). Trends in microgrid control. IEEE Transactions on Smart Grid, 5(4), 1905-1919.",
   "link": "https://doi.org/10.1109/TSG.2013.2295514"
  },
+ "palensky2011": {
+  "text": "Palensky, P., & Dietrich, D. (2011). Demand side management: Demand response, intelligent energy systems, and smart loads. IEEE Transactions on Industrial Informatics, 7(3), 381-388.",
+  "link": "https://doi.org/10.1109/TII.2011.2158841"
+ },
  "pandas": {
   "text": "McKinney, W. (2010). Data structures for statistical computing in Python. In Proceedings of the 9th Python in Science Conference (pp. 56-61).",
   "link": "https://doi.org/10.25080/Majora-92bf1922-00a"
+ },
+ "parisio2014": {
+  "text": "Parisio, A., Rikos, E., & Glielmo, L. (2014). A model predictive control approach to microgrid operation optimization. IEEE Transactions on Control Systems Technology, 22(5), 1813-1827.",
+  "link": "https://doi.org/10.1109/TCST.2013.2295737"
  },
  "peterson1961": {
   "text": "Peterson, W. W., & Brown, D. T. (1961). Cyclic codes for error detection. Proceedings of the IRE, 49(1), 228-235.",
@@ -243,6 +259,10 @@
   "text": "Vaandrager, F. (2017). Model learning. Communications of the ACM, 60(2), 86-95.",
   "link": "https://doi.org/10.1145/2967606"
  },
+ "vazquez2019": {
+  "text": "Vázquez-Canteli, J. R., & Nagy, Z. (2019). Reinforcement learning for demand response: A review of algorithms and modeling techniques. Applied Energy, 235, 1072-1089.",
+  "link": "https://doi.org/10.1016/j.apenergy.2018.11.002"
+ },
  "virtanen2020": {
   "text": "Virtanen, P., Gommers, R., Oliphant, T. E., Haberland, M., Reddy, T., Cournapeau, D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., van der Walt, S. J., Brett, M., Wilson, J., Millman, K. J., Mayorov, N., Nelson, A. R. J., Jones, E., Kern, R., Larson, E., Carey, C. J., Polat, İ., Feng, Y., Moore, E. W., VanderPlas, J., Laxalde, D., Perktold, J., Cimrman, R., Henriksen, I., Quintero, E. A., Harris, C. R., Archibald, A. M., Ribeiro, A. H., Pedregosa, F., van Mulbregt, P., & SciPy 1.0 Contributors. (2020). SciPy 1.0: Fundamental algorithms for scientific computing in Python. Nature Methods, 17(3), 261-272.",
   "link": "https://doi.org/10.1038/s41592-019-0686-2"
@@ -250,6 +270,10 @@
  "wilhelm2008": {
   "text": "Wilhelm, R., Engblom, J., Ermedahl, A., Holsti, N., Thesing, S., Whalley, D., Bernat, G., Ferdinand, C., Heckmann, R., Mitra, T., Mueller, F., Puaut, I., Puschner, P., Staschulat, J., & Stenström, P. (2008). The worst-case execution-time problem: Overview of methods and survey of tools. ACM Transactions on Embedded Computing Systems, 7(3), Article 36.",
   "link": "https://doi.org/10.1145/1347375.1347389"
+ },
+ "wood2014": {
+  "text": "Wood, A. J., Wollenberg, B. F., & Sheblé, G. B. (2014). Power Generation, Operation, and Control (3rd ed.). Wiley.",
+  "link": ""
  },
  "zhang2001": {
   "text": "Zhang, W., Branicky, M. S., & Phillips, S. M. (2001). Stability of networked control systems. IEEE Control Systems Magazine, 21(1), 84-99.",

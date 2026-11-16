@@ -1,0 +1,1767 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Energy Optimisation: Economic Dispatch, Battery Scheduling and Demand Response | Cyber-Physical Systems</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>:root{
+  --ink:#1B2430; --paper:#F3F6F8; --panel:#FFFFFF; --steel:#56616D; --line:#D3DCE3; --grid:#E6ECF0;
+  --accent:#1E6FA8; --ok:#2E8B57; --bad:#B53F2E; --band:rgba(30,111,168,.09);
+  --c1:#1F5F8B; --c2:#C98510; --c3:#2E8B57; --c4:#8B3F82; --c5:#B53F2E;
+  --sans:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --head:'Barlow Semi Condensed','Arial Narrow','Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#E4E9EE; --paper:#10161C; --panel:#18212A; --steel:#A2AFBB; --line:#2A3642; --grid:#1D2731;
+  --accent:#7DB9E8; --ok:#63C08E; --bad:#E58372; --band:rgba(125,185,232,.13);
+  --c1:#6FB0DA; --c2:#E6A83F; --c3:#63C08E; --c4:#CC8CC3; --c5:#E58372;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.62 var(--sans)}
+a{color:var(--c1);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:920px;margin:0 auto;padding:26px 20px 64px}
+header.top{border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:22px}
+header.top .course{margin:0;color:var(--steel);font-size:.93rem}
+header.top h1{font-family:var(--head);font-weight:600;font-size:clamp(1.8rem,4.2vw,2.7rem);line-height:1.08;margin:.3rem 0 .45rem;letter-spacing:.005em}
+header.top .who{margin:0;font-size:.9rem;color:var(--steel)}
+header.top nav{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 16px}
+header.top nav a{font-size:.95rem}
+h2{font-family:var(--head);font-weight:600;font-size:1.7rem;line-height:1.15;margin:2rem 0 .55rem;scroll-margin-top:44px}
+h3{font-family:var(--head);font-weight:600;font-size:1.28rem;margin:1.4rem 0 .4rem;scroll-margin-top:44px}
+p,li{max-width:72ch;overflow-wrap:break-word}
+.small{font-size:.87rem;color:var(--steel)}
+code,pre{font-family:var(--mono);font-size:.86em}
+code{background:var(--band);padding:.08em .3em;border-radius:3px}
+p code,li code,td code{overflow-wrap:anywhere}
+pre{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c1);padding:12px 14px;overflow-x:auto;border-radius:4px;line-height:1.45}
+pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93rem;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:var(--band)}
+.tablewrap{overflow-x:auto}
+img{max-width:100%;height:auto}
+figure{margin:1.3rem 0}
+figure img{border:1px solid var(--line);border-radius:4px;background:#fff}
+figcaption{font-size:.87rem;color:var(--steel);margin-top:.35rem}
+button,select,input,textarea{font:inherit}
+select{padding:.3rem .45rem;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--ink);max-width:100%}
+.btn{background:var(--ink);color:var(--paper);border:0;border-radius:4px;padding:.42rem .9rem;cursor:pointer;min-height:2.2rem}
+.btn:hover{background:var(--accent)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.ctl{display:flex;flex-direction:column;gap:2px;min-width:170px;flex:1}
+.ctl label{font-size:.86rem;color:var(--steel)}
+.ctl output{font-family:var(--mono);font-size:.85rem;color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.bench{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px;margin:12px 0}
+.paper{background-color:var(--panel);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:12px 12px;border:1px solid var(--line);border-radius:4px;display:block;width:100%;touch-action:none}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.readout div{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:6px 9px;font-size:.86rem}
+.readout b{display:block;font-family:var(--mono);font-size:1.05rem}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.84rem;color:var(--steel)}
+.legend i{display:inline-block;width:14px;height:4px;margin-right:5px;vertical-align:middle;border-radius:2px}
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--line);flex-wrap:wrap;margin-top:8px}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:.5rem .85rem;cursor:pointer;color:var(--steel)}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent);font-weight:700}
+.tabpanel[hidden]{display:none}
+.kc{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:0 6px 6px 0;padding:10px 14px;margin:1.2rem 0}
+.kc .q{font-weight:700;margin:0 0 6px}
+.kc label{display:block;padding:3px 0;cursor:pointer}
+.kc .fb{margin-top:6px;font-size:.93rem}
+.fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+.anim{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;margin:1.3rem 0}
+.lec-tools{position:sticky;top:0;z-index:5;background:var(--paper);padding:6px 0;border-bottom:1px solid var(--line)}
+.lec-prog{display:flex;align-items:center;gap:10px;font-size:.84rem;color:var(--steel)}
+.lec-bar{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.lec-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.cite{cursor:pointer;color:var(--c1);border-bottom:1px dotted var(--c1)}
+.pop{position:absolute;z-index:20;max-width:420px;background:var(--panel);border:1px solid var(--line);box-shadow:0 6px 18px rgba(0,0,0,.18);padding:10px 12px;border-radius:6px;font-size:.86rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.card{min-height:110px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;cursor:pointer;font-size:.93rem}
+.card .f{font-weight:700}
+.card .b{display:none;color:var(--steel)} .card.flip .f{display:none} .card.flip .b{display:block}
+footer.sig{margin-top:48px;border-top:2px solid var(--ink);padding-top:14px;font-size:.84rem;color:var(--steel)}
+footer.sig p{max-width:none}
+.callout{border-left:4px solid var(--accent);background:var(--panel);padding:10px 14px;margin:14px 0;border-radius:4px}
+.callout b.t{display:block;margin-bottom:4px;color:var(--accent)}
+.callout.life{border-left-color:var(--c2)}
+.callout.life b.t{color:var(--c2)}
+.callout.ai{border-left-color:var(--c4)}
+.callout.ai b.t{color:var(--c4)}
+.callout.discuss{border-left-color:var(--c3)}
+.callout.discuss b.t{color:var(--c3)}
+.callout.discuss ol{margin:4px 0 2px;padding-left:1.3rem}
+.callout.discuss li{margin:3px 0}
+.sus-t td,.sus-t th{text-align:center;padding:4px 6px}
+.sus-t td:first-child,.sus-t th:first-child{text-align:left;min-width:14rem}
+.sus-t input{width:1.1rem;height:1.1rem}
+.eq{overflow-x:auto;overflow-y:hidden;margin:10px 0;text-align:center}
+.labref{margin:-4px 0 14px;text-align:center;font-size:.87rem;color:var(--steel);max-width:none}
+.labref a{color:var(--accent);font-weight:600;white-space:nowrap}
+.colabbox{display:flex;gap:.8rem;align-items:center;border:1px solid var(--line);border-left:5px solid #f9ab00;background:var(--panel);border-radius:10px;padding:.65rem .9rem;margin:1.1rem 0;scroll-margin-top:50px}
+.colabbox p{margin:0}
+.colabbox .colabbtn img{display:block;height:22px}
+.labbox{display:flex;gap:.8rem;align-items:center;border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--panel);border-radius:10px;padding:.65rem .9rem;margin:1.1rem 0;scroll-margin-top:50px}
+.labbox p{margin:0}
+.labbox a.btn{white-space:nowrap;text-decoration:none;font-size:.9rem}
+@media (max-width:560px){.labbox,.colabbox{flex-direction:column;align-items:flex-start}}
+.backpart{margin:.9rem 0 0;font-size:.95rem;border-left:4px solid var(--accent);padding:.35rem .7rem;background:var(--panel);border-radius:6px}
+.backpart a{font-weight:600}
+.labpart{scroll-margin-top:10px}
+/* Step-by-step calculators of the lab */
+.stepcalc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:12px 0;outline:none}
+.stepcalc .bench{margin:0 0 10px}
+.sc-presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 0}
+.sc-presets .btn{font-size:.86rem;padding:.22rem .6rem;min-height:0}
+ol.sc-steps{list-style:none;margin:8px 0 0;padding:0}
+ol.sc-steps li{max-width:none;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:0 6px 6px 0;padding:8px 12px;margin:8px 0;background:var(--paper)}
+ol.sc-steps li.cur{border-left-color:var(--accent);background:var(--panel);box-shadow:0 1px 8px rgba(0,0,0,.07)}
+ol.sc-steps li.new{animation:scin .35s ease}
+.sc-st{font-weight:700;font-size:.97rem}
+.sc-st .sc-n{display:inline-block;min-width:4.2em;color:var(--accent);font-family:var(--head);font-weight:600}
+.sc-x{font-size:.93rem;color:var(--steel);margin:3px 0;max-width:none}
+.sc-m{overflow-x:auto;overflow-y:hidden;margin:4px 0;padding:2px 0;font-size:1.04em}
+.sc-q{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin-top:6px;font-size:.93rem}
+.sc-q input{width:7.5rem;padding:.25rem .4rem;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--ink)}
+.sc-ok{font-size:.86rem;color:var(--ok);font-weight:600}
+.sc-nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 4px;padding-top:10px;border-top:1px solid var(--line)}
+.sc-nav .sc-count{margin-left:auto;font-size:.88rem;color:var(--steel)}
+.sc-dots{display:flex;gap:4px;width:100%}
+.sc-dots i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.sc-dots i.on{background:var(--accent)}
+code.tex{font-size:.8rem;white-space:pre-wrap;word-break:break-word}
+@keyframes scin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+/* Interactive scenes of the lecture pages */
+.scene{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c2);border-radius:10px;padding:12px 14px;margin:1.4rem 0;scroll-margin-top:50px}
+.scene>p.small{margin:0 0 4px}
+.scene .sn-svg{display:block;width:100%;max-width:600px;height:auto;margin:6px auto 2px}
+.scene svg text{font-family:var(--sans);fill:var(--ink)}
+.sn-btns{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px;align-items:center}
+.sn-btns .btn{font-size:.9rem;padding:.34rem .75rem;min-height:2.15rem;line-height:1.25}
+.sn-btns .btn[aria-pressed=true]{background:var(--band);border-color:var(--accent);color:var(--ink);box-shadow:inset 0 0 0 1px var(--accent)}
+.sn-say{min-height:3.3em;margin:6px 0 4px;padding:7px 11px;border-radius:8px;background:var(--band);font-size:.95rem;max-width:none}
+.sn-ro{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.86rem;color:var(--steel);margin:4px 0 0}
+.sn-ro b{font-family:var(--mono);color:var(--ink);font-weight:600;font-size:.84rem}
+.sn-ro .readout{flex:1 1 100%}
+/* Interface clinic: mock screens of the clinic app, before and after */
+.uiclinic{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c1);border-radius:10px;padding:12px 14px;margin:1.4rem 0}
+.uiclinic>p.small{margin:0 0 8px}
+.ui-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+@media (max-width:620px){.ui-pair{grid-template-columns:1fr}}
+.ui-col h4{margin:0 0 6px;font-family:var(--head);font-weight:600;font-size:1.05rem}
+.ui-col h4 .tag{display:inline-block;font-size:.78rem;font-family:var(--sans);font-weight:700;border-radius:999px;padding:.05rem .55rem;margin-right:6px;color:#fff}
+.ui-col h4 .tag.bad{background:#B53F2E} .ui-col h4 .tag.good{background:#2E8B57}
+.ui-col p.ui-why{font-size:.88rem;color:var(--steel);margin:8px 0 0}
+.phone{width:100%;max-width:270px;margin:0 auto;border:9px solid #23262E;border-radius:26px;background:#fff;color:#1E2433;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.18);font:14px/1.4 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color-scheme:light}
+.phone .st{display:flex;justify-content:space-between;font-size:11px;padding:4px 12px;background:#F2F2F5;color:#555}
+.phone .ab{background:#2F5D8A;color:#fff;padding:9px 12px;font-weight:700;font-size:15px}
+.phone .bd{padding:10px 12px;min-height:250px;position:relative}
+.phone .lbl{font-size:12px;color:#555;margin:6px 0 3px}
+.phone .fld{border:1px solid #B9BEC9;border-radius:6px;padding:7px 9px;background:#fff;font-size:13px;color:#1E2433}
+.phone .fld.err{border-color:#C0392B}
+.phone .pb{display:block;width:100%;margin:12px 0 0;border:0;border-radius:8px;padding:10px;background:#2F5D8A;color:#fff;font-weight:700;font-size:14px;text-align:center}
+.phone .pb.dis{background:#B9BEC9;color:#fff}
+.phone .msg{border-radius:6px;padding:7px 9px;font-size:12.5px;margin:8px 0}
+.phone .msg.e{background:#FDECEA;color:#8A1F11;border:1px solid #F3B8AE}
+.phone .msg.o{background:#E8F5EC;color:#1E5E34;border:1px solid #A9D8B8}
+.phone .msg.raw{background:#EEE;color:#333;font-family:monospace;border:1px solid #CCC}
+.phone .chips{display:flex;flex-wrap:wrap;gap:5px;margin:5px 0}
+.phone .chip{border:1px solid #9FB3C8;border-radius:999px;padding:3px 9px;font-size:12px;background:#F4F8FC;color:#1E2433}
+.phone .list{border:1px solid #B9BEC9;border-radius:6px;max-height:140px;overflow:hidden;font-size:12px}
+.phone .list div{padding:4px 8px;border-bottom:1px solid #E5E7EC}
+.phone .tabbar{display:flex;border-top:1px solid #D5D8DF;background:#F7F7FA}
+.phone .tabbar div{flex:1;text-align:center;font-size:11px;padding:7px 2px;color:#555}
+.phone .tabbar div.on{color:#2F5D8A;font-weight:700}
+.phone .menu{position:absolute;left:0;top:0;bottom:0;width:72%;background:#F7F7FA;border-right:1px solid #D5D8DF;padding:10px;font-size:13px}
+.phone .menu div{padding:7px 4px;border-bottom:1px solid #E5E7EC}
+.phone .menu div.sub{padding-left:16px;color:#777;font-size:12px}
+.phone .card2{border:1px solid #D5D8DF;border-radius:8px;padding:9px;margin:8px 0;font-size:12.5px}
+.phone .muted{color:#888;font-size:12px}
+.phone .spin{display:inline-block;width:12px;height:12px;border:2px solid #B9BEC9;border-top-color:#2F5D8A;border-radius:50%;vertical-align:-2px}
+/* 3D parts of the interactive lab */
+.three{position:relative;width:100%;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#DDE3EA;touch-action:none}
+.three canvas{display:block;width:100%;height:100%}
+.three .hud{position:absolute;left:8px;top:8px;right:8px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none}
+.three .hud span:empty{display:none}
+.three .hud span{background:rgba(255,255,255,.88);color:#1E2433;border-radius:6px;padding:3px 8px;font-size:.84rem}
+.three .big{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);background:rgba(255,255,255,.92);color:#1E2433;border-radius:10px;padding:10px 16px;font-size:1.05rem;font-weight:700;pointer-events:none;text-align:center}
+.three .tools3d{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:5px;z-index:2}
+.three .tools3d button{min-width:30px;height:30px;padding:0 6px;border:1px solid rgba(30,36,51,.25);border-radius:7px;background:rgba(255,255,255,.9);color:#1E2433;font:600 .9rem/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.three .tools3d button:hover{background:#fff}
+.three .tools3d button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.three .tools3d.off{opacity:.35;pointer-events:none}
+.three .inset3d{position:absolute;left:10px;bottom:10px;width:min(38%,330px);height:auto;border:3px solid #fff;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.28);pointer-events:none;z-index:2;background:#F4F6F9}
+.three .no3d{padding:18px;color:#1E2433}
+.kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 .35rem;font-family:var(--mono);font-size:.82rem;background:var(--panel)}
+/* Self-assessment and reflection */
+.sa{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:12px 0}
+.sa .q{font-weight:700;margin:0 0 6px}
+.sa label{display:block;padding:2px 0;cursor:pointer}
+.conf{display:flex;gap:10px;flex-wrap:wrap;font-size:.86rem;color:var(--steel);margin-top:4px}
+textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4px;padding:8px;background:var(--panel);color:var(--ink)}
+.weeks{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin:14px 0}
+.wk{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:4px;padding:10px 12px}
+.wk h3{margin:.1rem 0 .3rem;font-size:1.12rem}
+.wk .n{font-family:var(--head);color:var(--steel);font-size:.9rem}
+.wk .links{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.88rem;margin-top:6px}
+.wk .done{font-size:.8rem;color:var(--ok)}
+.wk.soon{border-top-color:var(--line);opacity:.8}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{.lec-tools,.tabs,nav,.btn{display:none}}
+</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 9 of 14</p><h1>Energy Optimisation: Economic Dispatch, Battery Scheduling and Demand Response</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-09">Week overview</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb">Colab notebook</a><a href="lab.html">Interactive lab</a><a href="Week09_Lecture_Notes.pdf">PDF notes</a></nav></header><div class="lec-tools"><div class="lec-prog"><span class="lec-bar"><i></i></span><span class="lec-txt" aria-live="polite"></span></div></div><article class="lecture"><h2 id="overview">Overview</h2><p>Weeks 1 to 8 made the campus measure, estimate, control and communicate. The remaining question is what it should do: When the battery should charge and when the cars should take their energy. This week writes such decisions as optimisation problems <span class="cite" tabindex="0" data-refs="1">[1]</span>. It finds the price of each hour by the economic dispatch of the regional grid <span class="cite" tabindex="0" data-refs="2">[2]</span>. It then schedules the battery and the car park of the campus at the lowest cost.</p><pre class="mermaid">flowchart LR
+  A[&quot;Optimisation problems&quot;] --&gt; B[&quot;Economic dispatch&quot;]
+  B --&gt; C[&quot;Battery scheduling&quot;]
+  C --&gt; D[&quot;Demand response&quot;]
+  D --&gt; S[&quot;The campus microgrid, stage 9&quot;]
+  S --&gt; H[&quot;Learning to dispatch&quot;]</pre><div class="callout"><b class="t">Python code of this week</b><p>Every method on this page is also written as Python code in the <a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb">Colab notebook of the week</a>. Its code is divided into numbered sections. Each orange box on this page names the section whose code carries out what the text above the box explains. The box says what to run and what to look at in that section, and its button opens the Colab notebook at that place. The virtual laboratories, the practice parts and the self-assessment of the week are in the <a href="lab.html">interactive lab</a>. Each blue box opens one part of the interactive lab. The part ends with a link back to its box on this page, and the Colab notebook is always opened from the orange boxes here.</p></div><h2 id="python-step">Python step 9: Optimisation with SciPy</h2><div class="colabbox" id="colab-python-step"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=python-step" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, right after Section 0 (setup).</b> Open the Colab notebook and run this step cell by cell: It consists of short pieces of Python code with their explanations, a quick check and three exercises. Topics: An objective function and its minimum · A linear program with linprog · Variables for every hour.</p></div><p>The step introduces the optimisation tools of SciPy <span class="cite" tabindex="0" data-refs="3">[3]</span>. It minimises a function of one variable, solves a linear program in two variables with <code>linprog</code> and plans a battery over a few hours with arrays. Students who have never programmed start with the <a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/start-here/NB00_start_here.ipynb">start-here notebook</a> of the course.</p><div class="callout"><b class="t">The campus microgrid so far</b><p>Weeks 1 to 8 built the balance, the dynamics, the modes, the measurements, the frequency control, the estimators, the real-time tasks and the networks of the campus. The battery still follows the simple rule of Week 1, and every car charges as soon as it arrives.</p><p>This week replaces both with plans of the lowest cost for each day.</p></div><figure><img src="figures/w09_project_roadmap.png" alt="The campus microgrid through the fourteen weeks of the course. The figure marks the stage of this week." loading="lazy"><figcaption>The campus microgrid through the fourteen weeks of the course. The figure marks the stage of this week.</figcaption></figure><h2 id="optimisation">Optimisation: Variables, objective and constraints</h2><p>An optimisation problem chooses the decision variables \(x\) that minimise an objective \(f(x)\) while all constraints hold <span class="cite" tabindex="0" data-refs="1">[1]</span>. When the objective and all constraints are linear, the problem is a linear program (LP):</p><div class="eq">\[\min_x\ c^T x \qquad \text{subject to} \qquad A_{ub}\,x \le b_{ub}, \quad A_{eq}\,x = b_{eq}, \quad l \le x \le u\]</div><p>The constraints cut out a feasible region with flat faces, and the optimum of a linear objective lies at a corner of it. The simplex method walks from corner to corner, and modern solvers such as HiGHS solve LPs with thousands of variables in a fraction of a second <span class="cite" tabindex="0" data-refs="4">[4]</span>.</p><p>The battery of the campus gives a first example with two variables, its discharge \(d_{18}\) and \(d_{19}\) at 18:00 and 19:00, when the price is 0.22 and 0.24 €/kWh. With \(E\) kWh stored above its minimum, it can deliver \(E\eta\). A peak limit \(G\) forces it to cover the import above \(G\):</p><div class="eq">\[\max\ 0.22\,d_{18} + 0.24\,d_{19} \quad \text{s.t.} \quad d_{18} + d_{19} \le E\,\eta, \quad d_{18} \ge 580.5 - G, \quad d_{19} \ge 585.7 - G, \quad 0 \le d_t \le 250\]</div><p class="labref">→ These formulas with numbers, step by step: <a href="lab.html#pb" target="_blank" rel="noopener">Lab Part B</a>, calculator, steps 3 and 4.</p><p><b>A worked example.</b> With \(E = 300\) kWh, the battery delivers \(300 \times 0.95 = 285\) kWh. Without a peak limit, the optimum gives the dearer hour 19:00 the full 250 kW and 18:00 the remaining 35 kW. It saves \(0.24 \times 250 \)​\({}+ 0.22 \times 35 \)​\({}= 67.70\) €. A limit of 450 kW forces at least 130.5 and 135.7 kW, so the optimum moves to \(d_{18} = 130.5\) and \(d_{19} = 154.5\) kW and saves 65.79 €. With only 150 kWh stored, no plan meets all constraints.</p><div class="anim" id="lp"><p class="small"><strong>Animation.</strong> The two evening hours as a linear program. The shaded region holds every plan that meets the limits of the inverter, the energy stored and the peak limit. The orange lines join plans of equal saving, and the red dot is the optimum. Lower the energy or the peak limit and watch the optimum move from corner to corner until no plan is left.</p><div class="row" id="lp-sl"></div><canvas class="paper" id="lp-cv" aria-label="The feasible region of the discharge at 18:00 and 19:00 with the lines of equal saving and the optimum"></canvas><div id="lp-ro"></div></div><figure><img src="figures/w09_fig_lp.png" alt="The feasible region of the two evening hours without a peak limit (left) and with a limit of 450 kW (right). The orange lines join plans of equal saving, and the dot marks the optimum at a corner." loading="lazy"><figcaption>The feasible region of the two evening hours without a peak limit (left) and with a limit of 450 kW (right). The orange lines join plans of equal saving, and the dot marks the optimum at a corner.</figcaption></figure><div class="kc" data-answer="0" data-why="A linear objective improves in one direction, so it stops only at the boundary, at a corner."><p class="q">Check your understanding. Where does a linear program take its optimum?</p><label><input type="radio" name="KC0" value="0"> At a corner of the feasible region</label><label><input type="radio" name="KC0" value="1"> Always in the middle of the region</label><label><input type="radio" name="KC0" value="2"> Where the gradient is zero</label><label><input type="radio" name="KC0" value="3"> On the line of the cheapest variable only</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="colabbox" id="colab-sec-1"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-1" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 1.</b> Open Section 1 of the Colab notebook and run it. The function <code>two_hours</code> writes the two evening hours as a linear program and solves it with <code>linprog</code>. The code prints four cases, one of them infeasible, and draws the feasible region with the optimum.</p></div><div class="callout discuss"><b class="t">Discuss: What to optimise</b><ol><li>The campus could minimise its cost, its emissions or its peak import. Which objective would you choose, and how would you combine two of them?</li><li>Which constraint of the battery would you never relax, even for a large saving?</li></ol></div><h2 id="dispatch">Economic dispatch</h2><p>The regional grid serves its demand \(D\) with three units, a cheap base unit, a middle unit and an expensive peak unit. Each has the cost \(C_i(P_i) = b_i P_i + c_i P_i^2\) in € per hour and limits on its output \(P_i\) in megawatts (MW). The economic dispatch minimises the total cost <span class="cite" tabindex="0" data-refs="2">[2]</span>:</p><div class="eq">\[\min \sum_i C_i(P_i) \quad \text{s.t.} \quad \sum_i P_i = D, \quad P_i^{min} \le P_i \le P_i^{max} \qquad \Rightarrow \qquad \frac{dC_i}{dP_i} = b_i + 2c_i P_i = \lambda\]</div><p>At the optimum, every unit within its limits runs at the same incremental cost \(\lambda\). A unit with a lower incremental cost would otherwise take over a megawatt more cheaply. A unit at a limit keeps its output, and \(\lambda\) is the cost of one more MWh, the price of energy in that hour. The campus pays \(p_t = 0.10 + \lambda_t/1000\) € per kWh, the energy and a fixed network charge.</p><div class="tablewrap"><table><thead><tr><th>Unit</th><th>Cost (€/h, P in MW)</th><th>Incremental cost (€/MWh)</th><th>Limits (MW)</th></tr></thead><tbody><tr><td>Base unit</td><td>20 P + 0.02 P²</td><td>20 + 0.04 P</td><td>100 to 600</td></tr><tr><td>Middle unit</td><td>35 P + 0.025 P²</td><td>35 + 0.05 P</td><td>0 to 500</td></tr><tr><td>Peak unit</td><td>60 P + 0.25 P²</td><td>60 + 0.5 P</td><td>0 to 300</td></tr></tbody></table></div><p class="labref">→ These formulas with numbers, step by step: <a href="lab.html#pb" target="_blank" rel="noopener">Lab Part B</a>, calculator, steps 1 and 2.</p><p><b>A worked example.</b> At 02:00 the region needs 550 MW, and only the base and the middle unit run. Their outputs \(P_i = (\lambda - b_i)/(2c_i)\) add up to the demand. With \(b_1/(2c_1) = 500\), \(b_2/(2c_2) = 700\), \(1/(2c_1) = 25\) and \(1/(2c_2) = 20\), the incremental cost is \(\lambda = (550 + 500 + 700)/45 = 38.89\) €/MWh. The base unit gives 472.2 MW and the middle unit 77.8 MW, and the campus pays 0.1389 €/kWh. At 19:00 the region needs 1260 MW. The first two units run at their limits, and the peak unit gives 160 MW at \(\lambda = 60 + 0.5 \times 160 = 140\) €/MWh. The campus then pays 0.24 €/kWh.</p><div class="scene" id="scene"><p class="small"><strong>Scene: Equal incremental cost.</strong> The three units of the regional grid as ramps: Each ramp rises with the incremental cost of its unit against its output and ends at the limits of the unit. The translucent plane is the level λ. Each unit runs where its ramp meets the plane, and the bars on the table show the outputs. The five buttons follow a night, a noon, an evening and the price of the whole day.</p><div class="three" id="ld-3d"></div><div class="sn-btns" id="ld-act"></div><p class="sn-say" id="ld-say" aria-live="polite"></p><div class="sn-ro" id="ld-ro"></div></div><figure><img src="figures/w09_fig_dispatch.png" alt="Left: The supply curve of the region, the total output against the incremental cost, with the demand of three hours. Right: The price of the campus for each hour of the day." loading="lazy"><figcaption>Left: The supply curve of the region, the total output against the incremental cost, with the demand of three hours. Right: The price of the campus for each hour of the day.</figcaption></figure><div class="kc" data-answer="0" data-why="Above 1100 MW only the peak unit can grow, and its incremental cost rises by 0.5 €/MWh per MW."><p class="q">Check your understanding. Why does the price jump in the evening although the demand grows only a little?</p><label><input type="radio" name="KC1" value="0"> The steep peak unit sets the incremental cost when the other units are at their limits</label><label><input type="radio" name="KC1" value="1"> The network charge doubles in the evening</label><label><input type="radio" name="KC1" value="2"> The base unit stops at night</label><label><input type="radio" name="KC1" value="3"> The campus imports more</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="labbox" id="lab-pb"><a class="btn" href="lab.html#pb" target="_blank" rel="noopener">Open lab Part B</a><p><b>Interactive lab, Part B.</b> The calculator of the week computes the formulas of this page step by step. It covers the dispatch of a night, the price, the two evening hours and the charging of one car in its cheapest hours.</p></div><div class="colabbox" id="colab-sec-2"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-2" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 2.</b> Open Section 2 of the Colab notebook and run it. The function <code>dispatch</code> searches \(\lambda\) by bisection and returns the outputs of the three units. The code prints three hours, computes the price of all 24 hours as <code>PRICE</code> and draws the supply curve and the price.</p></div><div class="callout discuss"><b class="t">Discuss: Prices and peaks</b><ol><li>Which hours would you choose for washing the towels of the sports hall, and why?</li><li>What happens to the evening price when a large solar plant joins the region?</li></ol></div><h2 id="battery-schedule">Battery scheduling</h2><p>The battery of the campus can plan a whole day as one linear program <span class="cite" tabindex="0" data-refs="5">[5]</span>. For every hour \(t\) it chooses the charging \(c_t\), the discharging \(d_t\), the import \(g_t\), the export \(x_t\) and the stored energy \(e_t\). The tariff adds a peak charge of \(K = 0.30\) € per kW of the highest import of the day:</p><div class="eq">\[\min \sum_{t=0}^{23} \left(p_t\,g_t - s\,x_t\right) + K\,G \quad \text{s.t.} \quad g_t - x_t = n_t + c_t - d_t, \quad e_t = e_{t-1} + \eta\,c_t - d_t/\eta, \quad g_t \le G\]</div><p>Here \(n_t\) is the import without the battery, \(s = 0.05\) €/kWh the price of an export and \(G\) the peak of the day, itself a variable. The limits keep \(50 \le e_t \le 450\) kWh, \(c_t, d_t \le 250\) kW and \(g_t \le 600\) kW. The day ends with at least the 250 kWh of the start. These are 121 variables, solved in a few milliseconds.</p><p><b>A worked example.</b> On the clear day, the campus pays 1446.09 € without the battery, with a peak of 585.7 kW. The optimal schedule charges at the cheapest night hours and discharges from 17:00 to 20:00. It cuts the peak to 444.7 kW, and the day costs 1379.91 €. The rule of Week 1 with its threshold of 450 kW ends the day with less energy in the battery. Priced at 0.15 € per missing kWh, its corrected cost is 1382.98 €, close to the optimum.</p><p>On the cloudy day the solar plant delivers less, and the same rule spends the battery from 08:00 on. The battery runs empty in the hour from 17:00, just before the evening peak of 608.3 kW at 18:00. The rule saves only 1.16 €, while the optimum saves 54.34 € and keeps the peak at 489.9 kW. A threshold of 490 kW would suit this day, but a fixed rule cannot know it in advance.</p><figure><img src="figures/w09_fig_battery.png" alt="Left: The import of the clear day without the battery, with the rule of Week 1 and with the optimal schedule. Right: The state of charge on the cloudy day with the rule and with the optimum." loading="lazy"><figcaption>Left: The import of the clear day without the battery, with the rule of Week 1 and with the optimal schedule. Right: The state of charge on the cloudy day with the rule and with the optimum.</figcaption></figure><div class="kc" data-answer="0" data-why="The threshold suits a sunny day; on a cloudy day the import exceeds it already in the morning."><p class="q">Check your understanding. Why does the rule of Week 1 fail on the cloudy day?</p><label><input type="radio" name="KC2" value="0"> Its fixed threshold empties the battery before the evening peak</label><label><input type="radio" name="KC2" value="1"> The prices are higher on cloudy days</label><label><input type="radio" name="KC2" value="2"> The battery cannot charge at night</label><label><input type="radio" name="KC2" value="3"> The linear program changes the weather</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="labbox" id="lab-pa"><a class="btn" href="lab.html#pa" target="_blank" rel="noopener">Open lab Part A</a><p><b>Interactive lab, Part A.</b> The battery container in 3D: The racks of the battery, the inverter, the transformer with the grid meter and the tariff board of the campus. Run the clear and the cloudy day without the battery, with the rule of Week 1, with a rule of prices and with the optimal schedule. The results can be copied into the Colab notebook.</p></div><div class="colabbox" id="colab-sec-3"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-3" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 3.</b> Open Section 3 of the Colab notebook and run it. The function <code>schedule</code> builds the linear program of this section with 121 variables and solves it. <code>run_rule</code> runs the rules of Week 1 and of prices. Paste the results of Part A into <code>MY_RUNS</code>, and the code runs each of your days again.</p></div><div class="callout discuss"><b class="t">Discuss: Plans and surprises</b><ol><li>The optimal schedule assumes that the import of the whole day is known at midnight. What happens when the afternoon turns cloudy?</li><li>Why is the energy left in the battery at midnight worth money?</li></ol></div><h2 id="demand-response">Demand response</h2><p>Demand response changes when a load runs, instead of when the supply runs <span class="cite" tabindex="0" data-refs="6">[6]</span>. The ten cars of the car park are such loads. Car \(k\) arrives at \(a_k\), leaves at \(d_k\) and needs \(E_k\) kWh, with at most 22 kW per hour:</p><div class="eq">\[\sum_{t=a_k}^{d_k - 1} P_{k,t} = E_k, \qquad 0 \le P_{k,t} \le 22 \ \text{kW}\]</div><p>Charging at once fills each car from its arrival and adds 110 kW to the import at 17:00 and 18:00, the dear hours. Charging in the cheapest hours of each car moves its energy into cheaper hours, and the linear program of the battery can include the cars as further variables. A limit of power for the whole car park serves the car that leaves first, the rule of earliest deadline first of Week 7.</p><p><b>A worked example.</b> Car J arrives at 17:00, leaves at midnight and needs 110 kWh, five hours at 22 kW. At once it charges from 17:00 to 21:00 and pays \(22 \times 0.9975 = 21.95\) €. In its five cheapest hours it pays \(22 \times 0.8272 = 18.20\) €. For the whole car park, the campus pays 1408.90 € instead of 1446.09 €. The optimal charging pays 1404.78 € and lowers the peak from 585.7 to 497.7 kW. A limit of 88 kW is the smallest that still fills every car before it leaves.</p><figure><img src="figures/w09_fig_dr.png" alt="Left: The power of the car park when every car charges at once, in its cheapest hours and under a limit of 88 kW. Right: The import of the campus with charging at once and with the optimal charging, without the battery." loading="lazy"><figcaption>Left: The power of the car park when every car charges at once, in its cheapest hours and under a limit of 88 kW. Right: The import of the campus with charging at once and with the optimal charging, without the battery.</figcaption></figure><div class="kc" data-answer="0" data-why="The car park still draws 88 kW at 19:00, when the price is highest."><p class="q">Check your understanding. Why does a limit of 88 kW barely lower the cost of the campus?</p><label><input type="radio" name="KC3" value="0"> It caps the power but does not move charging out of the dear hours</label><label><input type="radio" name="KC3" value="1"> It charges the cars too slowly</label><label><input type="radio" name="KC3" value="2"> It needs the battery</label><label><input type="radio" name="KC3" value="3"> It ignores the departures</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="labbox" id="lab-pc"><a class="btn" href="lab.html#pc" target="_blank" rel="noopener">Open lab Part C</a><p><b>Interactive lab, Part C.</b> The car park in 3D: Ten chargers with their cars, the load controller with its screen and a board with the cars. Run charging at once, in the cheapest hours, under a limit and optimally, and find the smallest limit that fills every car in time. The results can be copied into the Colab notebook.</p></div><div class="colabbox" id="colab-sec-4"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-4" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 4.</b> Open Section 4 of the Colab notebook and run it. The functions <code>ev_immediate</code>, <code>ev_cheapest</code> and <code>ev_limited</code> carry out the strategies of this section, and <code>schedule</code> with the cars optimises the charging. Paste the results of Part C into <code>MY_CARS</code>, and the code runs each of your strategies again.</p></div><div class="callout discuss"><b class="t">Discuss: Flexible people</b><ol><li>How would you ask the drivers for their departure time, and what if they are wrong?</li><li>Should a car that leaves early pay more for its energy than one that stays overnight?</li></ol></div><h2 id="development-templates">Development templates of the week</h2><p>The folder <a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/templates"><code>templates/</code></a> of the repository collects small working programs that carry out the methods of the course. Week 9 adds two of them, each with a description, its inputs and outputs and an example run.</p><div class="tablewrap"><table><thead><tr><th>Template</th><th>What it does</th></tr></thead><tbody><tr><td><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/blob/main/templates/economic_dispatch.py"><code>economic_dispatch.py</code></a></td><td>The economic dispatch of units with quadratic costs and limits by bisection on the incremental cost, with the price of each hour; the example is the regional grid of the campus</td></tr><tr><td><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/blob/main/templates/battery_schedule_lp.py"><code>battery_schedule_lp.py</code></a></td><td>The daily schedule of a battery and of flexible loads as a linear program with SciPy, with a peak charge; the example is the clear day of the campus</td></tr></tbody></table></div><h2 id="engineering-side">The engineering side: Plans that survive the day</h2><p>An optimal plan is only as good as its forecasts. The schedule of this week knows the whole day in advance, while a real controller learns the import hour by hour. Model predictive control therefore solves the problem again every hour with the latest forecast and applies only the first hour of the plan <span class="cite" tabindex="0" data-refs="5">[5]</span>.</p><div class="tablewrap"><table><thead><tr><th>Check</th><th>What it reveals</th></tr></thead><tbody><tr><td>The plan of the morning against the actual day</td><td>The value lost to errors of the forecast</td></tr><tr><td>Constraints that are active at the optimum</td><td>Where more capacity or flexibility would pay</td></tr><tr><td>The state of charge at the end of the horizon</td><td>Whether the plan borrows from the next day</td></tr><tr><td>The solver status and its time</td><td>An infeasible problem or a model that grows too large</td></tr><tr><td>The plan against a simple rule</td><td>A safe fallback when the optimiser fails</td></tr></tbody></table></div><p>The dual values of an LP tell how much one more unit of a resource would save. In the dispatch, the dual value of the balance is \(\lambda\) itself. In the schedule of the battery, the dual value of its upper limit tells what one more kWh of storage would be worth on that day.</p><div class="callout life"><b class="t">In everyday life: Filling the fuel tank</b><p>A driver who knows that petrol is cheaper on Monday fills the tank on Monday and drives with less on Sunday. The tank is the store, the week is the horizon, and the driver keeps a reserve for a surprise. A battery schedule makes the same decisions every hour.</p></div><div class="callout discuss"><b class="t">Discuss: Commissioning the optimiser</b><ol><li>What should the controller do when <code>linprog</code> reports that the problem is infeasible at 03:00?</li><li>How often would you solve the schedule again during the day, and why?</li></ol></div><h2 id="the-campus-microgrid-stage-9">The campus microgrid, stage 9: The dispatch of the microgrid</h2><p>Stage 9 plans the day of the campus at the lowest cost. The price follows the regional dispatch, the battery follows the optimal schedule and the car park shifts its charging, on a clear and on a cloudy day.</p><div class="tablewrap"><table><thead><tr><th>Question</th><th>Result</th><th>Model</th></tr></thead><tbody><tr><td>Price of the campus</td><td>0.1388 to 0.24 €/kWh, highest at 19:00</td><td>Economic dispatch</td></tr><tr><td>Clear day without the battery</td><td>1446.09 €, peak 585.7 kW</td><td>Balance and tariff</td></tr><tr><td>Clear day, rule of Week 1</td><td>1382.98 €, corrected for the energy at midnight</td><td>Rule</td></tr><tr><td>Clear day, optimal battery</td><td>1379.91 €, peak 444.7 kW</td><td>Linear program</td></tr><tr><td>Clear day, optimal battery and cars</td><td>1363.18 €, peak 435.7 kW, 5.73 percent saved</td><td>Linear program</td></tr><tr><td>Cloudy day: rule, optimum, optimum with cars</td><td>1723.09, 1669.91 and 1651.55 €</td><td>Rule and linear program</td></tr><tr><td>Smallest limit of the car park</td><td>88 kW</td><td>Earliest departure first</td></tr></tbody></table></div><p>The optimum adds little to a well-tuned rule on the day for which the rule was tuned, but much on the day for which it was not. Week 10 forecasts the load and the generation that these plans need.</p><figure><img src="figures/w09_project_stage.png" alt="The campus microgrid, stage 9. Left: The cost of the day on the clear and on the cloudy day for the four strategies. Right: The import of the clear day without the battery and with the optimal battery and cars. The values come from Section 5 of the Colab notebook." loading="lazy"><figcaption>The campus microgrid, stage 9. Left: The cost of the day on the clear and on the cloudy day for the four strategies. Right: The import of the clear day without the battery and with the optimal battery and cars. The values come from Section 5 of the Colab notebook.</figcaption></figure><div class="kc" data-answer="0" data-why="1723.09 against 1669.91 €."><p class="q">Check your understanding. What does the campus gain from the optimal schedule on a cloudy day compared with the rule of Week 1?</p><label><input type="radio" name="KC4" value="0"> About 53 €, because the rule empties the battery too early</label><label><input type="radio" name="KC4" value="1"> Nothing, the rule is optimal</label><label><input type="radio" name="KC4" value="2"> About 5 €, the losses of the battery</label><label><input type="radio" name="KC4" value="3"> About 150 €, the peak charge</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="labbox" id="lab-pd"><a class="btn" href="lab.html#pd" target="_blank" rel="noopener">Open lab Part D</a><p><b>Interactive lab, Part D.</b> Stage 9 by hand: The incremental cost for a demand of 700 MW and the saving of the two evening hours with 250 kWh stored. It ends with the cost of charging one car in its cheapest hours.</p></div><div class="colabbox" id="colab-sec-5"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-5" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 5.</b> Open Section 5 of the Colab notebook and run it. The code collects the results of stage 9 in the dictionary <code>STAGE9</code>. A figure compares the strategies on both days and draws the optimal import of the clear day.</p></div><h2 id="your-application">Your application</h2><p>Wherever energy can be stored or a demand can wait, the same linear program finds the cheapest plan. The Colab notebook holds an application switch with six systems. They are a home battery, a water tower, a cold store, the heating of a school, a bus depot and the cooling of a data centre.</p><div class="colabbox" id="colab-sec-6"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-6" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 6.</b> Open Section 6 of the Colab notebook, set <code>APP</code> to one of the six names in the comment and run the cell. The code plans the purchases of the store against the prices of the campus and compares them with buying as needed.</p></div><h2 id="toward-ai">Learning to dispatch</h2><p>A linear program needs a model and a forecast. Reinforcement learning instead learns a policy for the battery or for flexible loads from experience, by trying actions and observing their cost. A review by Vázquez-Canteli and Nagy found that most such studies of demand response handle a single agent in a stationary environment <span class="cite" tabindex="0" data-refs="7">[7]</span>.</p><p>For the campus, a learned policy could react to clouds and to late cars faster than an optimiser that solves the problem again. It has no guarantee, however, that it respects the limits of the battery and of the contract. A safe design keeps the constraints of this week as a shield around the learned policy.</p><div class="callout ai"><b class="t">A policy that learns the campus</b><p>Suppose that the campus records a year of its import, its prices and the actions of the optimiser. A neural network learns to imitate the optimiser from the hour, the price, the state of charge and the forecast. It answers in microseconds, and a check of the constraints corrects every action that would leave the limits.</p></div><div class="callout discuss"><b class="t">Discuss: Optimiser or learner?</b><ol><li>Which part of the planning would you hand to a learned policy first, and which never?</li><li>How would you compare a learned policy with the optimum on days that it has not seen?</li></ol></div><h2 id="review-cards">Review cards</h2><p class="small">Select a card to turn it over.</p><div class="cards"><div class="card" tabindex="0" role="button"><div class="f">Optimisation problem</div><div class="b">Decision variables, an objective and constraints <span class="cite" tabindex="0" data-refs="1">[1]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Linear program</div><div class="b">A linear objective with linear constraints; its optimum lies at a corner of the feasible region.</div></div><div class="card" tabindex="0" role="button"><div class="f">Feasible region</div><div class="b">The set of decisions that meet all constraints; it can be empty.</div></div><div class="card" tabindex="0" role="button"><div class="f">Simplex method</div><div class="b">Walks along the corners of the feasible region; HiGHS is a modern solver <span class="cite" tabindex="0" data-refs="4">[4]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Economic dispatch</div><div class="b">Shares a demand among units at the lowest cost <span class="cite" tabindex="0" data-refs="2">[2]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Incremental cost</div><div class="b">\(dC_i/dP_i\); equal for all units within their limits at the optimum.</div></div><div class="card" tabindex="0" role="button"><div class="f">λ</div><div class="b">The cost of one more MWh, the price of energy of the hour.</div></div><div class="card" tabindex="0" role="button"><div class="f">Merit order</div><div class="b">The units in the order of their incremental cost; the last unit that runs sets the price.</div></div><div class="card" tabindex="0" role="button"><div class="f">Peak charge</div><div class="b">A price per kW of the highest import, which rewards a flat import.</div></div><div class="card" tabindex="0" role="button"><div class="f">Battery schedule</div><div class="b">Charging and discharging of a whole day chosen as a linear program <span class="cite" tabindex="0" data-refs="5">[5]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Demand response</div><div class="b">Shifting a load in time in response to prices or signals <span class="cite" tabindex="0" data-refs="6">[6]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Model predictive control</div><div class="b">Solves the plan again at every step with the latest forecast and applies its first step.</div></div><div class="card" tabindex="0" role="button"><div class="f">Dual value</div><div class="b">How much the optimum improves per unit of a relaxed constraint.</div></div><div class="card" tabindex="0" role="button"><div class="f">Reinforcement learning for demand response</div><div class="b">Learns a policy from experience instead of from a model <span class="cite" tabindex="0" data-refs="7">[7]</span>.</div></div></div><h2 id="references">References</h2><p class="small" id="ref-1">[1] Boyd, S., &amp; Vandenberghe, L. (2004). <i>Convex Optimization</i>. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511804441">https://doi.org/10.1017/CBO9780511804441</a></p><p class="small" id="ref-2">[2] Wood, A. J., Wollenberg, B. F., &amp; Sheblé, G. B. (2014). <i>Power Generation, Operation, and Control</i> (3rd ed.). Wiley.</p><p class="small" id="ref-3">[3] Virtanen, P., Gommers, R., Oliphant, T. E., Haberland, M., Reddy, T., Cournapeau, D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., van der Walt, S. J., Brett, M., Wilson, J., Millman, K. J., Mayorov, N., Nelson, A. R. J., Jones, E., Kern, R., Larson, E., Carey, C. J., Polat, İ., Feng, Y., Moore, E. W., VanderPlas, J., Laxalde, D., Perktold, J., Cimrman, R., Henriksen, I., Quintero, E. A., Harris, C. R., Archibald, A. M., Ribeiro, A. H., Pedregosa, F., van Mulbregt, P., &amp; SciPy 1.0 Contributors. (2020). SciPy 1.0: Fundamental algorithms for scientific computing in Python. <i>Nature Methods</i>, <i>17</i>(3), 261-272. <a href="https://doi.org/10.1038/s41592-019-0686-2">https://doi.org/10.1038/s41592-019-0686-2</a></p><p class="small" id="ref-4">[4] Huangfu, Q., &amp; Hall, J. A. J. (2018). Parallelizing the dual revised simplex method. <i>Mathematical Programming Computation</i>, <i>10</i>(1), 119-142. <a href="https://doi.org/10.1007/s12532-017-0130-5">https://doi.org/10.1007/s12532-017-0130-5</a></p><p class="small" id="ref-5">[5] Parisio, A., Rikos, E., &amp; Glielmo, L. (2014). A model predictive control approach to microgrid operation optimization. <i>IEEE Transactions on Control Systems Technology</i>, <i>22</i>(5), 1813-1827. <a href="https://doi.org/10.1109/TCST.2013.2295737">https://doi.org/10.1109/TCST.2013.2295737</a></p><p class="small" id="ref-6">[6] Palensky, P., &amp; Dietrich, D. (2011). Demand side management: Demand response, intelligent energy systems, and smart loads. <i>IEEE Transactions on Industrial Informatics</i>, <i>7</i>(3), 381-388. <a href="https://doi.org/10.1109/TII.2011.2158841">https://doi.org/10.1109/TII.2011.2158841</a></p><p class="small" id="ref-7">[7] Vázquez-Canteli, J. R., &amp; Nagy, Z. (2019). Reinforcement learning for demand response: A review of algorithms and modeling techniques. <i>Applied Energy</i>, <i>235</i>, 1072-1089. <a href="https://doi.org/10.1016/j.apenergy.2018.11.002">https://doi.org/10.1016/j.apenergy.2018.11.002</a></p></article><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script type="application/json" id="refdata">{"1": "Boyd, S., &amp; Vandenberghe, L. (2004). <i>Convex Optimization</i>. Cambridge University Press. <a href=\"https://doi.org/10.1017/CBO9780511804441\">https://doi.org/10.1017/CBO9780511804441</a>", "2": "Wood, A. J., Wollenberg, B. F., &amp; Sheblé, G. B. (2014). <i>Power Generation, Operation, and Control</i> (3rd ed.). Wiley.", "3": "Virtanen, P., Gommers, R., Oliphant, T. E., Haberland, M., Reddy, T., Cournapeau, D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., van der Walt, S. J., Brett, M., Wilson, J., Millman, K. J., Mayorov, N., Nelson, A. R. J., Jones, E., Kern, R., Larson, E., Carey, C. J., Polat, İ., Feng, Y., Moore, E. W., VanderPlas, J., Laxalde, D., Perktold, J., Cimrman, R., Henriksen, I., Quintero, E. A., Harris, C. R., Archibald, A. M., Ribeiro, A. H., Pedregosa, F., van Mulbregt, P., &amp; SciPy 1.0 Contributors. (2020). SciPy 1.0: Fundamental algorithms for scientific computing in Python. <i>Nature Methods</i>, <i>17</i>(3), 261-272. <a href=\"https://doi.org/10.1038/s41592-019-0686-2\">https://doi.org/10.1038/s41592-019-0686-2</a>", "4": "Huangfu, Q., &amp; Hall, J. A. J. (2018). Parallelizing the dual revised simplex method. <i>Mathematical Programming Computation</i>, <i>10</i>(1), 119-142. <a href=\"https://doi.org/10.1007/s12532-017-0130-5\">https://doi.org/10.1007/s12532-017-0130-5</a>", "5": "Parisio, A., Rikos, E., &amp; Glielmo, L. (2014). A model predictive control approach to microgrid operation optimization. <i>IEEE Transactions on Control Systems Technology</i>, <i>22</i>(5), 1813-1827. <a href=\"https://doi.org/10.1109/TCST.2013.2295737\">https://doi.org/10.1109/TCST.2013.2295737</a>", "6": "Palensky, P., &amp; Dietrich, D. (2011). Demand side management: Demand response, intelligent energy systems, and smart loads. <i>IEEE Transactions on Industrial Informatics</i>, <i>7</i>(3), 381-388. <a href=\"https://doi.org/10.1109/TII.2011.2158841\">https://doi.org/10.1109/TII.2011.2158841</a>", "7": "Vázquez-Canteli, J. R., &amp; Nagy, Z. (2019). Reinforcement learning for demand response: A review of algorithms and modeling techniques. <i>Applied Energy</i>, <i>235</i>, 1072-1089. <a href=\"https://doi.org/10.1016/j.apenergy.2018.11.002\">https://doi.org/10.1016/j.apenergy.2018.11.002</a>"}</script><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+/* Shared runtime of the lecture pages and interactive labs. */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+function h(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null) continue;
+    if (k === "class") e.className = v;
+    else if (k.startsWith("on") && typeof v === "function") e.addEventListener(k.slice(2), v);
+    else if (k === "html") e.innerHTML = v;
+    else e.setAttribute(k, v);
+  }
+  for (const k of kids.flat()) if (k != null) e.append(k.nodeType ? k : document.createTextNode(String(k)));
+  return e;
+}
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const COL = () => ({ink: cssv("--ink"), steel: cssv("--steel"), line: cssv("--line"), grid: cssv("--grid"),
+  panel: cssv("--panel"), paper: cssv("--paper"), accent: cssv("--accent"), ok: cssv("--ok"), bad: cssv("--bad"),
+  c: [cssv("--c1"), cssv("--c2"), cssv("--c3"), cssv("--c4"), cssv("--c5")]});
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const R = (x, d) => { const f = Math.pow(10, d == null ? 2 : d); return Math.round((x + Number.EPSILON) * f) / f; };
+function RNG(seed) {
+  let s = seed >>> 0;
+  const r = () => { s += 0x6D2B79F5; let t = s; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  r.normal = () => { let u = 0, v = 0; while (u === 0) u = r(); while (v === 0) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+  r.int = n => Math.floor(r() * n);
+  r.uniform = (a, b) => a + (b - a) * r();
+  return r;
+}
+const store = {
+  key: k => (window.COURSE_PREFIX || "crs") + ":" + k,
+  get(k, d) { try { const v = localStorage.getItem(this.key(k)); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(this.key(k), JSON.stringify(v)); } catch (e) {} }
+};
+/* Canvas with device-pixel scaling. draw(ctx, w, h) is called on setup and on resize. */
+function stage(cv, aspect, draw) {
+  const ctx = cv.getContext("2d");
+  const fit = () => {
+    const w = cv.clientWidth || 600, hgt = Math.round(w * aspect), d = window.devicePixelRatio || 1;
+    cv.style.height = hgt + "px"; cv.width = Math.round(w * d); cv.height = Math.round(hgt * d);
+    ctx.setTransform(d, 0, 0, d, 0, 0); cv._w = w; cv._h = hgt; draw && draw(ctx, w, hgt);
+  };
+  if (window.ResizeObserver) new ResizeObserver(() => fit()).observe(cv);
+  fit();
+  return {ctx, redraw: () => draw && draw(ctx, cv._w, cv._h), size: () => [cv._w, cv._h]};
+}
+function fmt(v) { if (Math.abs(v - Math.round(v)) < 1e-9) return String(Math.round(v)); const a = Math.abs(v); if (a >= 10) return v.toFixed(0); if (a >= 1) return v.toFixed(1); if (a === 0) return "0"; return v.toFixed(2); }
+/* Axes frame: returns mapping helpers. */
+function frame(ctx, w, hgt, o) {
+  const C = COL(), p = Object.assign({l: 50, r: 12, t: 12, b: 36}, o.pad || {});
+  const X = x => p.l + (x - o.x0) / (o.x1 - o.x0) * (w - p.l - p.r);
+  const Y = y => hgt - p.b - (y - o.y0) / (o.y1 - o.y0) * (hgt - p.t - p.b);
+  ctx.save(); ctx.strokeStyle = C.line; ctx.fillStyle = C.steel; ctx.lineWidth = 1; ctx.font = "11px " + cssv("--sans");
+  const nx = o.xticks || o.ticks || 5, ny = o.yticks || o.ticks || 5;
+  for (let i = 0; i <= nx; i++) { const xv = o.x0 + (o.x1 - o.x0) * i / nx;
+    ctx.beginPath(); ctx.moveTo(X(xv), hgt - p.b); ctx.lineTo(X(xv), hgt - p.b + 4); ctx.stroke();
+    ctx.textAlign = "center"; ctx.fillText(o.xfmt ? o.xfmt(xv) : fmt(xv), X(xv), hgt - p.b + 16); }
+  for (let i = 0; i <= ny; i++) { const yv = o.y0 + (o.y1 - o.y0) * i / ny;
+    ctx.beginPath(); ctx.moveTo(p.l - 4, Y(yv)); ctx.lineTo(p.l, Y(yv)); ctx.stroke();
+    ctx.textAlign = "right"; ctx.fillText(o.yfmt ? o.yfmt(yv) : fmt(yv), p.l - 7, Y(yv) + 4); }
+  ctx.strokeStyle = C.ink; ctx.beginPath(); ctx.moveTo(p.l, p.t); ctx.lineTo(p.l, hgt - p.b); ctx.lineTo(w - p.r, hgt - p.b); ctx.stroke();
+  ctx.fillStyle = C.ink; ctx.textAlign = "center";
+  if (o.xlabel) ctx.fillText(o.xlabel, (p.l + w - p.r) / 2, hgt - 4);
+  if (o.ylabel) { ctx.save(); ctx.translate(12, (p.t + hgt - p.b) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText(o.ylabel, 0, 0); ctx.restore(); }
+  ctx.restore();
+  return {X, Y, p};
+}
+function polyline(ctx, pts, color, width, dash) {
+  ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = width || 2; if (dash) ctx.setLineDash(dash);
+  ctx.beginPath(); pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.stroke(); ctx.restore();
+}
+function dot(ctx, x, y, r, color, stroke) {
+  ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI); ctx.fillStyle = color; ctx.fill();
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.stroke(); }
+}
+function rrect(ctx, x, y, w, hh, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + hh, r); ctx.arcTo(x + w, y + hh, x, y + hh, r); ctx.arcTo(x, y + hh, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+/* Labelled slider bound to a value. */
+function slider(parent, o, on) {
+  const show = v => o.fmt ? o.fmt(v) : v;
+  const out = h("output", {}, show(o.value));
+  const inp = h("input", {type: "range", min: o.min, max: o.max, step: o.step || 1, value: o.value, "aria-label": o.label});
+  inp.addEventListener("input", () => { const v = parseFloat(inp.value); out.textContent = show(v); on && on(v); });
+  parent.append(h("div", {class: "ctl"}, h("label", {}, o.label, " ", out), inp));
+  inp.setValue = v => { inp.value = v; out.textContent = show(v); };
+  return inp;
+}
+function readout(parent, names) {
+  const box = h("div", {class: "readout"}), cells = {};
+  names.forEach(n => { const b = h("b", {}, "-"); cells[n] = b; box.append(h("div", {}, n, b)); });
+  parent.append(box);
+  return (n, v) => { cells[n].textContent = v; };
+}
+function legend(parent, items) {
+  const C = COL();
+  parent.append(h("div", {class: "legend"}, items.map(([t, i]) => h("span", {}, h("i", {style: "background:" + (typeof i === "number" ? C.c[i] : i)}), t))));
+}
+/* Animation loop that pauses when stopped. */
+function loop(step, ms) {
+  let on = false, raf = 0, last = 0, acc = 0;
+  const f = t => { if (!on) return; const dt = Math.min(0.05, (t - (last || t)) / 1000); last = t; acc += dt * 1000; if (!ms || acc >= ms) { acc = 0; step(dt); } raf = requestAnimationFrame(f); };
+  return {start() { if (!on) { on = true; last = 0; raf = requestAnimationFrame(f); } }, stop() { on = false; cancelAnimationFrame(raf); }, get running() { return on; }};
+}
+const reduced = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function download(name, text, type) {
+  const a = h("a", {href: URL.createObjectURL(new Blob([text], {type: type || "text/markdown"})), download: name});
+  document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+/* MathJax helpers: typeset a TeX string to an element, or typeset the \( \) parts of an element. */
+function texEl(tex, display) {
+  const M = window.MathJax;
+  if (M && typeof M.tex2svg === "function") { try { return M.tex2svg(tex, {display: !!display}); } catch (e) {} }
+  return h("code", {class: "tex"}, tex);
+}
+function texInline(el) {
+  const M = window.MathJax; if (!(M && typeof M.tex2svg === "function")) return;
+  const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [];
+  while (tw.nextNode()) if (tw.currentNode.nodeValue.indexOf("\\(") >= 0) nodes.push(tw.currentNode);
+  nodes.forEach(n => { const f = document.createDocumentFragment();
+    n.nodeValue.split(/\\\(([\s\S]+?)\\\)/).forEach((p, i) => f.append(i % 2 ? texEl(p, false) : document.createTextNode(p)));
+    n.replaceWith(f); });
+}
+function whenMJ(f, t) { t = t || 0; const M = window.MathJax;
+  if (M && M.startup && M.startup.promise) { M.startup.promise.then(f); return; }
+  if (t < 300) setTimeout(() => whenMJ(f, t + 1), 100); else f(); }
+function scrollToHashLater() {
+  let moved = false;
+  ["wheel", "touchmove", "keydown", "mousedown"].forEach(e => window.addEventListener(e, () => { moved = true; }, {passive: true}));
+  const go = () => { const id = decodeURIComponent(location.hash.slice(1)), e = id && document.getElementById(id); if (e && !moved) e.scrollIntoView(); };
+  window.addEventListener("load", () => { setTimeout(go, 60); whenMJ(() => setTimeout(go, 80)); });
+}
+
+/* Citation pop-ups: data-refs="1,2" against the JSON block #refdata. */
+function initCites() {
+  const el = $("#refdata"); if (!el) return;
+  const data = JSON.parse(el.textContent); let pop = null;
+  const close = () => { if (pop) { pop.remove(); pop = null; } };
+  $$(".cite").forEach(c => {
+    const open = ev => { ev.stopPropagation(); close();
+      pop = h("div", {class: "pop", html: c.dataset.refs.split(",").map(k => "<p style='margin:.2rem 0'>[" + k + "] " + (data[k] || "") + "</p>").join("")});
+      document.body.append(pop); const r = c.getBoundingClientRect();
+      const left = Math.max(8, Math.min(window.scrollX + r.left, window.scrollX + document.documentElement.clientWidth - pop.offsetWidth - 8));
+      pop.style.left = left + "px"; pop.style.top = (window.scrollY + r.bottom + 6) + "px"; };
+    c.addEventListener("click", open);
+    c.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(e); } });
+  });
+  document.addEventListener("click", close);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+}
+function initCards() {
+  $$(".card").forEach(c => { const t = () => c.classList.toggle("flip");
+    c.addEventListener("click", t); c.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); t(); } }); });
+}
+
+/* Knowledge checks and reading progress on lecture pages. */
+function initLecture(week) {
+  const kcs = $$(".kc"), key = "w" + week + ":kc", st = store.get(key, {});
+  const bar = $(".lec-bar i"), txt = $(".lec-txt");
+  const upd = () => {
+    const n = kcs.length, d = Object.values(st).filter(Boolean).length;
+    if (bar) bar.style.width = (n ? 100 * d / n : 0) + "%";
+    if (txt) txt.textContent = n ? `Knowledge checks answered correctly: ${d} of ${n}` : "";
+    store.set(key, st); store.set("w" + week + ":progress", n ? d / n : 0);
+  };
+  kcs.forEach((k, i) => {
+    const ans = +k.dataset.answer, fb = $(".fb", k);
+    $(".btn", k).addEventListener("click", () => {
+      const sel = $("input:checked", k);
+      if (!sel) { fb.className = "fb bad"; fb.textContent = "Select an option first."; return; }
+      const ok = +sel.value === ans; st[i] = ok;
+      fb.className = "fb " + (ok ? "ok" : "bad");
+      fb.innerHTML = (ok ? "Correct. " : "Not quite. ") + (k.dataset.why || "");
+      texInline(fb); upd();
+    });
+  });
+  upd(); initCites(); initCards(); scrollToHashLater();
+}
+
+/* A table of multiple-choice items, checked together (classification parts). */
+function partQuiz(id, spec) {
+  const root = document.getElementById(id); if (!root) return; const saved = store.get(spec.key, {});
+  const tb = h("tbody", {}), t = h("table", {}, h("thead", {}, h("tr", {}, h("th", {}, spec.qhead || "Situation"), h("th", {}, spec.ahead || "Your answer"), h("th", {}, "Feedback"))), tb);
+  root.append(h("div", {class: "tablewrap"}, t));
+  spec.items.forEach((it, i) => {
+    const sel = h("select", {id: `${id}-s${i}`, "aria-label": "Answer to item " + (i + 1)}, [h("option", {value: ""}, "choose")].concat(it.options.map((o, k) => h("option", {value: String(k)}, o))));
+    if (saved[i] !== undefined) sel.value = saved[i];
+    sel.addEventListener("change", () => { const s = store.get(spec.key, {}); s[i] = sel.value; store.set(spec.key, s); });
+    tb.append(h("tr", {}, h("td", {}, it.q), h("td", {}, sel), h("td", {id: `${id}-f${i}`}, "")));
+  });
+  const btn = h("button", {class: "btn", type: "button"}, spec.button || "Check my answers"), sc = h("span", {class: "small", "aria-live": "polite"}, "");
+  root.append(h("p", {}, btn, " ", sc));
+  btn.addEventListener("click", () => { let ok = 0;
+    spec.items.forEach((it, i) => { const v = document.getElementById(`${id}-s${i}`).value, f = document.getElementById(`${id}-f${i}`);
+      if (v === "") { f.textContent = "Choose an answer."; return; }
+      const right = +v === it.answer; if (right) ok++; f.textContent = (right ? "Correct. " : "Not quite: " + it.options[it.answer] + ". ") + (it.why || ""); });
+    sc.textContent = `${ok} of ${spec.items.length} correct.`; store.set(spec.key + ":score", ok);
+    if (window.labLog) labLog.note(spec.title || id, `${ok} of ${spec.items.length} correct`); });
+}
+/* Values computed by hand and typed in. */
+function partNumbers(id, spec) {
+  const root = document.getElementById(id); if (!root) return; const row = h("div", {class: "row"});
+  spec.fields.forEach((f, i) => row.append(h("div", {class: "ctl", style: "min-width:220px"}, h("label", {for: `${id}-n${i}`}, f.label),
+    h("input", {type: "number", step: "any", id: `${id}-n${i}`, style: "width:8rem"}))));
+  root.append(row);
+  const btn = h("button", {class: "btn", type: "button"}, spec.button || "Check my values"), sc = h("span", {class: "small", "aria-live": "polite"}, "");
+  root.append(h("p", {}, btn, " ", sc));
+  btn.addEventListener("click", () => { let ok = 0; const out = [];
+    spec.fields.forEach((f, i) => { const v = parseFloat(document.getElementById(`${id}-n${i}`).value), right = Math.abs(v - f.answer) <= f.tol;
+      if (right) ok++; out.push(`${f.short}: ${isNaN(v) ? "missing" : (right ? "correct" : "not yet")}`); });
+    sc.textContent = out.join(", ") + ". " + (ok === spec.fields.length ? (spec.explain || "") : (spec.hint || ""));
+    store.set(spec.key + ":score", ok);
+    if (window.labLog) labLog.note(spec.title || id, `${ok} of ${spec.fields.length} values correct`); });
+}
+/* A calculation revealed one step at a time. spec: inputs [{key, label, min, max, step, value, d}], presets
+   [{label, values}], steps(v) -> [{t, x, m, q: {label, ans, tol}}], viz {aspect, label, legend, draw(ctx, w, h, v, S, k)}. */
+function partSteps(id, spec) {
+  const root = document.getElementById(id); if (!root) return;
+  const v = {}, set = {}, solved = {};
+  spec.inputs.forEach(i => { v[i.key] = i.value; });
+  let k = 0, all = false, S = [], fresh = -1, right = 0;
+  const compute = () => { S = spec.steps(v); if (k > S.length - 1) k = S.length - 1; };
+  const row = h("div", {class: "row"});
+  spec.inputs.forEach(i => {
+    if (i.options) {
+      const sel = h("select", {"aria-label": i.label}, i.options.map((o, j) => h("option", {value: String(j)}, o)));
+      sel.value = String(i.value);
+      sel.addEventListener("change", () => { v[i.key] = +sel.value; update(); });
+      set[i.key] = x => { sel.value = String(x); };
+      row.append(h("div", {class: "ctl"}, h("label", {}, i.label), sel));
+    } else {
+      const f = x => (i.d == null ? x : (+x).toFixed(i.d)) + (i.unit ? " " + i.unit : "");
+      const out = h("output", {}, f(i.value));
+      const inp = h("input", {type: "range", min: i.min, max: i.max, step: i.step || 1, value: i.value, "aria-label": i.label});
+      inp.addEventListener("input", () => { v[i.key] = parseFloat(inp.value); out.textContent = f(v[i.key]); update(); });
+      set[i.key] = x => { inp.value = x; out.textContent = f(x); };
+      row.append(h("div", {class: "ctl"}, h("label", {}, i.label, " ", out), inp));
+    }
+  });
+  const bench = h("div", {class: "bench"}, row);
+  if (spec.presets) {
+    const pr = h("div", {class: "sc-presets"}, h("span", {class: "small"}, "Start from:"));
+    spec.presets.forEach(p => { const b = h("button", {class: "btn ghost", type: "button"}, p.label);
+      b.addEventListener("click", () => { Object.keys(p.values).forEach(key => { v[key] = p.values[key]; if (set[key]) set[key](p.values[key]); }); k = 0; all = false; update(); });
+      pr.append(b); });
+    bench.append(pr);
+  }
+  root.append(bench);
+  let stg = null;
+  if (spec.viz) {
+    const cv = h("canvas", {class: "paper", role: "img", "aria-label": spec.viz.label || "Figure of the calculation"});
+    root.append(cv); if (spec.viz.legend) legend(root, spec.viz.legend);
+    stg = stage(cv, spec.viz.aspect || 0.4, (ctx, w, hh) => { ctx.clearRect(0, 0, w, hh); if (S.length) spec.viz.draw(ctx, w, hh, v, S, all ? S.length - 1 : k); });
+  }
+  const ol = h("ol", {class: "sc-steps", "aria-live": "polite"});
+  const prev = h("button", {class: "btn ghost", type: "button"}, "Previous");
+  const next = h("button", {class: "btn", type: "button"}, "Next step");
+  const allb = h("button", {class: "btn ghost", type: "button"}, "Show all steps");
+  const cnt = h("span", {class: "sc-count"}), dots = h("div", {class: "sc-dots", "aria-hidden": "true"});
+  const score = h("p", {class: "small"});
+  root.append(ol, h("div", {class: "sc-nav"}, dots, prev, next, allb, cnt), score);
+  function render() {
+    ol.textContent = "";
+    const last = all ? S.length - 1 : k;
+    S.forEach((s, i) => {
+      if (i > last) return;
+      const li = h("li", {class: (!all && i === k ? "cur" : "done") + (i === fresh ? " new" : "")});
+      li.append(h("div", {class: "sc-st"}, h("span", {class: "sc-n"}, "Step " + (i + 1)), " ", s.t));
+      if (s.x) { const d = h("div", {class: "sc-x", html: s.x}); li.append(d); texInline(d); }
+      const hideMath = s.q && !all && !solved[i];
+      if (s.m && !hideMath) li.append(h("div", {class: "sc-m"}, texEl(s.m, true)));
+      if (hideMath) {
+        const inp = h("input", {type: "number", step: "any", "aria-label": s.q.label});
+        const chk = h("button", {class: "btn", type: "button"}, "Check"), rev = h("button", {class: "btn ghost", type: "button"}, "Show the step");
+        const fb = h("span", {class: "small", "aria-live": "polite"});
+        chk.addEventListener("click", () => { const x = parseFloat(inp.value);
+          if (isNaN(x)) { fb.textContent = "Type a number first."; return; }
+          if (Math.abs(x - s.q.ans) <= (s.q.tol == null ? 0.005 : s.q.tol)) { right++; solved[i] = "ok"; render(); }
+          else fb.textContent = "Not yet. Look at the steps above, try again or show the step."; });
+        inp.addEventListener("keydown", e => { if (e.key === "Enter") chk.click(); });
+        rev.addEventListener("click", () => { solved[i] = "shown"; render(); });
+        li.append(h("div", {class: "sc-q"}, h("label", {}, s.q.label), inp, chk, rev, fb));
+      } else if (s.q && solved[i] === "ok") li.append(h("div", {class: "sc-ok"}, "Your value is correct."));
+      ol.append(li);
+    });
+    dots.textContent = ""; S.forEach((s, i) => dots.append(h("i", {class: i <= last ? "on" : ""})));
+    cnt.textContent = `Step ${last + 1} of ${S.length}`;
+    prev.disabled = all || k === 0; next.disabled = all || k >= S.length - 1;
+    allb.textContent = all ? "Step by step" : "Show all steps";
+    const nq = S.filter(s => s.q).length;
+    score.textContent = nq ? `Values typed correctly: ${right} of ${nq} questions in this calculation.` : "";
+    fresh = -1; if (stg) stg.redraw();
+  }
+  function update() { compute(); render(); }
+  prev.addEventListener("click", () => { if (k > 0) { k--; render(); } });
+  next.addEventListener("click", () => { if (k < S.length - 1) { k++; fresh = k; render(); } });
+  allb.addEventListener("click", () => { all = !all; render(); });
+  compute(); render();
+  whenMJ(render);
+}
+
+/* Interactive lab: tabs, self-assessment, reflection and the exported learning log. */
+const labLog = window.labLog = {
+  notes: {}, extra: [],
+  note(part, text) { this.notes[part] = text; store.set("w" + (window.WEEK || 0) + ":notes", this.notes); },
+  add(fn) { this.extra.push(fn); }
+};
+function initLab(week, title, quiz, reflect) {
+  window.WEEK = week;
+  labLog.notes = Object.assign(store.get("w" + week + ":notes", {}), labLog.notes);
+  const tabs = $$(".tabs button"), panels = $$(".tabpanel");
+  tabs.forEach((b, i) => b.addEventListener("click", () => {
+    tabs.forEach((x, j) => x.setAttribute("aria-selected", i === j ? "true" : "false"));
+    panels.forEach((p, j) => { p.hidden = i !== j; });
+  }));
+  const qk = "w" + week + ":quiz", qs = store.get(qk, {});
+  const qroot = $("#quiz");
+  if (qroot) {
+    quiz.forEach((it, i) => {
+      const box = h("div", {class: "sa"}), fb = h("div", {class: "fb", "aria-live": "polite"});
+      box.append(h("p", {class: "q"}, (i + 1) + ". " + it.q));
+      it.options.forEach((o, k) => box.append(h("label", {}, h("input", {type: "radio", name: "sa" + i, value: String(k)}), " " + o)));
+      const conf = h("div", {class: "conf"}, "Confidence:", ["low", "medium", "high"].map(c => h("label", {}, h("input", {type: "radio", name: "cf" + i, value: c}), " " + c)));
+      const btn = h("button", {class: "btn", type: "button"}, "Check");
+      btn.addEventListener("click", () => {
+        const sel = $(`input[name=sa${i}]:checked`, box), cf = $(`input[name=cf${i}]:checked`, box);
+        if (!sel) { fb.className = "fb bad"; fb.textContent = "Select an answer first."; return; }
+        const ok = +sel.value === it.answer; qs[i] = {ok, conf: cf ? cf.value : ""}; store.set(qk, qs);
+        fb.className = "fb " + (ok ? "ok" : "bad");
+        fb.textContent = (ok ? "Correct. " : "Not quite. The answer is: " + it.options[it.answer] + ". ") + (it.why || "");
+        sum();
+      });
+      box.append(conf, h("p", {}, btn), fb); qroot.append(box);
+    });
+    const total = h("p", {class: "small", "aria-live": "polite"}); qroot.append(total);
+    function sum() { const v = Object.values(qs); total.textContent = `Answered: ${v.length} of ${quiz.length}. Correct: ${v.filter(x => x.ok).length}.`; }
+    sum();
+  }
+  const rk = "w" + week + ":reflect", rs = store.get(rk, {});
+  const rroot = $("#reflect");
+  if (rroot) {
+    reflect.forEach((p, i) => {
+      const ta = h("textarea", {"aria-label": p}); ta.value = rs[i] || "";
+      ta.addEventListener("input", () => { rs[i] = ta.value; store.set(rk, rs); });
+      rroot.append(h("p", {html: "<b>" + (i + 1) + ".</b> " + p}), ta);
+    });
+    const ex = h("button", {class: "btn", type: "button"}, "Export the learning log");
+    ex.addEventListener("click", () => {
+      const L = [`# Learning log: Week ${week}, ${title}`, "", `Exported: ${new Date().toLocaleString()}`, "", "## Lab parts", ""];
+      Object.entries(labLog.notes).forEach(([k, v]) => L.push(`- ${k}: ${v}`));
+      labLog.extra.forEach(f => { try { const t = f(); if (t) L.push("", t); } catch (e) {} });
+      L.push("", "## Self-assessment", "");
+      quiz.forEach((q, i) => { const a = qs[i]; L.push(`${i + 1}. ${q.q} ${a ? (a.ok ? "Correct" : "Not correct") + (a.conf ? ", confidence " + a.conf : "") : "Not answered"}`); });
+      L.push("", "## Reflection", "");
+      reflect.forEach((p, i) => { L.push(`**${i + 1}. ${p}**`, "", (rs[i] || "").trim() || "(no answer yet)", ""); });
+      download(`Week${String(week).padStart(2, "0")}_learning_log.md`, L.join("\n"));
+    });
+    rroot.append(h("p", {}, ex));
+  }
+  initCites(); scrollToHashLater();
+}
+
+/* Three.js helpers for the 3D parts. Uses the bundled window.THREE. */
+function has3D() {
+  if (!window.THREE) return false;
+  try { const c = document.createElement("canvas"); return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"))); } catch (e) { return false; }
+}
+function make3D(el, o) {
+  o = o || {};
+  const T = window.THREE;
+  const aspect = o.aspect || 0.62, shadows = o.shadows !== false, tgt = o.target || [0, 0, 0];
+  const renderer = new T.WebGLRenderer({antialias: true, preserveDrawingBuffer: true});
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  renderer.outputColorSpace = T.SRGBColorSpace;
+  renderer.toneMapping = o.toneMapping === false ? T.NoToneMapping : T.NeutralToneMapping;
+  renderer.toneMappingExposure = o.exposure || 1.0;
+  renderer.shadowMap.enabled = shadows; renderer.shadowMap.type = T.PCFSoftShadowMap;
+  el.append(renderer.domElement);
+  const scene = new T.Scene(); scene.background = new T.Color(o.bg || 0xDDE3EA);
+  if (o.env !== false && T.RoomEnvironment) {
+    const pm = new T.PMREMGenerator(renderer);
+    scene.environment = pm.fromScene(new T.RoomEnvironment(), 0.04).texture;
+    scene.environmentIntensity = o.envIntensity == null ? 0.6 : o.envIntensity; pm.dispose();
+  }
+  const camera = new T.PerspectiveCamera(o.fov || 45, 1.6, o.near || 0.05, 200);
+  camera.position.set(...(o.camera || [4, 3, 5]));
+  const controls = new T.OrbitControls(camera, renderer.domElement);
+  controls.target.set(...tgt); controls.enableDamping = true; controls.update();
+  if (o.limits) { controls.minDistance = o.limits[0]; controls.maxDistance = o.limits[1]; controls.maxPolarAngle = o.limits[2] || Math.PI / 2.05; }
+  scene.add(new T.HemisphereLight(0xFFFFFF, 0x8A8F98, o.hemi == null ? 1.0 : o.hemi));
+  if (o.fill !== 0) { const fill = new T.DirectionalLight(0xE6EEFF, o.fill == null ? 0.55 : o.fill); fill.position.set(tgt[0] - 5, tgt[1] + 4, tgt[2] - 3); scene.add(fill); }
+  const sun = new T.DirectionalLight(0xFFF4E6, o.sun == null ? 1.7 : o.sun), sp = o.sunPos || [4, 8, 5];
+  sun.position.set(tgt[0] + sp[0], tgt[1] + sp[1], tgt[2] + sp[2]); sun.target.position.set(...tgt);
+  if (shadows) {
+    sun.castShadow = true; const b = o.shadowBox || 6, sc = sun.shadow.camera;
+    sun.shadow.mapSize.set(o.shadowMap || 1024, o.shadowMap || 1024); sc.left = -b; sc.right = b; sc.top = b; sc.bottom = -b; sc.near = 0.1; sc.far = 60;
+    sun.shadow.bias = -0.0003; sun.shadow.normalBias = 0.02 * b / 6; sun.shadow.radius = 3;
+  }
+  scene.add(sun, sun.target);
+  const ticks = []; let visible = true, dirty = true, fl = null;
+  const fit = () => { const w = el.clientWidth || 600, hh = Math.round(w * aspect); el.style.height = hh + "px";
+    renderer.setSize(w, hh, false); camera.aspect = w / hh; camera.updateProjectionMatrix(); dirty = true; };
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(el);
+  fit();
+  if (window.IntersectionObserver) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(el);
+  controls.addEventListener("change", () => { dirty = true; });
+  /* Shadows for every new mesh; screens and labels keep their exact colours. */
+  function shade() {
+    scene.traverse(m => {
+      if (m.userData.sh) return; m.userData.sh = 1;
+      const mats = m.material ? (Array.isArray(m.material) ? m.material : [m.material]) : [];
+      mats.forEach(x => { if (x.isMeshBasicMaterial || x.isSpriteMaterial) x.toneMapped = false; });
+      if (!m.isMesh) return;
+      const tr = mats.some(x => x.transparent && x.opacity < 1);
+      m.castShadow = shadows && !tr && !m.userData.noShadow && !mats.some(x => x.isMeshBasicMaterial);
+      m.receiveShadow = shadows && !m.userData.noReceive;
+    });
+  }
+  const clock = new T.Clock();
+  function frameLoop() {
+    requestAnimationFrame(frameLoop);
+    const dt = Math.min(0.05, clock.getDelta());
+    if (!visible) return;
+    let anim = controls.update();
+    if (fl) { fl.u = Math.min(1, fl.u + dt * 1.6); const e = fl.u < 0.5 ? 2 * fl.u * fl.u : 1 - Math.pow(-2 * fl.u + 2, 2) / 2;
+      camera.position.lerpVectors(fl.p0, fl.p1, e); controls.target.lerpVectors(fl.t0, fl.t1, e); controls.update(); if (fl.u >= 1) fl = null; anim = true; }
+    ticks.forEach(f => { if (f(dt)) anim = true; });
+    if (anim || dirty) { shade(); renderer.render(scene, camera); dirty = false; }
+  }
+  frameLoop();
+  const ray = new T.Raycaster(), ndc = new T.Vector2();
+  function pick(ev, objects) {
+    const r = renderer.domElement.getBoundingClientRect();
+    ndc.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    const hit = ray.intersectObjects(objects, true)[0];
+    return hit || null;
+  }
+  const fly = (pos, target) => { fl = {p0: camera.position.clone(), t0: controls.target.clone(), p1: new T.Vector3(...pos), t1: new T.Vector3(...target), u: 0}; };
+  const api = {T, scene, camera, renderer, controls, pick, sun, fly, onTick: f => ticks.push(f), redraw: () => { dirty = true; },
+    reset() { fl = null; camera.position.set(...(o.camera || [4, 3, 5])); controls.target.set(...tgt); controls.update(); dirty = true; }};
+  /* View tools: zoom, reset and named views; inactive while a game holds the camera. */
+  if (o.tools !== false) {
+    const bar = document.createElement("div"); bar.className = "tools3d";
+    const mk = (label, title, fn) => { const b = document.createElement("button"); b.type = "button"; b.textContent = label;
+      b.title = title; b.setAttribute("aria-label", title);
+      b.addEventListener("click", e => { e.stopPropagation(); if (!controls.enabled) return; fn(); dirty = true; }); bar.append(b); };
+    const dolly = f => { fl = null; const off = camera.position.clone().sub(controls.target);
+      const d = Math.max(controls.minDistance, Math.min(controls.maxDistance, off.length() * f));
+      camera.position.copy(controls.target).add(off.setLength(d)); controls.update(); };
+    mk("+", "Zoom in", () => dolly(0.8)); mk("−", "Zoom out", () => dolly(1.25)); mk("↺", "Reset the view", () => api.reset());
+    (o.views || []).forEach(v => mk(v.label, "View: " + (v.title || v.label), () => fly(v.camera, v.target)));
+    el.append(bar); api.toolsEl = bar;
+  }
+  return api;
+}
+/* A text label as a sprite. */
+function label3D(text, o) {
+  o = o || {};
+  const T = window.THREE, pad = 10, fs = o.size || 44;
+  const c = document.createElement("canvas"), ctx = c.getContext("2d");
+  ctx.font = `700 ${fs}px Atkinson Hyperlegible, system-ui, sans-serif`;
+  const w = Math.ceil(ctx.measureText(text).width) + 2 * pad, hh = fs + 2 * pad;
+  c.width = w; c.height = hh;
+  ctx.font = `700 ${fs}px Atkinson Hyperlegible, system-ui, sans-serif`;
+  ctx.fillStyle = o.bg || "rgba(255,255,255,0.92)"; rrect(ctx, 0, 0, w, hh, 12); ctx.fill();
+  ctx.fillStyle = o.color || "#1E2433"; ctx.textBaseline = "middle"; ctx.fillText(text, pad, hh / 2 + 2);
+  const tex = new T.CanvasTexture(c); tex.colorSpace = T.SRGBColorSpace;
+  const sp = new T.Sprite(new T.SpriteMaterial({map: tex, depthTest: o.depthTest !== false}));
+  const s = o.scale || 0.0045; sp.scale.set(w * s, hh * s, 1);
+  return sp;
+}
+</script><script src="../../assets/vendor/three-bundle.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,theme:"neutral"});</script><script>(function(){
+
+/* The models of Week 9, as in the Colab notebook. OPT: the prices of the campus from the regional dispatch, the import
+   of the campus without the battery on the clear and on the cloudy day, the rules for the battery, the ten cars of the
+   car park and the strategies of charging. The optimal schedules of the linear programs come from the Colab notebook
+   (schedule in Section 3 and Section 4) and are stored here as data. */
+var OPT = window.OPT || (function () {
+  const D = {"PRICE":[0.14,0.1393,0.1389,0.1388,0.1389,0.1396,0.1418,0.146,0.1525,0.156,0.1575,0.158,0.157,0.1565,0.156,0.1555,0.157,0.17,0.22,0.24,0.21,0.1575,0.1475,0.1422],"NET_CLEAR":[196.2,183.7,172.9,176.7,191.5,223.6,250.4,294.6,359.0,352.4,304.5,259.59999999999997,233.70000000000002,246.90000000000003,281.70000000000005,341.7,411.8,502.9,580.5,585.7,489.9,401.7,295.3,233.6],"NET_CLOUDY":[196.2,183.7,172.9,176.7,191.5,223.6,279.4,376.2,484.5,511.6,486.90000000000003,455.0,432.6,440.2,460.1,496.09999999999997,532.8000000000001,581.4,608.3000000000001,585.7,489.9,401.7,295.3,233.6],"EV_KW":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,66.0,66.0,44.0,22.0,22.0,22.0,22.0,44.0,66.0,110.0,110.0,88.0,44.0,22.0,0.0,0.0],"OPT_CLEAR":{"cost":1379.91,"bat":[0.0,0.0,0.0,-210.526,0.0,0.0,0.0,0.0,0.0,-0.0,-0.0,-0.0,0.0,0.0,0.0,0.0,0.0,58.15,135.75,140.95,45.15,0.0,0.0,-210.526],"soc":[0.5,0.5,0.5,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.77758,0.49179,0.19505,0.1,0.1,0.1,0.5],"peak":444.7,"grid":[196.2,183.7,172.9,387.226,191.5,223.6,250.4,294.6,359.0,352.4,304.5,259.6,233.7,246.9,281.7,341.7,411.8,444.75,444.75,444.75,444.75,401.7,295.3,444.126]},"OPT_CLOUDY":{"cost":1669.91,"bat":[0.0,0.0,0.0,-210.526,0.0,0.0,0.0,0.0,0.0,21.7,0.0,0.0,0.0,0.0,-24.044,6.2,42.9,91.5,118.4,121.0,-0.0,0.0,0.0,-210.526],"soc":[0.5,0.5,0.5,0.9,0.9,0.9,0.9,0.9,0.9,0.85432,0.85432,0.85432,0.85432,0.85432,0.9,0.88695,0.79663,0.604,0.35474,0.1,0.1,0.1,0.1,0.5],"peak":489.9,"grid":[196.2,183.7,172.9,387.226,191.5,223.6,279.4,376.2,484.5,489.9,486.9,455.0,432.6,440.2,484.144,489.9,489.9,489.9,489.9,464.7,489.9,401.7,295.3,444.126]},"DR_OPT":{"cost":1404.78,"ev":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,66.0,44.0,0.0,0.0,22.0,22.0,66.0,88.0,66.0,88.0,14.2,0.0,51.8,88.0,66.0,66.0],"peak":497.7,"car":[[0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,22.0,0.0,0.0,0.0,0.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,22.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,0.0,0.0,0.0,0.0,22.0,22.0,22.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,0.0,0.0,0.0,22.0,22.0,22.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,-0.0,0.0,22.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,-0.0,0.0,22.0,22.0,22.0,22.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,14.2,0.0,7.8,22.0,0.0,0.0]]}};
+  const ETA = 0.95, E0 = 250, E_MIN = 50, E_MAX = 450, P_BAT = 250, IMPORT_MAX = 600, S_EXPORT = 0.05, K_PEAK = 0.30, V_STORED = 0.15;
+  const B = [20, 35, 60], C = [0.02, 0.025, 0.25], PMIN = [100, 0, 0], PMAX = [600, 500, 300];
+  const D_REGION = [600, 570, 550, 545, 550, 580, 680, 820, 950, 1020, 1050, 1060, 1040, 1030, 1020, 1010, 1040, 1120, 1220, 1260, 1200, 1050, 850, 700];
+  const CARS = [["A", 7, 17, 110], ["B", 8, 17, 66], ["C", 8, 13, 44], ["D", 12, 20, 110], ["E", 15, 19, 66],
+    ["F", 16, 24, 88], ["G", 17, 24, 88], ["H", 17, 21, 44], ["J", 17, 24, 110], ["K", 18, 22, 44]];
+  const PRICE = D.PRICE, BASE_CLEAR = D.NET_CLEAR.map((n, t) => n - D.EV_KW[t]);
+  const net = day => (day === "cloudy" ? D.NET_CLOUDY : D.NET_CLEAR);
+  /* the regional dispatch: outputs at an incremental cost and the bisection of Section 2 */
+  const outputs = lam => B.map((b, i) => Math.min(PMAX[i], Math.max(PMIN[i], (lam - b) / (2 * C[i]))));
+  function dispatch(Dm) {
+    let lo = 0, hi = 1000;
+    while (hi - lo > 1e-7) { const lam = (lo + hi) / 2; if (outputs(lam).reduce((a, b) => a + b, 0) < Dm) lo = lam; else hi = lam; }
+    const lam = (lo + hi) / 2; return {lam, P: outputs(lam)};
+  }
+  function dayCost(grid) {
+    let e = 0, x = 0, mx = -Infinity;
+    grid.forEach((g, t) => { if (g > 0) e += PRICE[t] * g; else x += -g; if (g > mx) mx = g; });
+    return e - S_EXPORT * x + K_PEAK * Math.max(0, mx);
+  }
+  const corrected = (cost, eEnd) => cost + V_STORED * (E0 - eEnd);
+  function runRule(nt, rule) {
+    let e = E0; const grid = [], bat = [], soc = [];
+    nt.forEach((n, t) => { const p = rule(t, n, e); e += p > 0 ? -p / ETA : -p * ETA; grid.push(n - p); bat.push(p); soc.push(e / 500); });
+    return {grid, bat, soc, eEnd: e};
+  }
+  const peakRule = (th, below) => { below = below == null ? 330 : below; return (t, n, e) => {
+    if (n > th) return Math.min(n - th, P_BAT, (e - E_MIN) * ETA);
+    if (n < below) return -Math.min(below - n, P_BAT, (E_MAX - e) / ETA);
+    return 0; }; };
+  const priceRule = (lo, hi) => (t, n, e) => {
+    if (PRICE[t] >= hi) return Math.min(P_BAT, Math.max(0, n), (e - E_MIN) * ETA);
+    if (PRICE[t] <= lo) return -Math.min(P_BAT, (E_MAX - e) / ETA, IMPORT_MAX - n);
+    return 0; };
+  /* the car park */
+  function evImmediate() { const p = new Array(24).fill(0); CARS.forEach(([n, a, dep, E]) => { let left = E, t = a; while (left > 1e-9) { const q = Math.min(22, left); p[t] += q; left -= q; t++; } }); return p; }
+  function evCheapest() { const p = new Array(24).fill(0);
+    CARS.forEach(([n, a, dep, E]) => { let left = E; const hrs = []; for (let t = a; t < dep; t++) hrs.push(t);
+      hrs.sort((x, y) => PRICE[x] - PRICE[y] || x - y);
+      for (const t of hrs) { const q = Math.min(22, left); p[t] += q; left -= q; if (left <= 1e-9) break; } }); return p; }
+  function evLimited(cap) {
+    const left = {}; CARS.forEach(c => { left[c[0]] = c[3]; }); const p = new Array(24).fill(0), byCar = {}; CARS.forEach(c => { byCar[c[0]] = new Array(24).fill(0); });
+    const order = CARS.slice().sort((x, y) => x[2] - y[2] || (x[0] < y[0] ? -1 : 1));
+    for (let t = 0; t < 24; t++) { let room = cap;
+      for (const [n, a, dep] of order) if (a <= t && t < dep && left[n] > 1e-9 && room > 1e-9) { const q = Math.min(22, left[n], room); p[t] += q; byCar[n][t] += q; left[n] -= q; room -= q; } }
+    return {p, missing: Object.values(left).reduce((a, b) => a + b, 0), left, byCar};
+  }
+  /* charging per car for the views of the car park */
+  function perCar(strategy, cap) {
+    const by = {}; CARS.forEach(c => { by[c[0]] = new Array(24).fill(0); });
+    if (strategy === "limit") return evLimited(cap).byCar;
+    CARS.forEach(([n, a, dep, E]) => { let left = E;
+      const hrs = []; for (let t = a; t < dep; t++) hrs.push(t);
+      if (strategy === "cheapest") hrs.sort((x, y) => PRICE[x] - PRICE[y] || x - y);
+      for (const t of hrs) { const q = Math.min(22, left); by[n][t] += q; left -= q; if (left <= 1e-9) break; } });
+    return by;
+  }
+  /* the two evening hours of Section 1 */
+  const P18 = PRICE[18], P19 = PRICE[19], N18 = D.NET_CLEAR[18], N19 = D.NET_CLEAR[19];
+  function twoHours(Eav, G) {
+    const l18 = Math.max(0, N18 - G), l19 = Math.max(0, N19 - G), cap = Eav * ETA;
+    if (l18 > P_BAT || l19 > P_BAT || l18 + l19 > cap + 1e-9) return {feasible: false, l18, l19, cap};
+    let r = cap - l18 - l19; const a = Math.min(r, P_BAT - l19); r -= a; const b = Math.min(r, P_BAT - l18);
+    const d18 = l18 + b, d19 = l19 + a;
+    return {feasible: true, l18, l19, cap, d18, d19, saving: P18 * d18 + P19 * d19};
+  }
+  return {D, PRICE, ETA, E0, E_MIN, E_MAX, P_BAT, K_PEAK, V_STORED, B, C, PMIN, PMAX, D_REGION, CARS, BASE_CLEAR, net, outputs, dispatch,
+    dayCost, corrected, runRule, peakRule, priceRule, evImmediate, evCheapest, evLimited, perCar, P18, P19, N18, N19, twoHours};
+})();
+window.OPT = OPT;
+
+/* Animation: The two evening hours as a linear program. The discharge of the battery at 18:00 and 19:00 (OPT.twoHours):
+   the feasible region between the limits of the inverter, the energy stored and the peak limit, the lines of equal
+   saving and the optimum at a corner. */
+(function () {
+  const cv = document.getElementById("lp-cv"); if (!cv) return;
+  const O = window.OPT, P = {E: 300, G: 600};
+  const ro = readout(document.getElementById("lp-ro"), ["Discharge at 18:00", "Discharge at 19:00", "Saving", "Constraints at the optimum"]);
+  const sl = document.getElementById("lp-sl");
+  const sE = slider(sl, {label: "Energy stored above the minimum (kWh)", min: 100, max: 400, step: 10, value: P.E}, v => { P.E = v; show(); });
+  const sG = slider(sl, {label: "Peak limit of the import (kW)", min: 420, max: 600, step: 5, value: P.G}, v => { P.G = v; show(); });
+  let M = null;
+  function clip(poly, cap) {
+    const out = [], inside = p => p[0] + p[1] <= cap + 1e-9;
+    poly.forEach((a, i) => { const b = poly[(i + 1) % poly.length], ia = inside(a), ib = inside(b);
+      if (ia) out.push(a);
+      if (ia !== ib) { const t = (cap - a[0] - a[1]) / ((b[0] - a[0]) + (b[1] - a[1])); out.push([a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])]); } });
+    return out;
+  }
+  const D2 = stage(cv, 0.62, (ctx, w, hh) => {
+    const C = COL(); ctx.clearRect(0, 0, w, hh); if (!M) return;
+    const f = frame(ctx, w, hh, {x0: 0, x1: 260, y0: 0, y1: 260, xticks: 13, yticks: 13, xlabel: "discharge at 18:00 (kW)", ylabel: "discharge at 19:00 (kW)", pad: {l: 56, b: 40}});
+    const r = M, poly = clip([[r.l18, r.l19], [250, r.l19], [250, 250], [r.l18, 250]], r.cap);
+    if (poly.length > 2) { ctx.beginPath(); poly.forEach((p, i) => i ? ctx.lineTo(f.X(p[0]), f.Y(p[1])) : ctx.moveTo(f.X(p[0]), f.Y(p[1]))); ctx.closePath(); ctx.fillStyle = "rgba(30,111,168,0.18)"; ctx.fill(); }
+    const line = (x0, y0, x1, y1, col, dash, txt, tx, ty) => { ctx.save(); ctx.strokeStyle = col; ctx.setLineDash(dash || []); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(f.X(x0), f.Y(y0)); ctx.lineTo(f.X(x1), f.Y(y1)); ctx.stroke(); ctx.restore();
+      if (txt) { ctx.fillStyle = col; ctx.font = "11px " + cssv("--sans"); ctx.fillText(txt, f.X(tx), f.Y(ty)); } };
+    line(0, Math.min(260, r.cap), Math.min(260, r.cap), 0, C.ink, [5, 4], "Energy: d18 + d19 ≤ " + r.cap.toFixed(1), Math.min(150, r.cap * 0.45) + 4, r.cap - Math.min(150, r.cap * 0.45) + 6);
+    line(250, 0, 250, 260, C.steel || "#56616D", [2, 3], "250 kW", 226, 252); line(0, 250, 260, 250, C.steel || "#56616D", [2, 3]);
+    if (r.l18 > 0) line(r.l18, 0, r.l18, 260, C.bad || "#B53F2E", [6, 3], "peak at 18:00", r.l18 + 3, 20);
+    if (r.l19 > 0) line(0, r.l19, 260, r.l19, C.bad || "#B53F2E", [6, 3], "peak at 19:00", 4, r.l19 + 5);
+    if (r.feasible) {
+      const s = r.saving; for (const k of [0.6, 0.8, 1]) { const sv = s * k; line(0, sv / O.P19, Math.min(260, sv / O.P18), Math.max(0, (sv - O.P18 * Math.min(260, sv / O.P18)) / O.P19), C.c[3] || "#C98510", k === 1 ? [] : [2, 4]); }
+      dot(ctx, f.X(r.d18), f.Y(r.d19), 6, C.bad || "#B53F2E", "#FFFFFF");
+    } else { ctx.fillStyle = C.bad || "#B53F2E"; ctx.font = "bold 13px " + cssv("--sans"); ctx.fillText("No plan meets all constraints", f.X(20), f.Y(235)); }
+  });
+  function show() {
+    M = O.twoHours(P.E, P.G);
+    if (M.feasible) {
+      const act = []; if (Math.abs(M.d18 + M.d19 - M.cap) < 1e-6) act.push("energy"); if (Math.abs(M.d19 - 250) < 1e-6) act.push("250 kW at 19:00");
+      if (M.l18 > 0 && Math.abs(M.d18 - M.l18) < 1e-6) act.push("peak at 18:00"); if (M.l19 > 0 && Math.abs(M.d19 - M.l19) < 1e-6) act.push("peak at 19:00");
+      ro("Discharge at 18:00", `${M.d18.toFixed(1)} kW`); ro("Discharge at 19:00", `${M.d19.toFixed(1)} kW`); ro("Saving", `${M.saving.toFixed(2)} €`); ro("Constraints at the optimum", act.join(", "));
+    } else { ["Discharge at 18:00", "Discharge at 19:00", "Saving"].forEach(n => ro(n, "-")); ro("Constraints at the optimum", "infeasible"); }
+    D2.redraw();
+  }
+  show();
+  window.LP_TEST = {set(E, G) { P.E = E; P.G = G; sE.setValue(E); sG.setValue(G); show(); }, state: () => Object.assign({}, M)};
+})();
+
+/* Shared helpers of the 3D games of Weeks 3 to 14: a room, a head-up display, camera flights and the export of
+   results for the Colab notebook. Uses make3D, label3D, h, store and RNG of the course runtime. */
+var LABKIT = window.LABKIT || (function () {
+  /* Materials and canvas textures for the rooms of the clinic. */
+  const std = (G, c, r, m) => new G.T.MeshStandardMaterial({color: c, roughness: r == null ? 0.8 : r, metalness: m || 0});
+  function canvasTex(G, w, hh, draw, rep) {
+    const c = document.createElement("canvas"); c.width = w; c.height = hh; draw(c.getContext("2d"), w, hh);
+    const t = new G.T.CanvasTexture(c); t.colorSpace = G.T.SRGBColorSpace; t.anisotropy = 8;
+    if (rep) { t.wrapS = t.wrapT = G.T.RepeatWrapping; t.repeat.set(rep[0], rep[1]); }
+    return t;
+  }
+  function tiles(G, base, grout, rep, size) {
+    return canvasTex(G, 256, 256, (x, w, hh) => {
+      x.fillStyle = base; x.fillRect(0, 0, w, hh);
+      const r = RNG(7); for (let i = 0; i < 900; i++) { x.fillStyle = `rgba(0,0,0,${0.015 + r() * 0.03})`; x.fillRect(r() * w, r() * hh, 2, 2); }
+      x.strokeStyle = grout; x.lineWidth = size || 3; x.strokeRect(0, 0, w, hh);
+    }, rep);
+  }
+  /* A room of width w and depth d with its back wall at z = z0: tiled floor, walls with a dado band, skirting,
+     ceiling panels and optional windows. Returns the meshes in an object. */
+  function room(G, o) {
+    o = o || {};
+    const T = G.T, S = G.scene, w = o.w || 10, d = o.d || 12, hgt = o.h || 3.2, z0 = o.z0 || -6;
+    const out = {};
+    const fm = std(G, 0xFFFFFF, 0.65); fm.map = tiles(G, o.floorTile || "#D9D5CD", "#B9B3A8", [w / 0.6, d / 0.6]);
+    const fl = new T.Mesh(new T.PlaneGeometry(w, d), fm); fl.rotation.x = -Math.PI / 2; fl.position.set(0, 0, z0 + d / 2); S.add(fl); out.floor = fl;
+    const wallM = std(G, o.wall || 0xF1EEE8, 0.95), dado = std(G, o.dado || 0xDCE6EC, 0.9), skirt = std(G, 0x8E979F, 0.6);
+    const back = new T.Mesh(new T.BoxGeometry(w, hgt, 0.1), wallM); back.position.set(0, hgt / 2, z0 - 0.05); S.add(back); out.back = back;
+    const bd = new T.Mesh(new T.BoxGeometry(w, 1.0, 0.02), dado); bd.position.set(0, 0.5, z0 + 0.01); S.add(bd);
+    out.sides = [-1, 1].map(sg => { const m = new T.Mesh(new T.BoxGeometry(0.1, hgt, d), std(G, o.side || 0xECE9E2, 0.95)); m.position.set(sg * w / 2, hgt / 2, z0 + d / 2); S.add(m);
+      const b2 = new T.Mesh(new T.BoxGeometry(0.02, 1.0, d), dado); b2.position.set(sg * (w / 2 - 0.06), 0.5, z0 + d / 2); S.add(b2);
+      const k2 = new T.Mesh(new T.BoxGeometry(0.03, 0.1, d), skirt); k2.position.set(sg * (w / 2 - 0.07), 0.05, z0 + d / 2); S.add(k2); return m; });
+    const sk = new T.Mesh(new T.BoxGeometry(w, 0.1, 0.03), skirt); sk.position.set(0, 0.05, z0 + 0.03); S.add(sk);
+    if (o.ceiling !== false) {
+      const c = new T.Mesh(new T.PlaneGeometry(w, d), new T.MeshBasicMaterial({color: o.ceilingColor || 0xE9E6E0})); c.rotation.x = Math.PI / 2; c.position.set(0, hgt, z0 + d / 2); S.add(c); out.ceiling = c;
+      const lm = new T.MeshBasicMaterial({color: 0xFFFDF6});
+      for (let x = -w / 2 + 1.5; x < w / 2 - 0.5; x += 3) for (let z = z0 + 1.5; z < z0 + d - 0.5; z += 3) {
+        const p = new T.Mesh(new T.PlaneGeometry(1.2, 0.6), lm); p.rotation.x = Math.PI / 2; p.position.set(x, hgt - 0.01, z); S.add(p); }
+    }
+    (o.windows || []).forEach(wd => {           /* {x, y, w, h} on the back wall, or {side: -1 | 1, z, y, w, h} */
+      const sky = canvasTex(G, 64, 128, (x, cw, ch) => { const gr = x.createLinearGradient(0, 0, 0, ch); gr.addColorStop(0, "#9CC6E8"); gr.addColorStop(0.7, "#D9ECF7"); gr.addColorStop(1, "#BFD8B0"); x.fillStyle = gr; x.fillRect(0, 0, cw, ch); });
+      const g = new T.Group(), fr = std(G, 0xF7F7F5, 0.5);
+      const glass = new T.Mesh(new T.PlaneGeometry(wd.w, wd.h), new T.MeshBasicMaterial({map: sky})); g.add(glass);
+      [[0, wd.h / 2, wd.w + 0.08, 0.06], [0, -wd.h / 2, wd.w + 0.08, 0.06], [-wd.w / 2, 0, 0.06, wd.h], [wd.w / 2, 0, 0.06, wd.h], [0, 0, 0.04, wd.h]].forEach(([x, y, a, b]) => {
+        const f = new T.Mesh(new T.BoxGeometry(a, b, 0.06), fr); f.position.set(x, y, 0.02); g.add(f); });
+      const sill = new T.Mesh(new T.BoxGeometry(wd.w + 0.16, 0.04, 0.18), fr); sill.position.set(0, -wd.h / 2 - 0.03, 0.07); g.add(sill);
+      if (wd.side) { g.position.set(wd.side * (w / 2 - 0.06), wd.y, wd.z); g.rotation.y = -wd.side * Math.PI / 2; }
+      else g.position.set(wd.x, wd.y, z0 + 0.01);
+      S.add(g);
+    });
+    return out;
+  }
+  /* Furniture and small objects of a waiting room. */
+  function chair(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), m = std(G, o.color || 0x3E6F8E, 0.55), mm = std(G, 0xA9B1BA, 0.3, 0.7);
+    const seat = new T.Mesh(new T.RoundedBoxGeometry(0.48, 0.07, 0.46, 3, 0.025), m); seat.position.y = 0.43; g.add(seat);
+    const back = new T.Mesh(new T.RoundedBoxGeometry(0.48, 0.44, 0.05, 3, 0.022), m); back.position.set(0, 0.72, -0.21); back.rotation.x = -0.12; g.add(back);
+    [[-0.21, -0.19], [0.21, -0.19], [-0.21, 0.19], [0.21, 0.19]].forEach(([a, b]) => { const l = new T.Mesh(new T.CylinderGeometry(0.014, 0.014, 0.42, 10), mm); l.position.set(a, 0.21, b); g.add(l); });
+    if (o.arms) [-0.25, 0.25].forEach(a => { const r = new T.Mesh(new T.RoundedBoxGeometry(0.05, 0.04, 0.4, 2, 0.015), mm); r.position.set(a, 0.62, -0.02); g.add(r);
+      const p2 = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 0.2, 8), mm); p2.position.set(a, 0.52, 0.12); g.add(p2); });
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  function chairRow(G, n, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), gap = o.gap || 0.56;
+    const beam = new T.Mesh(new T.BoxGeometry(gap * n, 0.05, 0.06), std(G, 0x8E979F, 0.35, 0.6)); beam.position.y = 0.36; g.add(beam);
+    for (let i = 0; i < n; i++) { const c = chair(G, {color: o.color, arms: false}); G.scene.remove(c); c.position.x = (i - (n - 1) / 2) * gap; g.add(c); }
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g);
+    g.userData.seat = i => { const p = new T.Vector3((i - (n - 1) / 2) * gap, 0, 0); return g.localToWorld(p); };
+    return g;
+  }
+  function plant(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), r = RNG(o.seed || 5), s = o.size || 1;
+    const pot = new T.Mesh(new T.CylinderGeometry(0.2 * s, 0.15 * s, 0.4 * s, 24), std(G, o.pot || 0xE9E4DA, 0.55)); pot.position.y = 0.2 * s; g.add(pot);
+    const soil = new T.Mesh(new T.CylinderGeometry(0.185 * s, 0.185 * s, 0.02, 24), std(G, 0x4A3A2C, 0.95)); soil.position.y = 0.39 * s; g.add(soil);
+    const greens = [0x3F7A3A, 0x4E8C45, 0x2F6630, 0x5C9A4E];
+    for (let i = 0; i < 18; i++) {
+      const a = r() * Math.PI * 2, tilt = 0.25 + r() * 0.75, len = (0.35 + r() * 0.35) * s;
+      const leaf = new T.Mesh(new T.SphereGeometry(1, 10, 8), std(G, greens[i % 4], 0.7)); leaf.scale.set(0.07 * s, len / 2, 0.018 * s);
+      const holder = new T.Group(); holder.position.y = 0.4 * s; holder.rotation.set(tilt, a, 0, "YXZ");
+      leaf.position.y = len / 2; holder.add(leaf); g.add(holder);
+    }
+    g.position.set(...(o.at || [0, 0, 0])); G.scene.add(g); return g;
+  }
+  function desk(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), w = o.w || 2.4;
+    const body = new T.Mesh(new T.RoundedBoxGeometry(w, 1.05, 0.6, 3, 0.03), std(G, o.color || 0xE8E2D6, 0.6)); body.position.y = 0.525; g.add(body);
+    const top = new T.Mesh(new T.RoundedBoxGeometry(w + 0.08, 0.05, 0.7, 3, 0.02), std(G, 0x8B6E54, 0.45)); top.position.set(0, 1.07, 0.02); g.add(top);
+    const band = new T.Mesh(new T.BoxGeometry(w, 0.12, 0.01), std(G, o.band || 0x2F5D8A, 0.5)); band.position.set(0, 0.85, 0.305); g.add(band);
+    if (o.monitor !== false) { const mon = new T.Mesh(new T.RoundedBoxGeometry(0.5, 0.32, 0.03, 2, 0.01), std(G, 0x1E2128, 0.4)); mon.position.set(w * 0.25, 1.32, -0.12); mon.rotation.y = Math.PI; g.add(mon);
+      const st = new T.Mesh(new T.CylinderGeometry(0.02, 0.05, 0.15, 10), std(G, 0x1E2128, 0.4)); st.position.set(w * 0.25, 1.15, -0.12); g.add(st); }
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  function sign(G, text, o) {
+    o = o || {}; const T = G.T, w = o.w || 1.2, hh = o.h || 0.3;
+    const tex = canvasTex(G, 512, Math.round(512 * hh / w), (x, cw, ch) => { x.fillStyle = o.bg || "#2F5D8A"; x.fillRect(0, 0, cw, ch);
+      x.fillStyle = o.fg || "#FFFFFF"; x.font = `700 ${Math.round(ch * 0.46)}px Atkinson Hyperlegible, system-ui, sans-serif`; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(text, cw / 2, ch / 2 + 2); });
+    const m = new T.Mesh(new T.PlaneGeometry(w, hh), new T.MeshBasicMaterial({map: tex})); m.position.set(...(o.at || [0, 2.3, 0])); m.rotation.y = o.face || 0; G.scene.add(m); return m;
+  }
+  /* A kiosk around a screen of w by h metres whose centre is at o.at; the screen panel itself is made by the caller. */
+  function kiosk(G, o) {
+    const T = G.T, g = new T.Group(), w = o.w, hh = o.h, y = o.at[1];
+    const bez = new T.Mesh(new T.RoundedBoxGeometry(w + 0.05, hh + 0.05, 0.04, 3, 0.012), std(G, 0x1B1E24, 0.4)); bez.position.z = -0.022; g.add(bez);
+    const top = hh / 2 + 0.1, H = top + y, body = new T.Mesh(new T.RoundedBoxGeometry(w + 0.16, H, 0.3, 4, 0.04), std(G, o.color || 0x2F5D8A, 0.45));
+    body.position.set(0, top - H / 2, -0.19); g.add(body);
+    const base = new T.Mesh(new T.RoundedBoxGeometry(w + 0.3, 0.05, 0.5, 3, 0.015), std(G, 0x9AA3AE, 0.35, 0.5)); base.position.set(0, -y + 0.025, -0.19); g.add(base);
+    g.position.set(...o.at); G.scene.add(g); return g;
+  }
+  function clock(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group();
+    const face = new T.Mesh(new T.CylinderGeometry(0.2, 0.2, 0.04, 40), std(G, 0xFFFFFF, 0.4)); face.rotation.x = Math.PI / 2; g.add(face);
+    const rim = new T.Mesh(new T.TorusGeometry(0.2, 0.018, 10, 40), std(G, 0x30343C, 0.4)); g.add(rim);
+    [[0.12, 0.012, -1.0], [0.16, 0.008, 0.6]].forEach(([l, wd, a]) => { const hand = new T.Mesh(new T.BoxGeometry(wd, l, 0.01), std(G, 0x1E2128, 0.5)); hand.geometry.translate(0, l / 2, 0); hand.rotation.z = a; hand.position.z = 0.025; g.add(hand); });
+    g.position.set(...(o.at || [0, 2.3, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A plane with a canvas texture; draw(ctx, W, H) paints it. */
+  function panel(G, wm, hm, px, draw) {
+    const T = G.T, c = document.createElement("canvas"); c.width = px[0]; c.height = px[1];
+    const tex = new T.CanvasTexture(c); tex.colorSpace = T.SRGBColorSpace; tex.anisotropy = 4;
+    const mesh = new T.Mesh(new T.PlaneGeometry(wm, hm), new T.MeshBasicMaterial({map: tex}));
+    const api = {mesh, canvas: c, tex, ctx: c.getContext("2d"),
+      redraw() { const x = api.ctx; x.save(); x.textAlign = "left"; x.textBaseline = "alphabetic"; draw(x, c.width, c.height); x.restore(); tex.needsUpdate = true; G.redraw(); }};
+    api.redraw();
+    return api;
+  }
+  /* Head-up display with a top row, a bottom row and a big message in the middle. */
+  function hud(box, n) {
+    const top = h("div", {class: "hud"}), bot = h("div", {class: "hud", style: "top:auto;bottom:8px"}), big0 = h("div", {class: "big", hidden: ""});
+    const spans = []; for (let i = 0; i < (n || 2); i++) { const s = h("span", {}); spans.push(s); top.append(s); }
+    const bottom = h("span", {style: "font-weight:700"}); bot.append(bottom); box.append(top, bot, big0);
+    let timer = 0;
+    return {spans, bottom, set(i, t) { spans[i].textContent = t || ""; }, say(t) { bottom.textContent = t || ""; },
+      big(t, col, ms) { big0.hidden = false; big0.textContent = t; big0.style.color = col || "#1E2433"; clearTimeout(timer); timer = setTimeout(() => { big0.hidden = true; }, ms || 900); }};
+  }
+  /* Smooth camera flights; returns fly(pos, target, callback). */
+  function flyer(G, speed) {
+    let f = null, last = 0;                       /* flights run on real time, also when frames are slow */
+    G.onTick(() => {
+      if (!f) { last = 0; return false; }
+      const now = performance.now(), dt = last ? Math.min(0.25, (now - last) / 1000) : 0.016; last = now;
+      f.u = Math.min(1, f.u + dt * (speed || 1.8)); const e = f.u < 0.5 ? 2 * f.u * f.u : 1 - Math.pow(-2 * f.u + 2, 2) / 2;
+      G.camera.position.lerpVectors(f.p0, f.p1, e); G.controls.target.lerpVectors(f.t0, f.t1, e); G.controls.update();
+      if (f.u >= 1) { const cb = f.cb; f = null; if (cb) cb(); }
+      return true;
+    });
+    return (pos, tgt, cb) => { const T = G.T; f = {p0: G.camera.position.clone(), t0: G.controls.target.clone(), p1: new T.Vector3(...pos), t1: new T.Vector3(...tgt), u: 0, cb}; };
+  }
+  /* Copy rows as comma-separated values for the Colab notebook. */
+  function exporter(btnId, taId, msgId, cols, rowsFn, target, onCopy) {
+    const btn = document.getElementById(btnId), ta = document.getElementById(taId), msg = document.getElementById(msgId);
+    btn.addEventListener("click", () => {
+      const rows = rowsFn();
+      if (!rows.length) { msg.textContent = "Play the game first."; return; }
+      const cell = v => { v = v == null ? "" : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };   /* quoted as in CSV files */
+      ta.value = [cols.join(",")].concat(rows.map(r => cols.map(c => cell(r[c])).join(","))).join("\n");
+      ta.hidden = false; ta.select();
+      const ok = () => { msg.textContent = `Copied. Paste it into ${target} of the Colab notebook.`; };
+      try { navigator.clipboard.writeText(ta.value).then(ok, () => { msg.textContent = "Select the text below and copy it."; }); }
+      catch (e) { msg.textContent = "Select the text below and copy it."; }
+      if (onCopy) onCopy();
+    });
+  }
+  const noGL = (box, extra) => { box.append(h("p", {class: "no3d"}, "3D graphics are not available in this browser. A recent version of Chrome, Edge, Firefox or Safari runs this part." + (extra || ""))); };
+  const shuffle = (a, r) => { r = r || Math.random; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  /* A simple standing person: body, head; returns the group. */
+  function person(G, col) {
+    const T = G.T, g = new T.Group(), m = new T.MeshLambertMaterial({color: col || 0x5A6E8C});
+    const body = new T.Mesh(new T.CylinderGeometry(0.19, 0.23, 1.1, 16), m); body.position.y = 0.95; g.add(body);
+    const head = new T.Mesh(new T.SphereGeometry(0.15, 16, 12), new T.MeshLambertMaterial({color: 0xE0B48E})); head.position.y = 1.66; g.add(head);
+    [-0.09, 0.09].forEach(x => { const l = new T.Mesh(new T.CylinderGeometry(0.07, 0.07, 0.42, 10), m); l.position.set(x, 0.21, 0); g.add(l); });
+    g.userData.head = head; G.scene.add(g); return g;
+  }
+  /* Point of a ray hit on a panel of wmm x hmm millimetres, in millimetres from its centre with y upwards. */
+  const toMM = (hit, wmm, hmm) => ({x: (hit.uv.x - 0.5) * wmm, y: (hit.uv.y - 0.5) * hmm});
+  /* Fixes the camera during a game, so that drags and taps act on the game and not on the view. */
+  function lock(G, on) { G.controls.enabled = !on; G.renderer.domElement.style.touchAction = on ? "none" : ""; }
+  /* People: rigged human figures built from the CC0 assets of MakeHuman (assets/models). A model is loaded once per
+     page with a script tag, so the pages also work when they are opened from the disk. */
+  const MODELS = {}, MODEL_DIR = (window.COURSE_MODELS || "../../assets/models/");
+  function loadModel(type) {
+    if (MODELS[type]) return MODELS[type];
+    MODELS[type] = new Promise((res, rej) => {
+      const done = () => {
+        const b64 = (window.HUMAN_GLB || {})[type]; if (!b64) { rej(new Error("model " + type)); return; }
+        const bin = atob(b64), buf = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+        new THREE.GLTFLoader().parse(buf.buffer, "", res, rej);
+      };
+      if ((window.HUMAN_GLB || {})[type]) { done(); return; }
+      const sc = document.createElement("script"); sc.src = MODEL_DIR + type + ".js"; sc.onload = done; sc.onerror = () => rej(new Error("script " + type));
+      document.head.append(sc);
+    });
+    return MODELS[type];
+  }
+  const LOOKS = {
+    skin: [0xE8C2A4, 0xD9A882, 0xC48A64, 0xA36B4A, 0x7A4E36], hair: [0x2B1E16, 0x3B2416, 0x6B4A2E, 0x8C8780, 0xC9C4BE, 0x111111]};
+  /* human(G, o): o.type man | woman | oldman | oldwoman; o.skin, o.hairColor, o.top, o.bottom, o.shoes as colours;
+     o.hair short | bob | bun | ring | none; o.sleeves long | short; o.coat, o.skirt as booleans; o.pose stand | sit | walk;
+     o.at [x, y, z], o.face angle in radians. Returns a handle at once; the figure appears when its model is loaded. */
+  function human(G, o) {
+    o = o || {};
+    const T = G.T, grp = new T.Group(), V3 = T.Vector3, Q = T.Quaternion;
+    grp.position.set(...(o.at || [0, 0, 0])); grp.rotation.y = o.face || 0; if (o.scale) grp.scale.setScalar(o.scale); G.scene.add(grp);
+    const h = {group: grp, bones: {}, rest: {}, ready: null, state: {pose: o.pose || "stand", t: Math.random() * 10, look: null, reach: null, seat: o.seat || 0.46, lean: o.lean},
+      set(k, v) { h.state[k] = v; h.apply(); G.redraw(); return h; }};
+    const ax = new V3(1, 0, 0);
+    function dirLocal(bone, dirRoot) {           /* a direction in the space of the figure, into the parent of a bone */
+      const qp = new Q(), qr = new Q(); bone.parent.getWorldQuaternion(qp); grp.getWorldQuaternion(qr);
+      return dirRoot.clone().applyQuaternion(qr).applyQuaternion(qp.invert()).normalize();
+    }
+    function aim(name, dirRoot, restName) {
+      const b = h.bones[name]; if (!b) return;
+      b.quaternion.setFromUnitVectors(h.rest[restName || name], dirLocal(b, new V3(...dirRoot)));
+      b.updateMatrixWorld(true);
+    }
+    function seg(a, b) { return h.pos[b].clone().sub(h.pos[a]).normalize(); }
+    function reach(side, targetWorld) {         /* two-bone reach of the arm, with the fingertip on the target */
+      const up = h.bones["upperarm01_" + side], lo = h.bones["lowerarm01_" + side]; if (!up || !lo) return;
+      grp.updateMatrixWorld(true);
+      const S = new V3(); up.getWorldPosition(S);
+      const sc = grp.scale.x, L1 = h.len["arm_" + side] * sc, L2 = (h.len["fore_" + side] + h.len["hand_" + side]) * sc;
+      const v = targetWorld.clone().sub(S); const d = Math.min(v.length(), (L1 + L2) * 0.995), dir = v.normalize();
+      const qr = new Q(); grp.getWorldQuaternion(qr);
+      const pole = new V3(side === "L" ? 0.55 : -0.55, -1, -0.35).applyQuaternion(qr).normalize();
+      const a1 = Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d))));
+      const axis = new V3().crossVectors(dir, pole).normalize();
+      const upperW = dir.clone().applyAxisAngle(axis, a1);
+      const qp = new Q(); up.parent.getWorldQuaternion(qp);
+      up.quaternion.setFromUnitVectors(h.rest["arm_" + side], upperW.clone().applyQuaternion(qp.invert()).normalize()); up.updateMatrixWorld(true);
+      const E = S.clone().addScaledVector(upperW, L1), foreW = targetWorld.clone().sub(E).normalize();
+      lo.parent.getWorldQuaternion(qp);
+      lo.quaternion.setFromUnitVectors(h.rest["fore_" + side], foreW.applyQuaternion(qp.invert()).normalize()); lo.updateMatrixWorld(true);
+    }
+    function curl(side, amounts) {               /* bends the fingers: amounts for thumb, index, middle, ring, little */
+      for (let f = 1; f <= 5; f++) for (let k = 1; k <= 3; k++) {
+        const b = h.bones[`finger${f}-${k}_${side}`]; if (!b) continue;
+        b.quaternion.setFromAxisAngle(h.curlAxis[side][f], (amounts[f - 1] || 0) * (f === 1 ? 0.6 : 1) * (k === 1 ? 0.8 : 1));
+      }
+    }
+    function look(targetWorld) {
+      const hd = h.bones.head, nk = h.bones.neck01; if (!hd || !nk) return;
+      const P = new V3(); hd.getWorldPosition(P);
+      const d = targetWorld.clone().sub(P), qr = new Q(); grp.getWorldQuaternion(qr); d.applyQuaternion(qr.invert());
+      const yaw = Math.max(-1.1, Math.min(1.1, Math.atan2(d.x, d.z))), pitch = Math.max(-0.7, Math.min(0.55, Math.atan2(d.y, Math.hypot(d.x, d.z))));
+      nk.rotation.set(-pitch * 0.35, yaw * 0.4, 0, "YXZ"); hd.rotation.set(-pitch * 0.65, yaw * 0.6, 0, "YXZ");
+    }
+    h.apply = function () {
+      if (!h.ready || !h.root) return;
+      const st = h.state, b = h.bones, t = st.t;
+      Object.values(b).forEach(x => x.quaternion.identity());
+      h.root.position.set(0, 0, 0);
+      const breath = Math.sin(t * 1.6) * 0.012;
+      if (b.spine02) b.spine02.rotation.x = breath;
+      if (st.pose === "sit") {
+        const hip = h.pos["upperleg01_L"].y;
+        h.root.position.set(0, st.seat + 0.085 - hip, -0.06);
+        ["L", "R"].forEach(s => { const sg = s === "L" ? 1 : -1;
+          aim("upperleg01_" + s, [sg * 0.10, -0.06, 1], "thigh_" + s); aim("lowerleg01_" + s, [0, -1, 0.08], "shin_" + s); });
+        if (b.spine04) b.spine04.rotation.x = -0.06;
+      } else if (st.pose === "bed") {           /* sitting up in bed: legs along the mattress, back against the raised rest */
+        const hip = h.pos["upperleg01_L"].y;
+        h.root.position.set(0, st.seat + 0.02 - hip, 0);
+        ["L", "R"].forEach(s => { const sg = s === "L" ? 1 : -1;
+          aim("upperleg01_" + s, [sg * 0.05, -0.03, 1], "thigh_" + s); aim("lowerleg01_" + s, [0, -0.02, 1], "shin_" + s); });
+        if (b.spine05) b.spine05.rotation.x = -(st.lean == null ? 0.6 : st.lean);
+        if (b.neck01) b.neck01.rotation.x = 0.25;
+        ["L", "R"].forEach(s => { if (b["foot_" + s]) b["foot_" + s].rotation.x = 1.15; });
+      } else if (st.pose === "walk") {
+        const ph = t * 5.2, sw = Math.sin(ph) * 0.38;
+        h.root.position.y = Math.abs(Math.cos(ph)) * 0.025 - 0.012;
+        ["L", "R"].forEach((s, i) => { const k = i ? -sw : sw;
+          b["upperleg01_" + s].quaternion.setFromAxisAngle(ax, -k);
+          b["lowerleg01_" + s].quaternion.setFromAxisAngle(ax, Math.max(0, Math.sin(ph + (i ? Math.PI : 0) - 0.6)) * 0.75); });
+      }
+      ["L", "R"].forEach(s => { const sg = s === "L" ? 1 : -1;
+        if (st.pose === "sit") { aim("upperarm01_" + s, [sg * 0.14, -0.86, 0.48], "arm_" + s); aim("lowerarm01_" + s, [sg * -0.05, -0.32, 1], "fore_" + s); }
+        else if (st.pose === "bed") { aim("upperarm01_" + s, [sg * 0.22, -0.9, 0.3], "arm_" + s); aim("lowerarm01_" + s, [sg * -0.25, -0.35, 1], "fore_" + s); }
+        else { const swing = st.pose === "walk" ? Math.sin(t * 5.2 + (s === "L" ? Math.PI : 0)) * 0.28 : 0;
+          aim("upperarm01_" + s, [sg * 0.13, -1, 0.03 + swing], "arm_" + s); aim("lowerarm01_" + s, [sg * 0.05, -1, 0.16 + swing * 1.2], "fore_" + s); }
+        curl(s, [0.35, 0.3, 0.38, 0.45, 0.5]); });
+      if (st.reach) { reach(st.reach.side || "R", st.reach.at); curl(st.reach.side || "R", st.reach.point === false ? [0.4, 0.4, 0.45, 0.5, 0.55] : [0.9, 0, 1.4, 1.5, 1.5]); }
+      (h.shoeMeshes || []).forEach(m => { m.visible = st.pose !== "bed"; });
+      if (st.look) look(st.look); else if (b.head) b.head.rotation.set(Math.sin(t * 0.37) * 0.05, Math.sin(t * 0.23) * 0.12, 0, "YXZ");
+      h.root.updateMatrixWorld(true);
+    };
+    h.ready = loadModel(o.type || "man").then(gltf => {
+      const root = T.SkeletonUtils.clone(gltf.scene); h.root = root; grp.add(root);
+      const hair = o.hair || ({man: "short", oldman: "ring", woman: "bob", oldwoman: "bun"}[o.type || "man"]);
+      const show = {top: true, sleeve: o.sleeves !== "short", bottom: !o.skirt, coat: !!o.coat, skirt: !!o.skirt, hair_short: hair === "short" || hair === "bun",
+        hair_bob: hair === "bob", hair_ring: hair === "ring", hair_bun: false, bun: hair === "bun"};
+      const col = {skin: o.skin || LOOKS.skin[1], hair: o.hairColor || LOOKS.hair[o.type && o.type.startsWith("old") ? 4 : 0], top: o.top || 0x3F6E8C,
+        bottom: o.bottom || 0x2B3340, shoes: o.shoes || 0x1C1C1E, coat: o.coatColor || 0xF4F6F8, skirt: o.skirtColor || o.bottom || 0x4A3B5C};
+      root.traverse(m => {
+        if (m.isBone) h.bones[m.name] = m;
+        if (!m.isMesh) return;
+        m.frustumCulled = false; m.castShadow = true; m.receiveShadow = true;
+        if (m.name in show) m.visible = show[m.name];
+        if (m.name.startsWith("shoe_")) (h.shoeMeshes = h.shoeMeshes || []).push(m);
+        const mats = Array.isArray(m.material) ? m.material : [m.material];
+        const cl = mats.map(x => { const c = x.clone(), n = x.name;
+          if (n === "skin") c.color.setHex(col.skin); else if (n === "lips") c.color.setHex(col.skin).multiply(new T.Color(0.93, 0.78, 0.76));
+          else if (n === "hair" || n === "brows") { c.color.setHex(col.hair); c.roughness = 0.55; }
+          else if (col[n] !== undefined) c.color.setHex(col[n]);
+          return c; });
+        m.material = Array.isArray(m.material) ? cl : cl[0];
+      });
+      root.updateMatrixWorld(true);
+      h.pos = {}; Object.entries(h.bones).forEach(([n, b]) => { const p = new V3(); b.getWorldPosition(p); h.pos[n] = grp.worldToLocal(p); });
+      Object.entries(gltf.scene.userData.restDir || {}).forEach(([n, d]) => { h.rest[n] = new V3(...d).normalize(); });
+      h.len = {};
+      ["L", "R"].forEach(s => {
+        h.rest["arm_" + s] = seg("upperarm01_" + s, "lowerarm01_" + s); h.rest["fore_" + s] = seg("lowerarm01_" + s, "wrist_" + s);
+        h.rest["thigh_" + s] = seg("upperleg01_" + s, "lowerleg01_" + s); h.rest["shin_" + s] = seg("lowerleg01_" + s, "foot_" + s);
+        h.len["arm_" + s] = h.pos["lowerarm01_" + s].distanceTo(h.pos["upperarm01_" + s]);
+        h.len["fore_" + s] = h.pos["wrist_" + s].distanceTo(h.pos["lowerarm01_" + s]);
+        h.len["hand_" + s] = h.pos["finger2-3_" + s] ? h.pos["finger2-3_" + s].distanceTo(h.pos["wrist_" + s]) + 0.025 : 0.17;
+      });
+      /* Axes for curling the fingers, from the plane of the palm */
+      h.curlAxis = {};
+      ["L", "R"].forEach(s => { h.curlAxis[s] = {};
+        const across = h.pos["finger2-1_" + s].clone().sub(h.pos["finger5-1_" + s]).normalize();
+        const along = h.pos["finger3-1_" + s].clone().sub(h.pos["wrist_" + s]).normalize();
+        const palm = new V3().crossVectors(along, across).normalize().multiplyScalar(s === "L" ? 1 : -1);
+        for (let f = 1; f <= 5; f++) { const r = h.rest[`finger${f}-1_${s}`] || along; h.curlAxis[s][f] = new V3().crossVectors(r, palm).normalize(); } });
+      h.apply(); G.redraw(); return h;
+    });
+    /* Only walking figures, or figures created with o.idle, move all the time; the others are posed once. */
+    G.onTick(dt => { if (!h.root || reduced() || !(h.state.pose === "walk" || o.idle) || !h.group.visible) return false;
+      h.state.t += dt; h.apply(); return true; });
+    return h;
+  }
+  /* A hospital bed whose head end is at o.at and which points along o.face (0 = toward +z), with a raised back rest,
+     side rails, a blanket and, with o.iv, a drip stand. bed.userData.seat is the height of the mattress, and
+     bed.userData.hips the place of a patient's hips in world coordinates; a human with pose "bed" sits there. */
+  function bed(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), L = 2.05, W = 0.95, H = 0.56, P = 0.78, rest = o.rest == null ? 0.95 : o.rest;
+    const frame = std(G, 0xD9DEE3, 0.35, 0.45), sheet = std(G, 0xF5F7F9, 0.9), cover = std(G, o.blanket || 0x8FB3C9, 0.85), dark = std(G, 0x5E6670, 0.5, 0.3);
+    const base = new T.Mesh(new T.RoundedBoxGeometry(W, 0.1, L, 3, 0.03), frame); base.position.set(0, H - 0.21, L / 2); g.add(base);
+    [[-1, 0.12], [1, 0.12], [-1, L - 0.12], [1, L - 0.12]].forEach(([sx, z]) => {
+      const leg = new T.Mesh(new T.CylinderGeometry(0.025, 0.025, H - 0.3, 10), dark); leg.position.set(sx * (W / 2 - 0.08), (H - 0.3) / 2 + 0.09, z); g.add(leg);
+      const wh = new T.Mesh(new T.CylinderGeometry(0.05, 0.05, 0.04, 14), dark); wh.rotation.z = Math.PI / 2; wh.position.set(sx * (W / 2 - 0.08), 0.05, z); g.add(wh); });
+    const flat = new T.Mesh(new T.RoundedBoxGeometry(W - 0.06, 0.13, L - P, 3, 0.05), sheet); flat.position.set(0, H - 0.08, P + (L - P) / 2); g.add(flat);
+    const back = new T.Group(); back.position.set(0, H - 0.08, P); back.rotation.x = rest; g.add(back);
+    const bm = new T.Mesh(new T.RoundedBoxGeometry(W - 0.06, 0.13, P, 3, 0.05), sheet); bm.position.set(0, 0, -P / 2); back.add(bm);
+    const pillow = new T.Mesh(new T.RoundedBoxGeometry(0.6, 0.1, 0.36, 3, 0.05), sheet); pillow.position.set(0, 0.1, -P + 0.24); back.add(pillow);
+    const blanket = new T.Mesh(new T.RoundedBoxGeometry(W - 0.02, 0.2, L - P - 0.05, 3, 0.07), cover); blanket.position.set(0, H + 0.04, P + 0.05 + (L - P - 0.05) / 2); g.add(blanket);
+    const tent = new T.Mesh(new T.RoundedBoxGeometry(W - 0.1, 0.22, 0.42, 4, 0.1), cover); tent.position.set(0, H + 0.1, L - 0.36); g.add(tent);
+    const head = new T.Mesh(new T.RoundedBoxGeometry(W + 0.04, 0.55, 0.05, 3, 0.02), frame); head.position.set(0, H + 0.12, 0.0); g.add(head);
+    const foot = new T.Mesh(new T.RoundedBoxGeometry(W + 0.04, 0.4, 0.05, 3, 0.02), frame); foot.position.set(0, H + 0.04, L); g.add(foot);
+    [-1, 1].forEach(sx => { const r = new T.Mesh(new T.RoundedBoxGeometry(0.03, 0.2, 0.75, 2, 0.012), frame); r.position.set(sx * (W / 2 + 0.01), H + 0.12, 0.62); g.add(r); });
+    if (o.iv) { const pole = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 1.9, 8), frame); pole.position.set(o.iv * (W / 2 + 0.22), 0.95, 0.35); g.add(pole);
+      const bag = new T.Mesh(new T.RoundedBoxGeometry(0.12, 0.2, 0.04, 2, 0.02), new T.MeshStandardMaterial({color: 0xE8F2F8, roughness: 0.3, transparent: true, opacity: 0.75}));
+      bag.position.set(o.iv * (W / 2 + 0.22), 1.75, 0.35); g.add(bag);
+      const foot2 = new T.Mesh(new T.CylinderGeometry(0.2, 0.2, 0.02, 5), dark); foot2.position.set(o.iv * (W / 2 + 0.22), 0.02, 0.35); g.add(foot2); }
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g);
+    g.userData.seat = H - 0.015; g.updateMatrixWorld(true); g.userData.hips = g.localToWorld(new T.Vector3(0, 0, P + 0.06));
+    return g;
+  }
+  /* A hospital curtain with folds from o.from = [x, z] to o.to = [x, z], hanging from a rail at the height o.top. */
+  function curtain(G, o) {
+    const T = G.T, [x0, z0] = o.from, [x1, z1] = o.to, len = Math.hypot(x1 - x0, z1 - z0), hh = o.h || 1.95, top = o.top || 2.3;
+    const geo = new T.PlaneGeometry(len, hh, Math.max(8, Math.round(len * 30)), 1), pos = geo.attributes.position;
+    for (let i = 0; i < pos.count; i++) pos.setZ(i, 0.035 * Math.sin(pos.getX(i) * 28));
+    geo.computeVertexNormals();
+    const m = new T.Mesh(geo, new T.MeshStandardMaterial({color: o.color || 0xB9D3DE, roughness: 0.92, side: T.DoubleSide}));
+    m.position.set((x0 + x1) / 2, top - hh / 2, (z0 + z1) / 2); m.rotation.y = -Math.atan2(z1 - z0, x1 - x0); G.scene.add(m);
+    const rail = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, len + 0.1, 8), std(G, 0xC9CED4, 0.3, 0.6));
+    rail.position.set(m.position.x, top + 0.02, m.position.z); rail.rotation.set(0, m.rotation.y, Math.PI / 2); G.scene.add(rail);
+    return m;
+  }
+  /* The lobby of the outpatient clinics around a kiosk at the origin that faces +z: walls with windows, signs, a
+     clock, plants, chairs with waiting patients, a reception desk with a nurse and a short queue behind the kiosk.
+     o.player adds the patient who stands at the kiosk; returns {player, people}. */
+  function lobby(G, o) {
+    o = o || {}; const T = G.T, V = (x, y, z) => new T.Vector3(x, y, z), people = [];
+    room(G, {w: 9, d: 9, z0: -1.5, h: 3.1, windows: [{x: -2.7, y: 1.75, w: 1.5, h: 1.15}, {x: 2.5, y: 1.75, w: 1.5, h: 1.15}]});
+    sign(G, o.title || "Outpatient clinics", {at: [0.3, 2.2, -1.44], w: 1.4, h: 0.28});
+    clock(G, {at: [1.55, 2.2, -1.44]});
+    plant(G, {at: [0.8, 0, -1.05], seed: 11, size: 0.9}); plant(G, {at: [-4.0, 0, -1.1], seed: 4});
+    people.push(...seats(G, 4, {at: [-2.3, 0, -1.0], color: 0x4A7A96}, [
+      {chair: 0, type: "oldwoman", top: 0x7B5E8C, skirt: true, skirtColor: 0x3E4658},
+      {chair: 2, type: "man", top: 0x55606E, bottom: 0x23283A, skin: LOOKS.skin[3], hairColor: 0x111111}]));
+    desk(G, {w: 1.4, at: [2.35, 0, -0.45], face: -Math.PI / 2});
+    const nurse = human(G, {type: "woman", at: [2.9, 0, -0.45], face: -Math.PI / 2, coat: true, top: 0x4FA3A5, bottom: 0x4FA3A5, hair: "bun", skin: LOOKS.skin[1]});
+    nurse.set("look", V(1.0, 1.5, 1.2)); people.push(nurse);
+    people.push(human(G, {type: "oldman", at: [0.3, 0, 1.15], face: Math.PI + 0.2, top: 0x6B7B5A, bottom: 0x3A3F48}).set("look", V(0, 1.3, 0)));
+    people.push(human(G, {type: "woman", at: [0.55, 0, 1.85], face: Math.PI + 0.35, top: 0xB8664A, bottom: 0x2E3440, skin: LOOKS.skin[2], hair: "bun"}));
+    let player = null;
+    if (o.player !== false) { player = human(G, Object.assign({type: "woman", at: [-0.08, 0, 0.44], face: Math.PI, top: 0x3F6E8C, bottom: 0x2B3340, hairColor: 0x3B2416}, o.player || {}));
+      player.set("look", V(0, (o.screenY || 1.25), 0)).set("reach", {side: "R", at: V(0.03, (o.screenY || 1.25) + 0.02, 0.008)}); }
+    return {player, people};
+  }
+  /* A patient sitting up in a bed made by bed(); o holds the options of human(). */
+  function patientIn(G, b, o) {
+    const p = b.userData.hips;
+    return human(G, Object.assign({pose: "bed", seat: b.userData.seat, at: [p.x, 0, p.z], face: b.rotation.y}, o || {}));
+  }
+  /* A wheelchair whose seat is at o.at and which faces o.face (0 = toward +z); o.power gives a power chair with small
+     wheels, a battery box and a joystick. A human with pose "sit" and seat 0.5 sits on it at the same place. */
+  function wheelchair(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), frame = std(G, o.frame || 0x5E6670, 0.35, 0.7), dark = std(G, 0x1E2128, 0.6);
+    const cushion = std(G, o.color || 0x2B3340, 0.85), R = o.power ? 0.17 : 0.3;
+    const seat = new T.Mesh(new T.RoundedBoxGeometry(0.44, 0.06, 0.42, 3, 0.02), cushion); seat.position.set(0, 0.47, 0); g.add(seat);
+    const back = new T.Mesh(new T.RoundedBoxGeometry(0.42, 0.44, 0.04, 3, 0.015), cushion); back.position.set(0, 0.74, -0.22); back.rotation.x = -0.08; g.add(back);
+    [-1, 1].forEach(sx => {
+      const wheel = new T.Mesh(new T.TorusGeometry(R, o.power ? 0.045 : 0.022, 10, 36), dark); wheel.rotation.y = Math.PI / 2; wheel.position.set(sx * 0.27, R, -0.08); g.add(wheel);
+      const hub = new T.Mesh(new T.CylinderGeometry(0.03, 0.03, 0.05, 12), frame); hub.rotation.z = Math.PI / 2; hub.position.set(sx * 0.27, R, -0.08); g.add(hub);
+      if (!o.power) { const rim = new T.Mesh(new T.TorusGeometry(R - 0.03, 0.008, 6, 36), frame); rim.rotation.y = Math.PI / 2; rim.position.set(sx * 0.3, R, -0.08); g.add(rim);
+        for (let k = 0; k < 6; k++) { const sp = new T.Mesh(new T.CylinderGeometry(0.004, 0.004, 2 * R - 0.05, 4), frame); sp.rotation.set(k * Math.PI / 6, 0, 0); sp.position.set(sx * 0.27, R, -0.08); g.add(sp); } }
+      const caster = new T.Mesh(new T.TorusGeometry(0.055, 0.018, 8, 18), dark); caster.rotation.y = Math.PI / 2; caster.position.set(sx * 0.2, 0.075, 0.3); g.add(caster);
+      const fork = new T.Mesh(new T.CylinderGeometry(0.01, 0.01, 0.38, 6), frame); fork.position.set(sx * 0.2, 0.28, 0.25); fork.rotation.x = -0.15; g.add(fork);
+      const rail = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 0.5, 8), frame); rail.rotation.x = Math.PI / 2; rail.position.set(sx * 0.21, 0.44, 0.02); g.add(rail);
+      const post = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 0.62, 8), frame); post.position.set(sx * 0.21, 0.7, -0.24); g.add(post);
+      const grip = new T.Mesh(new T.CylinderGeometry(0.016, 0.016, 0.1, 8), dark); grip.rotation.x = Math.PI / 2; grip.position.set(sx * 0.21, 1.0, -0.29); g.add(grip);
+      const rest = new T.Mesh(new T.BoxGeometry(0.13, 0.015, 0.09), dark); rest.position.set(sx * 0.1, 0.12, 0.38); g.add(rest);
+      const arm = new T.Mesh(new T.RoundedBoxGeometry(0.05, 0.03, 0.3, 2, 0.01), dark); arm.position.set(sx * 0.23, 0.66, -0.04); g.add(arm); });
+    if (o.power) { const bat = new T.Mesh(new T.RoundedBoxGeometry(0.36, 0.2, 0.36, 3, 0.03), dark); bat.position.set(0, 0.25, -0.03); g.add(bat);
+      const joy = new T.Mesh(new T.SphereGeometry(0.025, 12, 10), std(G, 0x111111, 0.4)); joy.position.set(0.24, 0.73, 0.08); g.add(joy); }
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A rollator (walker on wheels) in front of a person at o.at who faces o.face. */
+  function rollator(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), fr = std(G, o.color || 0x8C3B3B, 0.4, 0.4), dark = std(G, 0x1E2128, 0.6);
+    [-1, 1].forEach(sx => { [[0.0, -0.05], [0.42, 0.06]].forEach(([z, lean]) => {
+      const leg = new T.Mesh(new T.CylinderGeometry(0.014, 0.014, 0.86, 8), fr); leg.position.set(sx * 0.27, 0.45, z); leg.rotation.x = lean; g.add(leg);
+      const wh = new T.Mesh(new T.TorusGeometry(0.07, 0.02, 8, 18), dark); wh.rotation.y = Math.PI / 2; wh.position.set(sx * 0.27, 0.075, z); g.add(wh); });
+      const grip = new T.Mesh(new T.CylinderGeometry(0.018, 0.018, 0.14, 8), dark); grip.rotation.x = Math.PI / 2; grip.position.set(sx * 0.27, 0.88, -0.02); g.add(grip); });
+    const seat = new T.Mesh(new T.BoxGeometry(0.5, 0.02, 0.3), dark); seat.position.set(0, 0.56, 0.2); g.add(seat);
+    const basket = new T.Mesh(new T.BoxGeometry(0.4, 0.14, 0.24), std(G, 0x30343C, 0.8)); basket.position.set(0, 0.38, 0.22); g.add(basket);
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A stick from a hand at o.from to the floor at o.to: a white cane for blind people (o.white) or a walking stick. */
+  function stick(G, o) {
+    const T = G.T, a = new T.Vector3(...o.from), b = new T.Vector3(...o.to), len = a.distanceTo(b), g = new T.Group();
+    const m = new T.Mesh(new T.CylinderGeometry(o.white ? 0.008 : 0.012, o.white ? 0.008 : 0.012, len, 8), std(G, o.white ? 0xF4F4F2 : 0x6B4A2E, 0.5)); g.add(m);
+    if (o.white) { const band = new T.Mesh(new T.CylinderGeometry(0.0085, 0.0085, 0.18, 8), std(G, 0xC0392B, 0.5)); band.position.y = -len / 2 + 0.16; g.add(band); }
+    g.position.copy(a).add(b).multiplyScalar(0.5); g.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), a.clone().sub(b).normalize());
+    G.scene.add(g); return g;
+  }
+  /* A pair of underarm crutches beside a person standing at o.at, facing o.face. */
+  function crutches(G, o) {
+    const T = G.T, g = new T.Group(), m = std(G, 0xA9B1BA, 0.3, 0.7), pad = std(G, 0x30343C, 0.8);
+    [-1, 1].forEach(sx => { const c = new T.Group();
+      const pole = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 1.3, 8), m); pole.position.y = 0.65; c.add(pole);
+      const top = new T.Mesh(new T.RoundedBoxGeometry(0.06, 0.04, 0.16, 2, 0.015), pad); top.position.y = 1.31; c.add(top);
+      const hand = new T.Mesh(new T.CylinderGeometry(0.014, 0.014, 0.12, 8), pad); hand.rotation.x = Math.PI / 2; hand.position.y = 0.86; c.add(hand);
+      c.position.set(sx * 0.27, 0, 0.05); c.rotation.z = sx * 0.1; g.add(c); });
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A white cast on the right forearm of a figure, between elbow and wrist. It hangs on the bone of the forearm, so it
+     follows every pose of the arm. */
+  function cast(G, hum) {
+    const T = G.T; return hum.ready.then(() => { hum.group.updateMatrixWorld(true);
+      const a = new T.Vector3(), b = new T.Vector3(); hum.bones.lowerarm01_R.getWorldPosition(a); hum.bones.wrist_R.getWorldPosition(b);
+      const sc = hum.group.getWorldScale(new T.Vector3()).x;
+      const m = new T.Mesh(new T.CapsuleGeometry(0.045 * sc, a.distanceTo(b) * 0.8, 4, 10), std(G, 0xF6F6F4, 0.9));
+      m.position.copy(a).lerp(b, 0.55); m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+      G.scene.add(m); hum.bones.lowerarm01_R.attach(m); G.redraw(); return m; });
+  }
+  /* A table with four legs; o.w, o.d and o.h in metres. */
+  function table(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), w = o.w || 1.2, d = o.d || 0.7, ht = o.h || 0.74;
+    const top = new T.Mesh(new T.RoundedBoxGeometry(w, 0.04, d, 3, 0.012), std(G, o.color || 0xC8A27A, 0.5)); top.position.y = ht - 0.02; g.add(top);
+    const lm = std(G, o.legs || 0x8E979F, 0.35, 0.6);
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => { const l = new T.Mesh(new T.CylinderGeometry(0.02, 0.02, ht - 0.04, 10), lm);
+      l.position.set(a * (w / 2 - 0.06), (ht - 0.04) / 2, b * (d / 2 - 0.06)); g.add(l); });
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A shelf unit with boxes of medicine; o.at is the middle of its front edge on the floor. */
+  function shelf(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), w = o.w || 1.6, ht = o.h || 1.9, d = o.d || 0.34, n = o.rows || 5, r = RNG(o.seed || 3);
+    const wood = std(G, o.color || 0xEDEAE4, 0.6);
+    const back = new T.Mesh(new T.BoxGeometry(w, ht, 0.02), wood); back.position.set(0, ht / 2, -d + 0.01); g.add(back);
+    [-1, 1].forEach(s => { const p = new T.Mesh(new T.BoxGeometry(0.025, ht, d), wood); p.position.set(s * (w / 2 - 0.0125), ht / 2, -d / 2); g.add(p); });
+    const cols = o.boxes || [0xFFFFFF, 0xD9E8F5, 0xF4D6CC, 0xE3F0DA, 0xF7EBC8, 0xE8E0F2, 0xFFFFFF], parts = cols.map(() => []);
+    for (let i = 0; i <= n; i++) {
+      const y = 0.06 + i * (ht - 0.1) / n, b = new T.Mesh(new T.BoxGeometry(w - 0.05, 0.022, d - 0.02), wood); b.position.set(0, y, -d / 2); g.add(b);
+      if (i === n) break;
+      let x = -w / 2 + 0.05;
+      while (x < w / 2 - 0.13) {
+        const bw = 0.045 + r() * 0.075, bh = 0.07 + r() * Math.min(0.15, (ht - 0.1) / n - 0.1), bd = 0.1 + r() * 0.13;
+        if (r() < 0.1) { x += bw + 0.03; continue; }
+        const geo = new T.BoxGeometry(bw, bh, bd); geo.translate(x + bw / 2, y + 0.011 + bh / 2, -0.03 - bd / 2);
+        parts[Math.floor(r() * cols.length)].push(geo); x += bw + 0.006;
+      }
+    }
+    parts.forEach((p, i) => { if (p.length) g.add(new T.Mesh(T.mergeGeometries(p), std(G, cols[i], 0.7))); });
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A row of n chairs with people seated on some of them; who is a list of human options, each with the index of its
+     chair. */
+  function seats(G, n, o, who) {
+    const row = chairRow(G, n, o);
+    return (who || []).map(w => { const p = row.userData.seat(w.chair), q = Object.assign({}, w); delete q.chair;
+      return human(G, Object.assign({pose: "sit", at: [p.x, 0, p.z], face: o.face || 0}, q)); });
+  }
+  /* A game is first seen from the room. play(true) flies the camera to the play view o.view and fixes it there, and
+     play(false) flies back to the view of the room. The objects in o.hide, such as the figure that stands where the
+     camera goes, are hidden while the game runs. jump(view) sets a view at once, for the screenshots. */
+  function stage(G, o) {
+    const fly = flyer(G, o.speed || 1.5), home = {camera: G.camera.position.toArray(), target: G.controls.target.toArray()};
+    const st = {on: false, home,
+      play(v, cb) {
+        if (v === st.on) { if (cb) cb(); return; }
+        st.on = v; (o.hide || []).forEach(x => { (x.group || x).visible = !v; });
+        lock(G, v); if (G.toolsEl) G.toolsEl.classList.toggle("off", v);
+        const t = v ? o.view : home; fly(t.camera, t.target, cb); G.redraw();
+      },
+      jump(view) { G.camera.position.set(...view.camera); G.controls.target.set(...view.target); G.controls.update(); G.redraw(); }};
+    return st;
+  }
+  return {room, panel, hud, flyer, exporter, noGL, shuffle, person, toMM, lock, human, loadModel, LOOKS, std, canvasTex, tiles, chair, chairRow, plant, desk, sign, clock, kiosk,
+    table, shelf, seats, stage, bed, patientIn, curtain, lobby, wheelchair, rollator, stick, crutches, cast};
+})();
+window.LABKIT = LABKIT;
+
+/* Hardware of the 3D virtual laboratories of Cyber-Physical Systems: a lab bench with a DIN rail, rail-mounted
+   devices with labels, terminals and LEDs, cables, message markers that travel along cables, an oscilloscope, flat
+   screens, a Raspberry Pi, an Ethernet switch, a rack, a battery container, chargers with cars and the parts of a
+   substation bay. Uses LABKIT and the course runtime. */
+var CPSKIT = window.CPSKIT || (function () {
+  const L = LABKIT, F = "Atkinson Hyperlegible, system-ui, sans-serif", MONO = "DejaVu Sans Mono, Consolas, monospace";
+  const geo = (G, w, h, d, rad) => rad ? new G.T.RoundedBoxGeometry(w, h, d, 3, rad) : new G.T.BoxGeometry(w, h, d);
+  const box = (G, w, h, d, c, r, m, rad) => new G.T.Mesh(geo(G, w, h, d, rad), L.std(G, c, r, m));
+  const cyl = (G, r1, r2, h, c, r, m, n) => new G.T.Mesh(new G.T.CylinderGeometry(r1, r2, h, n || 16), L.std(G, c, r, m));
+  const at = (m, x, y, z) => { m.position.set(x, y, z); return m; };
+  function place(G, g, o) { g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; (o.parent || G.scene).add(g); g.updateMatrixWorld(true); return g; }
+  const glow = (G, c) => new G.T.MeshBasicMaterial({color: c});
+  /* A label plate: a canvas texture on a plane, w by h metres. */
+  function plate(G, w, h, draw, px) {
+    const s = 900 / Math.max(w, h), P = L.panel(G, w, h, px || [Math.round(w * s), Math.round(h * s)], draw);
+    return P;
+  }
+  /* A lab bench with an anti-static mat, a back panel with a DIN rail and a shelf. o.w, o.d, o.h, o.backH. */
+  function bench(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), w = o.w || 2.4, d = o.d || 0.8, h = o.h || 0.9, bh = o.backH || 0.95;
+    g.add(at(box(G, w, 0.04, d, 0xD8D1C2, 0.6), 0, h - 0.02, 0));
+    g.add(at(box(G, w - 0.12, 0.004, d - 0.14, o.mat || 0x2E6688, 0.9), 0, h + 0.002, 0.03));
+    const legM = 0x8D959E;
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => g.add(at(box(G, 0.05, h - 0.04, 0.05, legM, 0.35, 0.6), a * (w / 2 - 0.06), (h - 0.04) / 2, b * (d / 2 - 0.06))));
+    g.add(at(box(G, w - 0.12, 0.03, 0.04, legM, 0.35, 0.6), 0, 0.18, -d / 2 + 0.06));
+    const back = new T.Mesh(new T.BoxGeometry(w, bh, 0.025), new T.MeshStandardMaterial({color: 0xFFFFFF, roughness: 0.85,
+      map: L.canvasTex(G, 256, 256, (x, cw, ch) => { x.fillStyle = "#E9EDF0"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#C9D1D8";
+        for (let i = 8; i < cw; i += 16) for (let j = 8; j < ch; j += 16) { x.beginPath(); x.arc(i, j, 2.4, 0, 6.3); x.fill(); } }, [w / 0.4, bh / 0.4])}));
+    back.position.set(0, h + bh / 2, -d / 2 + 0.0125); g.add(back);
+    g.add(at(box(G, w, 0.03, 0.26, 0xD8D1C2, 0.6), 0, h + bh - 0.02, -d / 2 + 0.13));
+    const railY = h + (o.railH || 0.5);
+    g.add(at(box(G, w - 0.3, 0.035, 0.008, 0xBFC5CB, 0.25, 0.85), 0, railY, -d / 2 + 0.03));
+    g.userData = {top: h, railY, railZ: -d / 2 + 0.034, w, d};
+    return place(G, g, o);
+  }
+  /* A device on the DIN rail: body, front label, LEDs and screw terminals. o.w, o.h, o.d, o.color, o.title, o.lines,
+     o.leds [[name, colour]], o.screen {w, h, px, draw}. Returns {group, leds, led(i, on), plate, screen, term(i, top)}. */
+  function dinDevice(G, o) {
+    const T = G.T, g = new T.Group(), w = o.w || 0.09, h = o.h || 0.11, d = o.d || 0.065;
+    g.add(at(box(G, w, h, d, o.color || 0xEDEFF1, 0.55, 0, 0.004), 0, 0, d / 2));
+    g.add(at(box(G, w * 0.98, h * 0.42, 0.012, o.color2 || 0xD9DEE2, 0.5, 0, 0.003), 0, 0, d + 0.002));
+    const lab = plate(G, w * 0.9, h * 0.36, (x, cw, ch) => {
+      x.fillStyle = o.plate || "#F6F8F9"; x.fillRect(0, 0, cw, ch); x.fillStyle = o.band || "#1E6FA8"; x.fillRect(0, 0, cw, ch * 0.2);
+      x.fillStyle = "#FFFFFF"; x.font = `700 ${Math.round(ch * 0.14)}px ${F}`; x.textBaseline = "middle"; x.fillText(o.brand || "CAMPUS GRID", cw * 0.05, ch * 0.105);
+      x.fillStyle = "#1B2430"; x.font = `700 ${Math.round(ch * 0.2)}px ${F}`; x.fillText(o.title || "", cw * 0.05, ch * 0.38, cw * 0.9);
+      x.font = `500 ${Math.round(ch * 0.13)}px ${F}`; x.fillStyle = "#3D4955";
+      (o.lines || []).forEach((t, i) => x.fillText(t, cw * 0.05, ch * (0.6 + i * 0.16), cw * 0.9));
+    });
+    lab.mesh.position.set(0, h * 0.12, d + 0.0085); g.add(lab.mesh);
+    let screen = null;
+    if (o.screen) { screen = L.panel(G, o.screen.w, o.screen.h, o.screen.px || [320, 200], o.screen.draw);
+      screen.mesh.position.set(o.screen.x || 0, o.screen.y || -h * 0.18, d + 0.0086); g.add(screen.mesh); }
+    const leds = (o.leds || []).map(([name, col], i) => {
+      const m = new T.Mesh(new T.SphereGeometry(0.0032, 10, 8), new T.MeshBasicMaterial({color: 0x39424C}));
+      const x = -w * 0.38 + i * Math.min(0.016, (w * 0.76) / Math.max(1, (o.leds.length - 1)));
+      m.position.set(x, -h * 0.17 - (o.screen ? h * 0.12 : 0), d + 0.009); m.userData.on = col; m.userData.noShadow = true; g.add(m); return m; });
+    const terms = [];
+    [1, -1].forEach(sg => { const n = o.terms || 4;
+      for (let i = 0; i < n; i++) { const x = -w * 0.36 + i * (w * 0.72) / Math.max(1, n - 1);
+        const t = at(box(G, 0.012, 0.012, 0.012, 0x2B2F35, 0.6), x, sg * (h / 2 - 0.012), d * 0.75); g.add(t);
+        const sc = at(cyl(G, 0.0035, 0.0035, 0.004, 0xC9CED3, 0.3, 0.8, 10), x, sg * (h / 2 - 0.012), d * 0.75 + 0.007); sc.rotation.x = Math.PI / 2; g.add(sc);
+        terms.push({x, y: sg * (h / 2 - 0.012), z: d * 0.75, top: sg > 0}); } });
+    place(G, g, o);
+    const api = {group: g, leds, plate: lab, screen,
+      led(i, on) { const m = leds[i]; if (!m) return; m.material.color.set(on ? m.userData.on : 0x39424C); G.redraw(); },
+      term(i, top) { const list = terms.filter(t => t.top === (top !== false)); const t = list[Math.min(i, list.length - 1)];
+        return g.localToWorld(new T.Vector3(t.x, t.y + (top !== false ? 0.006 : -0.006), t.z)); }};
+    return api;
+  }
+  /* A cable along a smooth curve through points [x, y, z]. Returns {mesh, curve, at(t)}. */
+  function cable(G, pts, o) {
+    o = o || {}; const T = G.T;
+    const curve = new T.CatmullRomCurve3(pts.map(p => (p.isVector3 ? p.clone() : new T.Vector3(...p))), false, "catmullrom", o.tension == null ? 0.35 : o.tension);
+    const mesh = new T.Mesh(new T.TubeGeometry(curve, Math.max(32, pts.length * 20), o.r || 0.004, 8, false), L.std(G, o.color || 0x23272C, 0.5));
+    (o.parent || G.scene).add(mesh); G.redraw();
+    return {mesh, curve, at: t => curve.getPointAt(Math.min(1, Math.max(0, t))), length: curve.getLength()};
+  }
+  /* Message markers that travel along cables: send([{c: cable, rev}], {color, dur, size, done, shape}). */
+  function packets(G) {
+    const T = G.T, list = [];
+    function send(path, o) {
+      o = o || {};
+      const geo2 = o.shape === "box" ? new T.BoxGeometry(o.size || 0.02, o.size || 0.02, o.size || 0.02) : new T.SphereGeometry(o.size || 0.012, 14, 10);
+      const m = new T.Mesh(geo2, new T.MeshBasicMaterial({color: o.color || 0xF2B33D, transparent: true, opacity: 1}));
+      m.userData.noShadow = true; G.scene.add(m);
+      const segs = (Array.isArray(path) ? path : [path]).map(p => (p.c ? p : {c: p, rev: false}));
+      const p = {m, segs, k: 0, u: 0, dur: o.dur || 0.8, done: o.done, lost: o.lost};
+      list.push(p); m.position.copy(segs[0].c.at(segs[0].rev ? 1 : 0)); G.redraw(); return p;
+    }
+    G.onTick(dt => {
+      if (!list.length) return false;
+      for (let i = list.length - 1; i >= 0; i--) {
+        const p = list[i], s = p.segs[p.k];
+        p.u += dt / (p.dur / p.segs.length);
+        if (p.lost && p.k === p.lost.seg && p.u >= p.lost.u) { p.m.material.opacity = Math.max(0, 1 - (p.u - p.lost.u) * 6); p.m.scale.setScalar(1 + (p.u - p.lost.u) * 4);
+          if (p.m.material.opacity <= 0) { G.scene.remove(p.m); list.splice(i, 1); if (p.done) p.done(false); continue; } }
+        if (p.u >= 1) { p.k++; p.u = 0; if (p.k >= p.segs.length) { G.scene.remove(p.m); list.splice(i, 1); if (p.done) p.done(true); continue; } }
+        const sg = p.segs[p.k]; p.m.position.copy(sg.c.at(sg.rev ? 1 - p.u : p.u));
+      }
+      return true;
+    });
+    return {send, busy: () => list.length, clear() { list.forEach(p => G.scene.remove(p.m)); list.length = 0; G.redraw(); }};
+  }
+  /* A bench oscilloscope with a screen of w by h metres; draw(ctx, W, H) paints the screen. Returns {group, panel}. */
+  function scope(G, o) {
+    const T = G.T, g = new T.Group(), W = 0.34, H = 0.19, D = 0.16;
+    g.add(at(box(G, W, H, D, 0x3A4047, 0.5, 0.1, 0.01), 0, H / 2 + 0.02, 0));
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => g.add(at(cyl(G, 0.012, 0.012, 0.02, 0x1E2227, 0.7), a * (W / 2 - 0.03), 0.01, b * (D / 2 - 0.03))));
+    g.add(at(box(G, W * 0.98, H * 0.94, 0.01, 0x262B31, 0.4), 0, H / 2 + 0.02, D / 2 + 0.003));
+    const P = L.panel(G, 0.2, 0.135, o.px || [640, 432], o.draw); P.mesh.position.set(-0.055, H / 2 + 0.025, D / 2 + 0.0085); g.add(P.mesh);
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++) { const k = at(cyl(G, 0.011, 0.012, 0.012, [0xD6DADF, 0xF2C14E, 0x6FB5E8][i], 0.4, 0.2, 20), 0.095 + j * 0.04, 0.17 - i * 0.042, D / 2 + 0.01); k.rotation.x = Math.PI / 2; g.add(k); }
+    const brand = plate(G, 0.08, 0.016, (x, cw, ch) => { x.fillStyle = "#262B31"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#C9D1D8"; x.font = `700 ${Math.round(ch * 0.62)}px ${F}`; x.textBaseline = "middle"; x.fillText("SCOPE 2CH", 4, ch / 2); });
+    brand.mesh.position.set(0.11, 0.035, D / 2 + 0.009); g.add(brand.mesh);
+    place(G, g, o);
+    return {group: g, panel: P, probe: () => g.localToWorld(new T.Vector3(0.115, 0.04, D / 2 + 0.01))};
+  }
+  /* A flat screen on a foot or on the wall. Returns {group, panel}. */
+  function screen(G, o) {
+    const T = G.T, g = new T.Group(), w = o.w || 0.6, h = o.h || 0.36;
+    g.add(at(box(G, w + 0.03, h + 0.03, 0.03, 0x15181C, 0.4, 0.1, 0.008), 0, 0, -0.016));
+    const P = L.panel(G, w, h, o.px || [Math.round(1000 * w / Math.max(w, h)), Math.round(1000 * h / Math.max(w, h))], o.draw); P.mesh.position.z = 0.0005; g.add(P.mesh);
+    if (o.foot) { g.add(at(box(G, 0.04, o.foot, 0.03, 0x2A2F35, 0.4), 0, -h / 2 - o.foot / 2, -0.04)); g.add(at(box(G, 0.22, 0.015, 0.16, 0x2A2F35, 0.4), 0, -h / 2 - o.foot, -0.04)); }
+    place(G, g, o);
+    return {group: g, panel: P};
+  }
+  /* A Raspberry Pi board at true size times o.s, lying flat. Returns {group, led(on), eth()}. */
+  function rpi(G, o) {
+    const T = G.T, g = new T.Group(), s = o.s || 1;
+    const pcb = box(G, 0.085 * s, 0.0016 * s, 0.056 * s, 0x1F7A3F, 0.5); pcb.position.y = 0.006 * s; g.add(pcb);
+    const top = 0.0068 * s, P = (m, x, z, h) => { m.position.set(x * s, top + h * s / 2, z * s); g.add(m); return m; };
+    P(box(G, 0.014 * s, 0.0012 * s, 0.014 * s, 0xBFC4C9, 0.3, 0.7), -0.008, 0.002, 0.0012);
+    P(box(G, 0.012 * s, 0.0014 * s, 0.01 * s, 0x15171A, 0.5), 0.012, 0.002, 0.0014);
+    P(box(G, 0.017 * s, 0.016 * s, 0.013 * s, 0xC0C5CA, 0.3, 0.8), 0.034, 0.02, 0.016);
+    P(box(G, 0.017 * s, 0.016 * s, 0.013 * s, 0xC0C5CA, 0.3, 0.8), 0.034, 0.002, 0.016);
+    P(box(G, 0.021 * s, 0.0135 * s, 0.016 * s, 0xC0C5CA, 0.3, 0.8), 0.033, -0.018, 0.0135);
+    const hdr = P(box(G, 0.051 * s, 0.0085 * s, 0.005 * s, 0x111214, 0.5), -0.004, -0.0245, 0.0085);
+    for (let i = 0; i < 20; i++) P(box(G, 0.0007 * s, 0.002 * s, 0.0007 * s, 0xD4AF37, 0.3, 0.9), -0.028 + i * 0.00254, -0.0245, 0.0105);
+    const led = P(new T.Mesh(new T.SphereGeometry(0.0012 * s, 8, 6), glow(G, 0x2DC653)), -0.04, 0.02, 0.0012);
+    const pwr = P(new T.Mesh(new T.SphereGeometry(0.0012 * s, 8, 6), glow(G, 0xE53935)), -0.04, 0.016, 0.0012);
+    place(G, g, o);
+    return {group: g, led(on) { led.material.color.set(on ? 0x6CFF8F : 0x1E4A2A); G.redraw(); },
+      eth: () => g.localToWorld(new T.Vector3(0.0435 * s, top + 0.007 * s, -0.018 * s)), pwr};
+  }
+  /* An Ethernet switch of n ports. Returns {group, port(i), led(i, on)}. */
+  function netSwitch(G, o) {
+    const T = G.T, g = new T.Group(), n = o.n || 8, w = o.w || 0.3, h = 0.04, d = 0.18;
+    g.add(at(box(G, w, h, d, o.color || 0x2E3740, 0.45, 0.3, 0.004), 0, h / 2, 0));
+    const leds = [], ports = [];
+    for (let i = 0; i < n; i++) { const x = -w * 0.38 + i * (w * 0.62) / Math.max(1, n - 1);
+      g.add(at(box(G, 0.016, 0.014, 0.004, 0x0E1012, 0.6), x, h / 2 - 0.003, d / 2 + 0.001));
+      const l = new T.Mesh(new T.BoxGeometry(0.004, 0.003, 0.002), glow(G, 0x1C3A24)); l.position.set(x, h / 2 + 0.009, d / 2 + 0.002); g.add(l); leds.push(l);
+      ports.push(new T.Vector3(x, h / 2 - 0.003, d / 2 + 0.004)); }
+    const lab = plate(G, 0.07, 0.014, (x, cw, ch) => { x.fillStyle = "#2E3740"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#DDE3E8"; x.font = `700 ${Math.round(ch * 0.62)}px ${F}`; x.textBaseline = "middle"; x.fillText(o.label || "SWITCH", 3, ch / 2); });
+    lab.mesh.position.set(w * 0.4, h / 2 + 0.006, d / 2 + 0.0015); g.add(lab.mesh);
+    place(G, g, o);
+    return {group: g, port: i => g.localToWorld(ports[i].clone()), led(i, on, col) { leds[i].material.color.set(on ? (col || 0x5CFF7A) : 0x1C3A24); G.redraw(); }};
+  }
+  /* A small resistor with two leads, for the termination of an RS-485 line. */
+  function resistor(G, o) {
+    const T = G.T, g = new T.Group();
+    const body = cyl(G, 0.0045, 0.0045, 0.02, 0xD8C29A, 0.5); body.rotation.z = Math.PI / 2; g.add(body);
+    [0xA0522D, 0xE53935, 0x111111, 0xD4AF37].forEach((c, i) => { const b = cyl(G, 0.0047, 0.0047, 0.0018, c, 0.5); b.rotation.z = Math.PI / 2; b.position.x = -0.006 + i * 0.004; g.add(b); });
+    [-1, 1].forEach(sg => { const l = cyl(G, 0.0007, 0.0007, 0.02, 0xB0B5BA, 0.3, 0.8, 6); l.rotation.z = Math.PI / 2; l.position.x = sg * 0.019; g.add(l); });
+    place(G, g, o); return g;
+  }
+  /* A server rack of o.u height units with fronts drawn by fronts[i](ctx). */
+  function rack(G, o) {
+    const T = G.T, g = new T.Group(), w = 0.6, d = 0.8, h = o.h || 1.2;
+    g.add(at(box(G, w, h, d, 0x23292F, 0.5, 0.2), 0, h / 2, 0));
+    g.add(at(box(G, w - 0.04, h - 0.06, 0.01, 0x15191D, 0.6), 0, h / 2, d / 2 + 0.002));
+    place(G, g, o); return g;
+  }
+  /* A battery container, open on the long side, with racks of modules and an inverter cabinet. Returns
+     {group, lamp(col), modules}. */
+  function container(G, o) {
+    const T = G.T, g = new T.Group(), Lx = o.len || 6.06, W = 2.44, H = 2.59, wall = 0.05;
+    const tex = L.canvasTex(G, 256, 128, (x, cw, ch) => { x.fillStyle = "#E7EAEC"; x.fillRect(0, 0, cw, ch);
+      for (let i = 0; i < cw; i += 16) { x.fillStyle = "rgba(0,0,0,0.07)"; x.fillRect(i, 0, 6, ch); } }, [Lx / 0.6, 1]);
+    const m = new T.MeshStandardMaterial({color: 0xFFFFFF, roughness: 0.6, metalness: 0.2, map: tex});
+    const back = new T.Mesh(new T.BoxGeometry(Lx, H, wall), m); back.position.set(0, H / 2, -W / 2); g.add(back);
+    [-1, 1].forEach(sg => { const e = new T.Mesh(new T.BoxGeometry(wall, H, W), m); e.position.set(sg * Lx / 2, H / 2, 0); g.add(e); });
+    g.add(at(box(G, Lx, wall, W, 0xDADFE3, 0.6, 0.2), 0, H, 0));
+    g.add(at(box(G, Lx, 0.08, W, 0x6F7780, 0.7, 0.2), 0, 0.04, 0));
+    const mods = [];
+    for (let r = 0; r < (o.racks || 5); r++) { const x = -Lx / 2 + 0.55 + r * 0.72;
+      g.add(at(box(G, 0.6, 2.1, 0.6, 0x2B3138, 0.5, 0.3), x, 1.13, -W / 2 + 0.36));
+      for (let k = 0; k < 8; k++) { const md = at(box(G, 0.54, 0.2, 0.02, 0xDCE1E5, 0.5, 0.1), x, 0.3 + k * 0.245, -W / 2 + 0.67); g.add(md);
+        const lt = new T.Mesh(new T.BoxGeometry(0.03, 0.012, 0.004), glow(G, 0x3DDC84)); lt.position.set(x + 0.22, 0.3 + k * 0.245, -W / 2 + 0.683); g.add(lt); mods.push(lt); } }
+    const inv = at(box(G, 1.2, 2.1, 0.7, 0x1E6FA8, 0.45, 0.2, 0.02), Lx / 2 - 0.75, 1.13, -W / 2 + 0.41); g.add(inv);
+    const lamp = new T.Mesh(new T.SphereGeometry(0.06, 16, 12), glow(G, 0x3DDC84)); lamp.position.set(Lx / 2 - 0.4, H + 0.08, W / 2 - 0.3); g.add(lamp);
+    place(G, g, o);
+    return {group: g, mods, inv, lamp(col) { lamp.material.color.set(col); mods.forEach(l => l.material.color.set(col)); G.redraw(); }};
+  }
+  /* A charging pillar for electric vehicles with a small screen. Returns {group, panel}. */
+  function charger(G, o) {
+    const T = G.T, g = new T.Group();
+    g.add(at(box(G, 0.32, 1.45, 0.22, 0xF2F4F6, 0.45, 0.1, 0.03), 0, 0.725, 0));
+    g.add(at(box(G, 0.3, 0.18, 0.012, o.color || 0x2E8B57, 0.5), 0, 1.3, 0.112));
+    const P = L.panel(G, 0.2, 0.13, [300, 195], o.draw || ((x, cw, ch) => { x.fillStyle = "#0F1A14"; x.fillRect(0, 0, cw, ch); }));
+    P.mesh.position.set(0, 1.0, 0.1125); g.add(P.mesh);
+    const hol = at(box(G, 0.08, 0.12, 0.06, 0x2B3036, 0.5), 0.1, 0.72, 0.13); g.add(hol);
+    place(G, g, o); return {group: g, panel: P};
+  }
+  /* A simple car of a given colour. */
+  function car(G, o) {
+    const T = G.T, g = new T.Group(), c = o.color || 0x4A78A8;
+    g.add(at(box(G, 4.2, 0.62, 1.78, c, 0.35, 0.4, 0.18), 0, 0.55, 0));
+    const cab = box(G, 2.3, 0.55, 1.6, c, 0.35, 0.4, 0.2); cab.position.set(-0.2, 1.08, 0); g.add(cab);
+    const gl = new T.MeshStandardMaterial({color: 0x1D2A36, roughness: 0.1, metalness: 0.6});
+    const win = new T.Mesh(new T.BoxGeometry(2.1, 0.42, 1.62), gl); win.position.set(-0.2, 1.1, 0); g.add(win);
+    [[-1.35, 1], [1.35, 1], [-1.35, -1], [1.35, -1]].forEach(([x, z]) => { const wl = cyl(G, 0.34, 0.34, 0.24, 0x16181B, 0.8, 0, 24); wl.rotation.x = Math.PI / 2; wl.position.set(x, 0.34, z * 0.82); g.add(wl); });
+    place(G, g, o); return g;
+  }
+  /* Substation parts: a transformer, a breaker with a position flag, a relay cabinet with the front of an IED. */
+  function transformer(G, o) {
+    const T = G.T, g = new T.Group();
+    g.add(at(box(G, 1.6, 1.5, 1.0, 0x8C969F, 0.55, 0.3), 0, 0.85, 0));
+    for (let i = 0; i < 9; i++) g.add(at(box(G, 0.02, 1.2, 0.3, 0x7C868F, 0.55, 0.3), -0.72 + i * 0.18, 0.8, 0.62));
+    [-0.5, 0, 0.5].forEach(x => { const b = cyl(G, 0.06, 0.09, 0.5, 0x9C5B3A, 0.5, 0, 14); b.position.set(x, 1.85, 0); g.add(b);
+      for (let k = 0; k < 4; k++) { const sh = cyl(G, 0.11, 0.11, 0.025, 0x9C5B3A, 0.5, 0, 16); sh.position.set(x, 1.68 + k * 0.1, 0); g.add(sh); } });
+    place(G, g, o); return g;
+  }
+  function breaker(G, o) {
+    const T = G.T, g = new T.Group();
+    g.add(at(box(G, 0.8, 1.9, 0.8, 0xD9DEE2, 0.5, 0.2, 0.02), 0, 0.95, 0));
+    const flag = new T.Mesh(new T.BoxGeometry(0.22, 0.1, 0.01), glow(G, 0xC62828)); flag.position.set(0, 1.45, 0.405); g.add(flag);
+    const lab = plate(G, 0.36, 0.1, (x, cw, ch) => { x.fillStyle = "#1B2430"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#FFFFFF"; x.font = `700 ${Math.round(ch * 0.42)}px ${F}`; x.textBaseline = "middle"; x.fillText(o.label || "Main breaker Q1", 10, ch / 2); });
+    lab.mesh.position.set(0, 1.7, 0.405); g.add(lab.mesh);
+    const lever = at(box(G, 0.04, 0.22, 0.04, 0x1B2430, 0.4), 0, 1.15, 0.43); g.add(lever);
+    place(G, g, o);
+    return {group: g, set(closed) { flag.material.color.set(closed ? 0xC62828 : 0x2E8B57); lever.rotation.z = closed ? 0 : 0.8; G.redraw(); }};
+  }
+  function cabinet(G, o) {
+    const T = G.T, g = new T.Group(), w = o.w || 0.8, h = o.h || 2.0;
+    g.add(at(box(G, w, h, 0.6, o.color || 0xD9DEE2, 0.5, 0.2, 0.02), 0, h / 2, 0));
+    place(G, g, o); return g;
+  }
+  return {box, cyl, at, place, plate, bench, dinDevice, cable, packets, scope, screen, rpi, netSwitch, resistor, rack, container,
+    charger, car, transformer, breaker, cabinet, F, MONO};
+})();
+window.CPSKIT = CPSKIT;
+
+/* The models of Week 9, as in the Colab notebook. OPT: the prices of the campus from the regional dispatch, the import
+   of the campus without the battery on the clear and on the cloudy day, the rules for the battery, the ten cars of the
+   car park and the strategies of charging. The optimal schedules of the linear programs come from the Colab notebook
+   (schedule in Section 3 and Section 4) and are stored here as data. */
+var OPT = window.OPT || (function () {
+  const D = {"PRICE":[0.14,0.1393,0.1389,0.1388,0.1389,0.1396,0.1418,0.146,0.1525,0.156,0.1575,0.158,0.157,0.1565,0.156,0.1555,0.157,0.17,0.22,0.24,0.21,0.1575,0.1475,0.1422],"NET_CLEAR":[196.2,183.7,172.9,176.7,191.5,223.6,250.4,294.6,359.0,352.4,304.5,259.59999999999997,233.70000000000002,246.90000000000003,281.70000000000005,341.7,411.8,502.9,580.5,585.7,489.9,401.7,295.3,233.6],"NET_CLOUDY":[196.2,183.7,172.9,176.7,191.5,223.6,279.4,376.2,484.5,511.6,486.90000000000003,455.0,432.6,440.2,460.1,496.09999999999997,532.8000000000001,581.4,608.3000000000001,585.7,489.9,401.7,295.3,233.6],"EV_KW":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,66.0,66.0,44.0,22.0,22.0,22.0,22.0,44.0,66.0,110.0,110.0,88.0,44.0,22.0,0.0,0.0],"OPT_CLEAR":{"cost":1379.91,"bat":[0.0,0.0,0.0,-210.526,0.0,0.0,0.0,0.0,0.0,-0.0,-0.0,-0.0,0.0,0.0,0.0,0.0,0.0,58.15,135.75,140.95,45.15,0.0,0.0,-210.526],"soc":[0.5,0.5,0.5,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.77758,0.49179,0.19505,0.1,0.1,0.1,0.5],"peak":444.7,"grid":[196.2,183.7,172.9,387.226,191.5,223.6,250.4,294.6,359.0,352.4,304.5,259.6,233.7,246.9,281.7,341.7,411.8,444.75,444.75,444.75,444.75,401.7,295.3,444.126]},"OPT_CLOUDY":{"cost":1669.91,"bat":[0.0,0.0,0.0,-210.526,0.0,0.0,0.0,0.0,0.0,21.7,0.0,0.0,0.0,0.0,-24.044,6.2,42.9,91.5,118.4,121.0,-0.0,0.0,0.0,-210.526],"soc":[0.5,0.5,0.5,0.9,0.9,0.9,0.9,0.9,0.9,0.85432,0.85432,0.85432,0.85432,0.85432,0.9,0.88695,0.79663,0.604,0.35474,0.1,0.1,0.1,0.1,0.5],"peak":489.9,"grid":[196.2,183.7,172.9,387.226,191.5,223.6,279.4,376.2,484.5,489.9,486.9,455.0,432.6,440.2,484.144,489.9,489.9,489.9,489.9,464.7,489.9,401.7,295.3,444.126]},"DR_OPT":{"cost":1404.78,"ev":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,66.0,44.0,0.0,0.0,22.0,22.0,66.0,88.0,66.0,88.0,14.2,0.0,51.8,88.0,66.0,66.0],"peak":497.7,"car":[[0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,22.0,0.0,0.0,0.0,0.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,22.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,22.0,22.0,0.0,0.0,0.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,0.0,0.0,0.0,0.0,22.0,22.0,22.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,0.0,0.0,0.0,22.0,22.0,22.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,-0.0,0.0,22.0,0.0,0.0,0.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,22.0,-0.0,0.0,22.0,22.0,22.0,22.0],[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,14.2,0.0,7.8,22.0,0.0,0.0]]}};
+  const ETA = 0.95, E0 = 250, E_MIN = 50, E_MAX = 450, P_BAT = 250, IMPORT_MAX = 600, S_EXPORT = 0.05, K_PEAK = 0.30, V_STORED = 0.15;
+  const B = [20, 35, 60], C = [0.02, 0.025, 0.25], PMIN = [100, 0, 0], PMAX = [600, 500, 300];
+  const D_REGION = [600, 570, 550, 545, 550, 580, 680, 820, 950, 1020, 1050, 1060, 1040, 1030, 1020, 1010, 1040, 1120, 1220, 1260, 1200, 1050, 850, 700];
+  const CARS = [["A", 7, 17, 110], ["B", 8, 17, 66], ["C", 8, 13, 44], ["D", 12, 20, 110], ["E", 15, 19, 66],
+    ["F", 16, 24, 88], ["G", 17, 24, 88], ["H", 17, 21, 44], ["J", 17, 24, 110], ["K", 18, 22, 44]];
+  const PRICE = D.PRICE, BASE_CLEAR = D.NET_CLEAR.map((n, t) => n - D.EV_KW[t]);
+  const net = day => (day === "cloudy" ? D.NET_CLOUDY : D.NET_CLEAR);
+  /* the regional dispatch: outputs at an incremental cost and the bisection of Section 2 */
+  const outputs = lam => B.map((b, i) => Math.min(PMAX[i], Math.max(PMIN[i], (lam - b) / (2 * C[i]))));
+  function dispatch(Dm) {
+    let lo = 0, hi = 1000;
+    while (hi - lo > 1e-7) { const lam = (lo + hi) / 2; if (outputs(lam).reduce((a, b) => a + b, 0) < Dm) lo = lam; else hi = lam; }
+    const lam = (lo + hi) / 2; return {lam, P: outputs(lam)};
+  }
+  function dayCost(grid) {
+    let e = 0, x = 0, mx = -Infinity;
+    grid.forEach((g, t) => { if (g > 0) e += PRICE[t] * g; else x += -g; if (g > mx) mx = g; });
+    return e - S_EXPORT * x + K_PEAK * Math.max(0, mx);
+  }
+  const corrected = (cost, eEnd) => cost + V_STORED * (E0 - eEnd);
+  function runRule(nt, rule) {
+    let e = E0; const grid = [], bat = [], soc = [];
+    nt.forEach((n, t) => { const p = rule(t, n, e); e += p > 0 ? -p / ETA : -p * ETA; grid.push(n - p); bat.push(p); soc.push(e / 500); });
+    return {grid, bat, soc, eEnd: e};
+  }
+  const peakRule = (th, below) => { below = below == null ? 330 : below; return (t, n, e) => {
+    if (n > th) return Math.min(n - th, P_BAT, (e - E_MIN) * ETA);
+    if (n < below) return -Math.min(below - n, P_BAT, (E_MAX - e) / ETA);
+    return 0; }; };
+  const priceRule = (lo, hi) => (t, n, e) => {
+    if (PRICE[t] >= hi) return Math.min(P_BAT, Math.max(0, n), (e - E_MIN) * ETA);
+    if (PRICE[t] <= lo) return -Math.min(P_BAT, (E_MAX - e) / ETA, IMPORT_MAX - n);
+    return 0; };
+  /* the car park */
+  function evImmediate() { const p = new Array(24).fill(0); CARS.forEach(([n, a, dep, E]) => { let left = E, t = a; while (left > 1e-9) { const q = Math.min(22, left); p[t] += q; left -= q; t++; } }); return p; }
+  function evCheapest() { const p = new Array(24).fill(0);
+    CARS.forEach(([n, a, dep, E]) => { let left = E; const hrs = []; for (let t = a; t < dep; t++) hrs.push(t);
+      hrs.sort((x, y) => PRICE[x] - PRICE[y] || x - y);
+      for (const t of hrs) { const q = Math.min(22, left); p[t] += q; left -= q; if (left <= 1e-9) break; } }); return p; }
+  function evLimited(cap) {
+    const left = {}; CARS.forEach(c => { left[c[0]] = c[3]; }); const p = new Array(24).fill(0), byCar = {}; CARS.forEach(c => { byCar[c[0]] = new Array(24).fill(0); });
+    const order = CARS.slice().sort((x, y) => x[2] - y[2] || (x[0] < y[0] ? -1 : 1));
+    for (let t = 0; t < 24; t++) { let room = cap;
+      for (const [n, a, dep] of order) if (a <= t && t < dep && left[n] > 1e-9 && room > 1e-9) { const q = Math.min(22, left[n], room); p[t] += q; byCar[n][t] += q; left[n] -= q; room -= q; } }
+    return {p, missing: Object.values(left).reduce((a, b) => a + b, 0), left, byCar};
+  }
+  /* charging per car for the views of the car park */
+  function perCar(strategy, cap) {
+    const by = {}; CARS.forEach(c => { by[c[0]] = new Array(24).fill(0); });
+    if (strategy === "limit") return evLimited(cap).byCar;
+    CARS.forEach(([n, a, dep, E]) => { let left = E;
+      const hrs = []; for (let t = a; t < dep; t++) hrs.push(t);
+      if (strategy === "cheapest") hrs.sort((x, y) => PRICE[x] - PRICE[y] || x - y);
+      for (const t of hrs) { const q = Math.min(22, left); by[n][t] += q; left -= q; if (left <= 1e-9) break; } });
+    return by;
+  }
+  /* the two evening hours of Section 1 */
+  const P18 = PRICE[18], P19 = PRICE[19], N18 = D.NET_CLEAR[18], N19 = D.NET_CLEAR[19];
+  function twoHours(Eav, G) {
+    const l18 = Math.max(0, N18 - G), l19 = Math.max(0, N19 - G), cap = Eav * ETA;
+    if (l18 > P_BAT || l19 > P_BAT || l18 + l19 > cap + 1e-9) return {feasible: false, l18, l19, cap};
+    let r = cap - l18 - l19; const a = Math.min(r, P_BAT - l19); r -= a; const b = Math.min(r, P_BAT - l18);
+    const d18 = l18 + b, d19 = l19 + a;
+    return {feasible: true, l18, l19, cap, d18, d19, saving: P18 * d18 + P19 * d19};
+  }
+  return {D, PRICE, ETA, E0, E_MIN, E_MAX, P_BAT, K_PEAK, V_STORED, B, C, PMIN, PMAX, D_REGION, CARS, BASE_CLEAR, net, outputs, dispatch,
+    dayCost, corrected, runRule, peakRule, priceRule, evImmediate, evCheapest, evLimited, perCar, P18, P19, N18, N19, twoHours};
+})();
+window.OPT = OPT;
+
+/* Scene: Equal incremental cost. The three units of the regional grid as ramps of their incremental cost against their
+   output, with the level lambda as a translucent plane: each unit runs where its ramp meets the plane, within its
+   limits (OPT.dispatch). Bars on the table show the outputs, and a screen shows the dispatch and the price of the day. */
+(function () {
+  const box = document.getElementById("ld-3d"); if (!box) return;
+  const O = window.OPT, f2 = x => x.toFixed(2), f1 = x => x.toFixed(1);
+  const NAMES = ["Base unit", "Middle unit", "Peak unit"], COLS = [0x2E8B57, 0x1E6FA8, 0xB53F2E], CSS = ["#2E8B57", "#1E6FA8", "#B53F2E"];
+  const at = Dm => { const r = O.dispatch(Dm); return {D: Dm, lam: r.lam, P: r.P, price: 0.10 + Math.round(r.lam * 10) / 10000}; };
+  const S1 = at(550), S2 = at(1060), S3 = at(1260);
+  const outTxt = s => s.P.map(p => f1(p)).join(" / ") + " MW";
+  const STEPS = [
+    {b: "1 Three units", s: null,
+     say: "Three units: Each ramp shows the incremental cost of one unit of the regional grid against its output. The base unit is cheap and flat, the peak unit expensive and steep, and each ramp ends at the limits of its unit.",
+     ro: ["-", "-", "-", "-"]},
+    {b: "2 Night", s: S1,
+     say: `Night: At 02:00 the region needs 550 MW. The level λ rises until the outputs under it add up to 550 MW: The base unit gives ${f1(S1.P[0])} MW and the middle unit ${f1(S1.P[1])} MW, both at ${f2(S1.lam)} €/MWh. The peak unit stays off, because its ramp starts at 60 €/MWh.`,
+     ro: ["550 MW", `${f2(S1.lam)} €/MWh`, outTxt(S1), "0.1389 €/kWh"]},
+    {b: "3 Noon", s: S2,
+     say: `Noon: At 11:00 the region needs 1060 MW. The base unit reaches its limit of 600 MW at 44 €/MWh and stops there, so the middle unit takes the rest: ${f1(S2.P[1])} MW at λ = ${f2(S2.lam)} €/MWh.`,
+     ro: ["1060 MW", `${f2(S2.lam)} €/MWh`, outTxt(S2), "0.158 €/kWh"]},
+    {b: "4 Evening", s: S3,
+     say: `Evening: At 19:00 the region needs 1260 MW. The first two units run at their limits, and the peak unit gives ${f1(S3.P[2])} MW. Its steep ramp lifts λ to ${f2(S3.lam)} €/MWh.`,
+     ro: ["1260 MW", `${f2(S3.lam)} €/MWh`, outTxt(S3), "0.24 €/kWh"]},
+    {b: "5 Price of the day", s: S3, day: true,
+     say: "Price of the day: Hour by hour, the level λ becomes the price of the campus, 0.10 €/kWh plus λ/1000. It stays near 0.14 €/kWh at night and rises to 0.24 €/kWh at 19:00, the hours in which the battery of the campus should discharge.",
+     ro: ["550 to 1260 MW", "38.78 to 140 €/MWh", "-", "0.1388 to 0.24 €/kWh"]}];
+  const act = document.getElementById("ld-act"), say = document.getElementById("ld-say");
+  const RON = ["Demand", "Incremental cost λ", "Outputs", "Price for the campus"];
+  const ro = readout(document.getElementById("ld-ro"), RON);
+  const S = {k: -1};
+  const btns = STEPS.map((s, i) => { const b = h("button", {class: "btn ghost", type: "button"}, s.b); act.append(b); b.addEventListener("click", () => go(i)); return b; });
+  const reset = h("button", {class: "btn ghost", type: "button"}, "Clear the ramps"); act.append(reset);
+  const HELLO = "The ramps wait for a demand. Follow the dispatch of the region with the five buttons.";
+  let V = null;
+  function show() { btns.forEach((b, i) => b.classList.toggle("ghost", i !== S.k)); const r = S.k >= 0 ? STEPS[S.k].ro : ["-", "-", "-", "-"]; RON.forEach((n, i) => ro(n, r[i])); if (V) V(); }
+  function go(i) { S.k = i; say.textContent = STEPS[i].say; show(); }
+  reset.addEventListener("click", () => { S.k = -1; say.textContent = HELLO; show(); });
+  if (!has3D()) { LABKIT.noGL(box); say.textContent = HELLO; show(); return; }
+  const L = LABKIT, K = CPSKIT;
+  const G = make3D(box, {camera: [1.15, 1.62, 1.75], target: [-0.05, 1.12, -0.15], limits: [0.4, 5, 1.5], aspect: 0.56, bg: 0xE8ECEF, shadowBox: 3,
+    views: [{label: "Ramps", title: "the ramps from the front", camera: [0.0, 1.15, 1.3], target: [0.0, 1.05, 0.0]}]});
+  const T = G.T, TOP = 0.785, X = P => -0.62 + P * 0.002, Yc = c => TOP + c * 0.0045, ZL = [-0.25, 0, 0.25];
+  const inc = (i, P) => O.B[i] + 2 * O.C[i] * P;
+  const wall = K.box(G, 4, 2.6, 0.04, 0xEEF1F3, 0.9); wall.position.set(0, 1.3, -1.0); G.scene.add(wall);
+  const floor = K.box(G, 4, 0.02, 3, 0xC9CDD1, 0.9); floor.position.set(0, -0.01, 0.3); G.scene.add(floor);
+  const top = K.box(G, 1.6, 0.05, 0.9, 0xD8D1C2, 0.6); top.position.set(-0.04, 0.76, 0); G.scene.add(top);
+  [[-0.8, -0.4], [0.72, -0.4], [-0.8, 0.4], [0.72, 0.4]].forEach(([x, z]) => { const l = K.box(G, 0.05, 0.74, 0.05, 0x8D959E, 0.35, 0.6); l.position.set(x, 0.37, z); G.scene.add(l); });
+  /* the ramps of incremental cost with their supports and labels */
+  [0, 1, 2].forEach(i => {
+    const x0 = X(O.PMIN[i]), x1 = X(O.PMAX[i]), y0 = Yc(inc(i, O.PMIN[i])), y1 = Yc(inc(i, O.PMAX[i])), len = Math.hypot(x1 - x0, y1 - y0);
+    const r = K.box(G, len, 0.012, 0.12, COLS[i], 0.45, 0.1); r.position.set((x0 + x1) / 2, (y0 + y1) / 2, ZL[i]); r.rotation.z = Math.atan2(y1 - y0, x1 - x0); G.scene.add(r);
+    [[x0, y0], [x1, y1]].forEach(([x, y]) => { const p = K.box(G, 0.012, y - TOP, 0.012, 0x8D959E, 0.4, 0.5); p.position.set(x, (y + TOP) / 2, ZL[i] - 0.05); G.scene.add(p); });
+    const t = label3D(`${NAMES[i]}: ${O.B[i]} + ${2 * O.C[i]} P`, {scale: 0.00058, bg: CSS[i], color: "#FFFFFF"}); t.position.set(x1 + 0.02, y1 + 0.05, ZL[i]); G.scene.add(t);
+  });
+  /* the rulers: incremental cost on the left, output at the front */
+  const rulerY = L.panel(G, 0.1, 1.0, [160, 1600], (c, cw, ch) => { c.fillStyle = "#F7F8FA"; c.fillRect(0, 0, cw, ch); c.fillStyle = "#1B2430"; c.strokeStyle = "#1B2430";
+    for (let v = 0; v <= 220; v += 10) { const y = ch - v / 222 * ch, big = v % 50 === 0; c.lineWidth = big ? 5 : 2; c.beginPath(); c.moveTo(cw, y); c.lineTo(cw - (big ? 50 : 26), y); c.stroke();
+      if (big) { c.font = `700 40px ${K.F}`; c.textAlign = "left"; c.fillText(String(v), 6, Math.max(36, y + 14)); } } });
+  rulerY.mesh.position.set(-0.72, TOP + 0.5, -0.38); G.scene.add(rulerY.mesh);
+  const tagY = label3D("€/MWh", {scale: 0.0006}); tagY.position.set(-0.72, TOP + 1.04, -0.38); G.scene.add(tagY);
+  const rulerX = L.panel(G, 1.26, 0.06, [2520, 120], (c, cw, ch) => { c.fillStyle = "#F7F8FA"; c.fillRect(0, 0, cw, ch); c.fillStyle = "#1B2430"; c.strokeStyle = "#1B2430";
+    for (let P = 0; P <= 600; P += 50) { const x = (X(P) + 0.62 + 0.02) / 1.26 * cw, big = P % 100 === 0; c.lineWidth = big ? 5 : 3; c.beginPath(); c.moveTo(x, 0); c.lineTo(x, big ? 44 : 26); c.stroke();
+      if (big) { c.font = `700 40px ${K.F}`; c.textAlign = "center"; c.fillText(P === 0 ? "0 MW" : String(P), Math.min(cw - 50, Math.max(50, x)), 92); } } c.textAlign = "left"; });
+  rulerX.mesh.rotation.x = -Math.PI / 2 + 0.35; rulerX.mesh.position.set(X(300), TOP + 0.012, 0.4); G.scene.add(rulerX.mesh);
+  /* the plane of lambda, the operating points and the output bars */
+  const planeM = new T.MeshBasicMaterial({color: 0x6FB5E8, transparent: true, opacity: 0.32, depthWrite: false});
+  const plane = new T.Mesh(new T.BoxGeometry(1.32, 0.003, 0.78), planeM); plane.userData.noShadow = true; G.scene.add(plane);
+  const edgeM = new T.MeshBasicMaterial({color: 0x1E6FA8}); const edge = new T.Mesh(new T.BoxGeometry(1.32, 0.006, 0.006), edgeM); edge.userData.noShadow = true; G.scene.add(edge);
+  let tagL = null;
+  const dots = [0, 1, 2].map(i => { const m = new T.Mesh(new T.SphereGeometry(0.018, 16, 12), new T.MeshBasicMaterial({color: 0x1B2430})); m.userData.noShadow = true; G.scene.add(m); return m; });
+  const poles = [0, 1, 2].map(i => { const m = K.box(G, 0.006, 1, 0.006, 0x1B2430, 0.5); G.scene.add(m); return m; });
+  const bars = [0, 1, 2].map(i => { const m = K.box(G, 1, 0.02, 0.1, COLS[i], 0.5, 0.1); G.scene.add(m); return m; });
+  const tagsP = [0, 1, 2].map(() => null);
+  /* the screen of the dispatch and of the price */
+  const scr = K.screen(G, {at: [0.1, 1.7, -0.97], w: 1.2, h: 0.46, px: [1500, 575], draw: (c, cw, ch) => {
+    c.fillStyle = "#0E151C"; c.fillRect(0, 0, cw, ch); c.fillStyle = "#FFFFFF"; c.textBaseline = "middle"; c.font = `700 42px ${K.F}`;
+    const st = S.k >= 0 ? STEPS[S.k] : null;
+    if (st && st.day) {
+      c.fillText("PRICE OF THE CAMPUS OVER THE DAY", 30, 44);
+      const X0 = 90, X1 = cw - 30, Yb = ch - 60, Yt = 100, bw = (X1 - X0) / 24, Yp = p => Yb - (p - 0.12) / 0.13 * (Yb - Yt);
+      O.PRICE.forEach((p, t) => { c.fillStyle = t === 19 ? "#FF8A80" : "#6FB5E8"; c.fillRect(X0 + t * bw + 3, Yp(p), bw - 6, Yb - Yp(p)); });
+      c.fillStyle = "#A9B6C2"; c.font = `500 28px ${K.F}`; [0, 6, 12, 18, 23].forEach(t => c.fillText(String(t), X0 + t * bw + 6, ch - 28));
+      [0.14, 0.18, 0.22].forEach(p => c.fillText(p.toFixed(2), 10, Yp(p)));
+      c.fillStyle = "#FF8A80"; c.font = `700 32px ${K.F}`; c.fillText("19:00: 0.24 €/kWh", X0 + 14 * bw, Yt - 20);
+      return;
+    }
+    c.fillText(st && st.s ? `ECONOMIC DISPATCH OF ${st.s.D} MW` : "THREE UNITS OF THE REGIONAL GRID", 30, 44);
+    c.font = `500 34px ${K.F}`; c.fillStyle = "#A9B6C2"; ["unit", "cost (€/h)", "limits (MW)", "output (MW)", "incremental"].forEach((s, i) => c.fillText(s, [30, 270, 640, 900, 1170][i], 112));
+    [0, 1, 2].forEach(i => { const y = 180 + i * 78, P = st && st.s ? st.s.P[i] : null;
+      c.fillStyle = CSS[i]; c.font = `700 34px ${K.F}`; c.fillText(NAMES[i], 30, y);
+      c.fillStyle = "#E9EDF0"; c.font = `600 32px ${K.MONO}`; c.fillText(`${O.B[i]}P + ${O.C[i]}P²`, 270, y); c.fillText(`${O.PMIN[i]} to ${O.PMAX[i]}`, 640, y);
+      c.fillStyle = "#8CF5B8"; c.fillText(P == null ? "-" : f1(P), 900, y); c.fillText(P == null ? "-" : f2(inc(i, Math.min(O.PMAX[i], Math.max(O.PMIN[i], P)))), 1170, y); });
+    if (st && st.s) { c.fillStyle = "#F2C14E"; c.font = `700 36px ${K.MONO}`; c.fillText(`λ = ${f2(st.s.lam)} €/MWh  →  price ${(0.10 + st.s.lam / 1000).toFixed(4)} €/kWh`, 30, ch - 34); }
+  }});
+  const cur = {y: Yc(30)}, goal = {y: Yc(30)};
+  function place() {
+    const st = S.k >= 0 ? STEPS[S.k] : null, s = st ? st.s : null;
+    plane.visible = edge.visible = !!s; plane.position.set(-0.02, cur.y, 0); edge.position.set(-0.02, cur.y, 0.39);
+    [0, 1, 2].forEach(i => {
+      const vis = !!s; dots[i].visible = poles[i].visible = bars[i].visible = vis;
+      if (tagsP[i]) { G.scene.remove(tagsP[i]); tagsP[i] = null; }
+      if (!vis) return;
+      const P = s.P[i], x = X(P), y = Yc(inc(i, P));
+      dots[i].position.set(x, y, ZL[i]); poles[i].scale.y = Math.max(0.001, y - TOP); poles[i].position.set(x, (y + TOP) / 2, ZL[i] + 0.065);
+      const w = Math.max(0.004, P * 0.002); bars[i].scale.x = w; bars[i].position.set(X(0) + w / 2, TOP + 0.01, ZL[i]);
+      const t = label3D(`${f1(P)} MW`, {scale: 0.00055}); t.position.set(X(0) + w + 0.07, TOP + 0.05, ZL[i] + 0.05); G.scene.add(t); tagsP[i] = t;
+    });
+    if (tagL) { G.scene.remove(tagL); tagL = null; }
+    if (s) { tagL = label3D(`λ = ${f2(s.lam)} €/MWh`, {scale: 0.0007, bg: "rgba(30,111,168,0.92)", color: "#FFFFFF"}); tagL.position.set(0.5, cur.y + 0.05, 0.36); G.scene.add(tagL); }
+  }
+  V = function () { const st = S.k >= 0 ? STEPS[S.k] : null; goal.y = st && st.s ? Yc(st.s.lam) : Yc(30); if (!st || !st.s) cur.y = goal.y; place(); scr.panel.redraw(); G.redraw(); };
+  G.onTick(dt => { const moving = Math.abs(cur.y - goal.y) > 1e-4; if (!moving) return false; cur.y = reduced() ? goal.y : cur.y + (goal.y - cur.y) * Math.min(1, dt * 3); place(); return true; });
+  G.renderer.domElement.setAttribute("aria-label", "Three ramps on a table, one for each unit of the regional grid, rising with the output; a translucent blue plane at the level of the incremental cost cuts them at the operating points, with bars for the outputs and a screen with the dispatch behind.");
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { scr.panel.redraw(); rulerX.redraw(); rulerY.redraw(); G.redraw(); });
+  say.textContent = HELLO;
+  show();
+  window.SHOT_PREP = window.SHOT_PREP || {};
+  window.SHOT_PREP.scene = window.SHOT_PREP["ld-3d"] = () => { go(3); cur.y = goal.y; place(); G.redraw(); };
+  window.SCENE_TEST = {go, state: () => ({k: S.k})};
+})();
+
+initLecture(9);
+})();</script></body></html>

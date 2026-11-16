@@ -49,9 +49,9 @@ The week runs as one synchronous session of about three hours in class or online
 | 0:00 to 0:15 | Opening: The campus microgrid so far and the question of the week, whether the computations of the campus finish in time. Students open the Colab notebook, save a copy in Drive and run Section 0 |
 | 0:15 to 0:35 | Colab, together: Python step 7, ending with the scheduler loop |
 | 0:35 to 0:55 | Lecture page, part 1: Tasks on one processor and Section 1 |
-| 0:55 to 1:30 | Lecture page, part 2: Rate-monotonic scheduling with the 3D scene One processor, four tasks, the calculator of Part B and Section 2 |
+| 0:55 to 1:30 | Lecture page, part 2: Rate-monotonic scheduling with the 3D scene One processor, four tasks, and Section 2 |
 | 1:30 to 1:40 | Break |
-| 1:40 to 2:10 | Lecture page, part 3: Earliest deadline first, the controller bench of Part A and Section 3 |
+| 1:40 to 2:10 | Lecture page, part 3: Earliest deadline first, the controller bench of Part A, the calculator of Part B and Section 3 |
 | 2:10 to 2:40 | Lecture page, part 4: The PLC scan cycle with the animation, the PLC cabinet of Part C and Section 4 |
 | 2:40 to 3:00 | The development templates and the engineering side, the campus microgrid, stage 7 with Part D and Section 5, and the closing section on learning to schedule. After the session: Section 6, the self-assessment, the PDF notes and the weekly task |
 
