@@ -4,6 +4,8 @@ Every reference used anywhere in the course, in alphabetical order of its key. E
 
 - `alur2015` Alur, R. (2015). *Principles of Cyber-Physical Systems*. MIT Press. <https://cis.upenn.edu/~alur/pcps.html>
 - `astrom1997` Åström, K. J., & Wittenmark, B. (1997). *Computer-Controlled Systems: Theory and Design* (3rd ed.). Prentice Hall.
+- `astrom2021` Åström, K. J., & Murray, R. M. (2021). *Feedback Systems: An Introduction for Scientists and Engineers* (2nd ed.). Princeton University Press.
+- `carrillo2013` Carrillo, C., Obando Montaño, A. F., Cidrás, J., & Díaz-Dorado, E. (2013). Review of power curve modelling for wind turbines. *Renewable and Sustainable Energy Reviews*, *21*, 572-581. <https://doi.org/10.1016/j.rser.2013.01.012>
 - `gu2003` Gu, K., Kharitonov, V. L., & Chen, J. (2003). *Stability of Time-Delay Systems*. Birkhäuser. <https://doi.org/10.1007/978-1-4612-0039-0>
 - `hayes1950` Hayes, N. D. (1950). Roots of the transcendental equation associated with a certain difference-differential equation. *Journal of the London Mathematical Society*, *s1-25*(3), 226-232. <https://doi.org/10.1112/jlms/s1-25.3.226>
 - `hespanha2007` Hespanha, J. P., Naghshtabrizi, P., & Xu, Y. (2007). A survey of recent results in networked control systems. *Proceedings of the IEEE*, *95*(1), 138-162. <https://doi.org/10.1109/JPROC.2006.887288>
@@ -16,6 +18,7 @@ Every reference used anywhere in the course, in alphabetical order of its key. E
 - `kose2018` Kose, U. (2018). Are we safe enough in the future of artificial intelligence? A discussion on machine ethics and artificial intelligence safety. *BRAIN. Broad Research in Artificial Intelligence and Neuroscience*, *9*(2), 184-197. <https://doi.org/10.5281/zenodo.1245926>
 - `kundur1994` Kundur, P. (1994). *Power System Stability and Control*. McGraw-Hill.
 - `kurose2021` Kurose, J. F., & Ross, K. W. (2021). *Computer Networking: A Top-Down Approach* (8th ed.). Pearson. <https://www.pearson.com/store/p/computer-networking/P100002980218/9780136681557>
+- `lasseter2004` Lasseter, R. H., & Paigi, P. (2004). Microgrid: A conceptual solution. In *2004 IEEE 35th Annual Power Electronics Specialists Conference* (pp. 4285-4290). IEEE. <https://doi.org/10.1109/PESC.2004.1354758>
 - `lee2008` Lee, E. A. (2008). Cyber physical systems: Design challenges. In *2008 11th IEEE International Symposium on Object and Component-Oriented Real-Time Distributed Computing (ISORC)* (pp. 363-369). IEEE. <https://doi.org/10.1109/ISORC.2008.25>
 - `lee2017` Lee, E. A., & Seshia, S. A. (2017). *Introduction to Embedded Systems: A Cyber-Physical Systems Approach* (2nd ed.). MIT Press. <https://ptolemy.berkeley.edu/books/leeseshia/>
 - `little1961` Little, J. D. C. (1961). A proof for the queuing formula: L = λW. *Operations Research*, *9*(3), 383-387. <https://doi.org/10.1287/opre.9.3.383>
@@ -30,5 +33,6 @@ Every reference used anywhere in the course, in alphabetical order of its key. E
 - `python` Van Rossum, G., & Drake, F. L. (2009). *Python 3 Reference Manual*. CreateSpace.
 - `rajkumar2010` Rajkumar, R., Lee, I., Sha, L., & Stankovic, J. (2010). Cyber-physical systems: The next computing revolution. In *Proceedings of the 47th Design Automation Conference* (pp. 731-736). ACM. <https://doi.org/10.1145/1837274.1837461>
 - `shi2016` Shi, W., Cao, J., Zhang, Q., Li, Y., & Xu, L. (2016). Edge computing: Vision and challenges. *IEEE Internet of Things Journal*, *3*(5), 637-646. <https://doi.org/10.1109/JIOT.2016.2579198>
+- `skoplaki2009` Skoplaki, E., & Palyvos, J. A. (2009). On the temperature dependence of photovoltaic module electrical performance: A review of efficiency/power correlations. *Solar Energy*, *83*(5), 614-624. <https://doi.org/10.1016/j.solener.2008.10.008>
 - `virtanen2020` Virtanen, P., Gommers, R., Oliphant, T. E., Haberland, M., Reddy, T., Cournapeau, D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., van der Walt, S. J., Brett, M., Wilson, J., Millman, K. J., Mayorov, N., Nelson, A. R. J., Jones, E., Kern, R., Larson, E., Carey, C. J., Polat, İ., Feng, Y., Moore, E. W., VanderPlas, J., Laxalde, D., Perktold, J., Cimrman, R., Henriksen, I., Quintero, E. A., Harris, C. R., Archibald, A. M., Ribeiro, A. H., Pedregosa, F., van Mulbregt, P., & SciPy 1.0 Contributors. (2020). SciPy 1.0: Fundamental algorithms for scientific computing in Python. *Nature Methods*, *17*(3), 261-272. <https://doi.org/10.1038/s41592-019-0686-2>
 - `zhang2001` Zhang, W., Branicky, M. S., & Phillips, S. M. (2001). Stability of networked control systems. *IEEE Control Systems Magazine*, *21*(1), 84-99. <https://doi.org/10.1109/37.898794>

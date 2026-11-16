@@ -7,6 +7,14 @@
   "text": "Åström, K. J., & Wittenmark, B. (1997). Computer-Controlled Systems: Theory and Design (3rd ed.). Prentice Hall.",
   "link": ""
  },
+ "astrom2021": {
+  "text": "Åström, K. J., & Murray, R. M. (2021). Feedback Systems: An Introduction for Scientists and Engineers (2nd ed.). Princeton University Press.",
+  "link": ""
+ },
+ "carrillo2013": {
+  "text": "Carrillo, C., Obando Montaño, A. F., Cidrás, J., & Díaz-Dorado, E. (2013). Review of power curve modelling for wind turbines. Renewable and Sustainable Energy Reviews, 21, 572-581.",
+  "link": "https://doi.org/10.1016/j.rser.2013.01.012"
+ },
  "gu2003": {
   "text": "Gu, K., Kharitonov, V. L., & Chen, J. (2003). Stability of Time-Delay Systems. Birkhäuser.",
   "link": "https://doi.org/10.1007/978-1-4612-0039-0"
@@ -54,6 +62,10 @@
  "kurose2021": {
   "text": "Kurose, J. F., & Ross, K. W. (2021). Computer Networking: A Top-Down Approach (8th ed.). Pearson.",
   "link": "https://www.pearson.com/store/p/computer-networking/P100002980218/9780136681557"
+ },
+ "lasseter2004": {
+  "text": "Lasseter, R. H., & Paigi, P. (2004). Microgrid: A conceptual solution. In 2004 IEEE 35th Annual Power Electronics Specialists Conference (pp. 4285-4290). IEEE.",
+  "link": "https://doi.org/10.1109/PESC.2004.1354758"
  },
  "lee2008": {
   "text": "Lee, E. A. (2008). Cyber physical systems: Design challenges. In 2008 11th IEEE International Symposium on Object and Component-Oriented Real-Time Distributed Computing (ISORC) (pp. 363-369). IEEE.",
@@ -110,6 +122,10 @@
  "shi2016": {
   "text": "Shi, W., Cao, J., Zhang, Q., Li, Y., & Xu, L. (2016). Edge computing: Vision and challenges. IEEE Internet of Things Journal, 3(5), 637-646.",
   "link": "https://doi.org/10.1109/JIOT.2016.2579198"
+ },
+ "skoplaki2009": {
+  "text": "Skoplaki, E., & Palyvos, J. A. (2009). On the temperature dependence of photovoltaic module electrical performance: A review of efficiency/power correlations. Solar Energy, 83(5), 614-624.",
+  "link": "https://doi.org/10.1016/j.solener.2008.10.008"
  },
  "virtanen2020": {
   "text": "Virtanen, P., Gommers, R., Oliphant, T. E., Haberland, M., Reddy, T., Cournapeau, D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., van der Walt, S. J., Brett, M., Wilson, J., Millman, K. J., Mayorov, N., Nelson, A. R. J., Jones, E., Kern, R., Larson, E., Carey, C. J., Polat, İ., Feng, Y., Moore, E. W., VanderPlas, J., Laxalde, D., Perktold, J., Cimrman, R., Henriksen, I., Quintero, E. A., Harris, C. R., Archibald, A. M., Ribeiro, A. H., Pedregosa, F., van Mulbregt, P., & SciPy 1.0 Contributors. (2020). SciPy 1.0: Fundamental algorithms for scientific computing in Python. Nature Methods, 17(3), 261-272.",
