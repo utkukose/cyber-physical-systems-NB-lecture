@@ -31,6 +31,10 @@
   "text": "Bennett, W. R. (1948). Spectra of quantized signals. Bell System Technical Journal, 27(3), 446-472.",
   "link": "https://doi.org/10.1002/j.1538-7305.1948.tb01340.x"
  },
+ "birkl2017": {
+  "text": "Birkl, C. R., Roberts, M. R., McTurk, E., Bruce, P. G., & Howey, D. A. (2017). Degradation diagnostics for lithium ion cells. Journal of Power Sources, 341, 373-386.",
+  "link": "https://doi.org/10.1016/j.jpowsour.2016.12.011"
+ },
  "blochwitz2011": {
   "text": "Blochwitz, T., Otter, M., Arnold, M., Bausch, C., Clauß, C., Elmqvist, H., Junghanns, A., Mauss, J., Monteiro, M., Neidhold, T., Neumerkel, D., Olsson, H., Peetz, J.-V., & Wolf, S. (2011). The Functional Mockup Interface for tool independent exchange of simulation models. In Proceedings of the 8th International Modelica Conference (pp. 105-114). Linköping University Electronic Press.",
   "link": "https://doi.org/10.3384/ecp11063105"
@@ -159,6 +163,10 @@
   "text": "Institute of Electrical and Electronics Engineers. (2018). IEEE Standard for Interconnection and Interoperability of Distributed Energy Resources with Associated Electric Power Systems Interfaces (IEEE Std 1547-2018). IEEE.",
   "link": ""
  },
+ "jardine2006": {
+  "text": "Jardine, A. K. S., Lin, D., & Banjevic, D. (2006). A review on machinery diagnostics and prognostics implementing condition-based maintenance. Mechanical Systems and Signal Processing, 20(7), 1483-1510.",
+  "link": "https://doi.org/10.1016/j.ymssp.2005.09.012"
+ },
  "ji2023": {
   "text": "Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y. J., Madotto, A., & Fung, P. (2023). Survey of hallucination in natural language generation. ACM Computing Surveys, 55(12), 1-38.",
   "link": "https://doi.org/10.1145/3571730"
@@ -259,6 +267,10 @@
   "text": "Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. Computing in Science & Engineering, 9(3), 90-95.",
   "link": "https://doi.org/10.1109/MCSE.2007.55"
  },
+ "metropolis1949": {
+  "text": "Metropolis, N., & Ulam, S. (1949). The Monte Carlo method. Journal of the American Statistical Association, 44(247), 335-341.",
+  "link": "http://links.jstor.org/sici?sici=0162-1459%28194909%2944%3A247%3C335%3ATMCM%3E2.0.CO%3B2-3"
+ },
  "mills1991": {
   "text": "Mills, D. L. (1991). Internet time synchronization: The network time protocol. IEEE Transactions on Communications, 39(10), 1482-1493.",
   "link": "https://doi.org/10.1109/26.103043"
@@ -355,6 +367,10 @@
   "text": "Schweppe, F. C., & Wildes, J. (1970). Power system static-state estimation, Part I: Exact model. IEEE Transactions on Power Apparatus and Systems, PAS-89(1), 120-125.",
   "link": "https://doi.org/10.1109/TPAS.1970.292678"
  },
+ "severson2019": {
+  "text": "Severson, K. A., Attia, P. M., Jin, N., Perkins, N., Jiang, B., Yang, Z., Chen, M. H., Aykol, M., Herring, P. K., Fraggedakis, D., Bazant, M. Z., Harris, S. J., Chueh, W. C., & Braatz, R. D. (2019). Data-driven prediction of battery cycle life before capacity degradation. Nature Energy, 4(5), 383-391.",
+  "link": "https://doi.org/10.1038/s41560-019-0356-8"
+ },
  "sha1990": {
   "text": "Sha, L., Rajkumar, R., & Lehoczky, J. P. (1990). Priority inheritance protocols: An approach to real-time synchronization. IEEE Transactions on Computers, 39(9), 1175-1185.",
   "link": "https://doi.org/10.1109/12.57058"
@@ -367,6 +383,10 @@
   "text": "Shi, W., Cao, J., Zhang, Q., Li, Y., & Xu, L. (2016). Edge computing: Vision and challenges. IEEE Internet of Things Journal, 3(5), 637-646.",
   "link": "https://doi.org/10.1109/JIOT.2016.2579198"
  },
+ "si2011": {
+  "text": "Si, X.-S., Wang, W., Hu, C.-H., & Zhou, D.-H. (2011). Remaining useful life estimation – A review on the statistical data driven approaches. European Journal of Operational Research, 213(1), 1-14.",
+  "link": "https://doi.org/10.1016/j.ejor.2010.11.018"
+ },
  "skoplaki2009": {
   "text": "Skoplaki, E., & Palyvos, J. A. (2009). On the temperature dependence of photovoltaic module electrical performance: A review of efficiency/power correlations. Solar Energy, 83(5), 614-624.",
   "link": "https://doi.org/10.1016/j.solener.2008.10.008"
@@ -374,6 +394,10 @@
  "stouffer2023": {
   "text": "Stouffer, K., Pease, M., Tang, C., Zimmerman, T., Pillitteri, V., Lightman, S., Hahn, A., Saravia, S., Sherule, A., & Thompson, M. (2023). Guide to Operational Technology (OT) Security (NIST Special Publication 800-82r3). National Institute of Standards and Technology.",
   "link": "https://doi.org/10.6028/NIST.SP.800-82r3"
+ },
+ "tao2018": {
+  "text": "Tao, F., Zhang, M., Liu, Y., & Nee, A. Y. C. (2018). Digital twin driven prognostics and health management for complex equipment. CIRP Annals, 67(1), 169-172.",
+  "link": "https://doi.org/10.1016/j.cirp.2018.04.055"
  },
  "tao2019": {
   "text": "Tao, F., Zhang, H., Liu, A., & Nee, A. Y. C. (2019). Digital Twin in industry: State-of-the-art. IEEE Transactions on Industrial Informatics, 15(4), 2405-2415.",
@@ -402,6 +426,10 @@
  "wood2014": {
   "text": "Wood, A. J., Wollenberg, B. F., & Sheblé, G. B. (2014). Power Generation, Operation, and Control (3rd ed.). Wiley.",
   "link": ""
+ },
+ "xu2018": {
+  "text": "Xu, B., Oudalov, A., Ulbig, A., Andersson, G., & Kirschen, D. S. (2018). Modeling of lithium-ion battery degradation for cell life assessment. IEEE Transactions on Smart Grid, 9(2), 1131-1140.",
+  "link": "https://doi.org/10.1109/TSG.2016.2578950"
  },
  "zhang2001": {
   "text": "Zhang, W., Branicky, M. S., & Phillips, S. M. (2001). Stability of networked control systems. IEEE Control Systems Magazine, 21(1), 84-99.",
