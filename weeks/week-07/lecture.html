@@ -1,0 +1,1792 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embedded Computing and Real-Time Scheduling: RM, EDF and the PLC Scan Cycle | Cyber-Physical Systems</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><style>:root{
+  --ink:#1B2430; --paper:#F3F6F8; --panel:#FFFFFF; --steel:#56616D; --line:#D3DCE3; --grid:#E6ECF0;
+  --accent:#1E6FA8; --ok:#2E8B57; --bad:#B53F2E; --band:rgba(30,111,168,.09);
+  --c1:#1F5F8B; --c2:#C98510; --c3:#2E8B57; --c4:#8B3F82; --c5:#B53F2E;
+  --sans:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --head:'Barlow Semi Condensed','Arial Narrow','Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ink:#E4E9EE; --paper:#10161C; --panel:#18212A; --steel:#A2AFBB; --line:#2A3642; --grid:#1D2731;
+  --accent:#7DB9E8; --ok:#63C08E; --bad:#E58372; --band:rgba(125,185,232,.13);
+  --c1:#6FB0DA; --c2:#E6A83F; --c3:#63C08E; --c4:#CC8CC3; --c5:#E58372;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.62 var(--sans)}
+a{color:var(--c1);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:920px;margin:0 auto;padding:26px 20px 64px}
+header.top{border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:22px}
+header.top .course{margin:0;color:var(--steel);font-size:.93rem}
+header.top h1{font-family:var(--head);font-weight:600;font-size:clamp(1.8rem,4.2vw,2.7rem);line-height:1.08;margin:.3rem 0 .45rem;letter-spacing:.005em}
+header.top .who{margin:0;font-size:.9rem;color:var(--steel)}
+header.top nav{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 16px}
+header.top nav a{font-size:.95rem}
+h2{font-family:var(--head);font-weight:600;font-size:1.7rem;line-height:1.15;margin:2rem 0 .55rem;scroll-margin-top:44px}
+h3{font-family:var(--head);font-weight:600;font-size:1.28rem;margin:1.4rem 0 .4rem;scroll-margin-top:44px}
+p,li{max-width:72ch;overflow-wrap:break-word}
+.small{font-size:.87rem;color:var(--steel)}
+code,pre{font-family:var(--mono);font-size:.86em}
+code{background:var(--band);padding:.08em .3em;border-radius:3px}
+p code,li code,td code{overflow-wrap:anywhere}
+pre{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c1);padding:12px 14px;overflow-x:auto;border-radius:4px;line-height:1.45}
+pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.93rem;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:var(--band)}
+.tablewrap{overflow-x:auto}
+img{max-width:100%;height:auto}
+figure{margin:1.3rem 0}
+figure img{border:1px solid var(--line);border-radius:4px;background:#fff}
+figcaption{font-size:.87rem;color:var(--steel);margin-top:.35rem}
+button,select,input,textarea{font:inherit}
+select{padding:.3rem .45rem;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--ink);max-width:100%}
+.btn{background:var(--ink);color:var(--paper);border:0;border-radius:4px;padding:.42rem .9rem;cursor:pointer;min-height:2.2rem}
+.btn:hover{background:var(--accent)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.ctl{display:flex;flex-direction:column;gap:2px;min-width:170px;flex:1}
+.ctl label{font-size:.86rem;color:var(--steel)}
+.ctl output{font-family:var(--mono);font-size:.85rem;color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.bench{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px;margin:12px 0}
+.paper{background-color:var(--panel);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:12px 12px;border:1px solid var(--line);border-radius:4px;display:block;width:100%;touch-action:none}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.readout div{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:6px 9px;font-size:.86rem}
+.readout b{display:block;font-family:var(--mono);font-size:1.05rem}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.84rem;color:var(--steel)}
+.legend i{display:inline-block;width:14px;height:4px;margin-right:5px;vertical-align:middle;border-radius:2px}
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--line);flex-wrap:wrap;margin-top:8px}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:.5rem .85rem;cursor:pointer;color:var(--steel)}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent);font-weight:700}
+.tabpanel[hidden]{display:none}
+.kc{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:0 6px 6px 0;padding:10px 14px;margin:1.2rem 0}
+.kc .q{font-weight:700;margin:0 0 6px}
+.kc label{display:block;padding:3px 0;cursor:pointer}
+.kc .fb{margin-top:6px;font-size:.93rem}
+.fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+.anim{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;margin:1.3rem 0}
+.lec-tools{position:sticky;top:0;z-index:5;background:var(--paper);padding:6px 0;border-bottom:1px solid var(--line)}
+.lec-prog{display:flex;align-items:center;gap:10px;font-size:.84rem;color:var(--steel)}
+.lec-bar{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.lec-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.cite{cursor:pointer;color:var(--c1);border-bottom:1px dotted var(--c1)}
+.pop{position:absolute;z-index:20;max-width:420px;background:var(--panel);border:1px solid var(--line);box-shadow:0 6px 18px rgba(0,0,0,.18);padding:10px 12px;border-radius:6px;font-size:.86rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.card{min-height:110px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;cursor:pointer;font-size:.93rem}
+.card .f{font-weight:700}
+.card .b{display:none;color:var(--steel)} .card.flip .f{display:none} .card.flip .b{display:block}
+footer.sig{margin-top:48px;border-top:2px solid var(--ink);padding-top:14px;font-size:.84rem;color:var(--steel)}
+footer.sig p{max-width:none}
+.callout{border-left:4px solid var(--accent);background:var(--panel);padding:10px 14px;margin:14px 0;border-radius:4px}
+.callout b.t{display:block;margin-bottom:4px;color:var(--accent)}
+.callout.life{border-left-color:var(--c2)}
+.callout.life b.t{color:var(--c2)}
+.callout.ai{border-left-color:var(--c4)}
+.callout.ai b.t{color:var(--c4)}
+.callout.discuss{border-left-color:var(--c3)}
+.callout.discuss b.t{color:var(--c3)}
+.callout.discuss ol{margin:4px 0 2px;padding-left:1.3rem}
+.callout.discuss li{margin:3px 0}
+.sus-t td,.sus-t th{text-align:center;padding:4px 6px}
+.sus-t td:first-child,.sus-t th:first-child{text-align:left;min-width:14rem}
+.sus-t input{width:1.1rem;height:1.1rem}
+.eq{overflow-x:auto;overflow-y:hidden;margin:10px 0;text-align:center}
+.labref{margin:-4px 0 14px;text-align:center;font-size:.87rem;color:var(--steel);max-width:none}
+.labref a{color:var(--accent);font-weight:600;white-space:nowrap}
+.colabbox{display:flex;gap:.8rem;align-items:center;border:1px solid var(--line);border-left:5px solid #f9ab00;background:var(--panel);border-radius:10px;padding:.65rem .9rem;margin:1.1rem 0;scroll-margin-top:50px}
+.colabbox p{margin:0}
+.colabbox .colabbtn img{display:block;height:22px}
+.labbox{display:flex;gap:.8rem;align-items:center;border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--panel);border-radius:10px;padding:.65rem .9rem;margin:1.1rem 0;scroll-margin-top:50px}
+.labbox p{margin:0}
+.labbox a.btn{white-space:nowrap;text-decoration:none;font-size:.9rem}
+@media (max-width:560px){.labbox,.colabbox{flex-direction:column;align-items:flex-start}}
+.backpart{margin:.9rem 0 0;font-size:.95rem;border-left:4px solid var(--accent);padding:.35rem .7rem;background:var(--panel);border-radius:6px}
+.backpart a{font-weight:600}
+.labpart{scroll-margin-top:10px}
+/* Step-by-step calculators of the lab */
+.stepcalc{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:12px 0;outline:none}
+.stepcalc .bench{margin:0 0 10px}
+.sc-presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 0}
+.sc-presets .btn{font-size:.86rem;padding:.22rem .6rem;min-height:0}
+ol.sc-steps{list-style:none;margin:8px 0 0;padding:0}
+ol.sc-steps li{max-width:none;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:0 6px 6px 0;padding:8px 12px;margin:8px 0;background:var(--paper)}
+ol.sc-steps li.cur{border-left-color:var(--accent);background:var(--panel);box-shadow:0 1px 8px rgba(0,0,0,.07)}
+ol.sc-steps li.new{animation:scin .35s ease}
+.sc-st{font-weight:700;font-size:.97rem}
+.sc-st .sc-n{display:inline-block;min-width:4.2em;color:var(--accent);font-family:var(--head);font-weight:600}
+.sc-x{font-size:.93rem;color:var(--steel);margin:3px 0;max-width:none}
+.sc-m{overflow-x:auto;overflow-y:hidden;margin:4px 0;padding:2px 0;font-size:1.04em}
+.sc-q{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin-top:6px;font-size:.93rem}
+.sc-q input{width:7.5rem;padding:.25rem .4rem;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--ink)}
+.sc-ok{font-size:.86rem;color:var(--ok);font-weight:600}
+.sc-nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 4px;padding-top:10px;border-top:1px solid var(--line)}
+.sc-nav .sc-count{margin-left:auto;font-size:.88rem;color:var(--steel)}
+.sc-dots{display:flex;gap:4px;width:100%}
+.sc-dots i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.sc-dots i.on{background:var(--accent)}
+code.tex{font-size:.8rem;white-space:pre-wrap;word-break:break-word}
+@keyframes scin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+/* Interactive scenes of the lecture pages */
+.scene{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c2);border-radius:10px;padding:12px 14px;margin:1.4rem 0;scroll-margin-top:50px}
+.scene>p.small{margin:0 0 4px}
+.scene .sn-svg{display:block;width:100%;max-width:600px;height:auto;margin:6px auto 2px}
+.scene svg text{font-family:var(--sans);fill:var(--ink)}
+.sn-btns{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px;align-items:center}
+.sn-btns .btn{font-size:.9rem;padding:.34rem .75rem;min-height:2.15rem;line-height:1.25}
+.sn-btns .btn[aria-pressed=true]{background:var(--band);border-color:var(--accent);color:var(--ink);box-shadow:inset 0 0 0 1px var(--accent)}
+.sn-say{min-height:3.3em;margin:6px 0 4px;padding:7px 11px;border-radius:8px;background:var(--band);font-size:.95rem;max-width:none}
+.sn-ro{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.86rem;color:var(--steel);margin:4px 0 0}
+.sn-ro b{font-family:var(--mono);color:var(--ink);font-weight:600;font-size:.84rem}
+.sn-ro .readout{flex:1 1 100%}
+/* Interface clinic: mock screens of the clinic app, before and after */
+.uiclinic{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c1);border-radius:10px;padding:12px 14px;margin:1.4rem 0}
+.uiclinic>p.small{margin:0 0 8px}
+.ui-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+@media (max-width:620px){.ui-pair{grid-template-columns:1fr}}
+.ui-col h4{margin:0 0 6px;font-family:var(--head);font-weight:600;font-size:1.05rem}
+.ui-col h4 .tag{display:inline-block;font-size:.78rem;font-family:var(--sans);font-weight:700;border-radius:999px;padding:.05rem .55rem;margin-right:6px;color:#fff}
+.ui-col h4 .tag.bad{background:#B53F2E} .ui-col h4 .tag.good{background:#2E8B57}
+.ui-col p.ui-why{font-size:.88rem;color:var(--steel);margin:8px 0 0}
+.phone{width:100%;max-width:270px;margin:0 auto;border:9px solid #23262E;border-radius:26px;background:#fff;color:#1E2433;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.18);font:14px/1.4 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color-scheme:light}
+.phone .st{display:flex;justify-content:space-between;font-size:11px;padding:4px 12px;background:#F2F2F5;color:#555}
+.phone .ab{background:#2F5D8A;color:#fff;padding:9px 12px;font-weight:700;font-size:15px}
+.phone .bd{padding:10px 12px;min-height:250px;position:relative}
+.phone .lbl{font-size:12px;color:#555;margin:6px 0 3px}
+.phone .fld{border:1px solid #B9BEC9;border-radius:6px;padding:7px 9px;background:#fff;font-size:13px;color:#1E2433}
+.phone .fld.err{border-color:#C0392B}
+.phone .pb{display:block;width:100%;margin:12px 0 0;border:0;border-radius:8px;padding:10px;background:#2F5D8A;color:#fff;font-weight:700;font-size:14px;text-align:center}
+.phone .pb.dis{background:#B9BEC9;color:#fff}
+.phone .msg{border-radius:6px;padding:7px 9px;font-size:12.5px;margin:8px 0}
+.phone .msg.e{background:#FDECEA;color:#8A1F11;border:1px solid #F3B8AE}
+.phone .msg.o{background:#E8F5EC;color:#1E5E34;border:1px solid #A9D8B8}
+.phone .msg.raw{background:#EEE;color:#333;font-family:monospace;border:1px solid #CCC}
+.phone .chips{display:flex;flex-wrap:wrap;gap:5px;margin:5px 0}
+.phone .chip{border:1px solid #9FB3C8;border-radius:999px;padding:3px 9px;font-size:12px;background:#F4F8FC;color:#1E2433}
+.phone .list{border:1px solid #B9BEC9;border-radius:6px;max-height:140px;overflow:hidden;font-size:12px}
+.phone .list div{padding:4px 8px;border-bottom:1px solid #E5E7EC}
+.phone .tabbar{display:flex;border-top:1px solid #D5D8DF;background:#F7F7FA}
+.phone .tabbar div{flex:1;text-align:center;font-size:11px;padding:7px 2px;color:#555}
+.phone .tabbar div.on{color:#2F5D8A;font-weight:700}
+.phone .menu{position:absolute;left:0;top:0;bottom:0;width:72%;background:#F7F7FA;border-right:1px solid #D5D8DF;padding:10px;font-size:13px}
+.phone .menu div{padding:7px 4px;border-bottom:1px solid #E5E7EC}
+.phone .menu div.sub{padding-left:16px;color:#777;font-size:12px}
+.phone .card2{border:1px solid #D5D8DF;border-radius:8px;padding:9px;margin:8px 0;font-size:12.5px}
+.phone .muted{color:#888;font-size:12px}
+.phone .spin{display:inline-block;width:12px;height:12px;border:2px solid #B9BEC9;border-top-color:#2F5D8A;border-radius:50%;vertical-align:-2px}
+/* 3D parts of the interactive lab */
+.three{position:relative;width:100%;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#DDE3EA;touch-action:none}
+.three canvas{display:block;width:100%;height:100%}
+.three .hud{position:absolute;left:8px;top:8px;right:8px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none}
+.three .hud span:empty{display:none}
+.three .hud span{background:rgba(255,255,255,.88);color:#1E2433;border-radius:6px;padding:3px 8px;font-size:.84rem}
+.three .big{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);background:rgba(255,255,255,.92);color:#1E2433;border-radius:10px;padding:10px 16px;font-size:1.05rem;font-weight:700;pointer-events:none;text-align:center}
+.three .tools3d{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:5px;z-index:2}
+.three .tools3d button{min-width:30px;height:30px;padding:0 6px;border:1px solid rgba(30,36,51,.25);border-radius:7px;background:rgba(255,255,255,.9);color:#1E2433;font:600 .9rem/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.three .tools3d button:hover{background:#fff}
+.three .tools3d button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.three .tools3d.off{opacity:.35;pointer-events:none}
+.three .inset3d{position:absolute;left:10px;bottom:10px;width:min(38%,330px);height:auto;border:3px solid #fff;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.28);pointer-events:none;z-index:2;background:#F4F6F9}
+.three .no3d{padding:18px;color:#1E2433}
+.kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 .35rem;font-family:var(--mono);font-size:.82rem;background:var(--panel)}
+/* Self-assessment and reflection */
+.sa{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:12px 0}
+.sa .q{font-weight:700;margin:0 0 6px}
+.sa label{display:block;padding:2px 0;cursor:pointer}
+.conf{display:flex;gap:10px;flex-wrap:wrap;font-size:.86rem;color:var(--steel);margin-top:4px}
+textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4px;padding:8px;background:var(--panel);color:var(--ink)}
+.weeks{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin:14px 0}
+.wk{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:4px;padding:10px 12px}
+.wk h3{margin:.1rem 0 .3rem;font-size:1.12rem}
+.wk .n{font-family:var(--head);color:var(--steel);font-size:.9rem}
+.wk .links{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.88rem;margin-top:6px}
+.wk .done{font-size:.8rem;color:var(--ok)}
+.wk.soon{border-top-color:var(--line);opacity:.8}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{.lec-tools,.tabs,nav,.btn{display:none}}
+</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 7 of 14</p><h1>Embedded Computing and Real-Time Scheduling: RM, EDF and the PLC Scan Cycle</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-07">Week overview</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb">Colab notebook</a><a href="lab.html">Interactive lab</a><a href="Week07_Lecture_Notes.pdf">PDF notes</a></nav></header><div class="lec-tools"><div class="lec-prog"><span class="lec-bar"><i></i></span><span class="lec-txt" aria-live="polite"></span></div></div><article class="lecture"><h2 id="overview">Overview</h2><p>Weeks 3, 5 and 6 designed the protection, the frequency control and the estimators of the campus. In the battery container, all of them run as tasks on one processor of an embedded controller. Each task must finish before its next period begins. This week checks whether they do, with rate-monotonic and earliest-deadline-first scheduling <span class="cite" tabindex="0" data-refs="1">[1]</span>. It then follows the programmable logic controller (PLC) of the main switchboard through its scan cycle <span class="cite" tabindex="0" data-refs="2">[2]</span>.</p><pre class="mermaid">flowchart LR
+  A[&quot;Tasks on one processor&quot;] --&gt; B[&quot;Rate-monotonic scheduling&quot;]
+  B --&gt; C[&quot;Earliest deadline first&quot;]
+  C --&gt; D[&quot;The PLC scan cycle&quot;]
+  D --&gt; S[&quot;The campus microgrid, stage 7&quot;]
+  S --&gt; H[&quot;Learning to schedule&quot;]</pre><div class="callout"><b class="t">Python code of this week</b><p>Every method on this page is also written as Python code in the <a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb">Colab notebook of the week</a>. Its code is divided into numbered sections. Each orange box on this page names the section whose code carries out what the text above the box explains. The box says what to run and what to look at in that section, and its button opens the Colab notebook at that place. The virtual laboratories, the practice parts and the self-assessment of the week are in the <a href="lab.html">interactive lab</a>. Each blue box opens one part of the interactive lab. The part ends with a link back to its box on this page, and the Colab notebook is always opened from the orange boxes here.</p></div><h2 id="python-step">Python step 7: Tasks and time</h2><div class="colabbox" id="colab-python-step"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=python-step" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, right after Section 0 (setup).</b> Open the Colab notebook and run this step cell by cell: It consists of short pieces of Python code with their explanations, a quick check and three exercises. Topics: Classes and objects · Sorting by priority · A scheduler loop.</p></div><p>The step introduces classes in Python <span class="cite" tabindex="0" data-refs="3">[3]</span>. It writes a task as a class with a method, sorts tasks by their period and ends with a scheduler loop that runs one millisecond at a time. Students who have never programmed start with the <a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/start-here/NB00_start_here.ipynb">start-here notebook</a> of the course.</p><div class="callout"><b class="t">The campus microgrid so far</b><p>Weeks 1 to 6 built the balance, the dynamics, the modes, the measurements, the frequency control and the estimators of the campus. Each of them is a computation that has to run on a real processor in time.</p><p>This week puts these computations on the controller of the battery container and on the PLC of the main switchboard and checks their timing.</p></div><figure><img src="figures/w07_project_roadmap.png" alt="The campus microgrid through the fourteen weeks of the course. The figure marks the stage of this week." loading="lazy"><figcaption>The campus microgrid through the fourteen weeks of the course. The figure marks the stage of this week.</figcaption></figure><h2 id="tasks">Tasks on one processor</h2><p>A real-time system must deliver its results on time, not only correctly <span class="cite" tabindex="0" data-refs="4">[4]</span>. The controller of the battery container runs four periodic tasks. Each task \(\tau_i\) is released every period \(T_i\) and needs at most its worst-case execution time (WCET) \(C_i\) on the processor. It must finish before its next release, so its deadline is \(D_i = T_i\).</p><div class="tablewrap"><table><thead><tr><th>Task</th><th>Period T (ms)</th><th>Execution time C (ms)</th><th>C/T</th><th>From</th></tr></thead><tbody><tr><td>Protection logic</td><td>5</td><td>1</td><td>0.20</td><td>Week 3</td></tr><tr><td>Frequency control</td><td>10</td><td>3</td><td>0.30</td><td>Week 5</td></tr><tr><td>Battery management with the Kalman filter</td><td>20</td><td>5</td><td>0.25</td><td>Week 6</td></tr><tr><td>Modbus polling of the container</td><td>50</td><td>9</td><td>0.18</td><td>Week 8</td></tr></tbody></table></div><p>The share of the processor that the tasks need is their utilization, and the pattern of their releases repeats after the hyperperiod \(H\) <span class="cite" tabindex="0" data-refs="1">[1]</span>:</p><div class="eq">\[U = \sum_{i=1}^{n} \frac{C_i}{T_i}, \qquad H = \mathrm{lcm}(T_1, \dots, T_n)\]</div><p>With \(U &gt; 1\) the processor cannot keep up with the work. The hyperperiod is the least common multiple of the periods, so one hyperperiod contains every situation that the schedule will ever meet.</p><p class="labref">→ This formula with numbers, step by step: <a href="lab.html#pb" target="_blank" rel="noopener">Lab Part B</a>, calculator, step 1.</p><p><b>A worked example.</b> The first three tasks need \(1/5 \)​\({}+ 3/10 \)​\({}+ 5/20 \)​\({}= 0.20 \)​\({}+ 0.30 \)​\({}+ 0.25 \)​\({}= 0.75\) of the processor. The Modbus task adds \(9/50 = 0.18\), so the four tasks need \(U = 0.93\). Their hyperperiod is \(\mathrm{lcm}(5, 10, 20, 50) = 100\) ms, in which the processor stays idle for 7 ms.</p><figure><img src="figures/w07_fig_tasks.png" alt="Left: The utilization of the four tasks of the controller, stacked, against the bound of rate-monotonic scheduling for four tasks and the limit of 1. Right: The bound of Liu and Layland against the number of tasks." loading="lazy"><figcaption>Left: The utilization of the four tasks of the controller, stacked, against the bound of rate-monotonic scheduling for four tasks and the limit of 1. Right: The bound of Liu and Layland against the number of tasks.</figcaption></figure><div class="kc" data-answer="0" data-why="A utilization below 1 is necessary. Whether the deadlines are met depends on the scheduler and on the releases."><p class="q">Check your understanding. The four tasks need \(U = 0.93\). What does this value guarantee?</p><label><input type="radio" name="KC0" value="0"> Nothing yet: It is necessary, but the scheduler still decides the deadlines</label><label><input type="radio" name="KC0" value="1"> That every deadline is met under any scheduler</label><label><input type="radio" name="KC0" value="2"> That the processor is overloaded</label><label><input type="radio" name="KC0" value="3"> That one task always misses its deadline</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="colabbox" id="colab-sec-1"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-1" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 1.</b> Open Section 1 of the Colab notebook and run it. The class <code>Task</code> of the Python step holds each task, and the function <code>utilization</code> adds their shares of the processor. The code prints the table of the tasks, the utilization with three and with four tasks and the hyperperiod.</p></div><div class="callout discuss"><b class="t">Discuss: Where the milliseconds go</b><ol><li>The Kalman filter took 4.2 ms in a thousand measurements in the laboratory. Which value of \(C\) would you enter, and why?</li><li>Which task of the controller needs the shortest period, and what decides it?</li></ol></div><h2 id="rate-monotonic">Rate-monotonic scheduling</h2><p>A rate-monotonic (RM) scheduler gives each task a fixed priority: The shorter the period, the higher the priority. At every moment the processor runs the ready job with the highest priority and preempts a running job of lower priority. Liu and Layland proved that no other order of fixed priorities does better. RM meets every deadline if <span class="cite" tabindex="0" data-refs="1">[1]</span>:</p><div class="eq">\[U \le n\,(2^{1/n} - 1), \qquad n = 3:\ 0.7798, \qquad n = 4:\ 0.7568, \qquad n \to \infty:\ \ln 2 = 0.6931\]</div><p>The bound is sufficient, not necessary. The first three tasks pass it with 0.75. The four tasks exceed it with 0.93, and only an exact test can decide. The response-time analysis of Joseph and Pandya finds the worst-case response time \(R_i\) of each task <span class="cite" tabindex="0" data-refs="5,6">[5, 6]</span>. It assumes that all tasks are released together, which causes the most interference:</p><div class="eq">\[R_i = C_i + \sum_{j \in hp(i)} \left\lceil \frac{R_i}{T_j} \right\rceil C_j, \qquad R_i^{(0)} = C_i + \sum_{j \in hp(i)} C_j\]</div><p>Here \(hp(i)\) is the set of the tasks with a higher priority than \(\tau_i\). The ceiling \(\lceil R_i/T_j \rceil\) counts the jobs of \(\tau_j\) that are released while \(\tau_i\) waits. The equation is iterated until \(R_i\) stops changing, and the task meets all deadlines if \(R_i \le D_i\).</p><p class="labref">→ These formulas with numbers, step by step: <a href="lab.html#pb" target="_blank" rel="noopener">Lab Part B</a>, calculator, steps 2 and 3.</p><p><b>A worked example.</b> For the battery management task, \(R^{(0)} = 5 + 1 + 3 = 9\) ms. Then \(R \)​\({}= 5 \)​\({}+ \lceil 9/5 \rceil \cdot 1 \)​\({}+ \lceil 9/10 \rceil \cdot 3 \)​\({}= 5 \)​\({}+ 2 \)​\({}+ 3 \)​\({}= 10\) ms, and the next step gives 10 ms again, well within 20 ms. For the Modbus task, the iteration runs 18, 24, 33, 38 and 39 ms, where it stops changing. Its response time of 39 ms stays below its deadline of 50 ms. So all four tasks meet their deadlines, although \(U\) exceeds the bound.</p><figure><img src="figures/w07_fig_rm.png" alt="The rate-monotonic schedule of the four tasks over one hyperperiod of 100 ms. The triangles mark the releases, and each bar is one millisecond on the processor." loading="lazy"><figcaption>The rate-monotonic schedule of the four tasks over one hyperperiod of 100 ms. The triangles mark the releases, and each bar is one millisecond on the processor.</figcaption></figure><div class="scene" id="scene"><p class="small"><strong>Scene: One processor, four tasks.</strong> The controller of the battery container runs four tasks on one processor. Each lane of the table is one task over the first 60 ms, with its releases as cones and its jobs as coloured bricks. The flag marks the deadline of the first Modbus job. The five buttons follow the schedule from the first release to earliest deadline first.</p><div class="three" id="ts-3d"></div><div class="sn-btns" id="ts-act"></div><p class="sn-say" id="ts-say" aria-live="polite"></p><div class="sn-ro" id="ts-ro"></div></div><div class="kc" data-answer="0" data-why="It has the lowest priority, so every other task can preempt it."><p class="q">Check your understanding. Under RM, which task of the controller suffers most from the others?</p><label><input type="radio" name="KC1" value="0"> The task with the longest period</label><label><input type="radio" name="KC1" value="1"> The task with the shortest period</label><label><input type="radio" name="KC1" value="2"> The task with the largest utilization</label><label><input type="radio" name="KC1" value="3"> All tasks equally</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="labbox" id="lab-pb"><a class="btn" href="lab.html#pb" target="_blank" rel="noopener">Open lab Part B</a><p><b>Interactive lab, Part B.</b> The calculator of the week computes the formulas of this page step by step. It covers the utilization, the response times of battery management and Modbus under RM, the test of earliest deadline first and the worst reaction of the PLC for execution times and a program of your choice.</p></div><div class="colabbox" id="colab-sec-2"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-2" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 2.</b> Open Section 2 of the Colab notebook and run it. The function <code>response_times</code> carries out the iteration of this section, and <code>simulate</code> runs the scheduler one millisecond at a time. The code prints the steps of the iteration for each task and confirms the response times with the simulated schedule, which it draws.</p></div><div class="callout discuss"><b class="t">Discuss: Fixed priorities</b><ol><li>Why would an engineer accept a bound that leaves about a quarter of the processor unused?</li><li>The frequency control could get a higher priority than the protection logic. Would you allow it?</li></ol></div><h2 id="edf">Earliest deadline first</h2><p>An earliest-deadline-first (EDF) scheduler gives the processor to the job whose absolute deadline comes first, so the priorities change from job to job. For periodic tasks with deadlines equal to their periods, Liu and Layland proved that EDF meets every deadline exactly when <span class="cite" tabindex="0" data-refs="1">[1]</span>:</p><div class="eq">\[U = \sum_{i=1}^{n} \frac{C_i}{T_i} \le 1\]</div><p>EDF can therefore use the whole processor, while RM guarantees less. The difference shows when the Kalman filter with the offset of Week 6 needs 6 ms instead of 5 ms. The utilization rises to 0.98, still below 1.</p><p class="labref">→ These formulas with numbers, step by step: <a href="lab.html#pb" target="_blank" rel="noopener">Lab Part B</a>, calculator, steps 3 and 4.</p><p><b>A worked example.</b> With \(C_3 = 6\) ms for battery management, the iteration for the Modbus task runs 19, 25, 35, 40, 41 and then 51 ms, beyond its deadline of 50 ms. It settles at 57 ms. The simulated schedule confirms that the first job of the Modbus task ends at 57 ms under RM. EDF runs the same tasks without a single missed deadline, because \(U = 0.98 \le 1\), and its longest response of the Modbus task is 48 ms.</p><p>The price of EDF shows in an overload. With 8 ms for the battery management task, \(U = 1.08\). RM keeps its order: The three tasks of higher priority meet every deadline, and only the Modbus task misses. Under EDF, late jobs keep their early deadlines and push all the others back. In 200 ms the four tasks miss 24 deadlines, and even the protection logic misses 8 of its 40.</p><figure><img src="figures/w07_fig_edf.png" alt="Left: The first 100 ms with 6 ms for the battery management task under RM, where the Modbus task misses its deadline at 50 ms, and under EDF. Right: The missed deadlines of each task in 200 ms of overload, with 8 ms for the battery management task." loading="lazy"><figcaption>Left: The first 100 ms with 6 ms for the battery management task under RM, where the Modbus task misses its deadline at 50 ms, and under EDF. Right: The missed deadlines of each task in 200 ms of overload, with 8 ms for the battery management task.</figcaption></figure><div class="kc" data-answer="0" data-why="The deadlines of late jobs remain the earliest, so the delay spreads to all tasks."><p class="q">Check your understanding. Why can EDF fail badly in an overload?</p><label><input type="radio" name="KC2" value="0"> Late jobs keep early deadlines and delay the jobs of every other task</label><label><input type="radio" name="KC2" value="1"> It always runs the longest task first</label><label><input type="radio" name="KC2" value="2"> It ignores the deadlines</label><label><input type="radio" name="KC2" value="3"> It needs more memory than RM</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="labbox" id="lab-pa"><a class="btn" href="lab.html#pa" target="_blank" rel="noopener">Open lab Part A</a><p><b>Interactive lab, Part A.</b> The controller bench in 3D: The embedded controller of the battery container, a logic analyzer with one probe per task and a screen with the four traces. Choose the scheduler, the execution time of the battery management task and the Modbus task, and record 200 ms of the schedule. The results can be copied into the Colab notebook.</p></div><div class="colabbox" id="colab-sec-3"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-3" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 3.</b> Open Section 3 of the Colab notebook and run it. The function <code>simulate</code> with <code>policy="EDF"</code> carries out the scheduler of this section. The code compares RM and EDF with 6 and with 8 ms for the battery management task and draws both schedules. Paste the results of Part A into <code>MY_RUNS</code>, and the code runs each of your cases again.</p></div><div class="callout discuss"><b class="t">Discuss: Static or dynamic?</b><ol><li>Most commercial real-time operating systems offer fixed priorities rather than EDF. Why might that be?</li><li>How would you protect the protection logic in an overload under EDF?</li></ol></div><h2 id="plc-scan">The PLC scan cycle</h2><p>The breakers of the main switchboard are controlled by a PLC. A PLC runs its program in an endless scan cycle <span class="cite" tabindex="0" data-refs="2">[2]</span>. At the boundary of two scans, it writes the output image to its outputs and reads all inputs into the input image. It then executes the program on that image and handles communication and diagnostics. Its programs are written in the languages of the standard 61131-3 of the International Electrotechnical Commission (IEC), such as ladder diagram, function block diagram and structured text <span class="cite" tabindex="0" data-refs="7">[7]</span>.</p><p>When the grid breaker opens, the PLC must open the car park feeder within 50 ms. This is the first step of the load shedding of Week 3, so that the battery can carry the critical buildings. A program of \(k\) thousand instructions has the scan time \(T_{scan} = k + 1\) ms. Each instruction takes 1 µs, and the images and the communication take 1 ms. A change at the input terminal passes an input filter of \(t_{in} = 3\) ms and waits for the next read. The end of that scan writes the output, and the relay adds \(t_{out} = 6\) ms:</p><div class="eq">\[T_{scan} + t_{in} + t_{out} \le t_{react} &lt; 2\,T_{scan} + t_{in} + t_{out}\]</div><p>The worst case occurs when the filtered input arrives just after a read. It then waits almost one scan for the next read and one more scan for the output. A watchdog timer stops the PLC, with its outputs switched off, if one scan takes longer than 30 ms.</p><p class="labref">→ This formula with numbers, step by step: <a href="lab.html#pb" target="_blank" rel="noopener">Lab Part B</a>, calculator, step 5.</p><p><b>A worked example.</b> The program of the switchboard has 12 thousand instructions, so \(T_{scan} = 13\) ms. A trip of the grid breaker reaches the output terminal between \(13 + 3 + 6 = 22\) ms and \(2 \times 13 + 9 = 35\) ms later, within 50 ms. With 19 thousand instructions the worst case is \(2 \times 20 + 9 = 49\) ms. With 20 thousand it is 51 ms, and the requirement fails.</p><div class="anim" id="scan"><p class="small"><strong>Animation.</strong> One trip of the grid breaker through the scan cycle of the PLC. The ring shows one scan, with the images of the outputs and inputs, the program and the communication, and the red dot marks the moment of the trip. The timeline follows the trip from the input terminal through the filter and the scans to the output terminal. Move the trip through the scan and watch the reaction change between its best and its worst case.</p><div class="row" id="pl-sl"></div><canvas class="paper" id="pl-cv" aria-label="The scan cycle of the PLC as a ring and the timeline of one trip from the input terminal to the output terminal with its reaction"></canvas><div id="pl-ro"></div></div><figure><img src="figures/w07_fig_plc.png" alt="Left: One trip of the grid breaker through the scan cycle, with the input filter, the wait for the next read, the scan and the output relay. Right: The range and the mean of 20 reactions against the size of the program, with the worst case and the limit of 50 ms." loading="lazy"><figcaption>Left: One trip of the grid breaker through the scan cycle, with the input filter, the wait for the next read, the scan and the output relay. Right: The range and the mean of 20 reactions against the size of the program, with the worst case and the limit of 50 ms.</figcaption></figure><div class="kc" data-answer="0" data-why="The worst case is \(2T_{scan} + t_{in} + t_{out}\), and the two delays stay the same."><p class="q">Check your understanding. The scan time doubles. What happens to the worst-case reaction?</p><label><input type="radio" name="KC3" value="0"> It grows by twice the old scan time</label><label><input type="radio" name="KC3" value="1"> It doubles exactly</label><label><input type="radio" name="KC3" value="2"> It stays the same</label><label><input type="radio" name="KC3" value="3"> It grows by one scan time</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="labbox" id="lab-pc"><a class="btn" href="lab.html#pc" target="_blank" rel="noopener">Open lab Part C</a><p><b>Interactive lab, Part C.</b> The PLC cabinet of the main switchboard in 3D. It holds the power supply, the central processing unit (CPU) of the PLC, the input and output modules, the contactor of the car park feeder and a trip recorder. Set the size of the program, trip the grid breaker 20 times and compare the reactions with the worst case. The results can be copied into the Colab notebook.</p></div><div class="colabbox" id="colab-sec-4"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-4" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 4.</b> Open Section 4 of the Colab notebook and run it. The function <code>reactions</code> follows 20 trips through the scan cycle of this section, and <code>worst_case</code> gives the bound. The code compares the reactions with the bound for several programs. Paste the results of Part C into <code>MY_PLC</code>, and the code repeats each of your runs.</p></div><div class="callout discuss"><b class="t">Discuss: Scan or event?</b><ol><li>Some PLCs start a task as soon as an input changes, instead of waiting for the next scan. What would that change for the load shedding?</li><li>Why should the outputs of a PLC switch off when its watchdog stops it, and when could that be dangerous?</li></ol></div><h2 id="development-templates">Development templates of the week</h2><p>The folder <a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/templates"><code>templates/</code></a> of the repository collects small working programs that carry out the methods of the course. Week 7 adds two of them, each with a description, its inputs and outputs and an example run.</p><div class="tablewrap"><table><thead><tr><th>Template</th><th>What it does</th></tr></thead><tbody><tr><td><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/blob/main/templates/rt_scheduler.py"><code>rt_scheduler.py</code></a></td><td>Periodic tasks as a class, the utilization tests of RM and EDF, the response-time analysis and a simulator of both schedulers; the example is the controller of the battery container</td></tr><tr><td><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/blob/main/templates/plc_scan.py"><code>plc_scan.py</code></a></td><td>The scan cycle of a PLC with an input filter, an output delay and a watchdog; it computes the best and the worst reaction and simulates trips at random moments</td></tr></tbody></table></div><h2 id="engineering-side">The engineering side: Timing that holds</h2><p>Every analysis of this week rests on the worst-case execution times \(C_i\). Measuring a task a thousand times gives a likely value, not a guaranteed one, because caches and pipelines make execution times vary. Static analysis tools bound the worst case from the machine code instead <span class="cite" tabindex="0" data-refs="8">[8]</span>.</p><div class="tablewrap"><table><thead><tr><th>Check</th><th>What it reveals</th></tr></thead><tbody><tr><td>Measured execution times close to the assumed C</td><td>A margin that has been used up</td></tr><tr><td>Response times close to the deadlines</td><td>A system that one more task will break</td></tr><tr><td>A task of high priority waiting for a lock that a task of low priority holds</td><td>Priority inversion</td></tr><tr><td>Variation of the time between sampling and actuation</td><td>Jitter that degrades a control loop</td></tr><tr><td>Scans that approach the watchdog time</td><td>A PLC that will stop under a rare load</td></tr></tbody></table></div><p>Tasks that share data need locks. A task of high priority can then wait for a task of low priority that holds the lock, while tasks of medium priority run. This priority inversion can last without bound. Priority inheritance lends the high priority to the holder of the lock for that time and bounds the delay <span class="cite" tabindex="0" data-refs="9">[9]</span>. For control loops, the delay between sampling and actuation and its variation, the jitter, matter as much as the deadline <span class="cite" tabindex="0" data-refs="10">[10]</span>.</p><div class="callout life"><b class="t">In everyday life: A kitchen during the dinner rush</b><p>A cook prepares the dishes of several tables, each ordered at its own time and due by a deadline. Quick dishes come first, and the cook interrupts a slow roast for them. When the kitchen is overloaded, one late table can delay all the others. This is a real-time schedule with preemption.</p></div><div class="callout discuss"><b class="t">Discuss: Commissioning the controller</b><ol><li>How would you measure the response time of the frequency control on the real controller?</li><li>Which margin between the utilization and its bound would you require before adding a task?</li></ol></div><h2 id="the-campus-microgrid-stage-7">The campus microgrid, stage 7: Real-time tasks of the microgrid controller</h2><p>Stage 7 checks the timing of the computations of the campus. The controller of the battery container runs four tasks on one processor, and the PLC of the main switchboard sheds the car park after a trip of the grid breaker.</p><div class="tablewrap"><table><thead><tr><th>Question</th><th>Result</th><th>Model</th></tr></thead><tbody><tr><td>Utilization of the four tasks</td><td>0.93, above the bound of 0.7568 for four tasks</td><td>Utilization</td></tr><tr><td>Response times under RM</td><td>1, 4, 10 and 39 ms, all within the deadlines</td><td>Response-time analysis</td></tr><tr><td>Battery management with 6 ms</td><td>U = 0.98: Modbus misses under RM (57 ms); EDF meets every deadline</td><td>RM and EDF</td></tr><tr><td>Overload with 8 ms</td><td>U = 1.08: RM misses only Modbus (4 of 4); EDF misses 24 deadlines of all four tasks</td><td>Simulation</td></tr><tr><td>PLC with 19 thousand instructions</td><td>Scan 20 ms, worst reaction 49 ms within 50 ms</td><td>Scan cycle</td></tr><tr><td>Largest program within 50 ms</td><td>19 thousand instructions</td><td>Scan cycle</td></tr><tr><td>Watchdog of 30 ms</td><td>Stops the PLC from 30 thousand instructions on</td><td>Watchdog</td></tr></tbody></table></div><p>The frequency control answers within 4 ms, only 0.37 percent of the delay margin of 1.072 s that Week 8 finds for the loop over the network. Week 8 carries the messages of these tasks over the networks of the campus.</p><figure><img src="figures/w07_project_stage.png" alt="The campus microgrid, stage 7. Left: The response time of each task under RM against its deadline, with 5 and 6 ms for the battery management task. Right: The worst reaction of the PLC against the size of its program. The values come from Section 5 of the Colab notebook." loading="lazy"><figcaption>The campus microgrid, stage 7. Left: The response time of each task under RM against its deadline, with 5 and 6 ms for the battery management task. Right: The worst reaction of the PLC against the size of its program. The values come from Section 5 of the Colab notebook.</figcaption></figure><div class="kc" data-answer="0" data-why="Under RM only the tasks of the lowest priorities miss their deadlines in an overload."><p class="q">Check your understanding. What does RM offer in an overload that EDF does not?</p><label><input type="radio" name="KC4" value="0"> The tasks of high priority keep meeting their deadlines</label><label><input type="radio" name="KC4" value="1"> No task misses a deadline</label><label><input type="radio" name="KC4" value="2"> The processor runs faster</label><label><input type="radio" name="KC4" value="3"> The utilization drops below 1</label><button class="btn" type="button">Check</button><div class="fb" aria-live="polite"></div></div><div class="labbox" id="lab-pd"><a class="btn" href="lab.html#pd" target="_blank" rel="noopener">Open lab Part D</a><p><b>Interactive lab, Part D.</b> Stage 7 by hand: The utilization and the response time of the Modbus task when it needs only 6 ms. It ends with the worst reaction of a PLC with a scan time of 12 ms.</p></div><div class="colabbox" id="colab-sec-5"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-5" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 5.</b> Open Section 5 of the Colab notebook and run it. The code collects the results of stage 7 in the dictionary <code>STAGE7</code>. A figure draws the response times against the deadlines and the worst reaction of the PLC against the size of its program.</p></div><h2 id="your-application">Your application</h2><p>Every embedded system with several periodic duties faces the same questions of utilization and response time. The Colab notebook holds an application switch with six systems: A drone, the brakes of a car, a robot arm, a 3D printer, a wind turbine and a smart thermostat.</p><div class="colabbox" id="colab-sec-6"><a class="colabbtn" href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-6" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a><p><b>Python code in the Colab notebook, Section 6.</b> Open Section 6 of the Colab notebook, set <code>APP</code> to one of the six names in the comment and run the cell. The code computes the utilization, the response times under RM and the missed deadlines under RM and EDF in one hyperperiod.</p></div><h2 id="toward-ai">Learning to schedule</h2><p>The schedulers of data centres face jobs whose needs are unknown in advance. DeepRM learns a scheduling policy by deep reinforcement learning <span class="cite" tabindex="0" data-refs="11">[11]</span>. It observes the waiting jobs and the free resources, and its reward favours a small average slowdown of the jobs. Its authors report that it performs comparably to state-of-the-art heuristics and adapts to different conditions.</p><p>A learned policy optimises the average and gives no guarantee for the worst case, which is what the protection logic of the campus needs. A safe design therefore keeps the analysed RM schedule for the critical tasks and lets learning order only the tasks without hard deadlines, such as logging. A neural network can also run as a task itself. Its number of multiply-accumulate operations is fixed, so its execution time can be bounded like that of any other task.</p><div class="callout ai"><b class="t">A learned order for the soft tasks</b><p>Suppose that the controller also runs logging, a display and software updates without hard deadlines. A small agent learns from a month of records in which order to serve them, so that the display stays responsive. The four critical tasks keep their RM priorities above all of them, and the response-time analysis of this week still holds for them.</p></div><div class="callout discuss"><b class="t">Discuss: Trusting a learned scheduler</b><ol><li>What would you need to see before letting a learned scheduler order the critical tasks?</li><li>How could a monitor detect that a learned scheduler endangers a deadline?</li></ol></div><h2 id="review-cards">Review cards</h2><p class="small">Select a card to turn it over.</p><div class="cards"><div class="card" tabindex="0" role="button"><div class="f">Real-time system</div><div class="b">A system whose results must be correct and on time <span class="cite" tabindex="0" data-refs="4">[4]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Periodic task</div><div class="b">Released every period \(T_i\), needs at most \(C_i\) and must finish by its deadline \(D_i\).</div></div><div class="card" tabindex="0" role="button"><div class="f">Worst-case execution time</div><div class="b">The longest time a task can need on the processor, bounded by measurement or by static analysis <span class="cite" tabindex="0" data-refs="8">[8]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Utilization</div><div class="b">\(U = \sum C_i/T_i\), the share of the processor that the tasks need.</div></div><div class="card" tabindex="0" role="button"><div class="f">Hyperperiod</div><div class="b">The least common multiple of the periods, after which the releases repeat.</div></div><div class="card" tabindex="0" role="button"><div class="f">Rate-monotonic scheduling</div><div class="b">Fixed priorities, the shortest period first; optimal among fixed priorities <span class="cite" tabindex="0" data-refs="1">[1]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Bound of Liu and Layland</div><div class="b">\(U \le n(2^{1/n} - 1)\) suffices for RM; it tends to 0.693.</div></div><div class="card" tabindex="0" role="button"><div class="f">Response-time analysis</div><div class="b">\(R_i \)​\({}= C_i \)​\({}+ \sum \lceil R_i/T_j \rceil C_j\) over the tasks of higher priority, an exact test for fixed priorities <span class="cite" tabindex="0" data-refs="5">[5]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Earliest deadline first</div><div class="b">Dynamic priorities by the absolute deadline; meets every deadline if and only if \(U \le 1\) <span class="cite" tabindex="0" data-refs="1">[1]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Overload</div><div class="b">With \(U &gt; 1\), RM loses the tasks of lowest priority, while EDF can spread the misses to all tasks.</div></div><div class="card" tabindex="0" role="button"><div class="f">Priority inversion</div><div class="b">A task of high priority waits for a task of low priority; priority inheritance bounds it <span class="cite" tabindex="0" data-refs="9">[9]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Scan cycle</div><div class="b">Write the outputs, read the inputs, execute the program, communicate, repeat <span class="cite" tabindex="0" data-refs="2">[2]</span>.</div></div><div class="card" tabindex="0" role="button"><div class="f">Reaction time of a PLC</div><div class="b">Between \(T_{scan} + t_{in} + t_{out}\) and \(2T_{scan} + t_{in} + t_{out}\).</div></div><div class="card" tabindex="0" role="button"><div class="f">Watchdog timer</div><div class="b">Stops a controller whose cycle takes too long and switches its outputs off.</div></div><div class="card" tabindex="0" role="button"><div class="f">Jitter</div><div class="b">The variation of the delay between sampling and actuation in a control loop <span class="cite" tabindex="0" data-refs="10">[10]</span>.</div></div></div><h2 id="references">References</h2><p class="small" id="ref-1">[1] Liu, C. L., &amp; Layland, J. W. (1973). Scheduling algorithms for multiprogramming in a hard-real-time environment. <i>Journal of the ACM</i>, <i>20</i>(1), 46-61. <a href="https://doi.org/10.1145/321738.321743">https://doi.org/10.1145/321738.321743</a></p><p class="small" id="ref-2">[2] John, K.-H., &amp; Tiegelkamp, M. (2010). <i>IEC 61131-3: Programming Industrial Automation Systems: Concepts and Programming Languages, Requirements for Programming Systems, Decision-Making Aids</i> (2nd ed.). Springer. <a href="https://doi.org/10.1007/978-3-642-12015-2">https://doi.org/10.1007/978-3-642-12015-2</a></p><p class="small" id="ref-3">[3] Van Rossum, G., &amp; Drake, F. L. (2009). <i>Python 3 Reference Manual</i>. CreateSpace.</p><p class="small" id="ref-4">[4] Buttazzo, G. C. (2011). <i>Hard Real-Time Computing Systems: Predictable Scheduling Algorithms and Applications</i> (3rd ed.). Springer. <a href="https://doi.org/10.1007/978-1-4614-0676-1">https://doi.org/10.1007/978-1-4614-0676-1</a></p><p class="small" id="ref-5">[5] Joseph, M., &amp; Pandya, P. (1986). Finding response times in a real-time system. <i>The Computer Journal</i>, <i>29</i>(5), 390-395. <a href="https://doi.org/10.1093/comjnl/29.5.390">https://doi.org/10.1093/comjnl/29.5.390</a></p><p class="small" id="ref-6">[6] Audsley, N., Burns, A., Richardson, M., Tindell, K., &amp; Wellings, A. J. (1993). Applying new scheduling theory to static priority pre-emptive scheduling. <i>Software Engineering Journal</i>, <i>8</i>(5), 284-292. <a href="https://doi.org/10.1049/sej.1993.0034">https://doi.org/10.1049/sej.1993.0034</a></p><p class="small" id="ref-7">[7] International Electrotechnical Commission. (2025). <i>Programmable controllers - Part 3: Programming languages</i> (IEC 61131-3:2025, Edition 4.0). IEC.</p><p class="small" id="ref-8">[8] Wilhelm, R., Engblom, J., Ermedahl, A., Holsti, N., Thesing, S., Whalley, D., Bernat, G., Ferdinand, C., Heckmann, R., Mitra, T., Mueller, F., Puaut, I., Puschner, P., Staschulat, J., &amp; Stenström, P. (2008). The worst-case execution-time problem: Overview of methods and survey of tools. <i>ACM Transactions on Embedded Computing Systems</i>, <i>7</i>(3), Article 36. <a href="https://doi.org/10.1145/1347375.1347389">https://doi.org/10.1145/1347375.1347389</a></p><p class="small" id="ref-9">[9] Sha, L., Rajkumar, R., &amp; Lehoczky, J. P. (1990). Priority inheritance protocols: An approach to real-time synchronization. <i>IEEE Transactions on Computers</i>, <i>39</i>(9), 1175-1185. <a href="https://doi.org/10.1109/12.57058">https://doi.org/10.1109/12.57058</a></p><p class="small" id="ref-10">[10] Cervin, A., Henriksson, D., Lincoln, B., Eker, J., &amp; Årzén, K.-E. (2003). How does control timing affect performance? Analysis and simulation of timing using Jitterbug and TrueTime. <i>IEEE Control Systems Magazine</i>, <i>23</i>(3), 16-30. <a href="https://doi.org/10.1109/MCS.2003.1200240">https://doi.org/10.1109/MCS.2003.1200240</a></p><p class="small" id="ref-11">[11] Mao, H., Alizadeh, M., Menache, I., &amp; Kandula, S. (2016). Resource management with deep reinforcement learning. In <i>Proceedings of the 15th ACM Workshop on Hot Topics in Networks</i> (pp. 50-56). ACM. <a href="https://doi.org/10.1145/3005745.3005750">https://doi.org/10.1145/3005745.3005750</a></p></article><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script type="application/json" id="refdata">{"1": "Liu, C. L., &amp; Layland, J. W. (1973). Scheduling algorithms for multiprogramming in a hard-real-time environment. <i>Journal of the ACM</i>, <i>20</i>(1), 46-61. <a href=\"https://doi.org/10.1145/321738.321743\">https://doi.org/10.1145/321738.321743</a>", "2": "John, K.-H., &amp; Tiegelkamp, M. (2010). <i>IEC 61131-3: Programming Industrial Automation Systems: Concepts and Programming Languages, Requirements for Programming Systems, Decision-Making Aids</i> (2nd ed.). Springer. <a href=\"https://doi.org/10.1007/978-3-642-12015-2\">https://doi.org/10.1007/978-3-642-12015-2</a>", "3": "Van Rossum, G., &amp; Drake, F. L. (2009). <i>Python 3 Reference Manual</i>. CreateSpace.", "4": "Buttazzo, G. C. (2011). <i>Hard Real-Time Computing Systems: Predictable Scheduling Algorithms and Applications</i> (3rd ed.). Springer. <a href=\"https://doi.org/10.1007/978-1-4614-0676-1\">https://doi.org/10.1007/978-1-4614-0676-1</a>", "5": "Joseph, M., &amp; Pandya, P. (1986). Finding response times in a real-time system. <i>The Computer Journal</i>, <i>29</i>(5), 390-395. <a href=\"https://doi.org/10.1093/comjnl/29.5.390\">https://doi.org/10.1093/comjnl/29.5.390</a>", "6": "Audsley, N., Burns, A., Richardson, M., Tindell, K., &amp; Wellings, A. J. (1993). Applying new scheduling theory to static priority pre-emptive scheduling. <i>Software Engineering Journal</i>, <i>8</i>(5), 284-292. <a href=\"https://doi.org/10.1049/sej.1993.0034\">https://doi.org/10.1049/sej.1993.0034</a>", "7": "International Electrotechnical Commission. (2025). <i>Programmable controllers - Part 3: Programming languages</i> (IEC 61131-3:2025, Edition 4.0). IEC.", "8": "Wilhelm, R., Engblom, J., Ermedahl, A., Holsti, N., Thesing, S., Whalley, D., Bernat, G., Ferdinand, C., Heckmann, R., Mitra, T., Mueller, F., Puaut, I., Puschner, P., Staschulat, J., &amp; Stenström, P. (2008). The worst-case execution-time problem: Overview of methods and survey of tools. <i>ACM Transactions on Embedded Computing Systems</i>, <i>7</i>(3), Article 36. <a href=\"https://doi.org/10.1145/1347375.1347389\">https://doi.org/10.1145/1347375.1347389</a>", "9": "Sha, L., Rajkumar, R., &amp; Lehoczky, J. P. (1990). Priority inheritance protocols: An approach to real-time synchronization. <i>IEEE Transactions on Computers</i>, <i>39</i>(9), 1175-1185. <a href=\"https://doi.org/10.1109/12.57058\">https://doi.org/10.1109/12.57058</a>", "10": "Cervin, A., Henriksson, D., Lincoln, B., Eker, J., &amp; Årzén, K.-E. (2003). How does control timing affect performance? Analysis and simulation of timing using Jitterbug and TrueTime. <i>IEEE Control Systems Magazine</i>, <i>23</i>(3), 16-30. <a href=\"https://doi.org/10.1109/MCS.2003.1200240\">https://doi.org/10.1109/MCS.2003.1200240</a>", "11": "Mao, H., Alizadeh, M., Menache, I., &amp; Kandula, S. (2016). Resource management with deep reinforcement learning. In <i>Proceedings of the 15th ACM Workshop on Hot Topics in Networks</i> (pp. 50-56). ACM. <a href=\"https://doi.org/10.1145/3005745.3005750\">https://doi.org/10.1145/3005745.3005750</a>"}</script><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+/* Shared runtime of the lecture pages and interactive labs. */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+function h(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null) continue;
+    if (k === "class") e.className = v;
+    else if (k.startsWith("on") && typeof v === "function") e.addEventListener(k.slice(2), v);
+    else if (k === "html") e.innerHTML = v;
+    else e.setAttribute(k, v);
+  }
+  for (const k of kids.flat()) if (k != null) e.append(k.nodeType ? k : document.createTextNode(String(k)));
+  return e;
+}
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const COL = () => ({ink: cssv("--ink"), steel: cssv("--steel"), line: cssv("--line"), grid: cssv("--grid"),
+  panel: cssv("--panel"), paper: cssv("--paper"), accent: cssv("--accent"), ok: cssv("--ok"), bad: cssv("--bad"),
+  c: [cssv("--c1"), cssv("--c2"), cssv("--c3"), cssv("--c4"), cssv("--c5")]});
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const R = (x, d) => { const f = Math.pow(10, d == null ? 2 : d); return Math.round((x + Number.EPSILON) * f) / f; };
+function RNG(seed) {
+  let s = seed >>> 0;
+  const r = () => { s += 0x6D2B79F5; let t = s; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  r.normal = () => { let u = 0, v = 0; while (u === 0) u = r(); while (v === 0) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+  r.int = n => Math.floor(r() * n);
+  r.uniform = (a, b) => a + (b - a) * r();
+  return r;
+}
+const store = {
+  key: k => (window.COURSE_PREFIX || "crs") + ":" + k,
+  get(k, d) { try { const v = localStorage.getItem(this.key(k)); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(this.key(k), JSON.stringify(v)); } catch (e) {} }
+};
+/* Canvas with device-pixel scaling. draw(ctx, w, h) is called on setup and on resize. */
+function stage(cv, aspect, draw) {
+  const ctx = cv.getContext("2d");
+  const fit = () => {
+    const w = cv.clientWidth || 600, hgt = Math.round(w * aspect), d = window.devicePixelRatio || 1;
+    cv.style.height = hgt + "px"; cv.width = Math.round(w * d); cv.height = Math.round(hgt * d);
+    ctx.setTransform(d, 0, 0, d, 0, 0); cv._w = w; cv._h = hgt; draw && draw(ctx, w, hgt);
+  };
+  if (window.ResizeObserver) new ResizeObserver(() => fit()).observe(cv);
+  fit();
+  return {ctx, redraw: () => draw && draw(ctx, cv._w, cv._h), size: () => [cv._w, cv._h]};
+}
+function fmt(v) { if (Math.abs(v - Math.round(v)) < 1e-9) return String(Math.round(v)); const a = Math.abs(v); if (a >= 10) return v.toFixed(0); if (a >= 1) return v.toFixed(1); if (a === 0) return "0"; return v.toFixed(2); }
+/* Axes frame: returns mapping helpers. */
+function frame(ctx, w, hgt, o) {
+  const C = COL(), p = Object.assign({l: 50, r: 12, t: 12, b: 36}, o.pad || {});
+  const X = x => p.l + (x - o.x0) / (o.x1 - o.x0) * (w - p.l - p.r);
+  const Y = y => hgt - p.b - (y - o.y0) / (o.y1 - o.y0) * (hgt - p.t - p.b);
+  ctx.save(); ctx.strokeStyle = C.line; ctx.fillStyle = C.steel; ctx.lineWidth = 1; ctx.font = "11px " + cssv("--sans");
+  const nx = o.xticks || o.ticks || 5, ny = o.yticks || o.ticks || 5;
+  for (let i = 0; i <= nx; i++) { const xv = o.x0 + (o.x1 - o.x0) * i / nx;
+    ctx.beginPath(); ctx.moveTo(X(xv), hgt - p.b); ctx.lineTo(X(xv), hgt - p.b + 4); ctx.stroke();
+    ctx.textAlign = "center"; ctx.fillText(o.xfmt ? o.xfmt(xv) : fmt(xv), X(xv), hgt - p.b + 16); }
+  for (let i = 0; i <= ny; i++) { const yv = o.y0 + (o.y1 - o.y0) * i / ny;
+    ctx.beginPath(); ctx.moveTo(p.l - 4, Y(yv)); ctx.lineTo(p.l, Y(yv)); ctx.stroke();
+    ctx.textAlign = "right"; ctx.fillText(o.yfmt ? o.yfmt(yv) : fmt(yv), p.l - 7, Y(yv) + 4); }
+  ctx.strokeStyle = C.ink; ctx.beginPath(); ctx.moveTo(p.l, p.t); ctx.lineTo(p.l, hgt - p.b); ctx.lineTo(w - p.r, hgt - p.b); ctx.stroke();
+  ctx.fillStyle = C.ink; ctx.textAlign = "center";
+  if (o.xlabel) ctx.fillText(o.xlabel, (p.l + w - p.r) / 2, hgt - 4);
+  if (o.ylabel) { ctx.save(); ctx.translate(12, (p.t + hgt - p.b) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText(o.ylabel, 0, 0); ctx.restore(); }
+  ctx.restore();
+  return {X, Y, p};
+}
+function polyline(ctx, pts, color, width, dash) {
+  ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = width || 2; if (dash) ctx.setLineDash(dash);
+  ctx.beginPath(); pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.stroke(); ctx.restore();
+}
+function dot(ctx, x, y, r, color, stroke) {
+  ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI); ctx.fillStyle = color; ctx.fill();
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.stroke(); }
+}
+function rrect(ctx, x, y, w, hh, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + hh, r); ctx.arcTo(x + w, y + hh, x, y + hh, r); ctx.arcTo(x, y + hh, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+/* Labelled slider bound to a value. */
+function slider(parent, o, on) {
+  const show = v => o.fmt ? o.fmt(v) : v;
+  const out = h("output", {}, show(o.value));
+  const inp = h("input", {type: "range", min: o.min, max: o.max, step: o.step || 1, value: o.value, "aria-label": o.label});
+  inp.addEventListener("input", () => { const v = parseFloat(inp.value); out.textContent = show(v); on && on(v); });
+  parent.append(h("div", {class: "ctl"}, h("label", {}, o.label, " ", out), inp));
+  inp.setValue = v => { inp.value = v; out.textContent = show(v); };
+  return inp;
+}
+function readout(parent, names) {
+  const box = h("div", {class: "readout"}), cells = {};
+  names.forEach(n => { const b = h("b", {}, "-"); cells[n] = b; box.append(h("div", {}, n, b)); });
+  parent.append(box);
+  return (n, v) => { cells[n].textContent = v; };
+}
+function legend(parent, items) {
+  const C = COL();
+  parent.append(h("div", {class: "legend"}, items.map(([t, i]) => h("span", {}, h("i", {style: "background:" + (typeof i === "number" ? C.c[i] : i)}), t))));
+}
+/* Animation loop that pauses when stopped. */
+function loop(step, ms) {
+  let on = false, raf = 0, last = 0, acc = 0;
+  const f = t => { if (!on) return; const dt = Math.min(0.05, (t - (last || t)) / 1000); last = t; acc += dt * 1000; if (!ms || acc >= ms) { acc = 0; step(dt); } raf = requestAnimationFrame(f); };
+  return {start() { if (!on) { on = true; last = 0; raf = requestAnimationFrame(f); } }, stop() { on = false; cancelAnimationFrame(raf); }, get running() { return on; }};
+}
+const reduced = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function download(name, text, type) {
+  const a = h("a", {href: URL.createObjectURL(new Blob([text], {type: type || "text/markdown"})), download: name});
+  document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+/* MathJax helpers: typeset a TeX string to an element, or typeset the \( \) parts of an element. */
+function texEl(tex, display) {
+  const M = window.MathJax;
+  if (M && typeof M.tex2svg === "function") { try { return M.tex2svg(tex, {display: !!display}); } catch (e) {} }
+  return h("code", {class: "tex"}, tex);
+}
+function texInline(el) {
+  const M = window.MathJax; if (!(M && typeof M.tex2svg === "function")) return;
+  const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [];
+  while (tw.nextNode()) if (tw.currentNode.nodeValue.indexOf("\\(") >= 0) nodes.push(tw.currentNode);
+  nodes.forEach(n => { const f = document.createDocumentFragment();
+    n.nodeValue.split(/\\\(([\s\S]+?)\\\)/).forEach((p, i) => f.append(i % 2 ? texEl(p, false) : document.createTextNode(p)));
+    n.replaceWith(f); });
+}
+function whenMJ(f, t) { t = t || 0; const M = window.MathJax;
+  if (M && M.startup && M.startup.promise) { M.startup.promise.then(f); return; }
+  if (t < 300) setTimeout(() => whenMJ(f, t + 1), 100); else f(); }
+function scrollToHashLater() {
+  let moved = false;
+  ["wheel", "touchmove", "keydown", "mousedown"].forEach(e => window.addEventListener(e, () => { moved = true; }, {passive: true}));
+  const go = () => { const id = decodeURIComponent(location.hash.slice(1)), e = id && document.getElementById(id); if (e && !moved) e.scrollIntoView(); };
+  window.addEventListener("load", () => { setTimeout(go, 60); whenMJ(() => setTimeout(go, 80)); });
+}
+
+/* Citation pop-ups: data-refs="1,2" against the JSON block #refdata. */
+function initCites() {
+  const el = $("#refdata"); if (!el) return;
+  const data = JSON.parse(el.textContent); let pop = null;
+  const close = () => { if (pop) { pop.remove(); pop = null; } };
+  $$(".cite").forEach(c => {
+    const open = ev => { ev.stopPropagation(); close();
+      pop = h("div", {class: "pop", html: c.dataset.refs.split(",").map(k => "<p style='margin:.2rem 0'>[" + k + "] " + (data[k] || "") + "</p>").join("")});
+      document.body.append(pop); const r = c.getBoundingClientRect();
+      const left = Math.max(8, Math.min(window.scrollX + r.left, window.scrollX + document.documentElement.clientWidth - pop.offsetWidth - 8));
+      pop.style.left = left + "px"; pop.style.top = (window.scrollY + r.bottom + 6) + "px"; };
+    c.addEventListener("click", open);
+    c.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(e); } });
+  });
+  document.addEventListener("click", close);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+}
+function initCards() {
+  $$(".card").forEach(c => { const t = () => c.classList.toggle("flip");
+    c.addEventListener("click", t); c.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); t(); } }); });
+}
+
+/* Knowledge checks and reading progress on lecture pages. */
+function initLecture(week) {
+  const kcs = $$(".kc"), key = "w" + week + ":kc", st = store.get(key, {});
+  const bar = $(".lec-bar i"), txt = $(".lec-txt");
+  const upd = () => {
+    const n = kcs.length, d = Object.values(st).filter(Boolean).length;
+    if (bar) bar.style.width = (n ? 100 * d / n : 0) + "%";
+    if (txt) txt.textContent = n ? `Knowledge checks answered correctly: ${d} of ${n}` : "";
+    store.set(key, st); store.set("w" + week + ":progress", n ? d / n : 0);
+  };
+  kcs.forEach((k, i) => {
+    const ans = +k.dataset.answer, fb = $(".fb", k);
+    $(".btn", k).addEventListener("click", () => {
+      const sel = $("input:checked", k);
+      if (!sel) { fb.className = "fb bad"; fb.textContent = "Select an option first."; return; }
+      const ok = +sel.value === ans; st[i] = ok;
+      fb.className = "fb " + (ok ? "ok" : "bad");
+      fb.innerHTML = (ok ? "Correct. " : "Not quite. ") + (k.dataset.why || "");
+      texInline(fb); upd();
+    });
+  });
+  upd(); initCites(); initCards(); scrollToHashLater();
+}
+
+/* A table of multiple-choice items, checked together (classification parts). */
+function partQuiz(id, spec) {
+  const root = document.getElementById(id); if (!root) return; const saved = store.get(spec.key, {});
+  const tb = h("tbody", {}), t = h("table", {}, h("thead", {}, h("tr", {}, h("th", {}, spec.qhead || "Situation"), h("th", {}, spec.ahead || "Your answer"), h("th", {}, "Feedback"))), tb);
+  root.append(h("div", {class: "tablewrap"}, t));
+  spec.items.forEach((it, i) => {
+    const sel = h("select", {id: `${id}-s${i}`, "aria-label": "Answer to item " + (i + 1)}, [h("option", {value: ""}, "choose")].concat(it.options.map((o, k) => h("option", {value: String(k)}, o))));
+    if (saved[i] !== undefined) sel.value = saved[i];
+    sel.addEventListener("change", () => { const s = store.get(spec.key, {}); s[i] = sel.value; store.set(spec.key, s); });
+    tb.append(h("tr", {}, h("td", {}, it.q), h("td", {}, sel), h("td", {id: `${id}-f${i}`}, "")));
+  });
+  const btn = h("button", {class: "btn", type: "button"}, spec.button || "Check my answers"), sc = h("span", {class: "small", "aria-live": "polite"}, "");
+  root.append(h("p", {}, btn, " ", sc));
+  btn.addEventListener("click", () => { let ok = 0;
+    spec.items.forEach((it, i) => { const v = document.getElementById(`${id}-s${i}`).value, f = document.getElementById(`${id}-f${i}`);
+      if (v === "") { f.textContent = "Choose an answer."; return; }
+      const right = +v === it.answer; if (right) ok++; f.textContent = (right ? "Correct. " : "Not quite: " + it.options[it.answer] + ". ") + (it.why || ""); });
+    sc.textContent = `${ok} of ${spec.items.length} correct.`; store.set(spec.key + ":score", ok);
+    if (window.labLog) labLog.note(spec.title || id, `${ok} of ${spec.items.length} correct`); });
+}
+/* Values computed by hand and typed in. */
+function partNumbers(id, spec) {
+  const root = document.getElementById(id); if (!root) return; const row = h("div", {class: "row"});
+  spec.fields.forEach((f, i) => row.append(h("div", {class: "ctl", style: "min-width:220px"}, h("label", {for: `${id}-n${i}`}, f.label),
+    h("input", {type: "number", step: "any", id: `${id}-n${i}`, style: "width:8rem"}))));
+  root.append(row);
+  const btn = h("button", {class: "btn", type: "button"}, spec.button || "Check my values"), sc = h("span", {class: "small", "aria-live": "polite"}, "");
+  root.append(h("p", {}, btn, " ", sc));
+  btn.addEventListener("click", () => { let ok = 0; const out = [];
+    spec.fields.forEach((f, i) => { const v = parseFloat(document.getElementById(`${id}-n${i}`).value), right = Math.abs(v - f.answer) <= f.tol;
+      if (right) ok++; out.push(`${f.short}: ${isNaN(v) ? "missing" : (right ? "correct" : "not yet")}`); });
+    sc.textContent = out.join(", ") + ". " + (ok === spec.fields.length ? (spec.explain || "") : (spec.hint || ""));
+    store.set(spec.key + ":score", ok);
+    if (window.labLog) labLog.note(spec.title || id, `${ok} of ${spec.fields.length} values correct`); });
+}
+/* A calculation revealed one step at a time. spec: inputs [{key, label, min, max, step, value, d}], presets
+   [{label, values}], steps(v) -> [{t, x, m, q: {label, ans, tol}}], viz {aspect, label, legend, draw(ctx, w, h, v, S, k)}. */
+function partSteps(id, spec) {
+  const root = document.getElementById(id); if (!root) return;
+  const v = {}, set = {}, solved = {};
+  spec.inputs.forEach(i => { v[i.key] = i.value; });
+  let k = 0, all = false, S = [], fresh = -1, right = 0;
+  const compute = () => { S = spec.steps(v); if (k > S.length - 1) k = S.length - 1; };
+  const row = h("div", {class: "row"});
+  spec.inputs.forEach(i => {
+    if (i.options) {
+      const sel = h("select", {"aria-label": i.label}, i.options.map((o, j) => h("option", {value: String(j)}, o)));
+      sel.value = String(i.value);
+      sel.addEventListener("change", () => { v[i.key] = +sel.value; update(); });
+      set[i.key] = x => { sel.value = String(x); };
+      row.append(h("div", {class: "ctl"}, h("label", {}, i.label), sel));
+    } else {
+      const f = x => (i.d == null ? x : (+x).toFixed(i.d)) + (i.unit ? " " + i.unit : "");
+      const out = h("output", {}, f(i.value));
+      const inp = h("input", {type: "range", min: i.min, max: i.max, step: i.step || 1, value: i.value, "aria-label": i.label});
+      inp.addEventListener("input", () => { v[i.key] = parseFloat(inp.value); out.textContent = f(v[i.key]); update(); });
+      set[i.key] = x => { inp.value = x; out.textContent = f(x); };
+      row.append(h("div", {class: "ctl"}, h("label", {}, i.label, " ", out), inp));
+    }
+  });
+  const bench = h("div", {class: "bench"}, row);
+  if (spec.presets) {
+    const pr = h("div", {class: "sc-presets"}, h("span", {class: "small"}, "Start from:"));
+    spec.presets.forEach(p => { const b = h("button", {class: "btn ghost", type: "button"}, p.label);
+      b.addEventListener("click", () => { Object.keys(p.values).forEach(key => { v[key] = p.values[key]; if (set[key]) set[key](p.values[key]); }); k = 0; all = false; update(); });
+      pr.append(b); });
+    bench.append(pr);
+  }
+  root.append(bench);
+  let stg = null;
+  if (spec.viz) {
+    const cv = h("canvas", {class: "paper", role: "img", "aria-label": spec.viz.label || "Figure of the calculation"});
+    root.append(cv); if (spec.viz.legend) legend(root, spec.viz.legend);
+    stg = stage(cv, spec.viz.aspect || 0.4, (ctx, w, hh) => { ctx.clearRect(0, 0, w, hh); if (S.length) spec.viz.draw(ctx, w, hh, v, S, all ? S.length - 1 : k); });
+  }
+  const ol = h("ol", {class: "sc-steps", "aria-live": "polite"});
+  const prev = h("button", {class: "btn ghost", type: "button"}, "Previous");
+  const next = h("button", {class: "btn", type: "button"}, "Next step");
+  const allb = h("button", {class: "btn ghost", type: "button"}, "Show all steps");
+  const cnt = h("span", {class: "sc-count"}), dots = h("div", {class: "sc-dots", "aria-hidden": "true"});
+  const score = h("p", {class: "small"});
+  root.append(ol, h("div", {class: "sc-nav"}, dots, prev, next, allb, cnt), score);
+  function render() {
+    ol.textContent = "";
+    const last = all ? S.length - 1 : k;
+    S.forEach((s, i) => {
+      if (i > last) return;
+      const li = h("li", {class: (!all && i === k ? "cur" : "done") + (i === fresh ? " new" : "")});
+      li.append(h("div", {class: "sc-st"}, h("span", {class: "sc-n"}, "Step " + (i + 1)), " ", s.t));
+      if (s.x) { const d = h("div", {class: "sc-x", html: s.x}); li.append(d); texInline(d); }
+      const hideMath = s.q && !all && !solved[i];
+      if (s.m && !hideMath) li.append(h("div", {class: "sc-m"}, texEl(s.m, true)));
+      if (hideMath) {
+        const inp = h("input", {type: "number", step: "any", "aria-label": s.q.label});
+        const chk = h("button", {class: "btn", type: "button"}, "Check"), rev = h("button", {class: "btn ghost", type: "button"}, "Show the step");
+        const fb = h("span", {class: "small", "aria-live": "polite"});
+        chk.addEventListener("click", () => { const x = parseFloat(inp.value);
+          if (isNaN(x)) { fb.textContent = "Type a number first."; return; }
+          if (Math.abs(x - s.q.ans) <= (s.q.tol == null ? 0.005 : s.q.tol)) { right++; solved[i] = "ok"; render(); }
+          else fb.textContent = "Not yet. Look at the steps above, try again or show the step."; });
+        inp.addEventListener("keydown", e => { if (e.key === "Enter") chk.click(); });
+        rev.addEventListener("click", () => { solved[i] = "shown"; render(); });
+        li.append(h("div", {class: "sc-q"}, h("label", {}, s.q.label), inp, chk, rev, fb));
+      } else if (s.q && solved[i] === "ok") li.append(h("div", {class: "sc-ok"}, "Your value is correct."));
+      ol.append(li);
+    });
+    dots.textContent = ""; S.forEach((s, i) => dots.append(h("i", {class: i <= last ? "on" : ""})));
+    cnt.textContent = `Step ${last + 1} of ${S.length}`;
+    prev.disabled = all || k === 0; next.disabled = all || k >= S.length - 1;
+    allb.textContent = all ? "Step by step" : "Show all steps";
+    const nq = S.filter(s => s.q).length;
+    score.textContent = nq ? `Values typed correctly: ${right} of ${nq} questions in this calculation.` : "";
+    fresh = -1; if (stg) stg.redraw();
+  }
+  function update() { compute(); render(); }
+  prev.addEventListener("click", () => { if (k > 0) { k--; render(); } });
+  next.addEventListener("click", () => { if (k < S.length - 1) { k++; fresh = k; render(); } });
+  allb.addEventListener("click", () => { all = !all; render(); });
+  compute(); render();
+  whenMJ(render);
+}
+
+/* Interactive lab: tabs, self-assessment, reflection and the exported learning log. */
+const labLog = window.labLog = {
+  notes: {}, extra: [],
+  note(part, text) { this.notes[part] = text; store.set("w" + (window.WEEK || 0) + ":notes", this.notes); },
+  add(fn) { this.extra.push(fn); }
+};
+function initLab(week, title, quiz, reflect) {
+  window.WEEK = week;
+  labLog.notes = Object.assign(store.get("w" + week + ":notes", {}), labLog.notes);
+  const tabs = $$(".tabs button"), panels = $$(".tabpanel");
+  tabs.forEach((b, i) => b.addEventListener("click", () => {
+    tabs.forEach((x, j) => x.setAttribute("aria-selected", i === j ? "true" : "false"));
+    panels.forEach((p, j) => { p.hidden = i !== j; });
+  }));
+  const qk = "w" + week + ":quiz", qs = store.get(qk, {});
+  const qroot = $("#quiz");
+  if (qroot) {
+    quiz.forEach((it, i) => {
+      const box = h("div", {class: "sa"}), fb = h("div", {class: "fb", "aria-live": "polite"});
+      box.append(h("p", {class: "q"}, (i + 1) + ". " + it.q));
+      it.options.forEach((o, k) => box.append(h("label", {}, h("input", {type: "radio", name: "sa" + i, value: String(k)}), " " + o)));
+      const conf = h("div", {class: "conf"}, "Confidence:", ["low", "medium", "high"].map(c => h("label", {}, h("input", {type: "radio", name: "cf" + i, value: c}), " " + c)));
+      const btn = h("button", {class: "btn", type: "button"}, "Check");
+      btn.addEventListener("click", () => {
+        const sel = $(`input[name=sa${i}]:checked`, box), cf = $(`input[name=cf${i}]:checked`, box);
+        if (!sel) { fb.className = "fb bad"; fb.textContent = "Select an answer first."; return; }
+        const ok = +sel.value === it.answer; qs[i] = {ok, conf: cf ? cf.value : ""}; store.set(qk, qs);
+        fb.className = "fb " + (ok ? "ok" : "bad");
+        fb.textContent = (ok ? "Correct. " : "Not quite. The answer is: " + it.options[it.answer] + ". ") + (it.why || "");
+        sum();
+      });
+      box.append(conf, h("p", {}, btn), fb); qroot.append(box);
+    });
+    const total = h("p", {class: "small", "aria-live": "polite"}); qroot.append(total);
+    function sum() { const v = Object.values(qs); total.textContent = `Answered: ${v.length} of ${quiz.length}. Correct: ${v.filter(x => x.ok).length}.`; }
+    sum();
+  }
+  const rk = "w" + week + ":reflect", rs = store.get(rk, {});
+  const rroot = $("#reflect");
+  if (rroot) {
+    reflect.forEach((p, i) => {
+      const ta = h("textarea", {"aria-label": p}); ta.value = rs[i] || "";
+      ta.addEventListener("input", () => { rs[i] = ta.value; store.set(rk, rs); });
+      rroot.append(h("p", {html: "<b>" + (i + 1) + ".</b> " + p}), ta);
+    });
+    const ex = h("button", {class: "btn", type: "button"}, "Export the learning log");
+    ex.addEventListener("click", () => {
+      const L = [`# Learning log: Week ${week}, ${title}`, "", `Exported: ${new Date().toLocaleString()}`, "", "## Lab parts", ""];
+      Object.entries(labLog.notes).forEach(([k, v]) => L.push(`- ${k}: ${v}`));
+      labLog.extra.forEach(f => { try { const t = f(); if (t) L.push("", t); } catch (e) {} });
+      L.push("", "## Self-assessment", "");
+      quiz.forEach((q, i) => { const a = qs[i]; L.push(`${i + 1}. ${q.q} ${a ? (a.ok ? "Correct" : "Not correct") + (a.conf ? ", confidence " + a.conf : "") : "Not answered"}`); });
+      L.push("", "## Reflection", "");
+      reflect.forEach((p, i) => { L.push(`**${i + 1}. ${p}**`, "", (rs[i] || "").trim() || "(no answer yet)", ""); });
+      download(`Week${String(week).padStart(2, "0")}_learning_log.md`, L.join("\n"));
+    });
+    rroot.append(h("p", {}, ex));
+  }
+  initCites(); scrollToHashLater();
+}
+
+/* Three.js helpers for the 3D parts. Uses the bundled window.THREE. */
+function has3D() {
+  if (!window.THREE) return false;
+  try { const c = document.createElement("canvas"); return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"))); } catch (e) { return false; }
+}
+function make3D(el, o) {
+  o = o || {};
+  const T = window.THREE;
+  const aspect = o.aspect || 0.62, shadows = o.shadows !== false, tgt = o.target || [0, 0, 0];
+  const renderer = new T.WebGLRenderer({antialias: true, preserveDrawingBuffer: true});
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  renderer.outputColorSpace = T.SRGBColorSpace;
+  renderer.toneMapping = o.toneMapping === false ? T.NoToneMapping : T.NeutralToneMapping;
+  renderer.toneMappingExposure = o.exposure || 1.0;
+  renderer.shadowMap.enabled = shadows; renderer.shadowMap.type = T.PCFSoftShadowMap;
+  el.append(renderer.domElement);
+  const scene = new T.Scene(); scene.background = new T.Color(o.bg || 0xDDE3EA);
+  if (o.env !== false && T.RoomEnvironment) {
+    const pm = new T.PMREMGenerator(renderer);
+    scene.environment = pm.fromScene(new T.RoomEnvironment(), 0.04).texture;
+    scene.environmentIntensity = o.envIntensity == null ? 0.6 : o.envIntensity; pm.dispose();
+  }
+  const camera = new T.PerspectiveCamera(o.fov || 45, 1.6, o.near || 0.05, 200);
+  camera.position.set(...(o.camera || [4, 3, 5]));
+  const controls = new T.OrbitControls(camera, renderer.domElement);
+  controls.target.set(...tgt); controls.enableDamping = true; controls.update();
+  if (o.limits) { controls.minDistance = o.limits[0]; controls.maxDistance = o.limits[1]; controls.maxPolarAngle = o.limits[2] || Math.PI / 2.05; }
+  scene.add(new T.HemisphereLight(0xFFFFFF, 0x8A8F98, o.hemi == null ? 1.0 : o.hemi));
+  if (o.fill !== 0) { const fill = new T.DirectionalLight(0xE6EEFF, o.fill == null ? 0.55 : o.fill); fill.position.set(tgt[0] - 5, tgt[1] + 4, tgt[2] - 3); scene.add(fill); }
+  const sun = new T.DirectionalLight(0xFFF4E6, o.sun == null ? 1.7 : o.sun), sp = o.sunPos || [4, 8, 5];
+  sun.position.set(tgt[0] + sp[0], tgt[1] + sp[1], tgt[2] + sp[2]); sun.target.position.set(...tgt);
+  if (shadows) {
+    sun.castShadow = true; const b = o.shadowBox || 6, sc = sun.shadow.camera;
+    sun.shadow.mapSize.set(o.shadowMap || 1024, o.shadowMap || 1024); sc.left = -b; sc.right = b; sc.top = b; sc.bottom = -b; sc.near = 0.1; sc.far = 60;
+    sun.shadow.bias = -0.0003; sun.shadow.normalBias = 0.02 * b / 6; sun.shadow.radius = 3;
+  }
+  scene.add(sun, sun.target);
+  const ticks = []; let visible = true, dirty = true, fl = null;
+  const fit = () => { const w = el.clientWidth || 600, hh = Math.round(w * aspect); el.style.height = hh + "px";
+    renderer.setSize(w, hh, false); camera.aspect = w / hh; camera.updateProjectionMatrix(); dirty = true; };
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(el);
+  fit();
+  if (window.IntersectionObserver) new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(el);
+  controls.addEventListener("change", () => { dirty = true; });
+  /* Shadows for every new mesh; screens and labels keep their exact colours. */
+  function shade() {
+    scene.traverse(m => {
+      if (m.userData.sh) return; m.userData.sh = 1;
+      const mats = m.material ? (Array.isArray(m.material) ? m.material : [m.material]) : [];
+      mats.forEach(x => { if (x.isMeshBasicMaterial || x.isSpriteMaterial) x.toneMapped = false; });
+      if (!m.isMesh) return;
+      const tr = mats.some(x => x.transparent && x.opacity < 1);
+      m.castShadow = shadows && !tr && !m.userData.noShadow && !mats.some(x => x.isMeshBasicMaterial);
+      m.receiveShadow = shadows && !m.userData.noReceive;
+    });
+  }
+  const clock = new T.Clock();
+  function frameLoop() {
+    requestAnimationFrame(frameLoop);
+    const dt = Math.min(0.05, clock.getDelta());
+    if (!visible) return;
+    let anim = controls.update();
+    if (fl) { fl.u = Math.min(1, fl.u + dt * 1.6); const e = fl.u < 0.5 ? 2 * fl.u * fl.u : 1 - Math.pow(-2 * fl.u + 2, 2) / 2;
+      camera.position.lerpVectors(fl.p0, fl.p1, e); controls.target.lerpVectors(fl.t0, fl.t1, e); controls.update(); if (fl.u >= 1) fl = null; anim = true; }
+    ticks.forEach(f => { if (f(dt)) anim = true; });
+    if (anim || dirty) { shade(); renderer.render(scene, camera); dirty = false; }
+  }
+  frameLoop();
+  const ray = new T.Raycaster(), ndc = new T.Vector2();
+  function pick(ev, objects) {
+    const r = renderer.domElement.getBoundingClientRect();
+    ndc.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    const hit = ray.intersectObjects(objects, true)[0];
+    return hit || null;
+  }
+  const fly = (pos, target) => { fl = {p0: camera.position.clone(), t0: controls.target.clone(), p1: new T.Vector3(...pos), t1: new T.Vector3(...target), u: 0}; };
+  const api = {T, scene, camera, renderer, controls, pick, sun, fly, onTick: f => ticks.push(f), redraw: () => { dirty = true; },
+    reset() { fl = null; camera.position.set(...(o.camera || [4, 3, 5])); controls.target.set(...tgt); controls.update(); dirty = true; }};
+  /* View tools: zoom, reset and named views; inactive while a game holds the camera. */
+  if (o.tools !== false) {
+    const bar = document.createElement("div"); bar.className = "tools3d";
+    const mk = (label, title, fn) => { const b = document.createElement("button"); b.type = "button"; b.textContent = label;
+      b.title = title; b.setAttribute("aria-label", title);
+      b.addEventListener("click", e => { e.stopPropagation(); if (!controls.enabled) return; fn(); dirty = true; }); bar.append(b); };
+    const dolly = f => { fl = null; const off = camera.position.clone().sub(controls.target);
+      const d = Math.max(controls.minDistance, Math.min(controls.maxDistance, off.length() * f));
+      camera.position.copy(controls.target).add(off.setLength(d)); controls.update(); };
+    mk("+", "Zoom in", () => dolly(0.8)); mk("−", "Zoom out", () => dolly(1.25)); mk("↺", "Reset the view", () => api.reset());
+    (o.views || []).forEach(v => mk(v.label, "View: " + (v.title || v.label), () => fly(v.camera, v.target)));
+    el.append(bar); api.toolsEl = bar;
+  }
+  return api;
+}
+/* A text label as a sprite. */
+function label3D(text, o) {
+  o = o || {};
+  const T = window.THREE, pad = 10, fs = o.size || 44;
+  const c = document.createElement("canvas"), ctx = c.getContext("2d");
+  ctx.font = `700 ${fs}px Atkinson Hyperlegible, system-ui, sans-serif`;
+  const w = Math.ceil(ctx.measureText(text).width) + 2 * pad, hh = fs + 2 * pad;
+  c.width = w; c.height = hh;
+  ctx.font = `700 ${fs}px Atkinson Hyperlegible, system-ui, sans-serif`;
+  ctx.fillStyle = o.bg || "rgba(255,255,255,0.92)"; rrect(ctx, 0, 0, w, hh, 12); ctx.fill();
+  ctx.fillStyle = o.color || "#1E2433"; ctx.textBaseline = "middle"; ctx.fillText(text, pad, hh / 2 + 2);
+  const tex = new T.CanvasTexture(c); tex.colorSpace = T.SRGBColorSpace;
+  const sp = new T.Sprite(new T.SpriteMaterial({map: tex, depthTest: o.depthTest !== false}));
+  const s = o.scale || 0.0045; sp.scale.set(w * s, hh * s, 1);
+  return sp;
+}
+</script><script src="../../assets/vendor/three-bundle.min.js"></script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,theme:"neutral"});</script><script>(function(){
+
+/* Shared helpers of the 3D games of Weeks 3 to 14: a room, a head-up display, camera flights and the export of
+   results for the Colab notebook. Uses make3D, label3D, h, store and RNG of the course runtime. */
+var LABKIT = window.LABKIT || (function () {
+  /* Materials and canvas textures for the rooms of the clinic. */
+  const std = (G, c, r, m) => new G.T.MeshStandardMaterial({color: c, roughness: r == null ? 0.8 : r, metalness: m || 0});
+  function canvasTex(G, w, hh, draw, rep) {
+    const c = document.createElement("canvas"); c.width = w; c.height = hh; draw(c.getContext("2d"), w, hh);
+    const t = new G.T.CanvasTexture(c); t.colorSpace = G.T.SRGBColorSpace; t.anisotropy = 8;
+    if (rep) { t.wrapS = t.wrapT = G.T.RepeatWrapping; t.repeat.set(rep[0], rep[1]); }
+    return t;
+  }
+  function tiles(G, base, grout, rep, size) {
+    return canvasTex(G, 256, 256, (x, w, hh) => {
+      x.fillStyle = base; x.fillRect(0, 0, w, hh);
+      const r = RNG(7); for (let i = 0; i < 900; i++) { x.fillStyle = `rgba(0,0,0,${0.015 + r() * 0.03})`; x.fillRect(r() * w, r() * hh, 2, 2); }
+      x.strokeStyle = grout; x.lineWidth = size || 3; x.strokeRect(0, 0, w, hh);
+    }, rep);
+  }
+  /* A room of width w and depth d with its back wall at z = z0: tiled floor, walls with a dado band, skirting,
+     ceiling panels and optional windows. Returns the meshes in an object. */
+  function room(G, o) {
+    o = o || {};
+    const T = G.T, S = G.scene, w = o.w || 10, d = o.d || 12, hgt = o.h || 3.2, z0 = o.z0 || -6;
+    const out = {};
+    const fm = std(G, 0xFFFFFF, 0.65); fm.map = tiles(G, o.floorTile || "#D9D5CD", "#B9B3A8", [w / 0.6, d / 0.6]);
+    const fl = new T.Mesh(new T.PlaneGeometry(w, d), fm); fl.rotation.x = -Math.PI / 2; fl.position.set(0, 0, z0 + d / 2); S.add(fl); out.floor = fl;
+    const wallM = std(G, o.wall || 0xF1EEE8, 0.95), dado = std(G, o.dado || 0xDCE6EC, 0.9), skirt = std(G, 0x8E979F, 0.6);
+    const back = new T.Mesh(new T.BoxGeometry(w, hgt, 0.1), wallM); back.position.set(0, hgt / 2, z0 - 0.05); S.add(back); out.back = back;
+    const bd = new T.Mesh(new T.BoxGeometry(w, 1.0, 0.02), dado); bd.position.set(0, 0.5, z0 + 0.01); S.add(bd);
+    out.sides = [-1, 1].map(sg => { const m = new T.Mesh(new T.BoxGeometry(0.1, hgt, d), std(G, o.side || 0xECE9E2, 0.95)); m.position.set(sg * w / 2, hgt / 2, z0 + d / 2); S.add(m);
+      const b2 = new T.Mesh(new T.BoxGeometry(0.02, 1.0, d), dado); b2.position.set(sg * (w / 2 - 0.06), 0.5, z0 + d / 2); S.add(b2);
+      const k2 = new T.Mesh(new T.BoxGeometry(0.03, 0.1, d), skirt); k2.position.set(sg * (w / 2 - 0.07), 0.05, z0 + d / 2); S.add(k2); return m; });
+    const sk = new T.Mesh(new T.BoxGeometry(w, 0.1, 0.03), skirt); sk.position.set(0, 0.05, z0 + 0.03); S.add(sk);
+    if (o.ceiling !== false) {
+      const c = new T.Mesh(new T.PlaneGeometry(w, d), new T.MeshBasicMaterial({color: o.ceilingColor || 0xE9E6E0})); c.rotation.x = Math.PI / 2; c.position.set(0, hgt, z0 + d / 2); S.add(c); out.ceiling = c;
+      const lm = new T.MeshBasicMaterial({color: 0xFFFDF6});
+      for (let x = -w / 2 + 1.5; x < w / 2 - 0.5; x += 3) for (let z = z0 + 1.5; z < z0 + d - 0.5; z += 3) {
+        const p = new T.Mesh(new T.PlaneGeometry(1.2, 0.6), lm); p.rotation.x = Math.PI / 2; p.position.set(x, hgt - 0.01, z); S.add(p); }
+    }
+    (o.windows || []).forEach(wd => {           /* {x, y, w, h} on the back wall, or {side: -1 | 1, z, y, w, h} */
+      const sky = canvasTex(G, 64, 128, (x, cw, ch) => { const gr = x.createLinearGradient(0, 0, 0, ch); gr.addColorStop(0, "#9CC6E8"); gr.addColorStop(0.7, "#D9ECF7"); gr.addColorStop(1, "#BFD8B0"); x.fillStyle = gr; x.fillRect(0, 0, cw, ch); });
+      const g = new T.Group(), fr = std(G, 0xF7F7F5, 0.5);
+      const glass = new T.Mesh(new T.PlaneGeometry(wd.w, wd.h), new T.MeshBasicMaterial({map: sky})); g.add(glass);
+      [[0, wd.h / 2, wd.w + 0.08, 0.06], [0, -wd.h / 2, wd.w + 0.08, 0.06], [-wd.w / 2, 0, 0.06, wd.h], [wd.w / 2, 0, 0.06, wd.h], [0, 0, 0.04, wd.h]].forEach(([x, y, a, b]) => {
+        const f = new T.Mesh(new T.BoxGeometry(a, b, 0.06), fr); f.position.set(x, y, 0.02); g.add(f); });
+      const sill = new T.Mesh(new T.BoxGeometry(wd.w + 0.16, 0.04, 0.18), fr); sill.position.set(0, -wd.h / 2 - 0.03, 0.07); g.add(sill);
+      if (wd.side) { g.position.set(wd.side * (w / 2 - 0.06), wd.y, wd.z); g.rotation.y = -wd.side * Math.PI / 2; }
+      else g.position.set(wd.x, wd.y, z0 + 0.01);
+      S.add(g);
+    });
+    return out;
+  }
+  /* Furniture and small objects of a waiting room. */
+  function chair(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), m = std(G, o.color || 0x3E6F8E, 0.55), mm = std(G, 0xA9B1BA, 0.3, 0.7);
+    const seat = new T.Mesh(new T.RoundedBoxGeometry(0.48, 0.07, 0.46, 3, 0.025), m); seat.position.y = 0.43; g.add(seat);
+    const back = new T.Mesh(new T.RoundedBoxGeometry(0.48, 0.44, 0.05, 3, 0.022), m); back.position.set(0, 0.72, -0.21); back.rotation.x = -0.12; g.add(back);
+    [[-0.21, -0.19], [0.21, -0.19], [-0.21, 0.19], [0.21, 0.19]].forEach(([a, b]) => { const l = new T.Mesh(new T.CylinderGeometry(0.014, 0.014, 0.42, 10), mm); l.position.set(a, 0.21, b); g.add(l); });
+    if (o.arms) [-0.25, 0.25].forEach(a => { const r = new T.Mesh(new T.RoundedBoxGeometry(0.05, 0.04, 0.4, 2, 0.015), mm); r.position.set(a, 0.62, -0.02); g.add(r);
+      const p2 = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 0.2, 8), mm); p2.position.set(a, 0.52, 0.12); g.add(p2); });
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  function chairRow(G, n, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), gap = o.gap || 0.56;
+    const beam = new T.Mesh(new T.BoxGeometry(gap * n, 0.05, 0.06), std(G, 0x8E979F, 0.35, 0.6)); beam.position.y = 0.36; g.add(beam);
+    for (let i = 0; i < n; i++) { const c = chair(G, {color: o.color, arms: false}); G.scene.remove(c); c.position.x = (i - (n - 1) / 2) * gap; g.add(c); }
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g);
+    g.userData.seat = i => { const p = new T.Vector3((i - (n - 1) / 2) * gap, 0, 0); return g.localToWorld(p); };
+    return g;
+  }
+  function plant(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), r = RNG(o.seed || 5), s = o.size || 1;
+    const pot = new T.Mesh(new T.CylinderGeometry(0.2 * s, 0.15 * s, 0.4 * s, 24), std(G, o.pot || 0xE9E4DA, 0.55)); pot.position.y = 0.2 * s; g.add(pot);
+    const soil = new T.Mesh(new T.CylinderGeometry(0.185 * s, 0.185 * s, 0.02, 24), std(G, 0x4A3A2C, 0.95)); soil.position.y = 0.39 * s; g.add(soil);
+    const greens = [0x3F7A3A, 0x4E8C45, 0x2F6630, 0x5C9A4E];
+    for (let i = 0; i < 18; i++) {
+      const a = r() * Math.PI * 2, tilt = 0.25 + r() * 0.75, len = (0.35 + r() * 0.35) * s;
+      const leaf = new T.Mesh(new T.SphereGeometry(1, 10, 8), std(G, greens[i % 4], 0.7)); leaf.scale.set(0.07 * s, len / 2, 0.018 * s);
+      const holder = new T.Group(); holder.position.y = 0.4 * s; holder.rotation.set(tilt, a, 0, "YXZ");
+      leaf.position.y = len / 2; holder.add(leaf); g.add(holder);
+    }
+    g.position.set(...(o.at || [0, 0, 0])); G.scene.add(g); return g;
+  }
+  function desk(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), w = o.w || 2.4;
+    const body = new T.Mesh(new T.RoundedBoxGeometry(w, 1.05, 0.6, 3, 0.03), std(G, o.color || 0xE8E2D6, 0.6)); body.position.y = 0.525; g.add(body);
+    const top = new T.Mesh(new T.RoundedBoxGeometry(w + 0.08, 0.05, 0.7, 3, 0.02), std(G, 0x8B6E54, 0.45)); top.position.set(0, 1.07, 0.02); g.add(top);
+    const band = new T.Mesh(new T.BoxGeometry(w, 0.12, 0.01), std(G, o.band || 0x2F5D8A, 0.5)); band.position.set(0, 0.85, 0.305); g.add(band);
+    if (o.monitor !== false) { const mon = new T.Mesh(new T.RoundedBoxGeometry(0.5, 0.32, 0.03, 2, 0.01), std(G, 0x1E2128, 0.4)); mon.position.set(w * 0.25, 1.32, -0.12); mon.rotation.y = Math.PI; g.add(mon);
+      const st = new T.Mesh(new T.CylinderGeometry(0.02, 0.05, 0.15, 10), std(G, 0x1E2128, 0.4)); st.position.set(w * 0.25, 1.15, -0.12); g.add(st); }
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  function sign(G, text, o) {
+    o = o || {}; const T = G.T, w = o.w || 1.2, hh = o.h || 0.3;
+    const tex = canvasTex(G, 512, Math.round(512 * hh / w), (x, cw, ch) => { x.fillStyle = o.bg || "#2F5D8A"; x.fillRect(0, 0, cw, ch);
+      x.fillStyle = o.fg || "#FFFFFF"; x.font = `700 ${Math.round(ch * 0.46)}px Atkinson Hyperlegible, system-ui, sans-serif`; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(text, cw / 2, ch / 2 + 2); });
+    const m = new T.Mesh(new T.PlaneGeometry(w, hh), new T.MeshBasicMaterial({map: tex})); m.position.set(...(o.at || [0, 2.3, 0])); m.rotation.y = o.face || 0; G.scene.add(m); return m;
+  }
+  /* A kiosk around a screen of w by h metres whose centre is at o.at; the screen panel itself is made by the caller. */
+  function kiosk(G, o) {
+    const T = G.T, g = new T.Group(), w = o.w, hh = o.h, y = o.at[1];
+    const bez = new T.Mesh(new T.RoundedBoxGeometry(w + 0.05, hh + 0.05, 0.04, 3, 0.012), std(G, 0x1B1E24, 0.4)); bez.position.z = -0.022; g.add(bez);
+    const top = hh / 2 + 0.1, H = top + y, body = new T.Mesh(new T.RoundedBoxGeometry(w + 0.16, H, 0.3, 4, 0.04), std(G, o.color || 0x2F5D8A, 0.45));
+    body.position.set(0, top - H / 2, -0.19); g.add(body);
+    const base = new T.Mesh(new T.RoundedBoxGeometry(w + 0.3, 0.05, 0.5, 3, 0.015), std(G, 0x9AA3AE, 0.35, 0.5)); base.position.set(0, -y + 0.025, -0.19); g.add(base);
+    g.position.set(...o.at); G.scene.add(g); return g;
+  }
+  function clock(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group();
+    const face = new T.Mesh(new T.CylinderGeometry(0.2, 0.2, 0.04, 40), std(G, 0xFFFFFF, 0.4)); face.rotation.x = Math.PI / 2; g.add(face);
+    const rim = new T.Mesh(new T.TorusGeometry(0.2, 0.018, 10, 40), std(G, 0x30343C, 0.4)); g.add(rim);
+    [[0.12, 0.012, -1.0], [0.16, 0.008, 0.6]].forEach(([l, wd, a]) => { const hand = new T.Mesh(new T.BoxGeometry(wd, l, 0.01), std(G, 0x1E2128, 0.5)); hand.geometry.translate(0, l / 2, 0); hand.rotation.z = a; hand.position.z = 0.025; g.add(hand); });
+    g.position.set(...(o.at || [0, 2.3, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A plane with a canvas texture; draw(ctx, W, H) paints it. */
+  function panel(G, wm, hm, px, draw) {
+    const T = G.T, c = document.createElement("canvas"); c.width = px[0]; c.height = px[1];
+    const tex = new T.CanvasTexture(c); tex.colorSpace = T.SRGBColorSpace; tex.anisotropy = 4;
+    const mesh = new T.Mesh(new T.PlaneGeometry(wm, hm), new T.MeshBasicMaterial({map: tex}));
+    const api = {mesh, canvas: c, tex, ctx: c.getContext("2d"),
+      redraw() { const x = api.ctx; x.save(); x.textAlign = "left"; x.textBaseline = "alphabetic"; draw(x, c.width, c.height); x.restore(); tex.needsUpdate = true; G.redraw(); }};
+    api.redraw();
+    return api;
+  }
+  /* Head-up display with a top row, a bottom row and a big message in the middle. */
+  function hud(box, n) {
+    const top = h("div", {class: "hud"}), bot = h("div", {class: "hud", style: "top:auto;bottom:8px"}), big0 = h("div", {class: "big", hidden: ""});
+    const spans = []; for (let i = 0; i < (n || 2); i++) { const s = h("span", {}); spans.push(s); top.append(s); }
+    const bottom = h("span", {style: "font-weight:700"}); bot.append(bottom); box.append(top, bot, big0);
+    let timer = 0;
+    return {spans, bottom, set(i, t) { spans[i].textContent = t || ""; }, say(t) { bottom.textContent = t || ""; },
+      big(t, col, ms) { big0.hidden = false; big0.textContent = t; big0.style.color = col || "#1E2433"; clearTimeout(timer); timer = setTimeout(() => { big0.hidden = true; }, ms || 900); }};
+  }
+  /* Smooth camera flights; returns fly(pos, target, callback). */
+  function flyer(G, speed) {
+    let f = null, last = 0;                       /* flights run on real time, also when frames are slow */
+    G.onTick(() => {
+      if (!f) { last = 0; return false; }
+      const now = performance.now(), dt = last ? Math.min(0.25, (now - last) / 1000) : 0.016; last = now;
+      f.u = Math.min(1, f.u + dt * (speed || 1.8)); const e = f.u < 0.5 ? 2 * f.u * f.u : 1 - Math.pow(-2 * f.u + 2, 2) / 2;
+      G.camera.position.lerpVectors(f.p0, f.p1, e); G.controls.target.lerpVectors(f.t0, f.t1, e); G.controls.update();
+      if (f.u >= 1) { const cb = f.cb; f = null; if (cb) cb(); }
+      return true;
+    });
+    return (pos, tgt, cb) => { const T = G.T; f = {p0: G.camera.position.clone(), t0: G.controls.target.clone(), p1: new T.Vector3(...pos), t1: new T.Vector3(...tgt), u: 0, cb}; };
+  }
+  /* Copy rows as comma-separated values for the Colab notebook. */
+  function exporter(btnId, taId, msgId, cols, rowsFn, target, onCopy) {
+    const btn = document.getElementById(btnId), ta = document.getElementById(taId), msg = document.getElementById(msgId);
+    btn.addEventListener("click", () => {
+      const rows = rowsFn();
+      if (!rows.length) { msg.textContent = "Play the game first."; return; }
+      const cell = v => { v = v == null ? "" : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };   /* quoted as in CSV files */
+      ta.value = [cols.join(",")].concat(rows.map(r => cols.map(c => cell(r[c])).join(","))).join("\n");
+      ta.hidden = false; ta.select();
+      const ok = () => { msg.textContent = `Copied. Paste it into ${target} of the Colab notebook.`; };
+      try { navigator.clipboard.writeText(ta.value).then(ok, () => { msg.textContent = "Select the text below and copy it."; }); }
+      catch (e) { msg.textContent = "Select the text below and copy it."; }
+      if (onCopy) onCopy();
+    });
+  }
+  const noGL = (box, extra) => { box.append(h("p", {class: "no3d"}, "3D graphics are not available in this browser. A recent version of Chrome, Edge, Firefox or Safari runs this part." + (extra || ""))); };
+  const shuffle = (a, r) => { r = r || Math.random; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  /* A simple standing person: body, head; returns the group. */
+  function person(G, col) {
+    const T = G.T, g = new T.Group(), m = new T.MeshLambertMaterial({color: col || 0x5A6E8C});
+    const body = new T.Mesh(new T.CylinderGeometry(0.19, 0.23, 1.1, 16), m); body.position.y = 0.95; g.add(body);
+    const head = new T.Mesh(new T.SphereGeometry(0.15, 16, 12), new T.MeshLambertMaterial({color: 0xE0B48E})); head.position.y = 1.66; g.add(head);
+    [-0.09, 0.09].forEach(x => { const l = new T.Mesh(new T.CylinderGeometry(0.07, 0.07, 0.42, 10), m); l.position.set(x, 0.21, 0); g.add(l); });
+    g.userData.head = head; G.scene.add(g); return g;
+  }
+  /* Point of a ray hit on a panel of wmm x hmm millimetres, in millimetres from its centre with y upwards. */
+  const toMM = (hit, wmm, hmm) => ({x: (hit.uv.x - 0.5) * wmm, y: (hit.uv.y - 0.5) * hmm});
+  /* Fixes the camera during a game, so that drags and taps act on the game and not on the view. */
+  function lock(G, on) { G.controls.enabled = !on; G.renderer.domElement.style.touchAction = on ? "none" : ""; }
+  /* People: rigged human figures built from the CC0 assets of MakeHuman (assets/models). A model is loaded once per
+     page with a script tag, so the pages also work when they are opened from the disk. */
+  const MODELS = {}, MODEL_DIR = (window.COURSE_MODELS || "../../assets/models/");
+  function loadModel(type) {
+    if (MODELS[type]) return MODELS[type];
+    MODELS[type] = new Promise((res, rej) => {
+      const done = () => {
+        const b64 = (window.HUMAN_GLB || {})[type]; if (!b64) { rej(new Error("model " + type)); return; }
+        const bin = atob(b64), buf = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+        new THREE.GLTFLoader().parse(buf.buffer, "", res, rej);
+      };
+      if ((window.HUMAN_GLB || {})[type]) { done(); return; }
+      const sc = document.createElement("script"); sc.src = MODEL_DIR + type + ".js"; sc.onload = done; sc.onerror = () => rej(new Error("script " + type));
+      document.head.append(sc);
+    });
+    return MODELS[type];
+  }
+  const LOOKS = {
+    skin: [0xE8C2A4, 0xD9A882, 0xC48A64, 0xA36B4A, 0x7A4E36], hair: [0x2B1E16, 0x3B2416, 0x6B4A2E, 0x8C8780, 0xC9C4BE, 0x111111]};
+  /* human(G, o): o.type man | woman | oldman | oldwoman; o.skin, o.hairColor, o.top, o.bottom, o.shoes as colours;
+     o.hair short | bob | bun | ring | none; o.sleeves long | short; o.coat, o.skirt as booleans; o.pose stand | sit | walk;
+     o.at [x, y, z], o.face angle in radians. Returns a handle at once; the figure appears when its model is loaded. */
+  function human(G, o) {
+    o = o || {};
+    const T = G.T, grp = new T.Group(), V3 = T.Vector3, Q = T.Quaternion;
+    grp.position.set(...(o.at || [0, 0, 0])); grp.rotation.y = o.face || 0; if (o.scale) grp.scale.setScalar(o.scale); G.scene.add(grp);
+    const h = {group: grp, bones: {}, rest: {}, ready: null, state: {pose: o.pose || "stand", t: Math.random() * 10, look: null, reach: null, seat: o.seat || 0.46, lean: o.lean},
+      set(k, v) { h.state[k] = v; h.apply(); G.redraw(); return h; }};
+    const ax = new V3(1, 0, 0);
+    function dirLocal(bone, dirRoot) {           /* a direction in the space of the figure, into the parent of a bone */
+      const qp = new Q(), qr = new Q(); bone.parent.getWorldQuaternion(qp); grp.getWorldQuaternion(qr);
+      return dirRoot.clone().applyQuaternion(qr).applyQuaternion(qp.invert()).normalize();
+    }
+    function aim(name, dirRoot, restName) {
+      const b = h.bones[name]; if (!b) return;
+      b.quaternion.setFromUnitVectors(h.rest[restName || name], dirLocal(b, new V3(...dirRoot)));
+      b.updateMatrixWorld(true);
+    }
+    function seg(a, b) { return h.pos[b].clone().sub(h.pos[a]).normalize(); }
+    function reach(side, targetWorld) {         /* two-bone reach of the arm, with the fingertip on the target */
+      const up = h.bones["upperarm01_" + side], lo = h.bones["lowerarm01_" + side]; if (!up || !lo) return;
+      grp.updateMatrixWorld(true);
+      const S = new V3(); up.getWorldPosition(S);
+      const sc = grp.scale.x, L1 = h.len["arm_" + side] * sc, L2 = (h.len["fore_" + side] + h.len["hand_" + side]) * sc;
+      const v = targetWorld.clone().sub(S); const d = Math.min(v.length(), (L1 + L2) * 0.995), dir = v.normalize();
+      const qr = new Q(); grp.getWorldQuaternion(qr);
+      const pole = new V3(side === "L" ? 0.55 : -0.55, -1, -0.35).applyQuaternion(qr).normalize();
+      const a1 = Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d))));
+      const axis = new V3().crossVectors(dir, pole).normalize();
+      const upperW = dir.clone().applyAxisAngle(axis, a1);
+      const qp = new Q(); up.parent.getWorldQuaternion(qp);
+      up.quaternion.setFromUnitVectors(h.rest["arm_" + side], upperW.clone().applyQuaternion(qp.invert()).normalize()); up.updateMatrixWorld(true);
+      const E = S.clone().addScaledVector(upperW, L1), foreW = targetWorld.clone().sub(E).normalize();
+      lo.parent.getWorldQuaternion(qp);
+      lo.quaternion.setFromUnitVectors(h.rest["fore_" + side], foreW.applyQuaternion(qp.invert()).normalize()); lo.updateMatrixWorld(true);
+    }
+    function curl(side, amounts) {               /* bends the fingers: amounts for thumb, index, middle, ring, little */
+      for (let f = 1; f <= 5; f++) for (let k = 1; k <= 3; k++) {
+        const b = h.bones[`finger${f}-${k}_${side}`]; if (!b) continue;
+        b.quaternion.setFromAxisAngle(h.curlAxis[side][f], (amounts[f - 1] || 0) * (f === 1 ? 0.6 : 1) * (k === 1 ? 0.8 : 1));
+      }
+    }
+    function look(targetWorld) {
+      const hd = h.bones.head, nk = h.bones.neck01; if (!hd || !nk) return;
+      const P = new V3(); hd.getWorldPosition(P);
+      const d = targetWorld.clone().sub(P), qr = new Q(); grp.getWorldQuaternion(qr); d.applyQuaternion(qr.invert());
+      const yaw = Math.max(-1.1, Math.min(1.1, Math.atan2(d.x, d.z))), pitch = Math.max(-0.7, Math.min(0.55, Math.atan2(d.y, Math.hypot(d.x, d.z))));
+      nk.rotation.set(-pitch * 0.35, yaw * 0.4, 0, "YXZ"); hd.rotation.set(-pitch * 0.65, yaw * 0.6, 0, "YXZ");
+    }
+    h.apply = function () {
+      if (!h.ready || !h.root) return;
+      const st = h.state, b = h.bones, t = st.t;
+      Object.values(b).forEach(x => x.quaternion.identity());
+      h.root.position.set(0, 0, 0);
+      const breath = Math.sin(t * 1.6) * 0.012;
+      if (b.spine02) b.spine02.rotation.x = breath;
+      if (st.pose === "sit") {
+        const hip = h.pos["upperleg01_L"].y;
+        h.root.position.set(0, st.seat + 0.085 - hip, -0.06);
+        ["L", "R"].forEach(s => { const sg = s === "L" ? 1 : -1;
+          aim("upperleg01_" + s, [sg * 0.10, -0.06, 1], "thigh_" + s); aim("lowerleg01_" + s, [0, -1, 0.08], "shin_" + s); });
+        if (b.spine04) b.spine04.rotation.x = -0.06;
+      } else if (st.pose === "bed") {           /* sitting up in bed: legs along the mattress, back against the raised rest */
+        const hip = h.pos["upperleg01_L"].y;
+        h.root.position.set(0, st.seat + 0.02 - hip, 0);
+        ["L", "R"].forEach(s => { const sg = s === "L" ? 1 : -1;
+          aim("upperleg01_" + s, [sg * 0.05, -0.03, 1], "thigh_" + s); aim("lowerleg01_" + s, [0, -0.02, 1], "shin_" + s); });
+        if (b.spine05) b.spine05.rotation.x = -(st.lean == null ? 0.6 : st.lean);
+        if (b.neck01) b.neck01.rotation.x = 0.25;
+        ["L", "R"].forEach(s => { if (b["foot_" + s]) b["foot_" + s].rotation.x = 1.15; });
+      } else if (st.pose === "walk") {
+        const ph = t * 5.2, sw = Math.sin(ph) * 0.38;
+        h.root.position.y = Math.abs(Math.cos(ph)) * 0.025 - 0.012;
+        ["L", "R"].forEach((s, i) => { const k = i ? -sw : sw;
+          b["upperleg01_" + s].quaternion.setFromAxisAngle(ax, -k);
+          b["lowerleg01_" + s].quaternion.setFromAxisAngle(ax, Math.max(0, Math.sin(ph + (i ? Math.PI : 0) - 0.6)) * 0.75); });
+      }
+      ["L", "R"].forEach(s => { const sg = s === "L" ? 1 : -1;
+        if (st.pose === "sit") { aim("upperarm01_" + s, [sg * 0.14, -0.86, 0.48], "arm_" + s); aim("lowerarm01_" + s, [sg * -0.05, -0.32, 1], "fore_" + s); }
+        else if (st.pose === "bed") { aim("upperarm01_" + s, [sg * 0.22, -0.9, 0.3], "arm_" + s); aim("lowerarm01_" + s, [sg * -0.25, -0.35, 1], "fore_" + s); }
+        else { const swing = st.pose === "walk" ? Math.sin(t * 5.2 + (s === "L" ? Math.PI : 0)) * 0.28 : 0;
+          aim("upperarm01_" + s, [sg * 0.13, -1, 0.03 + swing], "arm_" + s); aim("lowerarm01_" + s, [sg * 0.05, -1, 0.16 + swing * 1.2], "fore_" + s); }
+        curl(s, [0.35, 0.3, 0.38, 0.45, 0.5]); });
+      if (st.reach) { reach(st.reach.side || "R", st.reach.at); curl(st.reach.side || "R", st.reach.point === false ? [0.4, 0.4, 0.45, 0.5, 0.55] : [0.9, 0, 1.4, 1.5, 1.5]); }
+      (h.shoeMeshes || []).forEach(m => { m.visible = st.pose !== "bed"; });
+      if (st.look) look(st.look); else if (b.head) b.head.rotation.set(Math.sin(t * 0.37) * 0.05, Math.sin(t * 0.23) * 0.12, 0, "YXZ");
+      h.root.updateMatrixWorld(true);
+    };
+    h.ready = loadModel(o.type || "man").then(gltf => {
+      const root = T.SkeletonUtils.clone(gltf.scene); h.root = root; grp.add(root);
+      const hair = o.hair || ({man: "short", oldman: "ring", woman: "bob", oldwoman: "bun"}[o.type || "man"]);
+      const show = {top: true, sleeve: o.sleeves !== "short", bottom: !o.skirt, coat: !!o.coat, skirt: !!o.skirt, hair_short: hair === "short" || hair === "bun",
+        hair_bob: hair === "bob", hair_ring: hair === "ring", hair_bun: false, bun: hair === "bun"};
+      const col = {skin: o.skin || LOOKS.skin[1], hair: o.hairColor || LOOKS.hair[o.type && o.type.startsWith("old") ? 4 : 0], top: o.top || 0x3F6E8C,
+        bottom: o.bottom || 0x2B3340, shoes: o.shoes || 0x1C1C1E, coat: o.coatColor || 0xF4F6F8, skirt: o.skirtColor || o.bottom || 0x4A3B5C};
+      root.traverse(m => {
+        if (m.isBone) h.bones[m.name] = m;
+        if (!m.isMesh) return;
+        m.frustumCulled = false; m.castShadow = true; m.receiveShadow = true;
+        if (m.name in show) m.visible = show[m.name];
+        if (m.name.startsWith("shoe_")) (h.shoeMeshes = h.shoeMeshes || []).push(m);
+        const mats = Array.isArray(m.material) ? m.material : [m.material];
+        const cl = mats.map(x => { const c = x.clone(), n = x.name;
+          if (n === "skin") c.color.setHex(col.skin); else if (n === "lips") c.color.setHex(col.skin).multiply(new T.Color(0.93, 0.78, 0.76));
+          else if (n === "hair" || n === "brows") { c.color.setHex(col.hair); c.roughness = 0.55; }
+          else if (col[n] !== undefined) c.color.setHex(col[n]);
+          return c; });
+        m.material = Array.isArray(m.material) ? cl : cl[0];
+      });
+      root.updateMatrixWorld(true);
+      h.pos = {}; Object.entries(h.bones).forEach(([n, b]) => { const p = new V3(); b.getWorldPosition(p); h.pos[n] = grp.worldToLocal(p); });
+      Object.entries(gltf.scene.userData.restDir || {}).forEach(([n, d]) => { h.rest[n] = new V3(...d).normalize(); });
+      h.len = {};
+      ["L", "R"].forEach(s => {
+        h.rest["arm_" + s] = seg("upperarm01_" + s, "lowerarm01_" + s); h.rest["fore_" + s] = seg("lowerarm01_" + s, "wrist_" + s);
+        h.rest["thigh_" + s] = seg("upperleg01_" + s, "lowerleg01_" + s); h.rest["shin_" + s] = seg("lowerleg01_" + s, "foot_" + s);
+        h.len["arm_" + s] = h.pos["lowerarm01_" + s].distanceTo(h.pos["upperarm01_" + s]);
+        h.len["fore_" + s] = h.pos["wrist_" + s].distanceTo(h.pos["lowerarm01_" + s]);
+        h.len["hand_" + s] = h.pos["finger2-3_" + s] ? h.pos["finger2-3_" + s].distanceTo(h.pos["wrist_" + s]) + 0.025 : 0.17;
+      });
+      /* Axes for curling the fingers, from the plane of the palm */
+      h.curlAxis = {};
+      ["L", "R"].forEach(s => { h.curlAxis[s] = {};
+        const across = h.pos["finger2-1_" + s].clone().sub(h.pos["finger5-1_" + s]).normalize();
+        const along = h.pos["finger3-1_" + s].clone().sub(h.pos["wrist_" + s]).normalize();
+        const palm = new V3().crossVectors(along, across).normalize().multiplyScalar(s === "L" ? 1 : -1);
+        for (let f = 1; f <= 5; f++) { const r = h.rest[`finger${f}-1_${s}`] || along; h.curlAxis[s][f] = new V3().crossVectors(r, palm).normalize(); } });
+      h.apply(); G.redraw(); return h;
+    });
+    /* Only walking figures, or figures created with o.idle, move all the time; the others are posed once. */
+    G.onTick(dt => { if (!h.root || reduced() || !(h.state.pose === "walk" || o.idle) || !h.group.visible) return false;
+      h.state.t += dt; h.apply(); return true; });
+    return h;
+  }
+  /* A hospital bed whose head end is at o.at and which points along o.face (0 = toward +z), with a raised back rest,
+     side rails, a blanket and, with o.iv, a drip stand. bed.userData.seat is the height of the mattress, and
+     bed.userData.hips the place of a patient's hips in world coordinates; a human with pose "bed" sits there. */
+  function bed(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), L = 2.05, W = 0.95, H = 0.56, P = 0.78, rest = o.rest == null ? 0.95 : o.rest;
+    const frame = std(G, 0xD9DEE3, 0.35, 0.45), sheet = std(G, 0xF5F7F9, 0.9), cover = std(G, o.blanket || 0x8FB3C9, 0.85), dark = std(G, 0x5E6670, 0.5, 0.3);
+    const base = new T.Mesh(new T.RoundedBoxGeometry(W, 0.1, L, 3, 0.03), frame); base.position.set(0, H - 0.21, L / 2); g.add(base);
+    [[-1, 0.12], [1, 0.12], [-1, L - 0.12], [1, L - 0.12]].forEach(([sx, z]) => {
+      const leg = new T.Mesh(new T.CylinderGeometry(0.025, 0.025, H - 0.3, 10), dark); leg.position.set(sx * (W / 2 - 0.08), (H - 0.3) / 2 + 0.09, z); g.add(leg);
+      const wh = new T.Mesh(new T.CylinderGeometry(0.05, 0.05, 0.04, 14), dark); wh.rotation.z = Math.PI / 2; wh.position.set(sx * (W / 2 - 0.08), 0.05, z); g.add(wh); });
+    const flat = new T.Mesh(new T.RoundedBoxGeometry(W - 0.06, 0.13, L - P, 3, 0.05), sheet); flat.position.set(0, H - 0.08, P + (L - P) / 2); g.add(flat);
+    const back = new T.Group(); back.position.set(0, H - 0.08, P); back.rotation.x = rest; g.add(back);
+    const bm = new T.Mesh(new T.RoundedBoxGeometry(W - 0.06, 0.13, P, 3, 0.05), sheet); bm.position.set(0, 0, -P / 2); back.add(bm);
+    const pillow = new T.Mesh(new T.RoundedBoxGeometry(0.6, 0.1, 0.36, 3, 0.05), sheet); pillow.position.set(0, 0.1, -P + 0.24); back.add(pillow);
+    const blanket = new T.Mesh(new T.RoundedBoxGeometry(W - 0.02, 0.2, L - P - 0.05, 3, 0.07), cover); blanket.position.set(0, H + 0.04, P + 0.05 + (L - P - 0.05) / 2); g.add(blanket);
+    const tent = new T.Mesh(new T.RoundedBoxGeometry(W - 0.1, 0.22, 0.42, 4, 0.1), cover); tent.position.set(0, H + 0.1, L - 0.36); g.add(tent);
+    const head = new T.Mesh(new T.RoundedBoxGeometry(W + 0.04, 0.55, 0.05, 3, 0.02), frame); head.position.set(0, H + 0.12, 0.0); g.add(head);
+    const foot = new T.Mesh(new T.RoundedBoxGeometry(W + 0.04, 0.4, 0.05, 3, 0.02), frame); foot.position.set(0, H + 0.04, L); g.add(foot);
+    [-1, 1].forEach(sx => { const r = new T.Mesh(new T.RoundedBoxGeometry(0.03, 0.2, 0.75, 2, 0.012), frame); r.position.set(sx * (W / 2 + 0.01), H + 0.12, 0.62); g.add(r); });
+    if (o.iv) { const pole = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 1.9, 8), frame); pole.position.set(o.iv * (W / 2 + 0.22), 0.95, 0.35); g.add(pole);
+      const bag = new T.Mesh(new T.RoundedBoxGeometry(0.12, 0.2, 0.04, 2, 0.02), new T.MeshStandardMaterial({color: 0xE8F2F8, roughness: 0.3, transparent: true, opacity: 0.75}));
+      bag.position.set(o.iv * (W / 2 + 0.22), 1.75, 0.35); g.add(bag);
+      const foot2 = new T.Mesh(new T.CylinderGeometry(0.2, 0.2, 0.02, 5), dark); foot2.position.set(o.iv * (W / 2 + 0.22), 0.02, 0.35); g.add(foot2); }
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g);
+    g.userData.seat = H - 0.015; g.updateMatrixWorld(true); g.userData.hips = g.localToWorld(new T.Vector3(0, 0, P + 0.06));
+    return g;
+  }
+  /* A hospital curtain with folds from o.from = [x, z] to o.to = [x, z], hanging from a rail at the height o.top. */
+  function curtain(G, o) {
+    const T = G.T, [x0, z0] = o.from, [x1, z1] = o.to, len = Math.hypot(x1 - x0, z1 - z0), hh = o.h || 1.95, top = o.top || 2.3;
+    const geo = new T.PlaneGeometry(len, hh, Math.max(8, Math.round(len * 30)), 1), pos = geo.attributes.position;
+    for (let i = 0; i < pos.count; i++) pos.setZ(i, 0.035 * Math.sin(pos.getX(i) * 28));
+    geo.computeVertexNormals();
+    const m = new T.Mesh(geo, new T.MeshStandardMaterial({color: o.color || 0xB9D3DE, roughness: 0.92, side: T.DoubleSide}));
+    m.position.set((x0 + x1) / 2, top - hh / 2, (z0 + z1) / 2); m.rotation.y = -Math.atan2(z1 - z0, x1 - x0); G.scene.add(m);
+    const rail = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, len + 0.1, 8), std(G, 0xC9CED4, 0.3, 0.6));
+    rail.position.set(m.position.x, top + 0.02, m.position.z); rail.rotation.set(0, m.rotation.y, Math.PI / 2); G.scene.add(rail);
+    return m;
+  }
+  /* The lobby of the outpatient clinics around a kiosk at the origin that faces +z: walls with windows, signs, a
+     clock, plants, chairs with waiting patients, a reception desk with a nurse and a short queue behind the kiosk.
+     o.player adds the patient who stands at the kiosk; returns {player, people}. */
+  function lobby(G, o) {
+    o = o || {}; const T = G.T, V = (x, y, z) => new T.Vector3(x, y, z), people = [];
+    room(G, {w: 9, d: 9, z0: -1.5, h: 3.1, windows: [{x: -2.7, y: 1.75, w: 1.5, h: 1.15}, {x: 2.5, y: 1.75, w: 1.5, h: 1.15}]});
+    sign(G, o.title || "Outpatient clinics", {at: [0.3, 2.2, -1.44], w: 1.4, h: 0.28});
+    clock(G, {at: [1.55, 2.2, -1.44]});
+    plant(G, {at: [0.8, 0, -1.05], seed: 11, size: 0.9}); plant(G, {at: [-4.0, 0, -1.1], seed: 4});
+    people.push(...seats(G, 4, {at: [-2.3, 0, -1.0], color: 0x4A7A96}, [
+      {chair: 0, type: "oldwoman", top: 0x7B5E8C, skirt: true, skirtColor: 0x3E4658},
+      {chair: 2, type: "man", top: 0x55606E, bottom: 0x23283A, skin: LOOKS.skin[3], hairColor: 0x111111}]));
+    desk(G, {w: 1.4, at: [2.35, 0, -0.45], face: -Math.PI / 2});
+    const nurse = human(G, {type: "woman", at: [2.9, 0, -0.45], face: -Math.PI / 2, coat: true, top: 0x4FA3A5, bottom: 0x4FA3A5, hair: "bun", skin: LOOKS.skin[1]});
+    nurse.set("look", V(1.0, 1.5, 1.2)); people.push(nurse);
+    people.push(human(G, {type: "oldman", at: [0.3, 0, 1.15], face: Math.PI + 0.2, top: 0x6B7B5A, bottom: 0x3A3F48}).set("look", V(0, 1.3, 0)));
+    people.push(human(G, {type: "woman", at: [0.55, 0, 1.85], face: Math.PI + 0.35, top: 0xB8664A, bottom: 0x2E3440, skin: LOOKS.skin[2], hair: "bun"}));
+    let player = null;
+    if (o.player !== false) { player = human(G, Object.assign({type: "woman", at: [-0.08, 0, 0.44], face: Math.PI, top: 0x3F6E8C, bottom: 0x2B3340, hairColor: 0x3B2416}, o.player || {}));
+      player.set("look", V(0, (o.screenY || 1.25), 0)).set("reach", {side: "R", at: V(0.03, (o.screenY || 1.25) + 0.02, 0.008)}); }
+    return {player, people};
+  }
+  /* A patient sitting up in a bed made by bed(); o holds the options of human(). */
+  function patientIn(G, b, o) {
+    const p = b.userData.hips;
+    return human(G, Object.assign({pose: "bed", seat: b.userData.seat, at: [p.x, 0, p.z], face: b.rotation.y}, o || {}));
+  }
+  /* A wheelchair whose seat is at o.at and which faces o.face (0 = toward +z); o.power gives a power chair with small
+     wheels, a battery box and a joystick. A human with pose "sit" and seat 0.5 sits on it at the same place. */
+  function wheelchair(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), frame = std(G, o.frame || 0x5E6670, 0.35, 0.7), dark = std(G, 0x1E2128, 0.6);
+    const cushion = std(G, o.color || 0x2B3340, 0.85), R = o.power ? 0.17 : 0.3;
+    const seat = new T.Mesh(new T.RoundedBoxGeometry(0.44, 0.06, 0.42, 3, 0.02), cushion); seat.position.set(0, 0.47, 0); g.add(seat);
+    const back = new T.Mesh(new T.RoundedBoxGeometry(0.42, 0.44, 0.04, 3, 0.015), cushion); back.position.set(0, 0.74, -0.22); back.rotation.x = -0.08; g.add(back);
+    [-1, 1].forEach(sx => {
+      const wheel = new T.Mesh(new T.TorusGeometry(R, o.power ? 0.045 : 0.022, 10, 36), dark); wheel.rotation.y = Math.PI / 2; wheel.position.set(sx * 0.27, R, -0.08); g.add(wheel);
+      const hub = new T.Mesh(new T.CylinderGeometry(0.03, 0.03, 0.05, 12), frame); hub.rotation.z = Math.PI / 2; hub.position.set(sx * 0.27, R, -0.08); g.add(hub);
+      if (!o.power) { const rim = new T.Mesh(new T.TorusGeometry(R - 0.03, 0.008, 6, 36), frame); rim.rotation.y = Math.PI / 2; rim.position.set(sx * 0.3, R, -0.08); g.add(rim);
+        for (let k = 0; k < 6; k++) { const sp = new T.Mesh(new T.CylinderGeometry(0.004, 0.004, 2 * R - 0.05, 4), frame); sp.rotation.set(k * Math.PI / 6, 0, 0); sp.position.set(sx * 0.27, R, -0.08); g.add(sp); } }
+      const caster = new T.Mesh(new T.TorusGeometry(0.055, 0.018, 8, 18), dark); caster.rotation.y = Math.PI / 2; caster.position.set(sx * 0.2, 0.075, 0.3); g.add(caster);
+      const fork = new T.Mesh(new T.CylinderGeometry(0.01, 0.01, 0.38, 6), frame); fork.position.set(sx * 0.2, 0.28, 0.25); fork.rotation.x = -0.15; g.add(fork);
+      const rail = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 0.5, 8), frame); rail.rotation.x = Math.PI / 2; rail.position.set(sx * 0.21, 0.44, 0.02); g.add(rail);
+      const post = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 0.62, 8), frame); post.position.set(sx * 0.21, 0.7, -0.24); g.add(post);
+      const grip = new T.Mesh(new T.CylinderGeometry(0.016, 0.016, 0.1, 8), dark); grip.rotation.x = Math.PI / 2; grip.position.set(sx * 0.21, 1.0, -0.29); g.add(grip);
+      const rest = new T.Mesh(new T.BoxGeometry(0.13, 0.015, 0.09), dark); rest.position.set(sx * 0.1, 0.12, 0.38); g.add(rest);
+      const arm = new T.Mesh(new T.RoundedBoxGeometry(0.05, 0.03, 0.3, 2, 0.01), dark); arm.position.set(sx * 0.23, 0.66, -0.04); g.add(arm); });
+    if (o.power) { const bat = new T.Mesh(new T.RoundedBoxGeometry(0.36, 0.2, 0.36, 3, 0.03), dark); bat.position.set(0, 0.25, -0.03); g.add(bat);
+      const joy = new T.Mesh(new T.SphereGeometry(0.025, 12, 10), std(G, 0x111111, 0.4)); joy.position.set(0.24, 0.73, 0.08); g.add(joy); }
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A rollator (walker on wheels) in front of a person at o.at who faces o.face. */
+  function rollator(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), fr = std(G, o.color || 0x8C3B3B, 0.4, 0.4), dark = std(G, 0x1E2128, 0.6);
+    [-1, 1].forEach(sx => { [[0.0, -0.05], [0.42, 0.06]].forEach(([z, lean]) => {
+      const leg = new T.Mesh(new T.CylinderGeometry(0.014, 0.014, 0.86, 8), fr); leg.position.set(sx * 0.27, 0.45, z); leg.rotation.x = lean; g.add(leg);
+      const wh = new T.Mesh(new T.TorusGeometry(0.07, 0.02, 8, 18), dark); wh.rotation.y = Math.PI / 2; wh.position.set(sx * 0.27, 0.075, z); g.add(wh); });
+      const grip = new T.Mesh(new T.CylinderGeometry(0.018, 0.018, 0.14, 8), dark); grip.rotation.x = Math.PI / 2; grip.position.set(sx * 0.27, 0.88, -0.02); g.add(grip); });
+    const seat = new T.Mesh(new T.BoxGeometry(0.5, 0.02, 0.3), dark); seat.position.set(0, 0.56, 0.2); g.add(seat);
+    const basket = new T.Mesh(new T.BoxGeometry(0.4, 0.14, 0.24), std(G, 0x30343C, 0.8)); basket.position.set(0, 0.38, 0.22); g.add(basket);
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A stick from a hand at o.from to the floor at o.to: a white cane for blind people (o.white) or a walking stick. */
+  function stick(G, o) {
+    const T = G.T, a = new T.Vector3(...o.from), b = new T.Vector3(...o.to), len = a.distanceTo(b), g = new T.Group();
+    const m = new T.Mesh(new T.CylinderGeometry(o.white ? 0.008 : 0.012, o.white ? 0.008 : 0.012, len, 8), std(G, o.white ? 0xF4F4F2 : 0x6B4A2E, 0.5)); g.add(m);
+    if (o.white) { const band = new T.Mesh(new T.CylinderGeometry(0.0085, 0.0085, 0.18, 8), std(G, 0xC0392B, 0.5)); band.position.y = -len / 2 + 0.16; g.add(band); }
+    g.position.copy(a).add(b).multiplyScalar(0.5); g.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), a.clone().sub(b).normalize());
+    G.scene.add(g); return g;
+  }
+  /* A pair of underarm crutches beside a person standing at o.at, facing o.face. */
+  function crutches(G, o) {
+    const T = G.T, g = new T.Group(), m = std(G, 0xA9B1BA, 0.3, 0.7), pad = std(G, 0x30343C, 0.8);
+    [-1, 1].forEach(sx => { const c = new T.Group();
+      const pole = new T.Mesh(new T.CylinderGeometry(0.012, 0.012, 1.3, 8), m); pole.position.y = 0.65; c.add(pole);
+      const top = new T.Mesh(new T.RoundedBoxGeometry(0.06, 0.04, 0.16, 2, 0.015), pad); top.position.y = 1.31; c.add(top);
+      const hand = new T.Mesh(new T.CylinderGeometry(0.014, 0.014, 0.12, 8), pad); hand.rotation.x = Math.PI / 2; hand.position.y = 0.86; c.add(hand);
+      c.position.set(sx * 0.27, 0, 0.05); c.rotation.z = sx * 0.1; g.add(c); });
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A white cast on the right forearm of a figure, between elbow and wrist. It hangs on the bone of the forearm, so it
+     follows every pose of the arm. */
+  function cast(G, hum) {
+    const T = G.T; return hum.ready.then(() => { hum.group.updateMatrixWorld(true);
+      const a = new T.Vector3(), b = new T.Vector3(); hum.bones.lowerarm01_R.getWorldPosition(a); hum.bones.wrist_R.getWorldPosition(b);
+      const sc = hum.group.getWorldScale(new T.Vector3()).x;
+      const m = new T.Mesh(new T.CapsuleGeometry(0.045 * sc, a.distanceTo(b) * 0.8, 4, 10), std(G, 0xF6F6F4, 0.9));
+      m.position.copy(a).lerp(b, 0.55); m.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+      G.scene.add(m); hum.bones.lowerarm01_R.attach(m); G.redraw(); return m; });
+  }
+  /* A table with four legs; o.w, o.d and o.h in metres. */
+  function table(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), w = o.w || 1.2, d = o.d || 0.7, ht = o.h || 0.74;
+    const top = new T.Mesh(new T.RoundedBoxGeometry(w, 0.04, d, 3, 0.012), std(G, o.color || 0xC8A27A, 0.5)); top.position.y = ht - 0.02; g.add(top);
+    const lm = std(G, o.legs || 0x8E979F, 0.35, 0.6);
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => { const l = new T.Mesh(new T.CylinderGeometry(0.02, 0.02, ht - 0.04, 10), lm);
+      l.position.set(a * (w / 2 - 0.06), (ht - 0.04) / 2, b * (d / 2 - 0.06)); g.add(l); });
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A shelf unit with boxes of medicine; o.at is the middle of its front edge on the floor. */
+  function shelf(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), w = o.w || 1.6, ht = o.h || 1.9, d = o.d || 0.34, n = o.rows || 5, r = RNG(o.seed || 3);
+    const wood = std(G, o.color || 0xEDEAE4, 0.6);
+    const back = new T.Mesh(new T.BoxGeometry(w, ht, 0.02), wood); back.position.set(0, ht / 2, -d + 0.01); g.add(back);
+    [-1, 1].forEach(s => { const p = new T.Mesh(new T.BoxGeometry(0.025, ht, d), wood); p.position.set(s * (w / 2 - 0.0125), ht / 2, -d / 2); g.add(p); });
+    const cols = o.boxes || [0xFFFFFF, 0xD9E8F5, 0xF4D6CC, 0xE3F0DA, 0xF7EBC8, 0xE8E0F2, 0xFFFFFF], parts = cols.map(() => []);
+    for (let i = 0; i <= n; i++) {
+      const y = 0.06 + i * (ht - 0.1) / n, b = new T.Mesh(new T.BoxGeometry(w - 0.05, 0.022, d - 0.02), wood); b.position.set(0, y, -d / 2); g.add(b);
+      if (i === n) break;
+      let x = -w / 2 + 0.05;
+      while (x < w / 2 - 0.13) {
+        const bw = 0.045 + r() * 0.075, bh = 0.07 + r() * Math.min(0.15, (ht - 0.1) / n - 0.1), bd = 0.1 + r() * 0.13;
+        if (r() < 0.1) { x += bw + 0.03; continue; }
+        const geo = new T.BoxGeometry(bw, bh, bd); geo.translate(x + bw / 2, y + 0.011 + bh / 2, -0.03 - bd / 2);
+        parts[Math.floor(r() * cols.length)].push(geo); x += bw + 0.006;
+      }
+    }
+    parts.forEach((p, i) => { if (p.length) g.add(new T.Mesh(T.mergeGeometries(p), std(G, cols[i], 0.7))); });
+    g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; G.scene.add(g); return g;
+  }
+  /* A row of n chairs with people seated on some of them; who is a list of human options, each with the index of its
+     chair. */
+  function seats(G, n, o, who) {
+    const row = chairRow(G, n, o);
+    return (who || []).map(w => { const p = row.userData.seat(w.chair), q = Object.assign({}, w); delete q.chair;
+      return human(G, Object.assign({pose: "sit", at: [p.x, 0, p.z], face: o.face || 0}, q)); });
+  }
+  /* A game is first seen from the room. play(true) flies the camera to the play view o.view and fixes it there, and
+     play(false) flies back to the view of the room. The objects in o.hide, such as the figure that stands where the
+     camera goes, are hidden while the game runs. jump(view) sets a view at once, for the screenshots. */
+  function stage(G, o) {
+    const fly = flyer(G, o.speed || 1.5), home = {camera: G.camera.position.toArray(), target: G.controls.target.toArray()};
+    const st = {on: false, home,
+      play(v, cb) {
+        if (v === st.on) { if (cb) cb(); return; }
+        st.on = v; (o.hide || []).forEach(x => { (x.group || x).visible = !v; });
+        lock(G, v); if (G.toolsEl) G.toolsEl.classList.toggle("off", v);
+        const t = v ? o.view : home; fly(t.camera, t.target, cb); G.redraw();
+      },
+      jump(view) { G.camera.position.set(...view.camera); G.controls.target.set(...view.target); G.controls.update(); G.redraw(); }};
+    return st;
+  }
+  return {room, panel, hud, flyer, exporter, noGL, shuffle, person, toMM, lock, human, loadModel, LOOKS, std, canvasTex, tiles, chair, chairRow, plant, desk, sign, clock, kiosk,
+    table, shelf, seats, stage, bed, patientIn, curtain, lobby, wheelchair, rollator, stick, crutches, cast};
+})();
+window.LABKIT = LABKIT;
+
+/* Hardware of the 3D virtual laboratories of Cyber-Physical Systems: a lab bench with a DIN rail, rail-mounted
+   devices with labels, terminals and LEDs, cables, message markers that travel along cables, an oscilloscope, flat
+   screens, a Raspberry Pi, an Ethernet switch, a rack, a battery container, chargers with cars and the parts of a
+   substation bay. Uses LABKIT and the course runtime. */
+var CPSKIT = window.CPSKIT || (function () {
+  const L = LABKIT, F = "Atkinson Hyperlegible, system-ui, sans-serif", MONO = "DejaVu Sans Mono, Consolas, monospace";
+  const geo = (G, w, h, d, rad) => rad ? new G.T.RoundedBoxGeometry(w, h, d, 3, rad) : new G.T.BoxGeometry(w, h, d);
+  const box = (G, w, h, d, c, r, m, rad) => new G.T.Mesh(geo(G, w, h, d, rad), L.std(G, c, r, m));
+  const cyl = (G, r1, r2, h, c, r, m, n) => new G.T.Mesh(new G.T.CylinderGeometry(r1, r2, h, n || 16), L.std(G, c, r, m));
+  const at = (m, x, y, z) => { m.position.set(x, y, z); return m; };
+  function place(G, g, o) { g.position.set(...(o.at || [0, 0, 0])); g.rotation.y = o.face || 0; (o.parent || G.scene).add(g); g.updateMatrixWorld(true); return g; }
+  const glow = (G, c) => new G.T.MeshBasicMaterial({color: c});
+  /* A label plate: a canvas texture on a plane, w by h metres. */
+  function plate(G, w, h, draw, px) {
+    const s = 900 / Math.max(w, h), P = L.panel(G, w, h, px || [Math.round(w * s), Math.round(h * s)], draw);
+    return P;
+  }
+  /* A lab bench with an anti-static mat, a back panel with a DIN rail and a shelf. o.w, o.d, o.h, o.backH. */
+  function bench(G, o) {
+    o = o || {}; const T = G.T, g = new T.Group(), w = o.w || 2.4, d = o.d || 0.8, h = o.h || 0.9, bh = o.backH || 0.95;
+    g.add(at(box(G, w, 0.04, d, 0xD8D1C2, 0.6), 0, h - 0.02, 0));
+    g.add(at(box(G, w - 0.12, 0.004, d - 0.14, o.mat || 0x2E6688, 0.9), 0, h + 0.002, 0.03));
+    const legM = 0x8D959E;
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => g.add(at(box(G, 0.05, h - 0.04, 0.05, legM, 0.35, 0.6), a * (w / 2 - 0.06), (h - 0.04) / 2, b * (d / 2 - 0.06))));
+    g.add(at(box(G, w - 0.12, 0.03, 0.04, legM, 0.35, 0.6), 0, 0.18, -d / 2 + 0.06));
+    const back = new T.Mesh(new T.BoxGeometry(w, bh, 0.025), new T.MeshStandardMaterial({color: 0xFFFFFF, roughness: 0.85,
+      map: L.canvasTex(G, 256, 256, (x, cw, ch) => { x.fillStyle = "#E9EDF0"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#C9D1D8";
+        for (let i = 8; i < cw; i += 16) for (let j = 8; j < ch; j += 16) { x.beginPath(); x.arc(i, j, 2.4, 0, 6.3); x.fill(); } }, [w / 0.4, bh / 0.4])}));
+    back.position.set(0, h + bh / 2, -d / 2 + 0.0125); g.add(back);
+    g.add(at(box(G, w, 0.03, 0.26, 0xD8D1C2, 0.6), 0, h + bh - 0.02, -d / 2 + 0.13));
+    const railY = h + (o.railH || 0.5);
+    g.add(at(box(G, w - 0.3, 0.035, 0.008, 0xBFC5CB, 0.25, 0.85), 0, railY, -d / 2 + 0.03));
+    g.userData = {top: h, railY, railZ: -d / 2 + 0.034, w, d};
+    return place(G, g, o);
+  }
+  /* A device on the DIN rail: body, front label, LEDs and screw terminals. o.w, o.h, o.d, o.color, o.title, o.lines,
+     o.leds [[name, colour]], o.screen {w, h, px, draw}. Returns {group, leds, led(i, on), plate, screen, term(i, top)}. */
+  function dinDevice(G, o) {
+    const T = G.T, g = new T.Group(), w = o.w || 0.09, h = o.h || 0.11, d = o.d || 0.065;
+    g.add(at(box(G, w, h, d, o.color || 0xEDEFF1, 0.55, 0, 0.004), 0, 0, d / 2));
+    g.add(at(box(G, w * 0.98, h * 0.42, 0.012, o.color2 || 0xD9DEE2, 0.5, 0, 0.003), 0, 0, d + 0.002));
+    const lab = plate(G, w * 0.9, h * 0.36, (x, cw, ch) => {
+      x.fillStyle = o.plate || "#F6F8F9"; x.fillRect(0, 0, cw, ch); x.fillStyle = o.band || "#1E6FA8"; x.fillRect(0, 0, cw, ch * 0.2);
+      x.fillStyle = "#FFFFFF"; x.font = `700 ${Math.round(ch * 0.14)}px ${F}`; x.textBaseline = "middle"; x.fillText(o.brand || "CAMPUS GRID", cw * 0.05, ch * 0.105);
+      x.fillStyle = "#1B2430"; x.font = `700 ${Math.round(ch * 0.2)}px ${F}`; x.fillText(o.title || "", cw * 0.05, ch * 0.38, cw * 0.9);
+      x.font = `500 ${Math.round(ch * 0.13)}px ${F}`; x.fillStyle = "#3D4955";
+      (o.lines || []).forEach((t, i) => x.fillText(t, cw * 0.05, ch * (0.6 + i * 0.16), cw * 0.9));
+    });
+    lab.mesh.position.set(0, h * 0.12, d + 0.0085); g.add(lab.mesh);
+    let screen = null;
+    if (o.screen) { screen = L.panel(G, o.screen.w, o.screen.h, o.screen.px || [320, 200], o.screen.draw);
+      screen.mesh.position.set(o.screen.x || 0, o.screen.y || -h * 0.18, d + 0.0086); g.add(screen.mesh); }
+    const leds = (o.leds || []).map(([name, col], i) => {
+      const m = new T.Mesh(new T.SphereGeometry(0.0032, 10, 8), new T.MeshBasicMaterial({color: 0x39424C}));
+      const x = -w * 0.38 + i * Math.min(0.016, (w * 0.76) / Math.max(1, (o.leds.length - 1)));
+      m.position.set(x, -h * 0.17 - (o.screen ? h * 0.12 : 0), d + 0.009); m.userData.on = col; m.userData.noShadow = true; g.add(m); return m; });
+    const terms = [];
+    [1, -1].forEach(sg => { const n = o.terms || 4;
+      for (let i = 0; i < n; i++) { const x = -w * 0.36 + i * (w * 0.72) / Math.max(1, n - 1);
+        const t = at(box(G, 0.012, 0.012, 0.012, 0x2B2F35, 0.6), x, sg * (h / 2 - 0.012), d * 0.75); g.add(t);
+        const sc = at(cyl(G, 0.0035, 0.0035, 0.004, 0xC9CED3, 0.3, 0.8, 10), x, sg * (h / 2 - 0.012), d * 0.75 + 0.007); sc.rotation.x = Math.PI / 2; g.add(sc);
+        terms.push({x, y: sg * (h / 2 - 0.012), z: d * 0.75, top: sg > 0}); } });
+    place(G, g, o);
+    const api = {group: g, leds, plate: lab, screen,
+      led(i, on) { const m = leds[i]; if (!m) return; m.material.color.set(on ? m.userData.on : 0x39424C); G.redraw(); },
+      term(i, top) { const list = terms.filter(t => t.top === (top !== false)); const t = list[Math.min(i, list.length - 1)];
+        return g.localToWorld(new T.Vector3(t.x, t.y + (top !== false ? 0.006 : -0.006), t.z)); }};
+    return api;
+  }
+  /* A cable along a smooth curve through points [x, y, z]. Returns {mesh, curve, at(t)}. */
+  function cable(G, pts, o) {
+    o = o || {}; const T = G.T;
+    const curve = new T.CatmullRomCurve3(pts.map(p => (p.isVector3 ? p.clone() : new T.Vector3(...p))), false, "catmullrom", o.tension == null ? 0.35 : o.tension);
+    const mesh = new T.Mesh(new T.TubeGeometry(curve, Math.max(32, pts.length * 20), o.r || 0.004, 8, false), L.std(G, o.color || 0x23272C, 0.5));
+    (o.parent || G.scene).add(mesh); G.redraw();
+    return {mesh, curve, at: t => curve.getPointAt(Math.min(1, Math.max(0, t))), length: curve.getLength()};
+  }
+  /* Message markers that travel along cables: send([{c: cable, rev}], {color, dur, size, done, shape}). */
+  function packets(G) {
+    const T = G.T, list = [];
+    function send(path, o) {
+      o = o || {};
+      const geo2 = o.shape === "box" ? new T.BoxGeometry(o.size || 0.02, o.size || 0.02, o.size || 0.02) : new T.SphereGeometry(o.size || 0.012, 14, 10);
+      const m = new T.Mesh(geo2, new T.MeshBasicMaterial({color: o.color || 0xF2B33D, transparent: true, opacity: 1}));
+      m.userData.noShadow = true; G.scene.add(m);
+      const segs = (Array.isArray(path) ? path : [path]).map(p => (p.c ? p : {c: p, rev: false}));
+      const p = {m, segs, k: 0, u: 0, dur: o.dur || 0.8, done: o.done, lost: o.lost};
+      list.push(p); m.position.copy(segs[0].c.at(segs[0].rev ? 1 : 0)); G.redraw(); return p;
+    }
+    G.onTick(dt => {
+      if (!list.length) return false;
+      for (let i = list.length - 1; i >= 0; i--) {
+        const p = list[i], s = p.segs[p.k];
+        p.u += dt / (p.dur / p.segs.length);
+        if (p.lost && p.k === p.lost.seg && p.u >= p.lost.u) { p.m.material.opacity = Math.max(0, 1 - (p.u - p.lost.u) * 6); p.m.scale.setScalar(1 + (p.u - p.lost.u) * 4);
+          if (p.m.material.opacity <= 0) { G.scene.remove(p.m); list.splice(i, 1); if (p.done) p.done(false); continue; } }
+        if (p.u >= 1) { p.k++; p.u = 0; if (p.k >= p.segs.length) { G.scene.remove(p.m); list.splice(i, 1); if (p.done) p.done(true); continue; } }
+        const sg = p.segs[p.k]; p.m.position.copy(sg.c.at(sg.rev ? 1 - p.u : p.u));
+      }
+      return true;
+    });
+    return {send, busy: () => list.length, clear() { list.forEach(p => G.scene.remove(p.m)); list.length = 0; G.redraw(); }};
+  }
+  /* A bench oscilloscope with a screen of w by h metres; draw(ctx, W, H) paints the screen. Returns {group, panel}. */
+  function scope(G, o) {
+    const T = G.T, g = new T.Group(), W = 0.34, H = 0.19, D = 0.16;
+    g.add(at(box(G, W, H, D, 0x3A4047, 0.5, 0.1, 0.01), 0, H / 2 + 0.02, 0));
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => g.add(at(cyl(G, 0.012, 0.012, 0.02, 0x1E2227, 0.7), a * (W / 2 - 0.03), 0.01, b * (D / 2 - 0.03))));
+    g.add(at(box(G, W * 0.98, H * 0.94, 0.01, 0x262B31, 0.4), 0, H / 2 + 0.02, D / 2 + 0.003));
+    const P = L.panel(G, 0.2, 0.135, o.px || [640, 432], o.draw); P.mesh.position.set(-0.055, H / 2 + 0.025, D / 2 + 0.0085); g.add(P.mesh);
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++) { const k = at(cyl(G, 0.011, 0.012, 0.012, [0xD6DADF, 0xF2C14E, 0x6FB5E8][i], 0.4, 0.2, 20), 0.095 + j * 0.04, 0.17 - i * 0.042, D / 2 + 0.01); k.rotation.x = Math.PI / 2; g.add(k); }
+    const brand = plate(G, 0.08, 0.016, (x, cw, ch) => { x.fillStyle = "#262B31"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#C9D1D8"; x.font = `700 ${Math.round(ch * 0.62)}px ${F}`; x.textBaseline = "middle"; x.fillText("SCOPE 2CH", 4, ch / 2); });
+    brand.mesh.position.set(0.11, 0.035, D / 2 + 0.009); g.add(brand.mesh);
+    place(G, g, o);
+    return {group: g, panel: P, probe: () => g.localToWorld(new T.Vector3(0.115, 0.04, D / 2 + 0.01))};
+  }
+  /* A flat screen on a foot or on the wall. Returns {group, panel}. */
+  function screen(G, o) {
+    const T = G.T, g = new T.Group(), w = o.w || 0.6, h = o.h || 0.36;
+    g.add(at(box(G, w + 0.03, h + 0.03, 0.03, 0x15181C, 0.4, 0.1, 0.008), 0, 0, -0.016));
+    const P = L.panel(G, w, h, o.px || [Math.round(1000 * w / Math.max(w, h)), Math.round(1000 * h / Math.max(w, h))], o.draw); P.mesh.position.z = 0.0005; g.add(P.mesh);
+    if (o.foot) { g.add(at(box(G, 0.04, o.foot, 0.03, 0x2A2F35, 0.4), 0, -h / 2 - o.foot / 2, -0.04)); g.add(at(box(G, 0.22, 0.015, 0.16, 0x2A2F35, 0.4), 0, -h / 2 - o.foot, -0.04)); }
+    place(G, g, o);
+    return {group: g, panel: P};
+  }
+  /* A Raspberry Pi board at true size times o.s, lying flat. Returns {group, led(on), eth()}. */
+  function rpi(G, o) {
+    const T = G.T, g = new T.Group(), s = o.s || 1;
+    const pcb = box(G, 0.085 * s, 0.0016 * s, 0.056 * s, 0x1F7A3F, 0.5); pcb.position.y = 0.006 * s; g.add(pcb);
+    const top = 0.0068 * s, P = (m, x, z, h) => { m.position.set(x * s, top + h * s / 2, z * s); g.add(m); return m; };
+    P(box(G, 0.014 * s, 0.0012 * s, 0.014 * s, 0xBFC4C9, 0.3, 0.7), -0.008, 0.002, 0.0012);
+    P(box(G, 0.012 * s, 0.0014 * s, 0.01 * s, 0x15171A, 0.5), 0.012, 0.002, 0.0014);
+    P(box(G, 0.017 * s, 0.016 * s, 0.013 * s, 0xC0C5CA, 0.3, 0.8), 0.034, 0.02, 0.016);
+    P(box(G, 0.017 * s, 0.016 * s, 0.013 * s, 0xC0C5CA, 0.3, 0.8), 0.034, 0.002, 0.016);
+    P(box(G, 0.021 * s, 0.0135 * s, 0.016 * s, 0xC0C5CA, 0.3, 0.8), 0.033, -0.018, 0.0135);
+    const hdr = P(box(G, 0.051 * s, 0.0085 * s, 0.005 * s, 0x111214, 0.5), -0.004, -0.0245, 0.0085);
+    for (let i = 0; i < 20; i++) P(box(G, 0.0007 * s, 0.002 * s, 0.0007 * s, 0xD4AF37, 0.3, 0.9), -0.028 + i * 0.00254, -0.0245, 0.0105);
+    const led = P(new T.Mesh(new T.SphereGeometry(0.0012 * s, 8, 6), glow(G, 0x2DC653)), -0.04, 0.02, 0.0012);
+    const pwr = P(new T.Mesh(new T.SphereGeometry(0.0012 * s, 8, 6), glow(G, 0xE53935)), -0.04, 0.016, 0.0012);
+    place(G, g, o);
+    return {group: g, led(on) { led.material.color.set(on ? 0x6CFF8F : 0x1E4A2A); G.redraw(); },
+      eth: () => g.localToWorld(new T.Vector3(0.0435 * s, top + 0.007 * s, -0.018 * s)), pwr};
+  }
+  /* An Ethernet switch of n ports. Returns {group, port(i), led(i, on)}. */
+  function netSwitch(G, o) {
+    const T = G.T, g = new T.Group(), n = o.n || 8, w = o.w || 0.3, h = 0.04, d = 0.18;
+    g.add(at(box(G, w, h, d, o.color || 0x2E3740, 0.45, 0.3, 0.004), 0, h / 2, 0));
+    const leds = [], ports = [];
+    for (let i = 0; i < n; i++) { const x = -w * 0.38 + i * (w * 0.62) / Math.max(1, n - 1);
+      g.add(at(box(G, 0.016, 0.014, 0.004, 0x0E1012, 0.6), x, h / 2 - 0.003, d / 2 + 0.001));
+      const l = new T.Mesh(new T.BoxGeometry(0.004, 0.003, 0.002), glow(G, 0x1C3A24)); l.position.set(x, h / 2 + 0.009, d / 2 + 0.002); g.add(l); leds.push(l);
+      ports.push(new T.Vector3(x, h / 2 - 0.003, d / 2 + 0.004)); }
+    const lab = plate(G, 0.07, 0.014, (x, cw, ch) => { x.fillStyle = "#2E3740"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#DDE3E8"; x.font = `700 ${Math.round(ch * 0.62)}px ${F}`; x.textBaseline = "middle"; x.fillText(o.label || "SWITCH", 3, ch / 2); });
+    lab.mesh.position.set(w * 0.4, h / 2 + 0.006, d / 2 + 0.0015); g.add(lab.mesh);
+    place(G, g, o);
+    return {group: g, port: i => g.localToWorld(ports[i].clone()), led(i, on, col) { leds[i].material.color.set(on ? (col || 0x5CFF7A) : 0x1C3A24); G.redraw(); }};
+  }
+  /* A small resistor with two leads, for the termination of an RS-485 line. */
+  function resistor(G, o) {
+    const T = G.T, g = new T.Group();
+    const body = cyl(G, 0.0045, 0.0045, 0.02, 0xD8C29A, 0.5); body.rotation.z = Math.PI / 2; g.add(body);
+    [0xA0522D, 0xE53935, 0x111111, 0xD4AF37].forEach((c, i) => { const b = cyl(G, 0.0047, 0.0047, 0.0018, c, 0.5); b.rotation.z = Math.PI / 2; b.position.x = -0.006 + i * 0.004; g.add(b); });
+    [-1, 1].forEach(sg => { const l = cyl(G, 0.0007, 0.0007, 0.02, 0xB0B5BA, 0.3, 0.8, 6); l.rotation.z = Math.PI / 2; l.position.x = sg * 0.019; g.add(l); });
+    place(G, g, o); return g;
+  }
+  /* A server rack of o.u height units with fronts drawn by fronts[i](ctx). */
+  function rack(G, o) {
+    const T = G.T, g = new T.Group(), w = 0.6, d = 0.8, h = o.h || 1.2;
+    g.add(at(box(G, w, h, d, 0x23292F, 0.5, 0.2), 0, h / 2, 0));
+    g.add(at(box(G, w - 0.04, h - 0.06, 0.01, 0x15191D, 0.6), 0, h / 2, d / 2 + 0.002));
+    place(G, g, o); return g;
+  }
+  /* A battery container, open on the long side, with racks of modules and an inverter cabinet. Returns
+     {group, lamp(col), modules}. */
+  function container(G, o) {
+    const T = G.T, g = new T.Group(), Lx = o.len || 6.06, W = 2.44, H = 2.59, wall = 0.05;
+    const tex = L.canvasTex(G, 256, 128, (x, cw, ch) => { x.fillStyle = "#E7EAEC"; x.fillRect(0, 0, cw, ch);
+      for (let i = 0; i < cw; i += 16) { x.fillStyle = "rgba(0,0,0,0.07)"; x.fillRect(i, 0, 6, ch); } }, [Lx / 0.6, 1]);
+    const m = new T.MeshStandardMaterial({color: 0xFFFFFF, roughness: 0.6, metalness: 0.2, map: tex});
+    const back = new T.Mesh(new T.BoxGeometry(Lx, H, wall), m); back.position.set(0, H / 2, -W / 2); g.add(back);
+    [-1, 1].forEach(sg => { const e = new T.Mesh(new T.BoxGeometry(wall, H, W), m); e.position.set(sg * Lx / 2, H / 2, 0); g.add(e); });
+    g.add(at(box(G, Lx, wall, W, 0xDADFE3, 0.6, 0.2), 0, H, 0));
+    g.add(at(box(G, Lx, 0.08, W, 0x6F7780, 0.7, 0.2), 0, 0.04, 0));
+    const mods = [];
+    for (let r = 0; r < (o.racks || 5); r++) { const x = -Lx / 2 + 0.55 + r * 0.72;
+      g.add(at(box(G, 0.6, 2.1, 0.6, 0x2B3138, 0.5, 0.3), x, 1.13, -W / 2 + 0.36));
+      for (let k = 0; k < 8; k++) { const md = at(box(G, 0.54, 0.2, 0.02, 0xDCE1E5, 0.5, 0.1), x, 0.3 + k * 0.245, -W / 2 + 0.67); g.add(md);
+        const lt = new T.Mesh(new T.BoxGeometry(0.03, 0.012, 0.004), glow(G, 0x3DDC84)); lt.position.set(x + 0.22, 0.3 + k * 0.245, -W / 2 + 0.683); g.add(lt); mods.push(lt); } }
+    const inv = at(box(G, 1.2, 2.1, 0.7, 0x1E6FA8, 0.45, 0.2, 0.02), Lx / 2 - 0.75, 1.13, -W / 2 + 0.41); g.add(inv);
+    const lamp = new T.Mesh(new T.SphereGeometry(0.06, 16, 12), glow(G, 0x3DDC84)); lamp.position.set(Lx / 2 - 0.4, H + 0.08, W / 2 - 0.3); g.add(lamp);
+    place(G, g, o);
+    return {group: g, mods, inv, lamp(col) { lamp.material.color.set(col); mods.forEach(l => l.material.color.set(col)); G.redraw(); }};
+  }
+  /* A charging pillar for electric vehicles with a small screen. Returns {group, panel}. */
+  function charger(G, o) {
+    const T = G.T, g = new T.Group();
+    g.add(at(box(G, 0.32, 1.45, 0.22, 0xF2F4F6, 0.45, 0.1, 0.03), 0, 0.725, 0));
+    g.add(at(box(G, 0.3, 0.18, 0.012, o.color || 0x2E8B57, 0.5), 0, 1.3, 0.112));
+    const P = L.panel(G, 0.2, 0.13, [300, 195], o.draw || ((x, cw, ch) => { x.fillStyle = "#0F1A14"; x.fillRect(0, 0, cw, ch); }));
+    P.mesh.position.set(0, 1.0, 0.1125); g.add(P.mesh);
+    const hol = at(box(G, 0.08, 0.12, 0.06, 0x2B3036, 0.5), 0.1, 0.72, 0.13); g.add(hol);
+    place(G, g, o); return {group: g, panel: P};
+  }
+  /* A simple car of a given colour. */
+  function car(G, o) {
+    const T = G.T, g = new T.Group(), c = o.color || 0x4A78A8;
+    g.add(at(box(G, 4.2, 0.62, 1.78, c, 0.35, 0.4, 0.18), 0, 0.55, 0));
+    const cab = box(G, 2.3, 0.55, 1.6, c, 0.35, 0.4, 0.2); cab.position.set(-0.2, 1.08, 0); g.add(cab);
+    const gl = new T.MeshStandardMaterial({color: 0x1D2A36, roughness: 0.1, metalness: 0.6});
+    const win = new T.Mesh(new T.BoxGeometry(2.1, 0.42, 1.62), gl); win.position.set(-0.2, 1.1, 0); g.add(win);
+    [[-1.35, 1], [1.35, 1], [-1.35, -1], [1.35, -1]].forEach(([x, z]) => { const wl = cyl(G, 0.34, 0.34, 0.24, 0x16181B, 0.8, 0, 24); wl.rotation.x = Math.PI / 2; wl.position.set(x, 0.34, z * 0.82); g.add(wl); });
+    place(G, g, o); return g;
+  }
+  /* Substation parts: a transformer, a breaker with a position flag, a relay cabinet with the front of an IED. */
+  function transformer(G, o) {
+    const T = G.T, g = new T.Group();
+    g.add(at(box(G, 1.6, 1.5, 1.0, 0x8C969F, 0.55, 0.3), 0, 0.85, 0));
+    for (let i = 0; i < 9; i++) g.add(at(box(G, 0.02, 1.2, 0.3, 0x7C868F, 0.55, 0.3), -0.72 + i * 0.18, 0.8, 0.62));
+    [-0.5, 0, 0.5].forEach(x => { const b = cyl(G, 0.06, 0.09, 0.5, 0x9C5B3A, 0.5, 0, 14); b.position.set(x, 1.85, 0); g.add(b);
+      for (let k = 0; k < 4; k++) { const sh = cyl(G, 0.11, 0.11, 0.025, 0x9C5B3A, 0.5, 0, 16); sh.position.set(x, 1.68 + k * 0.1, 0); g.add(sh); } });
+    place(G, g, o); return g;
+  }
+  function breaker(G, o) {
+    const T = G.T, g = new T.Group();
+    g.add(at(box(G, 0.8, 1.9, 0.8, 0xD9DEE2, 0.5, 0.2, 0.02), 0, 0.95, 0));
+    const flag = new T.Mesh(new T.BoxGeometry(0.22, 0.1, 0.01), glow(G, 0xC62828)); flag.position.set(0, 1.45, 0.405); g.add(flag);
+    const lab = plate(G, 0.36, 0.1, (x, cw, ch) => { x.fillStyle = "#1B2430"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#FFFFFF"; x.font = `700 ${Math.round(ch * 0.42)}px ${F}`; x.textBaseline = "middle"; x.fillText(o.label || "Main breaker Q1", 10, ch / 2); });
+    lab.mesh.position.set(0, 1.7, 0.405); g.add(lab.mesh);
+    const lever = at(box(G, 0.04, 0.22, 0.04, 0x1B2430, 0.4), 0, 1.15, 0.43); g.add(lever);
+    place(G, g, o);
+    return {group: g, set(closed) { flag.material.color.set(closed ? 0xC62828 : 0x2E8B57); lever.rotation.z = closed ? 0 : 0.8; G.redraw(); }};
+  }
+  function cabinet(G, o) {
+    const T = G.T, g = new T.Group(), w = o.w || 0.8, h = o.h || 2.0;
+    g.add(at(box(G, w, h, 0.6, o.color || 0xD9DEE2, 0.5, 0.2, 0.02), 0, h / 2, 0));
+    place(G, g, o); return g;
+  }
+  return {box, cyl, at, place, plate, bench, dinDevice, cable, packets, scope, screen, rpi, netSwitch, resistor, rack, container,
+    charger, car, transformer, breaker, cabinet, F, MONO};
+})();
+window.CPSKIT = CPSKIT;
+
+/* The models of Week 7, as in the Colab notebook. RT: the tasks of the controller of the battery container (protection
+   1 ms every 5 ms, frequency control 3 ms every 10 ms, battery management C ms every 20 ms and Modbus 9 ms every 50 ms),
+   the utilization, the bound of Liu and Layland, the response-time analysis of Joseph and Pandya and a preemptive
+   scheduler in steps of 1 ms under RM or EDF. PLC: the scan cycle of the PLC of the main switchboard with an input
+   filter of 3 ms, a relay output of 6 ms, a limit of 50 ms and a watchdog of 30 ms; 20 trips at random moments drawn
+   with RNG(700 + run). */
+var RT = window.RT || (function () {
+  const NAMES = ["protection", "frequency control", "battery management", "Modbus"], SHORT = ["Protection", "Frequency", "Battery mgmt", "Modbus"];
+  function tasks(cbm, modbus) {
+    const t = [{name: NAMES[0], C: 1, T: 5}, {name: NAMES[1], C: 3, T: 10}, {name: NAMES[2], C: cbm == null ? 5 : cbm, T: 20}];
+    if (modbus !== false) t.push({name: NAMES[3], C: 9, T: 50});
+    return t;
+  }
+  const util = ts => ts.reduce((a, t) => a + t.C / t.T, 0);
+  const bound = n => n * (Math.pow(2, 1 / n) - 1);
+  const gcd = (a, b) => (b ? gcd(b, a % b) : a), lcm = ts => ts.reduce((a, t) => a * t.T / gcd(a, t.T), 1);
+  /* Response times under RM priorities; the order of the result follows the periods. */
+  function rta(ts) {
+    const order = ts.map((t, i) => ({t, i})).sort((a, b) => a.t.T - b.t.T || a.i - b.i).map(o => o.t), out = {};
+    order.forEach((task, i) => {
+      const hi = order.slice(0, i);
+      let R = task.C + hi.reduce((a, h) => a + h.C, 0); const steps = [R];
+      while (R <= 10 * task.T) {
+        const Rn = task.C + hi.reduce((a, h) => a + Math.ceil(R / h.T) * h.C, 0);
+        if (Rn === R) break;
+        R = Rn; steps.push(R);
+      }
+      const finite = R <= 10 * task.T;
+      out[task.name] = {R: finite ? R : null, steps, ok: finite && R <= task.T};
+    });
+    return out;
+  }
+  /* A preemptive scheduler in steps of 1 ms: the trace (index of the task or null) and every job. */
+  function simulate(ts, policy, horizon, extra) {
+    horizon = horizon == null ? 200 : horizon; extra = extra == null ? 100 : extra;
+    const jobs = [];
+    ts.forEach((t, i) => { for (let r = 0; r < horizon + extra; r += t.T) jobs.push({task: i, release: r, deadline: r + t.T, left: t.C, finish: null}); });
+    const trace = [];
+    for (let now = 0; now < horizon + extra; now++) {
+      let best = null;
+      for (const j of jobs) {
+        if (j.release > now || j.left <= 0) continue;
+        if (!best) { best = j; continue; }
+        const a = policy === "RM" ? [ts[j.task].T, j.task, j.release] : [j.deadline, j.task, j.release];
+        const b = policy === "RM" ? [ts[best.task].T, best.task, best.release] : [best.deadline, best.task, best.release];
+        if (a[0] < b[0] || (a[0] === b[0] && (a[1] < b[1] || (a[1] === b[1] && a[2] < b[2])))) best = j;
+      }
+      if (!best) { trace.push(null); continue; }
+      best.left -= 1; trace.push(best.task);
+      if (best.left === 0) best.finish = now + 1;
+    }
+    return {trace, jobs};
+  }
+  function report(ts, jobs, horizon) {
+    horizon = horizon == null ? 200 : horizon;
+    return ts.map((t, i) => {
+      const mine = jobs.filter(j => j.task === i && j.deadline <= horizon);
+      const missed = mine.filter(j => j.finish == null || j.finish > j.deadline).length;
+      const done = mine.filter(j => j.finish != null).map(j => j.finish - j.release);
+      return {task: t.name, jobs: mine.length, missed, worst: done.length === mine.length ? Math.max(...done) : null};
+    });
+  }
+  /* The PLC of the main switchboard. */
+  const T_IN = 3, T_OUT = 6, LIMIT = 50, WATCHDOG = 30;
+  const scanTime = k => k + 1, worstCase = k => 2 * scanTime(k) + T_IN + T_OUT;
+  function reactions(k, seed, n) {
+    n = n == null ? 20 : n; const T = scanTime(k);
+    if (T > WATCHDOG) return null;
+    const r = RNG(seed), out = [];
+    for (let i = 0; i < n; i++) {
+      const e = 1000 * i + 1000 * r(), read = Math.ceil((e + T_IN) / T) * T;
+      out.push({e, read, end: read + T, react: read + T + T_OUT - e});
+    }
+    return out;
+  }
+  return {NAMES, SHORT, tasks, util, bound, lcm, rta, simulate, report, T_IN, T_OUT, LIMIT, WATCHDOG, scanTime, worstCase, reactions,
+    COLORS: ["#B53F2E", "#1E6FA8", "#2E8B57", "#C98510"]};
+})();
+window.RT = RT;
+
+/* Scene: One processor, four tasks. The first 60 ms of the controller of the battery container on a table: one lane per
+   task with the releases as markers and the jobs as bricks, a flag for the deadline of the first Modbus job, the
+   controller board and a screen with the response-time analysis. The five buttons follow the releases, the priorities of
+   RM, the schedule of RM, the schedule with 6 ms for battery management and the schedule of EDF (RT.simulate). */
+(function () {
+  const box = document.getElementById("ts-3d"); if (!box) return;
+  const R0 = window.RT, W = 60;
+  const runs = {rm5: R0.simulate(R0.tasks(5), "RM"), rm6: R0.simulate(R0.tasks(6), "RM"), edf6: R0.simulate(R0.tasks(6), "EDF")};
+  const fin = (run, task) => run.jobs.find(j => j.task === task && j.release === 0).finish;
+  const it5 = R0.rta(R0.tasks(5)).Modbus.steps, it6 = R0.rta(R0.tasks(6)).Modbus.steps;
+  const STEPS = [
+    {b: "1 Release", run: null, end: 0, c3: 5, pol: "-",
+     say: "Release: At 0 ms all four tasks release a job at once, the moment of the most interference. The markers show the releases of the first 60 ms, and each release is also the deadline of the job before it.",
+     ro: ["-", "0.93", "-", "-"]},
+    {b: "2 Priorities", run: "rm5", end: 20, c3: 5, pol: "RM",
+     say: `Priorities: RM orders the tasks by their periods. Protection runs first, then frequency control and battery management, which protection preempts at 5 ms. Battery management finishes at ${fin(runs.rm5, 2)} ms, and Modbus first runs at 14 ms.`,
+     ro: ["RM", "0.93", "-", "0"]},
+    {b: "3 Rate-monotonic", run: "rm5", end: W, c3: 5, pol: "RM",
+     say: `Rate-monotonic: Modbus runs only in the gaps, from 14 to 20 ms and from 34 to 39 ms, and protection preempts it at 15 and 35 ms. It finishes at ${fin(runs.rm5, 3)} ms, 11 ms before its deadline, as the response-time analysis predicts.`,
+     ro: ["RM", "0.93", `${fin(runs.rm5, 3)} ms`, "0"]},
+    {b: "4 Longer filter", run: "rm6", end: W, c3: 6, pol: "RM",
+     say: `Longer filter: With 6 ms for battery management, the gaps shrink. At 44 ms, RM gives the processor to battery management, whose period is shorter. Modbus misses its deadline at 50 ms and finishes at ${fin(runs.rm6, 3)} ms.`,
+     ro: ["RM", "0.98", `${fin(runs.rm6, 3)} ms`, "1, Modbus at 50 ms"]},
+    {b: "5 EDF", run: "edf6", end: W, c3: 6, pol: "EDF",
+     say: `EDF: The scheduler compares deadlines instead of periods. At 44 ms, the Modbus job is due at 50 ms and battery management at 60 ms, so Modbus runs and finishes at ${fin(runs.edf6, 3)} ms. No deadline is missed.`,
+     ro: ["EDF", "0.98", `${fin(runs.edf6, 3)} ms`, "0"]}];
+  const act = document.getElementById("ts-act"), say = document.getElementById("ts-say");
+  const NAMES = ["Scheduler", "Utilization", "Modbus finishes", "Missed deadlines"];
+  const ro = readout(document.getElementById("ts-ro"), NAMES);
+  const S = {k: -1};
+  const btns = STEPS.map((s, i) => { const b = h("button", {class: "btn ghost", type: "button"}, s.b); act.append(b); b.addEventListener("click", () => go(i)); return b; });
+  const reset = h("button", {class: "btn ghost", type: "button"}, "Clear the table"); act.append(reset);
+  const HELLO = "The table waits for the first release at 0 ms. Follow the schedule of the controller with the five buttons.";
+  let V = null;
+  function show() {
+    btns.forEach((b, i) => b.classList.toggle("ghost", i !== S.k));
+    const r = S.k >= 0 ? STEPS[S.k].ro : ["-", "-", "-", "-"];
+    NAMES.forEach((n, i) => ro(n, r[i]));
+    if (V) V();
+  }
+  function go(i) { S.k = i; say.textContent = STEPS[i].say; show(); }
+  reset.addEventListener("click", () => { S.k = -1; say.textContent = HELLO; show(); });
+  if (!has3D()) { LABKIT.noGL(box); say.textContent = HELLO; show(); return; }
+  const L = LABKIT, K = CPSKIT;
+  const G = make3D(box, {camera: [-0.02, 1.25, 1.36], target: [-0.02, 0.94, -0.3], limits: [0.4, 5, 1.5], aspect: 0.56, bg: 0xE8ECEF, shadowBox: 3,
+    views: [{label: "Lanes", title: "the lanes of the tasks", camera: [0.0, 1.2, 0.85], target: [0.0, 0.78, -0.02]}]});
+  const T = G.T, TOP = 0.785, MS = 0.0225, X = t => -0.6 + t * MS, ZL = [-0.27, -0.09, 0.09, 0.27];
+  const wall = K.box(G, 4, 2.6, 0.04, 0xEEF1F3, 0.9); wall.position.set(0, 1.3, -1.0); G.scene.add(wall);
+  const floor = K.box(G, 4, 0.02, 3, 0xC9CDD1, 0.9); floor.position.set(0, -0.01, 0.3); G.scene.add(floor);
+  const top = K.box(G, 1.95, 0.05, 0.86, 0xD8D1C2, 0.6); top.position.set(-0.05, 0.76, 0); G.scene.add(top);
+  [[-0.98, -0.37], [0.88, -0.37], [-0.98, 0.37], [0.88, 0.37]].forEach(([x, z]) => { const l = K.box(G, 0.05, 0.74, 0.05, 0x8D959E, 0.35, 0.6); l.position.set(x, 0.37, z); G.scene.add(l); });
+  /* the lanes, the labels and the time ruler */
+  const COL = R0.COLORS.map(c => parseInt(c.slice(1), 16));
+  ZL.forEach(z => { const r = K.box(G, 60 * MS + 0.04, 0.006, 0.1, 0xC9D1D8, 0.7); r.position.set(X(30), TOP + 0.003, z); G.scene.add(r); });
+  const tags = ZL.map((z, i) => { const s = label3D("x", {scale: 0.0007}); G.scene.add(s); return s; });
+  function tagText(i, c3) { const t = R0.tasks(c3)[i]; return `${["Protection", "Frequency", "Battery", "Modbus"][i]} ${t.C}/${t.T}`; }
+  function setTags(c3) { tags.forEach((s, i) => { G.scene.remove(s); const n = label3D(tagText(i, c3), {scale: 0.00058, bg: R0.COLORS[i], color: "#FFFFFF"}); n.position.set(-0.76, TOP + 0.04, ZL[i]); G.scene.add(n); tags[i] = n; }); }
+  const RW = 60 * MS + 0.06;
+  const ruler = L.panel(G, RW, 0.06, [2600, 100], (c, cw, ch) => { c.fillStyle = "#F7F8FA"; c.fillRect(0, 0, cw, ch); c.strokeStyle = "#1B2430"; c.fillStyle = "#1B2430";
+    for (let t = 0; t <= W; t += 5) { const x = (X(t) - X(0) + 0.03) / RW * cw, big = t % 10 === 0; c.lineWidth = big ? 5 : 3; c.beginPath(); c.moveTo(x, 0); c.lineTo(x, big ? 40 : 24); c.stroke();
+      if (big) { c.font = `700 40px ${K.F}`; c.textAlign = "center"; c.fillText(t === 0 ? "0 ms" : String(t), Math.min(cw - 40, Math.max(40, x)), 78); } } c.textAlign = "left"; });
+  ruler.mesh.rotation.x = -Math.PI / 2 + 0.35; ruler.mesh.position.set(X(30), TOP + 0.012, 0.395); G.scene.add(ruler.mesh);
+  /* the release markers: small cones over each lane */
+  const coneGeo = new T.ConeGeometry(0.009, 0.024, 12), coneM = L.std(G, 0x56616D, 0.5);
+  R0.tasks(5).forEach((t, i) => { for (let r = 0; r < W; r += t.T) { const c = new T.Mesh(coneGeo, coneM); c.rotation.x = Math.PI; c.position.set(X(r), TOP + 0.07, ZL[i] - 0.035); G.scene.add(c); } });
+  /* the deadline flag of the first Modbus job */
+  const flag = new T.Group(), pole = K.cyl(G, 0.003, 0.003, 0.13, 0x1B2430, 0.4, 0.2, 8); pole.position.y = 0.065; flag.add(pole);
+  const clothM = new T.MeshBasicMaterial({color: 0x2E8B57}), cloth = new T.Mesh(new T.BoxGeometry(0.05, 0.03, 0.003), clothM); cloth.position.set(0.025, 0.115, 0); flag.add(cloth);
+  flag.position.set(X(50), TOP + 0.006, ZL[3] + 0.06); G.scene.add(flag);
+  const cursorM = new T.MeshBasicMaterial({color: 0xB53F2E, transparent: true, opacity: 0.55});
+  const cursor = new T.Mesh(new T.BoxGeometry(0.004, 0.1, 0.72), cursorM); cursor.userData.noShadow = true; G.scene.add(cursor);
+  let bricks = new T.Group(); G.scene.add(bricks);
+  function build(run, end) {
+    G.scene.remove(bricks); bricks = new T.Group(); G.scene.add(bricks);
+    if (!run) return;
+    const tr = runs[run].trace;
+    let t = 0;
+    while (t < end) {
+      const k = tr[t]; let e = t + 1; while (e < end && tr[e] === k) e++;
+      if (k != null) { const b = K.box(G, (e - t) * MS - 0.002, 0.035, 0.08, COL[k], 0.45, 0.1); b.position.set(X((t + e) / 2), TOP + 0.006 + 0.0175, ZL[k]); bricks.add(b); }
+      t = e;
+    }
+  }
+  /* the controller board on the wall */
+  const BY = 1.21;
+  const board = K.box(G, 0.5, 0.34, 0.02, 0x1F7A3F, 0.5); board.position.set(-0.7, BY, -0.97); G.scene.add(board);
+  const chip = K.box(G, 0.11, 0.11, 0.012, 0x15171A, 0.5); chip.position.set(-0.78, BY + 0.02, -0.955); G.scene.add(chip);
+  for (let i = 0; i < 8; i++) for (const s of [-1, 1]) { const p = K.box(G, 0.006, 0.014, 0.004, 0xC9CED3, 0.3, 0.8); p.position.set(-0.78 - 0.042 + i * 0.012, BY + 0.02 + s * 0.062, -0.951); G.scene.add(p); }
+  const leds = R0.COLORS.map((c, i) => { const m = new T.Mesh(new T.SphereGeometry(0.011, 12, 10), new T.MeshBasicMaterial({color: 0x39424C})); m.position.set(-0.6, BY + 0.11 - i * 0.05, -0.955); G.scene.add(m); return m; });
+  const lcd = L.panel(G, 0.16, 0.08, [640, 320], (c, cw, ch) => { c.fillStyle = "#0E2A1F"; c.fillRect(0, 0, cw, ch); c.fillStyle = "#8CF5B8"; c.textBaseline = "middle";
+    const st = S.k >= 0 ? STEPS[S.k] : null; c.font = `700 64px ${K.MONO}`; c.fillText(`RTOS ${st ? st.pol : "-"}`, 24, 90); c.font = `600 52px ${K.MONO}`; c.fillText(`U ${st ? st.ro[1] : "-"}`, 24, 220); });
+  lcd.mesh.position.set(-0.78, BY - 0.11, -0.955); G.scene.add(lcd.mesh);
+  const tagC = label3D("Controller of the battery container", {scale: 0.0008}); tagC.position.set(-0.7, BY + 0.24, -0.95); G.scene.add(tagC);
+  /* the screen with the analysis */
+  const scr = K.screen(G, {at: [0.42, BY + 0.03, -0.97], w: 1.1, h: 0.46, px: [1430, 598], draw: (c, cw, ch) => {
+    c.fillStyle = "#0E151C"; c.fillRect(0, 0, cw, ch); c.fillStyle = "#FFFFFF"; c.textBaseline = "middle"; c.font = `700 44px ${K.F}`;
+    const k = S.k, line = (a, b, i, col) => { c.fillStyle = "#A9B6C2"; c.font = `500 38px ${K.F}`; c.fillText(a, 30, 140 + i * 88); c.fillStyle = col || "#8CF5B8"; c.font = `700 38px ${K.MONO}`; c.fillText(b, 560, 140 + i * 88); };
+    if (k <= 0) {
+      c.fillText("FOUR TASKS, ONE PROCESSOR", 30, 50);
+      R0.tasks(5).forEach((t, i) => line(["protection", "frequency control", "battery management", "Modbus"][i], `C ${t.C} ms, T ${t.T} ms, ${(t.C / t.T).toFixed(2)}`, i));
+      c.fillStyle = "#F2C14E"; c.font = `700 38px ${K.MONO}`; c.fillText("U = 0.20 + 0.30 + 0.25 + 0.18 = 0.93", 30, ch - 34);
+    } else if (k === 1) {
+      c.fillText("RATE-MONOTONIC PRIORITIES", 30, 50);
+      R0.tasks(5).forEach((t, i) => line(`${i + 1}  ${["protection", "frequency control", "battery management", "Modbus"][i]}`, `period ${t.T} ms`, i));
+      c.fillStyle = "#F2C14E"; c.font = `700 36px ${K.F}`; c.fillText("The shorter the period, the higher the priority", 30, ch - 34);
+    } else if (k === 2 || k === 3) {
+      const it = k === 2 ? it5 : it6, R = it[it.length - 1], ok = R <= 50;
+      c.fillText(`RESPONSE TIME OF MODBUS, BATTERY MANAGEMENT ${k === 2 ? 5 : 6} MS`, 30, 50);
+      line("iteration", it.slice(0, 5).join(" → ") + (it.length > 5 ? " →" : ""), 0); if (it.length > 5) line("", it.slice(5).join(" → "), 1);
+      line("deadline", "50 ms", 2); line("result", `R = ${R} ms ${ok ? "≤" : ">"} 50 ms: ${ok ? "met" : "missed"}`, 3, ok ? "#8CF5B8" : "#FF8A80");
+    } else {
+      c.fillText("EARLIEST DEADLINE FIRST", 30, 50);
+      line("utilization", "0.20 + 0.30 + 0.30 + 0.18", 0); line("", "= 0.98 ≤ 1", 1); line("test of EDF", "every deadline met", 2); line("Modbus", `finishes at ${fin(runs.edf6, 3)} ms`, 3);
+    }
+  }});
+  V = function () {
+    const st = S.k >= 0 ? STEPS[S.k] : null;
+    setTags(st ? st.c3 : 5); build(st ? st.run : null, st ? st.end : 0);
+    flag.visible = !!st && S.k >= 2; clothM.color.set(S.k === 3 ? 0xC62828 : 0x2E8B57);
+    cursor.visible = S.k === 1; cursor.position.set(X(20), TOP + 0.05, 0);
+    leds.forEach((m, i) => m.material.color.set(st && st.run ? COL[i] : 0x39424C));
+    lcd.redraw(); scr.panel.redraw(); G.redraw();
+  };
+  G.renderer.domElement.setAttribute("aria-label", "A table with four lanes, one per task of the controller, with markers for the releases and coloured bricks for the jobs over the first 60 ms, a flag for the deadline of the Modbus job, the controller board and a screen with the response-time analysis on the wall.");
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { ruler.redraw(); lcd.redraw(); scr.panel.redraw(); V(); });
+  say.textContent = HELLO;
+  show();
+  window.SHOT_PREP = window.SHOT_PREP || {};
+  window.SHOT_PREP.scene = window.SHOT_PREP["ts-3d"] = () => { go(3); G.redraw(); };
+  window.SCENE_TEST = {go, state: () => ({k: S.k})};
+})();
+
+/* The models of Week 7, as in the Colab notebook. RT: the tasks of the controller of the battery container (protection
+   1 ms every 5 ms, frequency control 3 ms every 10 ms, battery management C ms every 20 ms and Modbus 9 ms every 50 ms),
+   the utilization, the bound of Liu and Layland, the response-time analysis of Joseph and Pandya and a preemptive
+   scheduler in steps of 1 ms under RM or EDF. PLC: the scan cycle of the PLC of the main switchboard with an input
+   filter of 3 ms, a relay output of 6 ms, a limit of 50 ms and a watchdog of 30 ms; 20 trips at random moments drawn
+   with RNG(700 + run). */
+var RT = window.RT || (function () {
+  const NAMES = ["protection", "frequency control", "battery management", "Modbus"], SHORT = ["Protection", "Frequency", "Battery mgmt", "Modbus"];
+  function tasks(cbm, modbus) {
+    const t = [{name: NAMES[0], C: 1, T: 5}, {name: NAMES[1], C: 3, T: 10}, {name: NAMES[2], C: cbm == null ? 5 : cbm, T: 20}];
+    if (modbus !== false) t.push({name: NAMES[3], C: 9, T: 50});
+    return t;
+  }
+  const util = ts => ts.reduce((a, t) => a + t.C / t.T, 0);
+  const bound = n => n * (Math.pow(2, 1 / n) - 1);
+  const gcd = (a, b) => (b ? gcd(b, a % b) : a), lcm = ts => ts.reduce((a, t) => a * t.T / gcd(a, t.T), 1);
+  /* Response times under RM priorities; the order of the result follows the periods. */
+  function rta(ts) {
+    const order = ts.map((t, i) => ({t, i})).sort((a, b) => a.t.T - b.t.T || a.i - b.i).map(o => o.t), out = {};
+    order.forEach((task, i) => {
+      const hi = order.slice(0, i);
+      let R = task.C + hi.reduce((a, h) => a + h.C, 0); const steps = [R];
+      while (R <= 10 * task.T) {
+        const Rn = task.C + hi.reduce((a, h) => a + Math.ceil(R / h.T) * h.C, 0);
+        if (Rn === R) break;
+        R = Rn; steps.push(R);
+      }
+      const finite = R <= 10 * task.T;
+      out[task.name] = {R: finite ? R : null, steps, ok: finite && R <= task.T};
+    });
+    return out;
+  }
+  /* A preemptive scheduler in steps of 1 ms: the trace (index of the task or null) and every job. */
+  function simulate(ts, policy, horizon, extra) {
+    horizon = horizon == null ? 200 : horizon; extra = extra == null ? 100 : extra;
+    const jobs = [];
+    ts.forEach((t, i) => { for (let r = 0; r < horizon + extra; r += t.T) jobs.push({task: i, release: r, deadline: r + t.T, left: t.C, finish: null}); });
+    const trace = [];
+    for (let now = 0; now < horizon + extra; now++) {
+      let best = null;
+      for (const j of jobs) {
+        if (j.release > now || j.left <= 0) continue;
+        if (!best) { best = j; continue; }
+        const a = policy === "RM" ? [ts[j.task].T, j.task, j.release] : [j.deadline, j.task, j.release];
+        const b = policy === "RM" ? [ts[best.task].T, best.task, best.release] : [best.deadline, best.task, best.release];
+        if (a[0] < b[0] || (a[0] === b[0] && (a[1] < b[1] || (a[1] === b[1] && a[2] < b[2])))) best = j;
+      }
+      if (!best) { trace.push(null); continue; }
+      best.left -= 1; trace.push(best.task);
+      if (best.left === 0) best.finish = now + 1;
+    }
+    return {trace, jobs};
+  }
+  function report(ts, jobs, horizon) {
+    horizon = horizon == null ? 200 : horizon;
+    return ts.map((t, i) => {
+      const mine = jobs.filter(j => j.task === i && j.deadline <= horizon);
+      const missed = mine.filter(j => j.finish == null || j.finish > j.deadline).length;
+      const done = mine.filter(j => j.finish != null).map(j => j.finish - j.release);
+      return {task: t.name, jobs: mine.length, missed, worst: done.length === mine.length ? Math.max(...done) : null};
+    });
+  }
+  /* The PLC of the main switchboard. */
+  const T_IN = 3, T_OUT = 6, LIMIT = 50, WATCHDOG = 30;
+  const scanTime = k => k + 1, worstCase = k => 2 * scanTime(k) + T_IN + T_OUT;
+  function reactions(k, seed, n) {
+    n = n == null ? 20 : n; const T = scanTime(k);
+    if (T > WATCHDOG) return null;
+    const r = RNG(seed), out = [];
+    for (let i = 0; i < n; i++) {
+      const e = 1000 * i + 1000 * r(), read = Math.ceil((e + T_IN) / T) * T;
+      out.push({e, read, end: read + T, react: read + T + T_OUT - e});
+    }
+    return out;
+  }
+  return {NAMES, SHORT, tasks, util, bound, lcm, rta, simulate, report, T_IN, T_OUT, LIMIT, WATCHDOG, scanTime, worstCase, reactions,
+    COLORS: ["#B53F2E", "#1E6FA8", "#2E8B57", "#C98510"]};
+})();
+window.RT = RT;
+
+/* Animation: One trip through the scan cycle. The PLC of the main switchboard with a program of k thousand instructions
+   (RT.scanTime) and a trip of the grid breaker at a chosen moment of the scan: the scan cycle as a ring (left) and the
+   timeline of the input terminal, the filtered input, the scans and the output terminal with the reaction (right). At
+   the boundary of two scans the PLC writes the output image and reads the input image. */
+(function () {
+  const cv = document.getElementById("pl-cv"); if (!cv) return;
+  const R0 = window.RT, P = {k: 12, p: 40};
+  const ro = readout(document.getElementById("pl-ro"), ["Scan time", "Reaction", "Best to worst case", "Limit of 50 ms"]);
+  const sl = document.getElementById("pl-sl");
+  const sK = slider(sl, {label: "Program (thousand instructions)", min: 2, max: 29, step: 1, value: P.k}, v => { P.k = v; show(); });
+  const sP = slider(sl, {label: "Moment of the trip in the scan (%)", min: 0, max: 99, step: 1, value: P.p}, v => { P.p = v; show(); });
+  let M = null;
+  const D = stage(cv, 0.44, (ctx, w, hh) => {
+    const C = COL(); ctx.clearRect(0, 0, w, hh); if (!M) return;
+    const T = M.T, wl = Math.round(w * 0.27), cx = wl / 2, cy = hh / 2 + 6, r = Math.min(wl, hh) * 0.36;
+    /* the ring of the scan cycle: the images of the outputs and inputs 0.6 ms, the program k ms, communication 0.4 ms */
+    const parts = [["images", 0.6, C.c[1] || "#1E6FA8"], ["program", T - 1, C.steel || "#56616D"], ["communication", 0.4, C.c[3] || "#C98510"]];
+    let a0 = -Math.PI / 2;
+    parts.forEach(([name, d, col]) => { const a1 = a0 + 2 * Math.PI * d / T; ctx.beginPath(); ctx.arc(cx, cy, r, a0, a1); ctx.strokeStyle = col; ctx.lineWidth = 14; ctx.stroke(); a0 = a1; });
+    ctx.fillStyle = C.ink; ctx.font = "12px " + cssv("--sans"); ctx.textAlign = "center";
+    ctx.fillText("write outputs, read inputs", cx, cy - r - 14); ctx.fillText("execute the program", cx, cy + r + 24); ctx.fillText(`scan ${T} ms`, cx, cy + 4);
+    const ae = -Math.PI / 2 + 2 * Math.PI * (M.e % T) / T;
+    dot(ctx, cx + r * Math.cos(ae), cy + r * Math.sin(ae), 7, C.bad || "#B53F2E", "#FFFFFF");
+    ctx.fillStyle = C.bad || "#B53F2E"; ctx.fillText("trip", cx + (r + 22) * Math.cos(ae), cy + (r + 22) * Math.sin(ae) + 4);
+    /* the timeline */
+    ctx.save(); ctx.translate(wl + 10, 0);
+    const W2 = w - wl - 16, t1 = 3 * T + 12, X = t => 120 + t / t1 * (W2 - 130), rows = [36, 82, 128, 174], lab = ["input terminal", "after the filter", "scans", "output terminal"];
+    ctx.textAlign = "left"; ctx.font = "12px " + cssv("--sans");
+    lab.forEach((s, i) => { ctx.fillStyle = C.ink; ctx.fillText(s, 0, rows[i] + 4); });
+    for (let n = 0; n < 3; n++) { const x0 = X(n * T), x1 = X((n + 1) * T), hit = n * T === M.read;
+      ctx.fillStyle = hit ? "rgba(30,111,168,0.18)" : "rgba(86,97,109,0.10)"; ctx.fillRect(x0, rows[2] - 12, x1 - x0 - 2, 24);
+      ctx.fillStyle = C.c[1] || "#1E6FA8"; ctx.fillRect(x0, rows[2] - 12, Math.max(3, X(0.6) - X(0)), 24);
+      ctx.fillStyle = C.c[3] || "#C98510"; ctx.fillRect(X((n + 1) * T - 0.4), rows[2] - 12, Math.max(2, X(0.4) - X(0)), 24);
+      ctx.strokeStyle = C.line || "#C9D1D8"; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(x0, 20); ctx.lineTo(x0, rows[3] + 14); ctx.stroke(); ctx.setLineDash([]); }
+    const step = (y, t, col) => { ctx.strokeStyle = col; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(X(0), y + 8); ctx.lineTo(X(t), y + 8); ctx.lineTo(X(t), y - 8); ctx.lineTo(X(t1), y - 8); ctx.stroke(); ctx.lineWidth = 1; };
+    step(rows[0], M.e, C.bad || "#B53F2E"); step(rows[1], M.e + R0.T_IN, C.bad || "#B53F2E"); step(rows[3], M.out, C.ok || "#2E8B57");
+    ctx.strokeStyle = C.ink; ctx.beginPath(); ctx.moveTo(X(M.e), rows[3] + 26); ctx.lineTo(X(M.out), rows[3] + 26); ctx.stroke();
+    dot(ctx, X(M.e), rows[3] + 26, 3, C.ink); dot(ctx, X(M.out), rows[3] + 26, 3, C.ink);
+    ctx.fillStyle = C.ink; ctx.textAlign = "center"; ctx.fillText(`reaction ${M.react.toFixed(1)} ms`, (X(M.e) + X(M.out)) / 2, rows[3] + 42);
+    ctx.fillStyle = C.steel || "#56616D"; ctx.fillText("read", X(M.read), 14); ctx.fillText("write", X(M.read + T), 14);
+    ctx.restore();
+  });
+  function show() {
+    const T = R0.scanTime(P.k), e = P.p / 100 * T, read = Math.ceil((e + R0.T_IN) / T) * T, out = read + T + R0.T_OUT;
+    M = {T, e, read, out, react: out - e};
+    ro("Scan time", `${T} ms`); ro("Reaction", `${M.react.toFixed(1)} ms`);
+    ro("Best to worst case", `${T + 9} to ${2 * T + 9} ms`); ro("Limit of 50 ms", 2 * T + 9 <= R0.LIMIT ? "always met" : M.react <= R0.LIMIT ? "met here, not always" : "missed");
+    D.redraw();
+  }
+  show();
+  window.SCAN_TEST = {set(k, p) { P.k = k; P.p = p; sK.setValue(k); sP.setValue(p); show(); }, state: () => Object.assign({k: P.k, p: P.p}, M)};
+})();
+
+initLecture(7);
+})();</script></body></html>
