@@ -31,6 +31,10 @@
   "text": "Bennett, W. R. (1948). Spectra of quantized signals. Bell System Technical Journal, 27(3), 446-472.",
   "link": "https://doi.org/10.1002/j.1538-7305.1948.tb01340.x"
  },
+ "blochwitz2011": {
+  "text": "Blochwitz, T., Otter, M., Arnold, M., Bausch, C., Clauß, C., Elmqvist, H., Junghanns, A., Mauss, J., Monteiro, M., Neidhold, T., Neumerkel, D., Olsson, H., Peetz, J.-V., & Wolf, S. (2011). The Functional Mockup Interface for tool independent exchange of simulation models. In Proceedings of the 8th International Modelica Conference (pp. 105-114). Linköping University Electronic Press.",
+  "link": "https://doi.org/10.3384/ecp11063105"
+ },
  "boyd2004": {
   "text": "Boyd, S., & Vandenberghe, L. (2004). Convex Optimization. Cambridge University Press.",
   "link": "https://doi.org/10.1017/CBO9780511804441"
@@ -66,6 +70,10 @@
  "goodfellow2015": {
   "text": "Goodfellow, I. J., Shlens, J., & Szegedy, C. (2015). Explaining and harnessing adversarial examples. In 3rd International Conference on Learning Representations (ICLR 2015).",
   "link": "https://arxiv.org/abs/1412.6572"
+ },
+ "grieves2017": {
+  "text": "Grieves, M., & Vickers, J. (2017). Digital twin: Mitigating unpredictable, undesirable emergent behavior in complex systems. In F.-J. Kahlen, S. Flumerfelt, & A. Alves (Eds.), Transdisciplinary Perspectives on Complex Systems: New Findings and Approaches (pp. 85-113). Springer.",
+  "link": "https://doi.org/10.1007/978-3-319-38756-7_4"
  },
  "gu2003": {
   "text": "Gu, K., Kharitonov, V. L., & Chen, J. (2003). Stability of Time-Delay Systems. Birkhäuser.",
@@ -175,6 +183,10 @@
   "text": "Kasten, F., & Czeplak, G. (1980). Solar and terrestrial radiation dependent on the amount and type of cloud. Solar Energy, 24(2), 177-189.",
   "link": "https://doi.org/10.1016/0038-092X(80)90391-6"
  },
+ "kiefer1953": {
+  "text": "Kiefer, J. (1953). Sequential minimax search for a maximum. Proceedings of the American Mathematical Society, 4(3), 502-506.",
+  "link": "https://doi.org/10.1090/S0002-9939-1953-0055639-3"
+ },
  "kim2011": {
   "text": "Kim, T. T., & Poor, H. V. (2011). Strategic protection against data injection attacks on power grids. IEEE Transactions on Smart Grid, 2(2), 326-333.",
   "link": "https://doi.org/10.1109/TSG.2011.2119336"
@@ -194,6 +206,10 @@
  "kose2018": {
   "text": "Kose, U. (2018). Are we safe enough in the future of artificial intelligence? A discussion on machine ethics and artificial intelligence safety. BRAIN. Broad Research in Artificial Intelligence and Neuroscience, 9(2), 184-197.",
   "link": "https://doi.org/10.5281/zenodo.1245926"
+ },
+ "kritzinger2018": {
+  "text": "Kritzinger, W., Karner, M., Traar, G., Henjes, J., & Sihn, W. (2018). Digital Twin in manufacturing: A categorical literature review and classification. IFAC-PapersOnLine, 51(11), 1016-1022.",
+  "link": "https://doi.org/10.1016/j.ifacol.2018.08.474"
  },
  "kundur1994": {
   "text": "Kundur, P. (1994). Power System Stability and Control. McGraw-Hill.",
@@ -231,6 +247,10 @@
   "text": "Liu, Y., Ning, P., & Reiter, M. K. (2009). False data injection attacks against state estimation in electric power grids. In Proceedings of the 16th ACM Conference on Computer and Communications Security (pp. 21-32). ACM.",
   "link": "https://doi.org/10.1145/1653662.1653666"
  },
+ "ljung1999": {
+  "text": "Ljung, L. (1999). System Identification: Theory for the User (2nd ed.). Prentice Hall.",
+  "link": ""
+ },
  "mao2016": {
   "text": "Mao, H., Alizadeh, M., Menache, I., & Kandula, S. (2016). Resource management with deep reinforcement learning. In Proceedings of the 15th ACM Workshop on Hot Topics in Networks (pp. 50-56). ACM.",
   "link": "https://doi.org/10.1145/3005745.3005750"
@@ -238,6 +258,10 @@
  "matplotlib": {
   "text": "Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. Computing in Science & Engineering, 9(3), 90-95.",
   "link": "https://doi.org/10.1109/MCSE.2007.55"
+ },
+ "mills1991": {
+  "text": "Mills, D. L. (1991). Internet time synchronization: The network time protocol. IEEE Transactions on Communications, 39(10), 1482-1493.",
+  "link": "https://doi.org/10.1109/26.103043"
  },
  "mo2009": {
   "text": "Mo, Y., & Sinopoli, B. (2009). Secure control against replay attacks. In 2009 47th Annual Allerton Conference on Communication, Control, and Computing (Allerton) (pp. 911-918). IEEE.",
@@ -299,9 +323,17 @@
   "text": "Van Rossum, G., & Drake, F. L. (2009). Python 3 Reference Manual. CreateSpace.",
   "link": ""
  },
+ "raissi2019": {
+  "text": "Raissi, M., Perdikaris, P., & Karniadakis, G. E. (2019). Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations. Journal of Computational Physics, 378, 686-707.",
+  "link": "https://doi.org/10.1016/j.jcp.2018.10.045"
+ },
  "rajkumar2010": {
   "text": "Rajkumar, R., Lee, I., Sha, L., & Stankovic, J. (2010). Cyber-physical systems: The next computing revolution. In Proceedings of the 47th Design Automation Conference (pp. 731-736). ACM.",
   "link": "https://doi.org/10.1145/1837274.1837461"
+ },
+ "rasheed2020": {
+  "text": "Rasheed, A., San, O., & Kvamsdal, T. (2020). Digital Twin: Values, challenges and enablers from a modeling perspective. IEEE Access, 8, 21980-22012.",
+  "link": "https://doi.org/10.1109/ACCESS.2020.2970143"
  },
  "recht2019": {
   "text": "Recht, B. (2019). A tour of reinforcement learning: The view from continuous control. Annual Review of Control, Robotics, and Autonomous Systems, 2, 253-279.",
@@ -342,6 +374,10 @@
  "stouffer2023": {
   "text": "Stouffer, K., Pease, M., Tang, C., Zimmerman, T., Pillitteri, V., Lightman, S., Hahn, A., Saravia, S., Sherule, A., & Thompson, M. (2023). Guide to Operational Technology (OT) Security (NIST Special Publication 800-82r3). National Institute of Standards and Technology.",
   "link": "https://doi.org/10.6028/NIST.SP.800-82r3"
+ },
+ "tao2019": {
+  "text": "Tao, F., Zhang, H., Liu, A., & Nee, A. Y. C. (2019). Digital Twin in industry: State-of-the-art. IEEE Transactions on Industrial Informatics, 15(4), 2405-2415.",
+  "link": "https://doi.org/10.1109/TII.2018.2873186"
  },
  "teixeira2015": {
   "text": "Teixeira, A., Shames, I., Sandberg, H., & Johansson, K. H. (2015). A secure control framework for resource-limited adversaries. Automatica, 51, 135-148.",
