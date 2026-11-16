@@ -208,7 +208,7 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 .wk.soon{border-top-color:var(--line);opacity:.8}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.lec-tools,.tabs,nav,.btn{display:none}}
-</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 5 of 14</p><h1>Feedback Control: P, PI and PID, Stability and Frequency Control</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-05">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-05/NB05_feedback_control.ipynb">Colab notebook</a><a href="Week05_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Feedback control lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A tests the frequency controller of the battery on a hardware-in-the-loop bench. Part C opens the inverter cabinet of the battery. Part B computes the formulas of the lecture step by step, and Part D asks for the values of stage 5 by hand. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its room. Start moves the view to the bench or the cabinet, and the view returns to the room at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The hardware-in-the-loop bench</h3><p>The hardware-in-the-loop bench tests the frequency controller of the battery before it meets the island. A real-time simulator computes the island of the campus every 2 ms. Its model holds the inertia of 80 kW·s/Hz, the damping of 12 kW/Hz of the loads and the inverter that follows within 0.2 s. It sends the frequency to the real controller as an analog voltage, and the controller sends its power command back. An oscilloscope shows the frequency and the power of the battery for 30 s after a load step.</p>
+</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 5 of 14</p><h1>Feedback Control: P, PI and PID, Stability and Frequency Control</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-05">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-05/NB05_feedback_control.ipynb">Colab notebook</a><a href="Week05_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Feedback control lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A tests the frequency controller of the battery on a hardware-in-the-loop bench. Part C opens the inverter cabinet of the battery. Part B computes the formulas of the lecture step by step, and Part D asks for the values of stage 5 by hand. Part E is a field task with the menu of the battery inverter, operated as on site. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its room. Start moves the view to the bench or the cabinet, and the view returns to the room at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The hardware-in-the-loop bench</h3><p>The hardware-in-the-loop bench tests the frequency controller of the battery before it meets the island. A real-time simulator computes the island of the campus every 2 ms. Its model holds the inertia of 80 kW·s/Hz, the damping of 12 kW/Hz of the loads and the inverter that follows within 0.2 s. It sends the frequency to the real controller as an analog voltage, and the controller sends its power command back. An oscilloscope shows the frequency and the power of the battery for 30 s after a load step.</p>
 <p>Set the three gains below the view, choose the load step and press Run. Your missions: First, run proportional control alone at two values of Kp and compare the final deviation with -ΔP/(D + Kp). Second, find an integral gain that returns within 20 mHz in less than 7 s without an overshoot above 10 mHz. Third, raise Ki until the oscillation no longer dies away. Keep Kp and Kd fixed, make one run on each side of the limit and compare with the Routh-Hurwitz limit of the lecture. The decay compares the second dip with the first: Below 1 the oscillation dies away.</p>
 <div class="three" id="hb-3d"></div>
 <div class="row" id="hb-sl" style="align-items:flex-end;gap:12px;margin:8px 0"></div>
@@ -237,7 +237,10 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <p class="small" id="ic-sum" aria-live="polite"></p>
 <p><button class="btn" id="ic-copy" type="button">Copy the results for Colab</button> <span class="small" id="ic-msg" aria-live="polite"></span></p>
 <textarea id="ic-csv" rows="5" readonly aria-label="Runs in the inverter cabinet as comma-separated values" hidden></textarea>
-<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Saturation and windup</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-05/NB05_feedback_control.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your runs into MY_TRIPS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 5 of the microgrid</h3><p>After the step of 66 kW, a P controller with $K_p = 200$ kW/Hz leaves a deviation: Compute it in Hz to three decimals. A PI controller has $K_p = 125$ kW/Hz and $K_i = 240$ kW/(Hz·s): Compute its damping ratio without the lag to two decimals. Finally, a derivative term of $K_d = 20$ kW·s/Hz is added to $K_p = 125$: Compute the limit of the integral gain with the lag of 0.2 s.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 5: Frequency control by the battery</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-05/NB05_feedback_control.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 5 of the campus microgrid.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Saturation and windup</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-05/NB05_feedback_control.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your runs into MY_TRIPS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 5 of the microgrid</h3><p>After the step of 66 kW, a P controller with $K_p = 200$ kW/Hz leaves a deviation: Compute it in Hz to three decimals. A PI controller has $K_p = 125$ kW/Hz and $K_i = 240$ kW/(Hz·s): Compute its damping ratio without the lag to two decimals. Finally, a derivative term of $K_d = 20$ kW·s/Hz is added to $K_p = 125$: Compute the limit of the integral gain with the lag of 0.2 s.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 5: Frequency control by the battery</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-05/NB05_feedback_control.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 5 of the campus microgrid.</p></section><section class="labpart" id="pe"><h3>Part E: Field task: Setting the battery inverter</h3><p>The battery inverter of Part C runs with the factory settings of its frequency control. Its menu takes the controller of stage 5 in the units of power engineers: A droop in percent, an integral time and an inertia constant in seconds. The design sheet beside the inverter gives the values in the units of the lecture.</p>
+<p>The keys work as on the real device. The keys ▲ and ▼ choose a line, OK opens it or starts and saves a change, and the escape key (ESC) goes back. A number changes digit by digit: ◀ and ▶ choose the digit, and ▲ and ▼ change it. On a computer, the arrow keys, Enter and Escape work as well, once the front panel has been clicked.</p>
+<div id="pe-task"></div>
+<p class="backpart"><a href="lecture.html#lab-pe">Back to the lecture: In the field: The controller as settings of the inverter</a>, where the text continues after the box of this part.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
 /* Shared runtime of the lecture pages and interactive labs. */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -1919,6 +1922,331 @@ window.ISLAND = ISLAND;
     HD.set(0, "The inverter cabinet of the battery"); HD.set(1, "Two missions"); HD.say("Without anti-windup: The command asks for 358.9 kW, far beyond the limit of 250 kW"); };
   window.INV_TEST = {start, run, speed(f) { speed = f; }, set(ev, aw, der) { evS.value = String(ev); awS.value = aw; derS.value = der; S.ev = ev; S.aw = aw; S.der = der; },
     state: () => ({game, running, rows: data.rows.length, last: data.rows[data.rows.length - 1] || null, done: done()})};
+})();
+
+/* Field tasks: the front panels of real devices with their menus, and work procedures with ordered steps.
+   FIELD.task builds the frame of Part E with its goals and messages, FIELD.device a front panel with a display, lamps
+   and keys, FIELD.menu the menu of a device with lists, numbers edited digit by digit, values and actions, and
+   FIELD.procedure a group of physical actions. */
+const FIELD = (function () {
+  const CSS = `
+.ftask{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:var(--panel)}
+.ftask .fgoals{list-style:none;padding:0;margin:4px 0 10px}
+.ftask .fgoals li{margin:3px 0;padding-left:26px;position:relative}
+.ftask .fgoals li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;border:2px solid #8D99A6}
+.ftask .fgoals li.ok::before{background:#2E8B57;border-color:#2E8B57}
+.ftask .fgoals li.ok::after{content:"";position:absolute;left:5px;top:6px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.ftask .fstage{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:8px 0}
+.ftask .fside{flex:1 1 260px;min-width:240px}
+.ftask .flog{min-height:3.2em;margin:8px 0 4px;padding:8px 10px;border-radius:8px;background:rgba(127,140,155,.12);font-size:.95em}
+.ftask .flog p{margin:2px 0}
+.ftask .flog .bad{color:#B23B3B}.ftask .flog .ok{color:#2E7D4F}
+.ftask .fdone{font-weight:600;color:#2E7D4F}
+.fdev{display:inline-block;max-width:100%;background:linear-gradient(#4E5761,#2C3238);border-radius:12px;padding:10px 12px 12px;
+  color:#E8EDF2;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 8px rgba(0,0,0,.25);outline:none}
+.fdev:focus-visible{box-shadow:0 0 0 3px #F2B33D}
+.fdev .fhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.fdev .fmodel{font-weight:700;font-size:13px;letter-spacing:.02em}
+.fdev .ftag{font-size:11px;color:#AFBBC7}
+.fdev pre.flcd{margin:8px 0;padding:6px 8px;border-radius:5px;border:2px solid #1A1E22;white-space:pre;overflow:hidden;
+  font:600 13px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;box-shadow:inset 0 0 7px rgba(0,0,0,.35)}
+.fdev pre.flcd.green{background:#A9BD93;color:#1B2430}.fdev pre.flcd.blue{background:#16324F;color:#DDEBFA}
+.fdev pre.flcd.white{background:#E9EEF2;color:#1B2430}
+.fdev pre.flcd .inv{background:currentColor}.fdev pre.flcd.green .inv{color:#1B2430}.fdev pre.flcd .inv b{color:#A9BD93;font-weight:600}
+.fdev pre.flcd.blue .inv b{color:#16324F}.fdev pre.flcd.white .inv b{color:#E9EEF2}
+.fdev .fleds{display:flex;flex-wrap:wrap;gap:4px 12px;margin:2px 0 8px}
+.fdev .fled{display:flex;align-items:center;gap:5px;font-size:11px;color:#C9D1D8}
+.fdev .fled i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#3A4047;box-shadow:inset 0 0 2px rgba(0,0,0,.7)}
+.fdev .fled.on i{background:var(--lc);box-shadow:0 0 7px var(--lc)}
+.fdev .fled.blink i{animation:fblink 0.8s steps(2,start) infinite}
+@keyframes fblink{to{visibility:hidden}}
+.fdev .fkeys{display:grid;grid-template-columns:repeat(4,46px);gap:6px}
+.fdev .fkey{height:34px;border-radius:7px;border:1px solid #1A1E22;background:linear-gradient(#66707B,#3E454D);color:#fff;
+  font:600 13px system-ui,sans-serif;cursor:pointer;padding:0}
+.fdev .fkey:active{transform:translateY(1px)}.fdev .fkey:disabled{opacity:.45;cursor:default}
+.fdev .fkey.wide{grid-column:span 2}
+.fdev .fextra{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fdev .fextra .fkey{padding:0 10px;width:auto}
+.fproc{display:flex;flex-direction:column;gap:10px}
+.fproc .fgrp{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fproc .fgrp h4{margin:0 0 6px;font-size:.95em}
+.fproc .fgrp .row{display:flex;flex-wrap:wrap;gap:6px}
+.fproc .btn{font-size:.9em}
+.fstate{border-collapse:collapse;font-size:.92em;margin:6px 0}
+.fstate td,.fstate th{border:1px solid var(--line);padding:3px 8px;text-align:left}
+.fdoc{border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:.92em;background:rgba(255,255,255,.04)}
+`;
+  let styled = false;
+  function style() { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = CSS; document.head.append(s); }
+
+  /* The frame of a field task: goals, a stage for the devices and the messages. */
+  function task(rootId, o) {
+    style();
+    const root = document.getElementById(rootId); if (!root) return null;
+    const saved = store.get(o.key, {});
+    const state = {done: saved.done || {}, complete: !!saved.complete};
+    const box = h("div", {class: "ftask"});
+    const goals = h("ul", {class: "fgoals"});
+    const items = {};
+    o.goals.forEach(g => { const li = h("li", {}, g.t); items[g.id] = li; goals.append(li); });
+    const stage = h("div", {class: "fstage"});
+    const log = h("div", {class: "flog", "aria-live": "polite"});
+    const status = h("p", {class: "small"});
+    const reset = h("button", {class: "btn ghost", type: "button"}, "Start the task again");
+    box.append(h("p", {class: "small"}, "Goals of the task"), goals, stage, log, status, h("p", {}, reset));
+    root.append(box);
+    const lines = [];
+    const api = {
+      stage, box,
+      say(text, kind) { lines.unshift({text, kind: kind || ""}); lines.length = Math.min(lines.length, 4);
+        log.textContent = ""; lines.forEach((l, i) => log.append(h("p", {class: l.kind, style: i ? "opacity:.65" : ""}, l.text))); },
+      goal(id) { if (state.done[id]) return; state.done[id] = true; paint(); save();
+        const g = o.goals.find(x => x.id === id); if (g) api.say("Done: " + g.t, "ok");
+        if (o.goals.every(x => state.done[x.id]) && !state.complete) { state.complete = true; save(); paint();
+          if (window.labLog) labLog.note("Part E", o.summary ? o.summary() : "Field task complete"); } },
+      has(id) { return !!state.done[id]; },
+      complete() { return state.complete; }
+    };
+    function paint() {
+      o.goals.forEach(g => items[g.id].className = state.done[g.id] ? "ok" : "");
+      const n = o.goals.filter(g => state.done[g.id]).length;
+      status.textContent = state.complete ? "" : `Goals reached: ${n} of ${o.goals.length}.`;
+      status.className = "small"; if (state.complete) { status.textContent = "Field task complete. " + (o.closing || ""); status.className = "small fdone"; }
+    }
+    function save() { store.set(o.key, {done: state.done, complete: state.complete}); }
+    reset.addEventListener("click", () => { state.done = {}; state.complete = false; save(); paint(); lines.length = 0; log.textContent = "";
+      if (o.onReset) o.onReset(); api.say(o.hello || "The task starts again."); });
+    paint();
+    if (o.hello) api.say(o.hello);
+    return api;
+  }
+
+  /* The front panel of a device: a display with rows of fixed width, lamps and keys. */
+  function device(parent, o) {
+    style();
+    const rows = o.rows || 4, cols = o.cols || 20;
+    const el = h("div", {class: "fdev", tabindex: "0", role: "group", "aria-label": o.model + (o.tag ? ", " + o.tag : "")});
+    const lcd = h("pre", {class: "flcd " + (o.lcd || "green"), "aria-live": "polite", "aria-label": "Display of the " + o.model});
+    const leds = {}, ledBox = h("div", {class: "fleds"});
+    (o.leds || []).forEach(([name, color]) => { const d = h("span", {class: "fled", style: `--lc:${color}`}, h("i", {}), name); leds[name] = d; ledBox.append(d); });
+    const keyBox = h("div", {class: "fkeys"}), handlers = [];
+    const KEYS = o.keys || ["", "▲", "", "ESC", "◀", "OK", "▶", "", "", "▼", "", ""];
+    const btns = {};
+    KEYS.forEach(k => { if (!k) { keyBox.append(h("span", {})); return; }
+      const name = {"▲": "Up", "▼": "Down", "◀": "Left", "▶": "Right"}[k] || k;
+      const b = h("button", {class: "fkey", type: "button", "aria-label": name}, k); btns[k] = b;
+      b.addEventListener("click", () => { handlers.forEach(f => f(k)); el.focus({preventScroll: true}); }); keyBox.append(b); });
+    const extra = h("div", {class: "fextra"});
+    (o.extra || []).forEach(([label, fn]) => { const b = h("button", {class: "fkey", type: "button"}, label); b.addEventListener("click", fn); btns[label] = b; extra.append(b); });
+    el.append(h("div", {class: "fhead"}, h("span", {class: "fmodel"}, o.model), h("span", {class: "ftag"}, o.tag || "")), lcd);
+    if (o.leds && o.leds.length) el.append(ledBox);
+    if (KEYS.some(k => k)) el.append(keyBox);
+    if (o.extra && o.extra.length) el.append(extra);
+    el.addEventListener("keydown", e => { const k = {ArrowUp: "▲", ArrowDown: "▼", ArrowLeft: "◀", ArrowRight: "▶", Enter: "OK", Escape: "ESC"}[e.key];
+      if (k && btns[k]) { e.preventDefault(); handlers.forEach(f => f(k)); } });
+    parent.append(el);
+    return {
+      el, rows, cols, btns,
+      show(lines) { lcd.textContent = ""; for (let r = 0; r < rows; r++) { const ln = lines[r] == null ? "" : lines[r];
+        if (typeof ln === "string") lcd.append(pad(ln, cols)); else { let used = 0; ln.forEach(seg => { const t = seg.t.slice(0, cols - used); used += t.length;
+          lcd.append(seg.inv ? h("span", {class: "inv"}, h("b", {}, t)) : t); }); lcd.append(" ".repeat(Math.max(0, cols - used))); }
+        if (r < rows - 1) lcd.append("\n"); } },
+      led(name, on, blink) { const d = leds[name]; if (!d) return; d.classList.toggle("on", !!on); d.classList.toggle("blink", !!blink && !!on); },
+      onKey(f) { handlers.push(f); },
+      press(k) { handlers.forEach(f => f(k)); },
+      enable(on) { Object.values(btns).forEach(b => { b.disabled = !on; }); }
+    };
+  }
+  const pad = (s, n) => (s.length > n ? s.slice(0, n) : s + " ".repeat(n - s.length));
+  const line = (label, value, cols) => { value = value == null ? "" : String(value); const room = cols - value.length - 1;
+    return pad(label.slice(0, Math.max(0, room)), Math.max(0, room)) + " " + value; };
+
+  /* The menu of a device. Nodes: {t, kids} a submenu, {t, key, list} a choice, {t, key, num: {min, max, dec, unit}} a
+     number edited digit by digit, {t, show} a value, {t, act, confirm} an action. */
+  function menu(dev, tree, o) {
+    const P = o.params, C = dev.cols, R = dev.rows;
+    let stack = [{node: {t: o.title || "MAIN MENU", kids: tree}, i: 0}], edit = null, confirm = null, flash = null;
+    const top = () => stack[stack.length - 1];
+    const fmtNum = (n, v) => { const d = n.num.dec || 0; return (+v).toFixed(d); };
+    const unit = n => (n.num && n.num.unit) || n.unit || "";
+    const valueOf = n => n.show ? n.show() : n.key == null ? (n.kids ? ">" : "") : n.num ? fmtNum(n, P[n.key]) + (unit(n) ? " " + unit(n) : "") : String(P[n.key]);
+    function render() {
+      if (confirm) { dev.show([pad(confirm.node.t.toUpperCase(), C), "", pad(confirm.text || "Execute now?", C), pad("OK = yes   ESC = no", C)]); return; }
+      if (edit) {
+        const n = edit.node, L = [pad(n.t.toUpperCase(), C), ""];
+        if (n.list) L.push(pad(`< ${n.list[edit.k]} >`, C));
+        else { const s = edit.str, segs = []; for (let i = 0; i < s.length; i++) segs.push({t: s[i], inv: i === edit.pos});
+          segs.push({t: unit(n) ? " " + unit(n) : ""}); L.push(segs); }
+        L.push(pad(n.list ? "▲▼ choose  OK save" : "◀▶ digit ▲▼ change", C));
+        while (L.length < R) L.push("");
+        dev.show(L.slice(0, R)); return; }
+      const t = top(), kids = t.node.kids, first = Math.max(0, Math.min(t.i - (R - 2), kids.length - (R - 1)));
+      const L = [pad((flash || t.node.t).toUpperCase(), C)];
+      for (let r = 0; r < R - 1; r++) { const k = first + r, n = kids[k]; if (!n) { L.push(""); continue; }
+        const mark = k === t.i ? ">" : " ", v = valueOf(n); L.push(mark + line(n.t, v, C - 1)); }
+      dev.show(L); flash = null;
+    }
+    function startEdit(n) {
+      if (n.list) { edit = {node: n, k: Math.max(0, n.list.indexOf(P[n.key]))}; return; }
+      const d = n.num.dec || 0, w = Math.max(fmtNum(n, n.num.max).length, fmtNum(n, P[n.key]).length);
+      let s = fmtNum(n, P[n.key]); while (s.length < w) s = "0" + s;
+      edit = {node: n, str: s, pos: s.length - 1 - (d ? 0 : 0)};
+      if (s[edit.pos] === ".") edit.pos--;
+    }
+    function bump(dir) {
+      const n = edit.node;
+      if (n.list) { edit.k = (edit.k + dir + n.list.length) % n.list.length; return; }
+      const a = edit.str.split(""); let i = edit.pos;
+      let dgt = (+a[i] + dir + 10) % 10; a[i] = String(dgt); edit.str = a.join("");
+    }
+    function move(dir) { if (!edit || edit.node.list) return; let p = edit.pos + dir; if (edit.str[p] === ".") p += dir;
+      if (p >= 0 && p < edit.str.length) edit.pos = p; }
+    function save() {
+      const n = edit.node; let v;
+      if (n.list) v = n.list[edit.k];
+      else { v = parseFloat(edit.str); if (!(v >= n.num.min - 1e-9 && v <= n.num.max + 1e-9)) { const lim = `${fmtNum(n, n.num.min)} to ${fmtNum(n, n.num.max)}`;
+        flash = "OUT OF RANGE"; if (o.onError) o.onError(n, v, lim); edit = null; return; } }
+      const old = P[n.key]; P[n.key] = v; edit = null; flash = "SAVED";
+      if (o.onSet) o.onSet(n.key, v, old, n);
+    }
+    dev.onKey(k => {
+      if (o.locked && o.locked()) { if (o.onLocked) o.onLocked(); return; }
+      if (confirm) { if (k === "OK") { const n = confirm.node; confirm = null; const msg = n.act(); if (msg) flash = msg; } else if (k === "ESC") confirm = null; render(); return; }
+      if (edit) { if (k === "▲") bump(1); else if (k === "▼") bump(-1); else if (k === "◀") move(-1); else if (k === "▶") move(1);
+        else if (k === "OK") save(); else if (k === "ESC") edit = null; render(); return; }
+      const t = top(), kids = t.node.kids;
+      if (k === "▲") t.i = (t.i - 1 + kids.length) % kids.length;
+      else if (k === "▼") t.i = (t.i + 1) % kids.length;
+      else if (k === "ESC" || k === "◀") { if (stack.length > 1) stack.pop(); }
+      else if (k === "OK" || k === "▶") { const n = kids[t.i];
+        if (n.kids) stack.push({node: n, i: 0});
+        else if (n.act && k === "OK") { if (n.confirm) confirm = {node: n, text: n.confirm}; else { const msg = n.act(); if (msg) flash = msg; } }
+        else if ((n.list || n.num) && k === "OK") { if (n.readonly && n.readonly()) flash = "LOCKED"; else startEdit(n); } }
+      render();
+    });
+    render();
+    return {render, params: P, home() { stack = [stack[0]]; stack[0].i = 0; edit = null; confirm = null; render(); },
+      path() { return stack.map(s => s.node.t); }, editing() { return !!edit; }};
+  }
+
+  /* A group of physical actions, such as switching a breaker or applying a padlock. */
+  function procedure(parent, groups, onAct) {
+    style();
+    const box = h("div", {class: "fproc"}), btns = {};
+    groups.forEach(g => { const grp = h("div", {class: "fgrp"}, h("h4", {}, g.t)), row = h("div", {class: "row"});
+      g.actions.forEach(([id, label]) => { const b = h("button", {class: "btn ghost", type: "button"}, label); btns[id] = b;
+        b.addEventListener("click", () => onAct(id)); row.append(b); }); grp.append(row); box.append(grp); });
+    parent.append(box);
+    return {box, btns, act: onAct};
+  }
+
+  /* A number that the student computes and enters, with a check button. */
+  let nEntry = 0;
+  function entry(parent, label, unit, onCheck) {
+    style();
+    const id = "fe" + (++nEntry), inp = h("input", {type: "number", step: "any", id, style: "width:7.5rem"});
+    const b = h("button", {class: "btn", type: "button"}, "Check");
+    b.addEventListener("click", () => onCheck(parseFloat(inp.value)));
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") onCheck(parseFloat(inp.value)); });
+    parent.append(h("div", {class: "ctl", style: "margin:8px 0"}, h("label", {for: id}, label),
+      h("div", {style: "display:flex;gap:8px;align-items:center;flex-wrap:wrap"}, inp, h("span", {}, unit), b)));
+    return {input: inp, button: b, set(v) { inp.value = v; }, check() { onCheck(parseFloat(inp.value)); }};
+  }
+  /* A small table of states. */
+  function table(parent, head) { const t = h("table", {class: "fstate"}); parent.append(h("div", {style: "overflow-x:auto;max-width:100%"}, t));
+    return {el: t, rows(rows) { t.textContent = ""; t.append(h("tr", {}, head.map(c => h("th", {}, c))));
+      rows.forEach(r => t.append(h("tr", {}, r.map(c => h("td", {}, String(c)))))); }}; }
+
+  /* Self-test helpers of the weeks: walk a menu along labels, and type a number in edit mode. */
+  function selected(dev) { const sel = dev.el.querySelector("pre").textContent.split("\n").find(l => l.startsWith(">"));
+    return sel ? sel.slice(1).trim() : ""; }
+  function go(dev, m, labels) {
+    m.home();
+    labels.forEach(lbl => { let guard = 0; while (guard++ < 40 && !selected(dev).startsWith(lbl.slice(0, 12))) dev.press("▼"); dev.press("OK"); });
+  }
+  function typeNumber(dev, value, dec) {
+    const pre = dev.el.querySelector("pre"), shown = () => pre.textContent.split("\n")[2].trim().split(" ")[0];
+    let s = (+value).toFixed(dec || 0); while (s.length < shown().length) s = "0" + s;
+    for (let i = 0; i < 12; i++) dev.press("◀");
+    for (let i = 0; i < s.length; i++) { if (s[i] === ".") continue;
+      for (let j = 0; j < 10 && (pre.querySelector(".inv") || {}).textContent !== s[i]; j++) dev.press("▲");
+      dev.press("▶"); }
+    dev.press("OK");
+  }
+  return {task, device, menu, procedure, entry, table, line, pad, go, typeNumber};
+})();
+window.FIELD = FIELD;
+
+/* Part E, field task: The controller of stage 5 entered as settings of the battery inverter. The inverter takes the
+   droop s in percent, the integral time Ti and the inertia constant H in seconds: Kp = Pn/(s fn) gives s = 4.0 percent,
+   Ti = Kp/Ki = 2.08 s, which the inverter accepts as 2.1 s, and H = Kd fn/(2 Pn) = 4.0 s. The load step test of 66 kW
+   runs the island of Section 1 of the Colab notebook (window.ISLAND): Nadir -0.356 Hz, within 20 mHz after 5.83 s. */
+(function () {
+  const PN = 250, FN = 50, STEP = 66;
+  const T = FIELD.task("pe-task", {key: "w5:field",
+    hello: "The battery inverter runs with the factory settings of its frequency control. The campus is in island mode.",
+    goals: [{id: "conv", t: "Convert the design of stage 5 into the settings of the inverter and enter them: The droop, the integral time and the inertia constant."},
+            {id: "mode", t: "Switch the frequency control to the mode Droop+I, which restores 50 Hz."},
+            {id: "test", t: "Run the load step test of 66 kW: The frequency returns within 20 mHz of 50 Hz."}],
+    summary: () => `Inverter set to ${P.mode}, droop ${P.droop.toFixed(1)} %, Ti ${P.ti.toFixed(1)} s, H ${P.h.toFixed(1)} s; last test ${last ? "nadir " + last.nadir.toFixed(3) + " Hz" : "none"}`,
+    closing: "The controller of stage 5 runs in the inverter, checked by a load step test.",
+    onReset: () => { Object.assign(P, DEF()); last = null; runs.length = 0; paint(); M.home(); }});
+  if (!T) return;
+  const DEF = () => ({mode: "Droop", droop: 5.0, ti: 10.0, h: 0.0});
+  const P = DEF(), runs = [];
+  let last = null;
+  const gains = () => ({kp: P.mode === "Off" ? 0 : PN / (P.droop / 100 * FN), ki: P.mode === "Droop+I" ? PN / (P.droop / 100 * FN) / P.ti : 0,
+    kd: P.mode === "Off" ? 0 : 2 * P.h * PN / FN});
+  const left = h("div", {}), side = h("div", {class: "fside"});
+  T.stage.append(left, side);
+  const D = FIELD.device(left, {model: "Battery inverter 250 kW", tag: "Control section, island mode", lcd: "blue",
+    leds: [["RUN", "#3DDC84"], ["GRID", "#3A8DDE"], ["FAULT", "#FF4D4D"]]});
+  D.led("RUN", true);
+  const fnow = () => (last ? FN + last.final : FN);
+  const M = FIELD.menu(D, [
+    {t: "Status", kids: [{t: "Frequency", show: () => `${fnow().toFixed(3)} Hz`}, {t: "P battery", show: () => `${(last ? last.pb : 0).toFixed(1)} kW`},
+                         {t: "Mode", show: () => P.mode}]},
+    {t: "Frequency control", kids: [{t: "Mode", key: "mode", list: ["Off", "Droop", "Droop+I"]},
+                                    {t: "Droop s", key: "droop", num: {min: 1, max: 12, dec: 1, unit: "%"}},
+                                    {t: "Integral Ti", key: "ti", num: {min: 0.5, max: 60, dec: 1, unit: "s"}},
+                                    {t: "Inertia H", key: "h", num: {min: 0, max: 10, dec: 1, unit: "s"}}]},
+    {t: "Rated values", kids: [{t: "P rated", show: () => `${PN} kW`}, {t: "f nominal", show: () => `${FN.toFixed(2)} Hz`}]},
+    {t: "Test", kids: [{t: "Load step 66 kW", act: () => test(), confirm: "Start the step test?"},
+                       {t: "Nadir", show: () => (last ? `${last.nadir.toFixed(3)} Hz` : "-")},
+                       {t: "Settling", show: () => (last ? (last.settle == null ? "never" : `${last.settle.toFixed(2)} s`) : "-")},
+                       {t: "Final", show: () => (last ? `${last.final.toFixed(3)} Hz` : "-")}]}
+  ], {params: P, title: "Main menu",
+    onSet: (k, v) => { T.say(`Saved: ${({mode: "Mode", droop: "Droop", ti: "Integral time", h: "Inertia constant"})[k]} = ${typeof v === "number" ? v.toFixed(1) : v}.`);
+      if (Math.abs(P.droop - 4) < 1e-9 && Math.abs(P.ti - 2.1) < 1e-9 && Math.abs(P.h - 4) < 1e-9) T.goal("conv");
+      if (P.mode === "Droop+I") T.goal("mode"); },
+    onError: (n, v, lim) => T.say(`The inverter refuses ${v}: The range of ${n.t} is ${lim}.`, "bad")});
+  side.append(h("div", {class: "fdoc"}, h("b", {}, "Design of stage 5"), h("br"), "Kp = 125 kW/Hz, Ki = 60 kW/(Hz·s), Kd = 40 kW·s/Hz",
+    h("br"), "Rated power Pn = 250 kW, nominal frequency fn = 50 Hz"));
+  const tab = FIELD.table(side, ["Test", "Settings: s, Ti, H", "Nadir (Hz)", "20 mHz after"]);
+  function paint() { tab.rows(runs.map((r, i) => [i + 1, `${r.mode}: ${r.droop.toFixed(1)} %, ${r.ti.toFixed(1)} s, ${r.h.toFixed(1)} s`, r.nadir.toFixed(3),
+    r.settle == null ? "never" : r.settle.toFixed(2) + " s"])); }
+  function test() {
+    const g = gains(), r = ISLAND.simulate({kp: g.kp, ki: g.ki, kd: g.kd, step: STEP, T: 30}), m = ISLAND.metrics(r);
+    last = {nadir: m.nadir, settle: m.settle, final: m.final, pb: r.PB[r.n], mode: P.mode, droop: P.droop, ti: P.ti, h: P.h};
+    runs.push(last); paint();
+    if (P.mode === "Off") { D.led("FAULT", true); T.say(`The frequency falls to ${(FN + m.final).toFixed(2)} Hz, because nothing answers the load. Below 47.5 Hz the protection of the campus sheds loads.`, "bad"); return "TEST FAILED"; }
+    D.led("FAULT", false);
+    const right = P.mode === "Droop+I" && Math.abs(P.droop - 4) < 1e-9 && Math.abs(P.ti - 2.1) < 1e-9 && Math.abs(P.h - 4) < 1e-9;
+    if (m.settle == null) T.say(`Nadir ${m.nadir.toFixed(3)} Hz, and the frequency stays ${Math.abs(m.final).toFixed(3)} Hz below 50 Hz.` + (P.mode === "Droop" ? " The droop alone leaves an error: The mode Droop+I adds the integral." : " The integral is too slow to return within the 30 s of the test."), "bad");
+    else if (right) { T.say(`Nadir ${m.nadir.toFixed(3)} Hz, within 20 mHz after ${m.settle.toFixed(2)} s. The design gave −0.355 Hz and 5.78 s: The integral time of 2.1 s instead of 2.08 s explains the small difference.`, "ok"); T.goal("test"); }
+    else T.say(`Nadir ${m.nadir.toFixed(3)} Hz, within 20 mHz after ${m.settle.toFixed(2)} s. The response differs from the design of stage 5: Check the three settings.`, "bad");
+    return "TEST DONE";
+  }
+  window.FIELD_TEST = window.FIELD_TEST || {};
+  window.FIELD_TEST.w5 = () => {
+    FIELD.go(D, M, ["Test", "Load step 66 kW"]); D.press("OK");
+    FIELD.go(D, M, ["Frequency control", "Droop s"]); FIELD.typeNumber(D, 4, 1);
+    FIELD.go(D, M, ["Frequency control", "Integral Ti"]); FIELD.typeNumber(D, 2.1, 1);
+    FIELD.go(D, M, ["Frequency control", "Inertia H"]); FIELD.typeNumber(D, 4, 1);
+    FIELD.go(D, M, ["Frequency control", "Mode"]); D.press("▲"); D.press("OK");
+    FIELD.go(D, M, ["Test", "Load step 66 kW"]); D.press("OK");
+    return {P: {...P}, runs: runs.map(r => [r.nadir, r.settle]), complete: T.complete()};
+  };
 })();
 
 initLab(5,"Feedback Control: P, PI and PID, Stability and Frequency Control",[{"q": "A P controller with $K_p = 125$ kW/Hz meets a step of 66 kW. Where does the deviation settle?", "options": ["-0.482 Hz", "0 Hz", "-5.5 Hz", "-0.528 Hz"], "answer": 0, "why": "$-66/(12 + 125) = -0.482$ Hz."}, {"q": "Which term removes the remaining deviation of P control?", "options": ["The integral term", "The derivative term", "A larger proportional gain", "The limit of the inverter"], "answer": 0, "why": "The integral changes the command until the error is zero."}, {"q": "A PI loop has a damping ratio of 0.49. What do you expect after a load step?", "options": ["A fast return with an overshoot past 50 Hz", "A slow return without overshoot", "A lasting deviation", "A growing oscillation"], "answer": 0, "why": "Below 1, the deviation swings past zero before it settles."}, {"q": "Which condition does the Routh-Hurwitz criterion set for $a_3 s^3 + a_2 s^2 + a_1 s + a_0$ with positive coefficients?", "options": ["$a_2 a_1 > a_3 a_0$", "$a_3 a_0 > a_2 a_1$", "$a_1 > a_0$", "$a_2 > a_3$"], "answer": 0, "why": "This is the condition for a cubic."}, {"q": "Which gain has an upper stability limit on the island with the lag of the inverter?", "options": ["The integral gain", "The proportional gain", "The derivative gain", "None of them"], "answer": 0, "why": "With $K_i = 0$ the loop is of second order and stable for every positive $K_p$."}, {"q": "How does a derivative term change the limit of the integral gain?", "options": ["It raises it, because $K_d$ adds to $a_2$", "It lowers it", "It does not change it", "It removes it"], "answer": 0, "why": "$K_i^* = (M + D\\tau_a + K_d)(D + K_p)/(M\\tau_a)$."}, {"q": "Readings with a noise of 25 mHz arrive every 10 ms. How noisy is their raw derivative?", "options": ["About 3.54 Hz/s", "About 25 mHz/s", "About 0.35 Hz/s", "About 2.5 Hz/s"], "answer": 0, "why": "$1.414 \\times 0.025/0.01 = 3.54$ Hz/s."}, {"q": "What is integrator windup?", "options": ["The integral grows while the actuator is saturated", "The derivative amplifies noise", "The inverter ramps too slowly", "The meter loses readings"], "answer": 0, "why": "The stored integral must be unwound later, which causes an overshoot."}, {"q": "Which proportional gain do the rules of Ziegler and Nichols give for a PI controller?", "options": ["$0.45\\,K_u$", "$0.6\\,K_u$", "$0.5\\,K_u$", "$K_u$"], "answer": 0, "why": "P: $0.5\\,K_u$, PI: $0.45\\,K_u$, PID: $0.6\\,K_u$."}, {"q": "What does a hardware-in-the-loop bench test?", "options": ["A real controller against a real-time simulation of its plant", "A simulated controller on the real grid", "The hardware of the inverter alone", "The network between two controllers"], "answer": 0, "why": "The real device sees signals as if it were connected to the plant."}],["Which run on the bench of Part A surprised you most, and what did it teach you about the integral?", "How close did the oscillation of your runs come to the Routh-Hurwitz limit, and why not exactly?", "What did the anti-windup change in Part C, and when would you have noticed the windup on the real campus?", "Which result of stage 5 would you report first to the facility manager of the campus?", "How would you explain the three terms of a PID controller to someone who drives a car?"]);

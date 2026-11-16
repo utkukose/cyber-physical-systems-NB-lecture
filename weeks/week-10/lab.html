@@ -208,7 +208,7 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 .wk.soon{border-top-color:var(--line);opacity:.8}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.lec-tools,.tabs,nav,.btn{display:none}}
-</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 10 of 14</p><h1>Learning from Data: Load and Generation Forecasting, Anomaly Detection</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-10">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-10/NB10_learning_from_data.ipynb">Colab notebook</a><a href="Week10_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Forecasting and anomaly lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A forecasts the test fortnight in the metering room of the campus. Part C watches the solar plant for faults. Part B computes the formulas of the lecture step by step, and Part D asks for the values of stage 10 by hand. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its site. Start moves the view closer, and the view returns to the site at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The metering room</h3><p>The metering room of the energy centre holds the smart meters of the five buildings and the data concentrator, which collects their readings every hour. Next to them stand the edge server, which computes the forecast, and the screen of the weather service with the temperature forecast of each day. A run forecasts the whole test fortnight from 13 to 26 April and replays it hour by hour on the large screen.</p>
+</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 10 of 14</p><h1>Learning from Data: Load and Generation Forecasting, Anomaly Detection</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-10">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-10/NB10_learning_from_data.ipynb">Colab notebook</a><a href="Week10_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Forecasting and anomaly lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A forecasts the test fortnight in the metering room of the campus. Part C watches the solar plant for faults. Part B computes the formulas of the lecture step by step, and Part D asks for the values of stage 10 by hand. Part E is a field task with the pyranometer and the data logger of the solar plant. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its site. Start moves the view closer, and the view returns to the site at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The metering room</h3><p>The metering room of the energy centre holds the smart meters of the five buildings and the data concentrator, which collects their readings every hour. Next to them stand the edge server, which computes the forecast, and the screen of the weather service with the temperature forecast of each day. A run forecasts the whole test fortnight from 13 to 26 April and replays it hour by hour on the large screen.</p>
 <p>Choose the model, the calendar and the weeks of training below the view and press Run the forecast. The calendar and the weeks matter only for the two regressions. Your missions: First, run the forecasts yesterday and last week. Second, run a regression with the official calendar and one with weekdays only, and compare their errors on 23 April. Third, bring the root mean square error (RMSE) of the test fortnight below 17 kW.</p>
 <div class="three" id="mr-3d"></div>
 <div class="row" id="mr-sl" style="align-items:flex-end;gap:12px;margin:8px 0">
@@ -235,7 +235,10 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <p class="small" id="sp-sum" aria-live="polite"></p>
 <p><button class="btn" id="sp-copy" type="button">Copy the results for Colab</button> <span class="small" id="sp-msg" aria-live="polite"></span></p>
 <textarea id="sp-csv" rows="5" readonly aria-label="Runs of the detectors at the solar plant as comma-separated values" hidden></textarea>
-<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Anomaly detection</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-10/NB10_learning_from_data.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your runs into MY_ALARMS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 10 of the microgrid</h3><p>Three hours of the test fortnight have the actual load 512, 548 and 590 kW and the forecast 520, 540 and 572 kW: Compute the RMSE in kW. The load model of the campus has $a_8 = 490.45$ kW for a working day and $b = 5.54$ kW per kelvin: Compute its forecast for 08:00 with a forecast temperature of 2.0 °C. The model of the solar plant expects 280.0 kW, and the meter shows 266.0 kW: Compute $z$ with $\sigma = 1.35$ percent.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 10: Forecasts of load and generation</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-10/NB10_learning_from_data.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 10 of the campus microgrid.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Anomaly detection</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-10/NB10_learning_from_data.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your runs into MY_ALARMS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 10 of the microgrid</h3><p>Three hours of the test fortnight have the actual load 512, 548 and 590 kW and the forecast 520, 540 and 572 kW: Compute the RMSE in kW. The load model of the campus has $a_8 = 490.45$ kW for a working day and $b = 5.54$ kW per kelvin: Compute its forecast for 08:00 with a forecast temperature of 2.0 °C. The model of the solar plant expects 280.0 kW, and the meter shows 266.0 kW: Compute $z$ with $\sigma = 1.35$ percent.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 10: Forecasts of load and generation</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-10/NB10_learning_from_data.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 10 of the campus microgrid.</p></section><section class="labpart" id="pe"><h3>Part E: Field task: The pyranometer after its recalibration</h3><p>The pyranometer of the solar plant in Part C is back from its recalibration and sits on its pole again. Since then, the residual of the plant alarms in every sunny hour, although the plant runs without faults. The data logger in the monitoring cabinet converts the voltage of the pyranometer into the irradiance, and the new calibration certificate lies on the desk.</p>
+<p>The keys work as on the real device. The keys ▲ and ▼ choose a line, OK opens it or starts and saves a change, and the escape key (ESC) goes back. A number changes digit by digit: ◀ and ▶ choose the digit, and ▲ and ▼ change it. On a computer, the arrow keys, Enter and Escape work as well, once the front panel has been clicked.</p>
+<div id="pe-task"></div>
+<p class="backpart"><a href="lecture.html#lab-pe">Back to the lecture: In the field: Maintaining the pyranometer</a>, where the text continues after the box of this part.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
 /* Shared runtime of the lecture pages and interactive labs. */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -1897,6 +1900,326 @@ window.LEARN = LEARN;
   window.SOLAR_TEST = {start, run, speed(f) { speed = f; }, set(det, a, b) { detS.value = det; if (det === "threshold" && a != null) { S.k = a; kS.setValue(a); }
       if (det === "cusum") { if (a != null) { S.kappa = a; aS.setValue(a); } if (b != null) { S.hl = b; hS.setValue(b); } } },
     state: () => ({game, running, rows: data.rows.length, last: data.rows[data.rows.length - 1] || null, done: done()})};
+})();
+
+/* Field tasks: the front panels of real devices with their menus, and work procedures with ordered steps.
+   FIELD.task builds the frame of Part E with its goals and messages, FIELD.device a front panel with a display, lamps
+   and keys, FIELD.menu the menu of a device with lists, numbers edited digit by digit, values and actions, and
+   FIELD.procedure a group of physical actions. */
+const FIELD = (function () {
+  const CSS = `
+.ftask{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:var(--panel)}
+.ftask .fgoals{list-style:none;padding:0;margin:4px 0 10px}
+.ftask .fgoals li{margin:3px 0;padding-left:26px;position:relative}
+.ftask .fgoals li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;border:2px solid #8D99A6}
+.ftask .fgoals li.ok::before{background:#2E8B57;border-color:#2E8B57}
+.ftask .fgoals li.ok::after{content:"";position:absolute;left:5px;top:6px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.ftask .fstage{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:8px 0}
+.ftask .fside{flex:1 1 260px;min-width:240px}
+.ftask .flog{min-height:3.2em;margin:8px 0 4px;padding:8px 10px;border-radius:8px;background:rgba(127,140,155,.12);font-size:.95em}
+.ftask .flog p{margin:2px 0}
+.ftask .flog .bad{color:#B23B3B}.ftask .flog .ok{color:#2E7D4F}
+.ftask .fdone{font-weight:600;color:#2E7D4F}
+.fdev{display:inline-block;max-width:100%;background:linear-gradient(#4E5761,#2C3238);border-radius:12px;padding:10px 12px 12px;
+  color:#E8EDF2;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 8px rgba(0,0,0,.25);outline:none}
+.fdev:focus-visible{box-shadow:0 0 0 3px #F2B33D}
+.fdev .fhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.fdev .fmodel{font-weight:700;font-size:13px;letter-spacing:.02em}
+.fdev .ftag{font-size:11px;color:#AFBBC7}
+.fdev pre.flcd{margin:8px 0;padding:6px 8px;border-radius:5px;border:2px solid #1A1E22;white-space:pre;overflow:hidden;
+  font:600 13px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;box-shadow:inset 0 0 7px rgba(0,0,0,.35)}
+.fdev pre.flcd.green{background:#A9BD93;color:#1B2430}.fdev pre.flcd.blue{background:#16324F;color:#DDEBFA}
+.fdev pre.flcd.white{background:#E9EEF2;color:#1B2430}
+.fdev pre.flcd .inv{background:currentColor}.fdev pre.flcd.green .inv{color:#1B2430}.fdev pre.flcd .inv b{color:#A9BD93;font-weight:600}
+.fdev pre.flcd.blue .inv b{color:#16324F}.fdev pre.flcd.white .inv b{color:#E9EEF2}
+.fdev .fleds{display:flex;flex-wrap:wrap;gap:4px 12px;margin:2px 0 8px}
+.fdev .fled{display:flex;align-items:center;gap:5px;font-size:11px;color:#C9D1D8}
+.fdev .fled i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#3A4047;box-shadow:inset 0 0 2px rgba(0,0,0,.7)}
+.fdev .fled.on i{background:var(--lc);box-shadow:0 0 7px var(--lc)}
+.fdev .fled.blink i{animation:fblink 0.8s steps(2,start) infinite}
+@keyframes fblink{to{visibility:hidden}}
+.fdev .fkeys{display:grid;grid-template-columns:repeat(4,46px);gap:6px}
+.fdev .fkey{height:34px;border-radius:7px;border:1px solid #1A1E22;background:linear-gradient(#66707B,#3E454D);color:#fff;
+  font:600 13px system-ui,sans-serif;cursor:pointer;padding:0}
+.fdev .fkey:active{transform:translateY(1px)}.fdev .fkey:disabled{opacity:.45;cursor:default}
+.fdev .fkey.wide{grid-column:span 2}
+.fdev .fextra{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fdev .fextra .fkey{padding:0 10px;width:auto}
+.fproc{display:flex;flex-direction:column;gap:10px}
+.fproc .fgrp{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fproc .fgrp h4{margin:0 0 6px;font-size:.95em}
+.fproc .fgrp .row{display:flex;flex-wrap:wrap;gap:6px}
+.fproc .btn{font-size:.9em}
+.fstate{border-collapse:collapse;font-size:.92em;margin:6px 0}
+.fstate td,.fstate th{border:1px solid var(--line);padding:3px 8px;text-align:left}
+.fdoc{border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:.92em;background:rgba(255,255,255,.04)}
+`;
+  let styled = false;
+  function style() { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = CSS; document.head.append(s); }
+
+  /* The frame of a field task: goals, a stage for the devices and the messages. */
+  function task(rootId, o) {
+    style();
+    const root = document.getElementById(rootId); if (!root) return null;
+    const saved = store.get(o.key, {});
+    const state = {done: saved.done || {}, complete: !!saved.complete};
+    const box = h("div", {class: "ftask"});
+    const goals = h("ul", {class: "fgoals"});
+    const items = {};
+    o.goals.forEach(g => { const li = h("li", {}, g.t); items[g.id] = li; goals.append(li); });
+    const stage = h("div", {class: "fstage"});
+    const log = h("div", {class: "flog", "aria-live": "polite"});
+    const status = h("p", {class: "small"});
+    const reset = h("button", {class: "btn ghost", type: "button"}, "Start the task again");
+    box.append(h("p", {class: "small"}, "Goals of the task"), goals, stage, log, status, h("p", {}, reset));
+    root.append(box);
+    const lines = [];
+    const api = {
+      stage, box,
+      say(text, kind) { lines.unshift({text, kind: kind || ""}); lines.length = Math.min(lines.length, 4);
+        log.textContent = ""; lines.forEach((l, i) => log.append(h("p", {class: l.kind, style: i ? "opacity:.65" : ""}, l.text))); },
+      goal(id) { if (state.done[id]) return; state.done[id] = true; paint(); save();
+        const g = o.goals.find(x => x.id === id); if (g) api.say("Done: " + g.t, "ok");
+        if (o.goals.every(x => state.done[x.id]) && !state.complete) { state.complete = true; save(); paint();
+          if (window.labLog) labLog.note("Part E", o.summary ? o.summary() : "Field task complete"); } },
+      has(id) { return !!state.done[id]; },
+      complete() { return state.complete; }
+    };
+    function paint() {
+      o.goals.forEach(g => items[g.id].className = state.done[g.id] ? "ok" : "");
+      const n = o.goals.filter(g => state.done[g.id]).length;
+      status.textContent = state.complete ? "" : `Goals reached: ${n} of ${o.goals.length}.`;
+      status.className = "small"; if (state.complete) { status.textContent = "Field task complete. " + (o.closing || ""); status.className = "small fdone"; }
+    }
+    function save() { store.set(o.key, {done: state.done, complete: state.complete}); }
+    reset.addEventListener("click", () => { state.done = {}; state.complete = false; save(); paint(); lines.length = 0; log.textContent = "";
+      if (o.onReset) o.onReset(); api.say(o.hello || "The task starts again."); });
+    paint();
+    if (o.hello) api.say(o.hello);
+    return api;
+  }
+
+  /* The front panel of a device: a display with rows of fixed width, lamps and keys. */
+  function device(parent, o) {
+    style();
+    const rows = o.rows || 4, cols = o.cols || 20;
+    const el = h("div", {class: "fdev", tabindex: "0", role: "group", "aria-label": o.model + (o.tag ? ", " + o.tag : "")});
+    const lcd = h("pre", {class: "flcd " + (o.lcd || "green"), "aria-live": "polite", "aria-label": "Display of the " + o.model});
+    const leds = {}, ledBox = h("div", {class: "fleds"});
+    (o.leds || []).forEach(([name, color]) => { const d = h("span", {class: "fled", style: `--lc:${color}`}, h("i", {}), name); leds[name] = d; ledBox.append(d); });
+    const keyBox = h("div", {class: "fkeys"}), handlers = [];
+    const KEYS = o.keys || ["", "▲", "", "ESC", "◀", "OK", "▶", "", "", "▼", "", ""];
+    const btns = {};
+    KEYS.forEach(k => { if (!k) { keyBox.append(h("span", {})); return; }
+      const name = {"▲": "Up", "▼": "Down", "◀": "Left", "▶": "Right"}[k] || k;
+      const b = h("button", {class: "fkey", type: "button", "aria-label": name}, k); btns[k] = b;
+      b.addEventListener("click", () => { handlers.forEach(f => f(k)); el.focus({preventScroll: true}); }); keyBox.append(b); });
+    const extra = h("div", {class: "fextra"});
+    (o.extra || []).forEach(([label, fn]) => { const b = h("button", {class: "fkey", type: "button"}, label); b.addEventListener("click", fn); btns[label] = b; extra.append(b); });
+    el.append(h("div", {class: "fhead"}, h("span", {class: "fmodel"}, o.model), h("span", {class: "ftag"}, o.tag || "")), lcd);
+    if (o.leds && o.leds.length) el.append(ledBox);
+    if (KEYS.some(k => k)) el.append(keyBox);
+    if (o.extra && o.extra.length) el.append(extra);
+    el.addEventListener("keydown", e => { const k = {ArrowUp: "▲", ArrowDown: "▼", ArrowLeft: "◀", ArrowRight: "▶", Enter: "OK", Escape: "ESC"}[e.key];
+      if (k && btns[k]) { e.preventDefault(); handlers.forEach(f => f(k)); } });
+    parent.append(el);
+    return {
+      el, rows, cols, btns,
+      show(lines) { lcd.textContent = ""; for (let r = 0; r < rows; r++) { const ln = lines[r] == null ? "" : lines[r];
+        if (typeof ln === "string") lcd.append(pad(ln, cols)); else { let used = 0; ln.forEach(seg => { const t = seg.t.slice(0, cols - used); used += t.length;
+          lcd.append(seg.inv ? h("span", {class: "inv"}, h("b", {}, t)) : t); }); lcd.append(" ".repeat(Math.max(0, cols - used))); }
+        if (r < rows - 1) lcd.append("\n"); } },
+      led(name, on, blink) { const d = leds[name]; if (!d) return; d.classList.toggle("on", !!on); d.classList.toggle("blink", !!blink && !!on); },
+      onKey(f) { handlers.push(f); },
+      press(k) { handlers.forEach(f => f(k)); },
+      enable(on) { Object.values(btns).forEach(b => { b.disabled = !on; }); }
+    };
+  }
+  const pad = (s, n) => (s.length > n ? s.slice(0, n) : s + " ".repeat(n - s.length));
+  const line = (label, value, cols) => { value = value == null ? "" : String(value); const room = cols - value.length - 1;
+    return pad(label.slice(0, Math.max(0, room)), Math.max(0, room)) + " " + value; };
+
+  /* The menu of a device. Nodes: {t, kids} a submenu, {t, key, list} a choice, {t, key, num: {min, max, dec, unit}} a
+     number edited digit by digit, {t, show} a value, {t, act, confirm} an action. */
+  function menu(dev, tree, o) {
+    const P = o.params, C = dev.cols, R = dev.rows;
+    let stack = [{node: {t: o.title || "MAIN MENU", kids: tree}, i: 0}], edit = null, confirm = null, flash = null;
+    const top = () => stack[stack.length - 1];
+    const fmtNum = (n, v) => { const d = n.num.dec || 0; return (+v).toFixed(d); };
+    const unit = n => (n.num && n.num.unit) || n.unit || "";
+    const valueOf = n => n.show ? n.show() : n.key == null ? (n.kids ? ">" : "") : n.num ? fmtNum(n, P[n.key]) + (unit(n) ? " " + unit(n) : "") : String(P[n.key]);
+    function render() {
+      if (confirm) { dev.show([pad(confirm.node.t.toUpperCase(), C), "", pad(confirm.text || "Execute now?", C), pad("OK = yes   ESC = no", C)]); return; }
+      if (edit) {
+        const n = edit.node, L = [pad(n.t.toUpperCase(), C), ""];
+        if (n.list) L.push(pad(`< ${n.list[edit.k]} >`, C));
+        else { const s = edit.str, segs = []; for (let i = 0; i < s.length; i++) segs.push({t: s[i], inv: i === edit.pos});
+          segs.push({t: unit(n) ? " " + unit(n) : ""}); L.push(segs); }
+        L.push(pad(n.list ? "▲▼ choose  OK save" : "◀▶ digit ▲▼ change", C));
+        while (L.length < R) L.push("");
+        dev.show(L.slice(0, R)); return; }
+      const t = top(), kids = t.node.kids, first = Math.max(0, Math.min(t.i - (R - 2), kids.length - (R - 1)));
+      const L = [pad((flash || t.node.t).toUpperCase(), C)];
+      for (let r = 0; r < R - 1; r++) { const k = first + r, n = kids[k]; if (!n) { L.push(""); continue; }
+        const mark = k === t.i ? ">" : " ", v = valueOf(n); L.push(mark + line(n.t, v, C - 1)); }
+      dev.show(L); flash = null;
+    }
+    function startEdit(n) {
+      if (n.list) { edit = {node: n, k: Math.max(0, n.list.indexOf(P[n.key]))}; return; }
+      const d = n.num.dec || 0, w = Math.max(fmtNum(n, n.num.max).length, fmtNum(n, P[n.key]).length);
+      let s = fmtNum(n, P[n.key]); while (s.length < w) s = "0" + s;
+      edit = {node: n, str: s, pos: s.length - 1 - (d ? 0 : 0)};
+      if (s[edit.pos] === ".") edit.pos--;
+    }
+    function bump(dir) {
+      const n = edit.node;
+      if (n.list) { edit.k = (edit.k + dir + n.list.length) % n.list.length; return; }
+      const a = edit.str.split(""); let i = edit.pos;
+      let dgt = (+a[i] + dir + 10) % 10; a[i] = String(dgt); edit.str = a.join("");
+    }
+    function move(dir) { if (!edit || edit.node.list) return; let p = edit.pos + dir; if (edit.str[p] === ".") p += dir;
+      if (p >= 0 && p < edit.str.length) edit.pos = p; }
+    function save() {
+      const n = edit.node; let v;
+      if (n.list) v = n.list[edit.k];
+      else { v = parseFloat(edit.str); if (!(v >= n.num.min - 1e-9 && v <= n.num.max + 1e-9)) { const lim = `${fmtNum(n, n.num.min)} to ${fmtNum(n, n.num.max)}`;
+        flash = "OUT OF RANGE"; if (o.onError) o.onError(n, v, lim); edit = null; return; } }
+      const old = P[n.key]; P[n.key] = v; edit = null; flash = "SAVED";
+      if (o.onSet) o.onSet(n.key, v, old, n);
+    }
+    dev.onKey(k => {
+      if (o.locked && o.locked()) { if (o.onLocked) o.onLocked(); return; }
+      if (confirm) { if (k === "OK") { const n = confirm.node; confirm = null; const msg = n.act(); if (msg) flash = msg; } else if (k === "ESC") confirm = null; render(); return; }
+      if (edit) { if (k === "▲") bump(1); else if (k === "▼") bump(-1); else if (k === "◀") move(-1); else if (k === "▶") move(1);
+        else if (k === "OK") save(); else if (k === "ESC") edit = null; render(); return; }
+      const t = top(), kids = t.node.kids;
+      if (k === "▲") t.i = (t.i - 1 + kids.length) % kids.length;
+      else if (k === "▼") t.i = (t.i + 1) % kids.length;
+      else if (k === "ESC" || k === "◀") { if (stack.length > 1) stack.pop(); }
+      else if (k === "OK" || k === "▶") { const n = kids[t.i];
+        if (n.kids) stack.push({node: n, i: 0});
+        else if (n.act && k === "OK") { if (n.confirm) confirm = {node: n, text: n.confirm}; else { const msg = n.act(); if (msg) flash = msg; } }
+        else if ((n.list || n.num) && k === "OK") { if (n.readonly && n.readonly()) flash = "LOCKED"; else startEdit(n); } }
+      render();
+    });
+    render();
+    return {render, params: P, home() { stack = [stack[0]]; stack[0].i = 0; edit = null; confirm = null; render(); },
+      path() { return stack.map(s => s.node.t); }, editing() { return !!edit; }};
+  }
+
+  /* A group of physical actions, such as switching a breaker or applying a padlock. */
+  function procedure(parent, groups, onAct) {
+    style();
+    const box = h("div", {class: "fproc"}), btns = {};
+    groups.forEach(g => { const grp = h("div", {class: "fgrp"}, h("h4", {}, g.t)), row = h("div", {class: "row"});
+      g.actions.forEach(([id, label]) => { const b = h("button", {class: "btn ghost", type: "button"}, label); btns[id] = b;
+        b.addEventListener("click", () => onAct(id)); row.append(b); }); grp.append(row); box.append(grp); });
+    parent.append(box);
+    return {box, btns, act: onAct};
+  }
+
+  /* A number that the student computes and enters, with a check button. */
+  let nEntry = 0;
+  function entry(parent, label, unit, onCheck) {
+    style();
+    const id = "fe" + (++nEntry), inp = h("input", {type: "number", step: "any", id, style: "width:7.5rem"});
+    const b = h("button", {class: "btn", type: "button"}, "Check");
+    b.addEventListener("click", () => onCheck(parseFloat(inp.value)));
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") onCheck(parseFloat(inp.value)); });
+    parent.append(h("div", {class: "ctl", style: "margin:8px 0"}, h("label", {for: id}, label),
+      h("div", {style: "display:flex;gap:8px;align-items:center;flex-wrap:wrap"}, inp, h("span", {}, unit), b)));
+    return {input: inp, button: b, set(v) { inp.value = v; }, check() { onCheck(parseFloat(inp.value)); }};
+  }
+  /* A small table of states. */
+  function table(parent, head) { const t = h("table", {class: "fstate"}); parent.append(h("div", {style: "overflow-x:auto;max-width:100%"}, t));
+    return {el: t, rows(rows) { t.textContent = ""; t.append(h("tr", {}, head.map(c => h("th", {}, c))));
+      rows.forEach(r => t.append(h("tr", {}, r.map(c => h("td", {}, String(c)))))); }}; }
+
+  /* Self-test helpers of the weeks: walk a menu along labels, and type a number in edit mode. */
+  function selected(dev) { const sel = dev.el.querySelector("pre").textContent.split("\n").find(l => l.startsWith(">"));
+    return sel ? sel.slice(1).trim() : ""; }
+  function go(dev, m, labels) {
+    m.home();
+    labels.forEach(lbl => { let guard = 0; while (guard++ < 40 && !selected(dev).startsWith(lbl.slice(0, 12))) dev.press("▼"); dev.press("OK"); });
+  }
+  function typeNumber(dev, value, dec) {
+    const pre = dev.el.querySelector("pre"), shown = () => pre.textContent.split("\n")[2].trim().split(" ")[0];
+    let s = (+value).toFixed(dec || 0); while (s.length < shown().length) s = "0" + s;
+    for (let i = 0; i < 12; i++) dev.press("◀");
+    for (let i = 0; i < s.length; i++) { if (s[i] === ".") continue;
+      for (let j = 0; j < 10 && (pre.querySelector(".inv") || {}).textContent !== s[i]; j++) dev.press("▲");
+      dev.press("▶"); }
+    dev.press("OK");
+  }
+  return {task, device, menu, procedure, entry, table, line, pad, go, typeNumber};
+})();
+window.FIELD = FIELD;
+
+/* Part E, field task: The pyranometer after its recalibration. At noon, 900 W/m² and 15 °C, the healthy plant gives
+   336.8 kW, and the model of Week 1 expects 335.52 kW from the true irradiance (z = 0.28). Dust on the dome (-3 %), a
+   tilt (-1.5 %) and the old sensitivity of 9.12 instead of 8.53 µV/(W/m²) in the data logger make the logged irradiance
+   804 W/m² and z = 8.14. The data logger converts G = U/S. */
+(function () {
+  const G = 900, TA = 15, PM = 336.8, S_TRUE = 8.53, SIG = 0.01346;
+  const T = FIELD.task("pe-task", {key: "w10:field",
+    hello: "Noon on a clear day, 900 W/m² and 15 °C. The residual of the plant alarms, although the plant runs without faults.",
+    goals: [{id: "clean", t: "At the pole: Clean the glass dome of the pyranometer and level it."},
+            {id: "sens", t: "Enter the sensitivity of the new certificate in the data logger, and check its conversion G = U/S with the raw voltage."},
+            {id: "check", t: "Read the residual of the plant at noon: |z| stays below 2."}],
+    summary: () => `Pyranometer cleaned and levelled, sensitivity ${P.s.toFixed(2)} µV/(W/m²); residual at noon z = ${z().toFixed(2)}`,
+    closing: "The residual of the plant tells the truth again.",
+    onReset: () => { Object.assign(P, DEF()); Object.assign(S, SDEF()); conv = false; M.home(); upd(); }});
+  if (!T) return;
+  const DEF = () => ({s: 9.12}), SDEF = () => ({clean: false, level: false});
+  const P = DEF(), S = SDEF();
+  let conv = false;
+  const uv = () => S_TRUE * G * (S.clean ? 1 : 0.97) * (S.level ? 1 : 0.985);
+  const glog = () => uv() / P.s;
+  const expect = () => LEARN.pvPower(glog(), TA);
+  const z = () => (PM / expect() - 1) / SIG;
+  const left = h("div", {}), side = h("div", {class: "fside"});
+  T.stage.append(left, side);
+  const D = FIELD.device(left, {model: "Data logger", tag: "Monitoring cabinet of the solar plant", lcd: "green", leds: [["ALARM", "#FF4D4D"]]});
+  const M = FIELD.menu(D, [
+    {t: "Ch1 pyranometer", kids: [{t: "Voltage", show: () => `${(uv() / 1000).toFixed(3)} mV`},
+                                  {t: "Irradiance", show: () => `${glog().toFixed(0)} W/m²`},
+                                  {t: "Sensitivity", key: "s", num: {min: 1, max: 30, dec: 2}},
+                                  {t: "Unit", show: () => "µV/(W/m²)"}]},
+    {t: "Ch2 temperature", kids: [{t: "Air", show: () => `${TA.toFixed(1)} °C`}]}
+  ], {params: P, title: "Main menu",
+    onSet: (k, v) => { T.say(`Saved: Sensitivity ${v.toFixed(2)} µV/(W/m²). Channel 1 now shows ${glog().toFixed(0)} W/m².`); upd(); },
+    onError: (n, v, lim) => T.say(`The logger refuses ${v}: The range of ${n.t} is ${lim}.`, "bad")});
+  side.append(h("div", {class: "fdoc"}, h("b", {}, "Calibration certificate of the pyranometer, March 2026"), h("br"),
+    "Sensitivity: 8.53 µV/(W/m²)", h("br"), "Class: A"));
+  FIELD.procedure(side, [{t: "At the pole of the pyranometer", actions: [["clean", "Clean the glass dome"], ["level", "Level it with the screws"]]}], id => {
+    if (id === "clean") { if (S.clean) return T.say("The dome is clean."); S.clean = true; T.say("A film of dust and pollen comes off the dome."); }
+    if (id === "level") { if (S.level) return T.say("The bubble sits in the centre."); S.level = true; T.say("The bubble of the spirit level moves into its centre."); }
+    if (S.clean && S.level) T.goal("clean");
+    upd();
+  });
+  const mon = FIELD.table(side, ["Screen of the residual", "Value"]);
+  FIELD.entry(side, "Irradiance from the raw voltage, G = U/S", "W/m²", v => {
+    const want = uv() / S_TRUE;
+    if (Math.abs(v - want) <= 1) { conv = true; T.say(`${v} W/m²: Correct, ${(uv() / 1000).toFixed(3)} mV divided by 8.53 µV/(W/m²).`, "ok"); upd(); }
+    else if (Math.abs(v - uv() / 9.12) <= 1) T.say("That is the conversion with the old sensitivity. Use the value of the new certificate.", "bad");
+    else T.say(`${v} W/m² does not match. Convert the voltage of channel 1 to µV first.`, "bad"); });
+  function upd() {
+    const zz = z();
+    mon.rows([["Irradiance, logged", `${glog().toFixed(0)} W/m²`], ["Expected power", `${expect().toFixed(1)} kW`], ["Plant meter", `${PM.toFixed(1)} kW`],
+      ["Residual z", zz.toFixed(2)]]);
+    D.led("ALARM", Math.abs(zz) > 3, true); M.render();
+    if (Math.abs(P.s - S_TRUE) < 1e-9 && conv) T.goal("sens");
+    if (T.has("clean") && T.has("sens") && Math.abs(zz) < 2 && !T.has("check")) { T.say(`z = ${zz.toFixed(2)}: The plant delivers what the sun allows.`, "ok"); T.goal("check"); }
+  }
+  upd();
+  window.FIELD_TEST = window.FIELD_TEST || {};
+  window.FIELD_TEST.w10 = () => {
+    const z0 = z();
+    side.querySelectorAll(".fproc button").forEach(b => b.click());
+    FIELD.go(D, M, ["Ch1 pyranometer", "Sensitivity"]); FIELD.typeNumber(D, 8.53, 2);
+    const inp = side.querySelector("input"); inp.value = (uv() / S_TRUE).toFixed(0); inp.dispatchEvent(new KeyboardEvent("keydown", {key: "Enter"}));
+    return {z0, z: z(), complete: T.complete()};
+  };
 })();
 
 initLab(10,"Learning from Data: Load and Generation Forecasting, Anomaly Detection",[{"q": "Why does the forecast yesterday fail on Mondays?", "options": ["It repeats the load of a Sunday", "Mondays are colder", "The meters reset on Mondays", "Its MAPE is undefined on Mondays"], "answer": 0, "why": "The hour 24 hours earlier lies on a free day."}, {"q": "Three errors are 10, −10 and 40 kW. What are the MAE and the RMSE?", "options": ["20.0 and 24.49 kW", "13.33 and 20.0 kW", "20.0 and 20.0 kW", "13.33 and 24.49 kW"], "answer": 0, "why": "$(10 + 10 + 40)/3 = 20$ and $\\sqrt{(100 + 100 + 1600)/3} = 24.49$."}, {"q": "What does least squares minimise?", "options": ["The sum of the squared errors over the training hours", "The largest error", "The number of features", "The error of the test hours"], "answer": 0, "why": "$\\lVert y - X\\beta \\rVert^2$, which gives $\\beta = (X^T X)^{-1} X^T y$."}, {"q": "How many coefficients has the load model with 24 hours, two types of day and the heating degrees?", "options": ["49", "26", "48", "25"], "answer": 0, "why": "$24 \\times 2 + 1 = 49$."}, {"q": "A model has a training RMSE of 9 kW and a test RMSE of 22 kW. What does this suggest?", "options": ["Overfitting: It has learnt the noise of its training data", "The test data are wrong", "The model is too simple", "The RMSE is the wrong measure"], "answer": 0, "why": "A large gap between the two errors is the sign of a model with too many coefficients for its data."}, {"q": "What is the share of the clear-sky irradiance under 8 oktas according to Kasten and Czeplak?", "options": ["0.25", "0", "0.5", "0.75"], "answer": 0, "why": "$1 - 0.75 \\times 1^{3.4} = 0.25$."}, {"q": "The model expects 300 kW, the meter shows 291 kW, and σ is 1.5 percent. What is z?", "options": ["−2.0", "−9.0", "−0.03", "−3.0"], "answer": 0, "why": "$(291/300 - 1)/0.015 = -0.03/0.015 = -2.0$."}, {"q": "Of 50 alarms, 40 fall in fault hours, and the faults last 80 hours. What are precision and recall?", "options": ["0.8 and 0.5", "0.5 and 0.8", "0.8 and 0.8", "0.4 and 0.5"], "answer": 0, "why": "$40/50 = 0.8$ and $40/80 = 0.5$."}, {"q": "Why does the CUSUM restart at zero after an alarm?", "options": ["Otherwise one fault would keep the sum beyond the limit for days and every later hour would alarm", "To save memory", "Because z changes sign", "Because the night interrupts it"], "answer": 0, "why": "After the operator acknowledges an alarm, the sum must collect new evidence."}, {"q": "Why do forecast errors cost the battery of the campus mainly through the peak charge?", "options": ["The dear hours of the price stay the same each day, but the peak depends on the exact import", "The battery cannot charge at night", "Forecasts are always too high", "The price follows the forecast"], "answer": 0, "why": "A plan that expects a lower evening import shaves too little of the actual peak."}],["Which forecast surprised you most in the metering room, and why?", "How would you explain to the facility manager why the calendar matters for the forecast?", "Which fault of the solar plant was the hardest to find, and what did it teach you about thresholds?", "Which result of stage 10 would you show first to the finance office of the campus?", "Which quantity in your own life could you forecast from the hour, the day and the weather?"]);

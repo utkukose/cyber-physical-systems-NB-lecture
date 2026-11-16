@@ -208,7 +208,7 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 .wk.soon{border-top-color:var(--line);opacity:.8}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.lec-tools,.tabs,nav,.btn{display:none}}
-</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 13 of 14</p><h1>Digital Twins II: What-If Analysis and Predictive Maintenance</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-13">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb">Colab notebook</a><a href="Week13_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>What-if and maintenance lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A tries heating schedules in the plant room of the library. Part C predicts the end of life of the battery in its container and plans the order of new modules. Part B computes the end of life step by step, and Part D asks for the values of stage 13 by hand. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its site. Start moves the view closer, and the view returns to the site at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The plant room</h3><p>The plant room of the library B2 holds the substation of the district heating. Its plate heat exchanger, circulation pump, mixing valve, heat meter and heating controller stand in front of the wall. The controller now holds 17 C at night and heats to 21 C from 6:00 on weekdays and from 8:00 at weekends. On cold mornings the library is still cold when it opens. The twin of Week 12 runs on the screen and answers what-if questions about the schedule.</p>
+</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 13 of 14</p><h1>Digital Twins II: What-If Analysis and Predictive Maintenance</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-13">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb">Colab notebook</a><a href="Week13_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>What-if and maintenance lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A tries heating schedules in the plant room of the library. Part C predicts the end of life of the battery in its container and plans the order of new modules. Part B computes the end of life step by step, and Part D asks for the values of stage 13 by hand. Part E is a field task with the service software of the battery container. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its site. Start moves the view closer, and the view returns to the site at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The plant room</h3><p>The plant room of the library B2 holds the substation of the district heating. Its plate heat exchanger, circulation pump, mixing valve, heat meter and heating controller stand in front of the wall. The controller now holds 17 C at night and heats to 21 C from 6:00 on weekdays and from 8:00 at weekends. On cold mornings the library is still cold when it opens. The twin of Week 12 runs on the screen and answers what-if questions about the schedule.</p>
 <p>Choose the setpoint at night and the start of the heating below the view. Run the observed week of February, or 300 possible weeks of weather and visitors. Your missions: First, run the current schedule on the observed week. Second, find a schedule with a comfort deficit below 0.5 K h that needs at most 5800 kWh in the observed week. Third, run that schedule over 300 weeks and keep the probability of a comfort deficit above 1 K h below 10 percent.</p>
 <div class="three" id="pr-3d"></div>
 <div class="row" style="align-items:flex-end;gap:12px;margin:8px 0">
@@ -222,7 +222,7 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <p class="small" id="pr-sum" aria-live="polite"></p>
 <p><button class="btn" id="pr-copy" type="button">Copy the results for Colab</button> <span class="small" id="pr-msg" aria-live="polite"></span></p>
 <textarea id="pr-csv" rows="5" readonly aria-label="Schedules of the plant room as comma-separated values" hidden></textarea>
-<p class="backpart"><a href="lecture.html#lab-pa">Back to the lecture: What-if analysis with the twin</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb#scrollTo=sec-2" target="_blank" rel="noopener">Continue in Colab, section 2</a>: Paste your schedules into MY_SCHEDULES and compare them with the model.</p></section><section class="labpart" id="pb"><h3>Part B: The end of life, step by step</h3><p>The calculator follows the formulas of the lecture for the battery of the campus. Now, after 3.00 years, it has made 1078.3 cycles. The calculator computes the cycle ageing per year, the quadratic equation for the end of life, its root and the remaining useful life. The cycle ageing b is entered per 1000 cycles.</p><div class="stepcalc" id="pb-rul"></div><p class="backpart"><a href="lecture.html#lab-pb">Back to the lecture: Predictive maintenance and the remaining useful life</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb#scrollTo=sec-3" target="_blank" rel="noopener">Continue in Colab, section 3</a>: Fit both models of the ageing to the capacity tests.</p></section><section class="labpart" id="pc"><h3>Part C: The battery container</h3><p>The battery container of the campus holds five racks of modules and the inverter. At the end of every month the battery management system runs a capacity test: It discharges the battery fully and logs the energy delivered. After three years the capacity has fallen from 500 to 460 kWh. The battery reaches its end of life at 80 percent, 400 kWh, and new modules take six months to arrive.</p>
+<p class="backpart"><a href="lecture.html#lab-pa">Back to the lecture: What-if analysis with the twin</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb#scrollTo=sec-2" target="_blank" rel="noopener">Continue in Colab, section 2</a>: Paste your schedules into MY_SCHEDULES and compare them with the model.</p></section><section class="labpart" id="pb"><h3>Part B: The end of life, step by step</h3><p>The calculator follows the formulas of the lecture for the battery of the campus. Now, after 3.00 years, it has made 1078.3 cycles. The calculator computes the cycle ageing per year, the quadratic equation for the end of life, its root and the remaining useful life. The cycle ageing b is entered per 1000 cycles.</p><div class="stepcalc" id="pb-rul"></div><p class="backpart"><a href="lecture.html#lab-pb">Back to the lecture: Predictive maintenance and the remaining useful life</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb#scrollTo=sec-3" target="_blank" rel="noopener">Continue in Colab, section 3</a>: Fit both models of the ageing to the capacity estimates.</p></section><section class="labpart" id="pc"><h3>Part C: The battery container</h3><p>The battery container of the campus holds five racks of modules and the inverter. At the end of every month, the battery management system estimates the usable capacity from the energy of a full discharge in daily operation. A capacity test checks the estimate once a year. After three years the capacity has fallen from 500 to 460 kWh. The battery reaches its end of life at 80 percent, 400 kWh, and new modules take six months to arrive.</p>
 <p>Choose the model of the ageing, the cycles per day from now on and the month of the order below the view, and press Run the prediction. Your missions: First, predict the end of life with the linear model. Second, predict it with the model of calendar and cycle ageing at 1 cycle per day. Third, the campus plans frequency regulation with 1.5 cycles per day. Find the latest order month for which the modules arrive before the end of life with a probability of at least 95 percent.</p>
 <div class="three" id="bc-3d"></div>
 <div class="row" style="align-items:flex-end;gap:12px;margin:8px 0">
@@ -237,7 +237,9 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <p class="small" id="bc-sum" aria-live="polite"></p>
 <p><button class="btn" id="bc-copy" type="button">Copy the results for Colab</button> <span class="small" id="bc-msg" aria-live="polite"></span></p>
 <textarea id="bc-csv" rows="5" readonly aria-label="Predictions of the battery as comma-separated values" hidden></textarea>
-<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: The uncertainty of the remaining useful life</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your plans into MY_ORDERS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 13 of the microgrid</h3><p>A battery of 500 kWh ages with $a = 0.025$ per square root of a year and $b = 0.00004$ per cycle and makes one cycle per day: Compute its capacity after 6 years. Five possible weeks of the library need 5210, 5480, 5390, 5720 and 5600 kWh: Compute their mean and the share of the weeks above 5500 kWh.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 13: Asking the twin</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 13 of the campus microgrid.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: The uncertainty of the remaining useful life</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your plans into MY_ORDERS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 13 of the microgrid</h3><p>A battery of 500 kWh ages with $a = 0.025$ per square root of a year and $b = 0.00004$ per cycle and makes one cycle per day: Compute its capacity after 6 years. Five possible weeks of the library need 5210, 5480, 5390, 5720 and 5600 kWh: Compute their mean and the share of the weeks above 5500 kWh.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 13: Asking the twin</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 13 of the campus microgrid.</p></section><section class="labpart" id="pe"><h3>Part E: Field task: The yearly capacity test</h3><p>The yearly capacity test of the battery in Part C is due. After three years, the battery management system (BMS) estimates the usable capacity at 460.0 kWh, and the model of ageing builds on these estimates. The service software on the laptop of the engineer runs the test procedure of the maker step by step. Its screen shows the state of charge (SOC), the temperatures of the racks and the energy that the battery delivers. The battery stays out of service for most of a day.</p>
+<div id="pe-task"></div>
+<p class="backpart"><a href="lecture.html#lab-pe">Back to the lecture: In the field: The yearly capacity test</a>, where the text continues after the box of this part.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
 /* Shared runtime of the lecture pages and interactive labs. */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -1486,7 +1488,7 @@ window.TWIN_DATA = window.TWIN_DATA || (function () {
 /* Week 13: what-if questions to the twins of the campus, with the same functions as Sections 1 to 4 of the Colab
    notebook. The twin of the library of Week 12 in closed loop with its thermostat over the observed week (rows 672 to
    1343 of TWIN_DATA) or over a possible week drawn with the random generator of the course (scheduleTwin, weather,
-   monteCarlo). The capacity tests of the battery, the linear and the calendar and cycle model, the end of life and the
+   monteCarlo). The capacity estimates of the battery, the linear and the calendar and cycle model, the end of life and the
    distribution of the end of life with the order month of new modules (fitLinear, fitAgeing, endOfLife, futures). */
 window.WHATIF = window.WHATIF || (function () {
   const D = window.TWIN_DATA, A0 = 672, N = 672, DT = 0.25;
@@ -1569,7 +1571,7 @@ window.WHATIF = window.WHATIF || (function () {
     return {energy, deficit, meanKwh: Math.round(se / weeks * 10) / 10, p90Kwh: Math.round(percentile(energy, 90) * 10) / 10,
       meanDeficit: r3(sd / weeks), pDeficit: r3(over / weeks)};
   }
-  /* the battery: capacity tests at the end of each month since the commissioning on 1 November 2023 */
+  /* the battery: capacity estimates at the end of each month since the commissioning on 1 November 2023 */
   const Q0 = 500, NOW = 3.0;
   const EFC = [24.6, 48.0, 73.6, 105.8, 138.2, 173.1, 207.4, 244.0, 278.8, 308.4, 334.8, 360.9, 384.4, 409.7, 436.7, 466.0, 497.7, 531.2, 570.6, 605.6, 637.2, 668.6, 695.4, 722.2, 747.4, 773.7, 800.1, 829.6, 861.0, 894.5, 930.2, 963.9, 997.4, 1026.2, 1052.9, 1078.3];
   const CAP = [497.8, 497.8, 490.3, 490.7, 486.5, 486.5, 485.0, 486.7, 485.3, 485.9, 480.9, 478.6, 480.6, 479.5, 478.8, 476.7, 475.8, 476.1, 473.6, 472.4, 472.3, 470.6, 468.1, 467.5, 466.4, 467.1, 465.6, 463.1, 463.9, 462.5, 461.8, 461.7, 457.8, 458.5, 458.4, 460.0];
@@ -1626,7 +1628,7 @@ window.WHATIF = window.WHATIF || (function () {
       {key: "a", label: "Calendar ageing a (per square root of a year)", min: 0.015, max: 0.035, step: 0.0001, value: 0.0236, d: 4},
       {key: "b", label: "Cycle ageing b (per 1000 cycles)", min: 0.02, max: 0.06, step: 0.0001, value: 0.0412, d: 4},
       {key: "n", label: "Cycles per day from now on", min: 0.5, max: 2.0, step: 0.05, value: 1.0, d: 2}],
-    presets: [{label: "Lecture: The fit of the tests, 1 cycle per day", values: {a: 0.0236, b: 0.0412, n: 1.0}},
+    presets: [{label: "Lecture: The fit of the estimates, 1 cycle per day", values: {a: 0.0236, b: 0.0412, n: 1.0}},
       {label: "Frequency regulation: 1.5 cycles per day", values: {a: 0.0236, b: 0.0412, n: 1.5}},
       {label: "A battery that rests: 0.5 cycles per day", values: {a: 0.0236, b: 0.0412, n: 0.5}}],
     steps(v) {
@@ -1852,8 +1854,8 @@ window.WHATIF = window.WHATIF || (function () {
 })();
 
 /* Part C: The battery container of the campus. The open container with its racks of modules and the inverter, the
-   cabinet of the battery management system with the last capacity test, a pallet of new modules, and a board with the
-   prognosis: the capacity tests, the model, the possible futures, the end of life and the order (WHATIF.fitLinear,
+   cabinet of the battery management system with the last capacity estimate, a pallet of new modules, and a board with the
+   prognosis: the capacity estimates, the model, the possible futures, the end of life and the order (WHATIF.fitLinear,
    WHATIF.futures, WHATIF.pInTime). A run plays the prediction for the chosen model, duty and order month. */
 (function () {
   const box = document.getElementById("bc-3d"); if (!box) return;
@@ -1897,7 +1899,7 @@ window.WHATIF = window.WHATIF || (function () {
   const bmsC = K.box(G, 0.6, 0.9, 0.3, 0xD9DEE2, 0.5, 0.2, 0.01); bmsC.position.set(1.25, 0.57, -0.4); G.scene.add(bmsC);
   const bmsS = LK.panel(G, 0.5, 0.32, [750, 480], (c, cw, ch) => { c.fillStyle = "#0E151C"; c.fillRect(0, 0, cw, ch); c.fillStyle = "#E9EDF0"; c.textBaseline = "middle";
     c.font = `700 40px ${K.F}`; c.fillText("BATTERY MANAGEMENT", 20, 40); c.font = `600 36px ${K.MONO}`; c.fillStyle = "#A9B6C2";
-    c.fillText("Capacity test 1 Nov 2026", 20, 120); c.fillStyle = "#8CF5B8"; c.font = `700 64px ${K.MONO}`; c.fillText(`${S.CAP[35].toFixed(1)} kWh`, 20, 215);
+    c.fillText("Capacity estimate 1 Nov 2026", 20, 120); c.fillStyle = "#8CF5B8"; c.font = `700 64px ${K.MONO}`; c.fillText(`${S.CAP[35].toFixed(1)} kWh`, 20, 215);
     c.fillStyle = "#A9B6C2"; c.font = `600 36px ${K.MONO}`; c.fillText(`${S.EFC[35].toFixed(1)} cycles, ${(S.CAP[35] / 5).toFixed(1)} %`, 20, 310);
     c.fillText("End of life at 400 kWh", 20, 380); c.fillStyle = "#F2C14E"; c.fillText(R.res ? `Prognosis: ${S.when(R.res.eol)}` : "Prognosis: Run below", 20, 445); });
   bmsS.mesh.position.set(1.25, 0.74, -0.248); G.scene.add(bmsS.mesh);
@@ -1979,7 +1981,7 @@ window.WHATIF = window.WHATIF || (function () {
   function start() { if (game) return; game = true; table(); enable(true); H.set(0, "The battery container"); H.set(1, "Three missions"); STG.play(true); }
   runB.addEventListener("click", run); startB.addEventListener("click", start);
   document.getElementById("bc-clr").addEventListener("click", () => { if (running) return; data = {rows: []}; save(); table(); sayP.textContent = ""; });
-  G.renderer.domElement.setAttribute("aria-label", "A battery container open on its long side with racks of modules and a blue inverter, the cabinet of the battery management system with the last capacity test, a pallet of new modules and a board with the capacity tests, the possible futures and the end of life.");
+  G.renderer.domElement.setAttribute("aria-label", "A battery container open on its long side with racks of modules and a blue inverter, the cabinet of the battery management system with the last capacity estimate, a pallet of new modules and a board with the capacity estimates, the possible futures and the end of life.");
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
   redraw();
   window.SHOT_PREP = window.SHOT_PREP || {};
@@ -1990,5 +1992,331 @@ window.WHATIF = window.WHATIF || (function () {
     state: () => ({game, running, rows: data.rows.length, last: data.rows[data.rows.length - 1] || null, done: done()})};
 })();
 
-initLab(13,"Digital Twins II: What-If Analysis and Predictive Maintenance",[{"q": "What does a what-if analysis with a twin compare?", "options": ["Decisions or conditions that have not been applied yet", "Two sensors of the same quantity", "The twin with its own past", "The prices of two heaters"], "answer": 0, "why": "The twin runs the alternatives instead of the building."}, {"q": "The heating runs 60 kW for 6 hours and is off otherwise. What is the energy of that day?", "options": ["360 kWh", "60 kWh", "10 kWh", "1440 kWh"], "answer": 0, "why": "$E = 60 \\times 6 = 360$ kWh."}, {"q": "At opening the library is at 19.0 °C for 2 hours and at 19.5 °C for 1 more hour. What is the comfort deficit below 20 °C?", "options": ["2.5 K h", "1.5 K h", "3.0 K h", "0.5 K h"], "answer": 0, "why": "$1.0 \\times 2 + 0.5 \\times 1 = 2.5$ K h."}, {"q": "Why can a deep setback at night save energy without a loss of comfort?", "options": ["The optimal start heats early enough before opening, and the cold library loses less heat at night", "The heater becomes stronger", "The visitors heat the library at night", "The thermostat ignores the night"], "answer": 0, "why": "A colder library loses less heat, and the twin starts the heating in time."}, {"q": "Of 400 possible weeks, 32 have a comfort deficit above 1 K h. What is the estimated probability?", "options": ["0.08", "0.32", "0.032", "0.8"], "answer": 0, "why": "$32/400 = 0.08$."}, {"q": "How does the standard error of a Monte Carlo probability change with four times as many runs?", "options": ["It halves", "It quarters", "It stays the same", "It doubles"], "answer": 0, "why": "It shrinks with the square root of the number of runs, and the square root of 4 is 2."}, {"q": "Which strategy replaces the air filters every six months, whether they are clogged or not?", "options": ["Preventive maintenance", "Corrective maintenance", "Condition-based maintenance", "Predictive maintenance"], "answer": 0, "why": "Fixed intervals define preventive maintenance."}, {"q": "A battery has lost 12 percent of its capacity. When does it reach the end of life by convention?", "options": ["When it has lost 20 percent", "Now", "When it has lost 50 percent", "When it stops working"], "answer": 0, "why": "The end of life is the point of 80 percent of the rated capacity."}, {"q": "Why does frequency regulation bring the end of life of the battery forward?", "options": ["It adds cycles, and every cycle adds ageing", "It raises the calendar ageing", "It lowers the rated capacity", "It stops the capacity tests"], "answer": 0, "why": "The cycle part $b\\,N$ of the ageing grows with the cycles per day."}, {"q": "An order arrives in time in 96 percent of the futures, one month later in 93 percent. Which is the latest safe order at a level of 95 percent?", "options": ["The earlier of the two months", "The later of the two months", "Neither of them", "Both of them"], "answer": 0, "why": "Only the earlier month reaches the level of 0.95."}],["Which what-if question would you ask the twin of a building that you know?", "How would you explain a probability of 0.063 to the facility manager who wants a yes or a no?", "Which schedule would you choose for the library, and what would you tell the users of the reading room?", "When would you trust the linear model of the ageing, and when not?", "Which part in your own life would profit from a prognosis of its remaining useful life?"]);
+/* Field tasks: the front panels of real devices with their menus, and work procedures with ordered steps.
+   FIELD.task builds the frame of Part E with its goals and messages, FIELD.device a front panel with a display, lamps
+   and keys, FIELD.menu the menu of a device with lists, numbers edited digit by digit, values and actions, and
+   FIELD.procedure a group of physical actions. */
+const FIELD = (function () {
+  const CSS = `
+.ftask{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:var(--panel)}
+.ftask .fgoals{list-style:none;padding:0;margin:4px 0 10px}
+.ftask .fgoals li{margin:3px 0;padding-left:26px;position:relative}
+.ftask .fgoals li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;border:2px solid #8D99A6}
+.ftask .fgoals li.ok::before{background:#2E8B57;border-color:#2E8B57}
+.ftask .fgoals li.ok::after{content:"";position:absolute;left:5px;top:6px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.ftask .fstage{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:8px 0}
+.ftask .fside{flex:1 1 260px;min-width:240px}
+.ftask .flog{min-height:3.2em;margin:8px 0 4px;padding:8px 10px;border-radius:8px;background:rgba(127,140,155,.12);font-size:.95em}
+.ftask .flog p{margin:2px 0}
+.ftask .flog .bad{color:#B23B3B}.ftask .flog .ok{color:#2E7D4F}
+.ftask .fdone{font-weight:600;color:#2E7D4F}
+.fdev{display:inline-block;max-width:100%;background:linear-gradient(#4E5761,#2C3238);border-radius:12px;padding:10px 12px 12px;
+  color:#E8EDF2;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 8px rgba(0,0,0,.25);outline:none}
+.fdev:focus-visible{box-shadow:0 0 0 3px #F2B33D}
+.fdev .fhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.fdev .fmodel{font-weight:700;font-size:13px;letter-spacing:.02em}
+.fdev .ftag{font-size:11px;color:#AFBBC7}
+.fdev pre.flcd{margin:8px 0;padding:6px 8px;border-radius:5px;border:2px solid #1A1E22;white-space:pre;overflow:hidden;
+  font:600 13px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;box-shadow:inset 0 0 7px rgba(0,0,0,.35)}
+.fdev pre.flcd.green{background:#A9BD93;color:#1B2430}.fdev pre.flcd.blue{background:#16324F;color:#DDEBFA}
+.fdev pre.flcd.white{background:#E9EEF2;color:#1B2430}
+.fdev pre.flcd .inv{background:currentColor}.fdev pre.flcd.green .inv{color:#1B2430}.fdev pre.flcd .inv b{color:#A9BD93;font-weight:600}
+.fdev pre.flcd.blue .inv b{color:#16324F}.fdev pre.flcd.white .inv b{color:#E9EEF2}
+.fdev .fleds{display:flex;flex-wrap:wrap;gap:4px 12px;margin:2px 0 8px}
+.fdev .fled{display:flex;align-items:center;gap:5px;font-size:11px;color:#C9D1D8}
+.fdev .fled i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#3A4047;box-shadow:inset 0 0 2px rgba(0,0,0,.7)}
+.fdev .fled.on i{background:var(--lc);box-shadow:0 0 7px var(--lc)}
+.fdev .fled.blink i{animation:fblink 0.8s steps(2,start) infinite}
+@keyframes fblink{to{visibility:hidden}}
+.fdev .fkeys{display:grid;grid-template-columns:repeat(4,46px);gap:6px}
+.fdev .fkey{height:34px;border-radius:7px;border:1px solid #1A1E22;background:linear-gradient(#66707B,#3E454D);color:#fff;
+  font:600 13px system-ui,sans-serif;cursor:pointer;padding:0}
+.fdev .fkey:active{transform:translateY(1px)}.fdev .fkey:disabled{opacity:.45;cursor:default}
+.fdev .fkey.wide{grid-column:span 2}
+.fdev .fextra{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fdev .fextra .fkey{padding:0 10px;width:auto}
+.fproc{display:flex;flex-direction:column;gap:10px}
+.fproc .fgrp{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fproc .fgrp h4{margin:0 0 6px;font-size:.95em}
+.fproc .fgrp .row{display:flex;flex-wrap:wrap;gap:6px}
+.fproc .btn{font-size:.9em}
+.fstate{border-collapse:collapse;font-size:.92em;margin:6px 0}
+.fstate td,.fstate th{border:1px solid var(--line);padding:3px 8px;text-align:left}
+.fdoc{border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:.92em;background:rgba(255,255,255,.04)}
+`;
+  let styled = false;
+  function style() { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = CSS; document.head.append(s); }
+
+  /* The frame of a field task: goals, a stage for the devices and the messages. */
+  function task(rootId, o) {
+    style();
+    const root = document.getElementById(rootId); if (!root) return null;
+    const saved = store.get(o.key, {});
+    const state = {done: saved.done || {}, complete: !!saved.complete};
+    const box = h("div", {class: "ftask"});
+    const goals = h("ul", {class: "fgoals"});
+    const items = {};
+    o.goals.forEach(g => { const li = h("li", {}, g.t); items[g.id] = li; goals.append(li); });
+    const stage = h("div", {class: "fstage"});
+    const log = h("div", {class: "flog", "aria-live": "polite"});
+    const status = h("p", {class: "small"});
+    const reset = h("button", {class: "btn ghost", type: "button"}, "Start the task again");
+    box.append(h("p", {class: "small"}, "Goals of the task"), goals, stage, log, status, h("p", {}, reset));
+    root.append(box);
+    const lines = [];
+    const api = {
+      stage, box,
+      say(text, kind) { lines.unshift({text, kind: kind || ""}); lines.length = Math.min(lines.length, 4);
+        log.textContent = ""; lines.forEach((l, i) => log.append(h("p", {class: l.kind, style: i ? "opacity:.65" : ""}, l.text))); },
+      goal(id) { if (state.done[id]) return; state.done[id] = true; paint(); save();
+        const g = o.goals.find(x => x.id === id); if (g) api.say("Done: " + g.t, "ok");
+        if (o.goals.every(x => state.done[x.id]) && !state.complete) { state.complete = true; save(); paint();
+          if (window.labLog) labLog.note("Part E", o.summary ? o.summary() : "Field task complete"); } },
+      has(id) { return !!state.done[id]; },
+      complete() { return state.complete; }
+    };
+    function paint() {
+      o.goals.forEach(g => items[g.id].className = state.done[g.id] ? "ok" : "");
+      const n = o.goals.filter(g => state.done[g.id]).length;
+      status.textContent = state.complete ? "" : `Goals reached: ${n} of ${o.goals.length}.`;
+      status.className = "small"; if (state.complete) { status.textContent = "Field task complete. " + (o.closing || ""); status.className = "small fdone"; }
+    }
+    function save() { store.set(o.key, {done: state.done, complete: state.complete}); }
+    reset.addEventListener("click", () => { state.done = {}; state.complete = false; save(); paint(); lines.length = 0; log.textContent = "";
+      if (o.onReset) o.onReset(); api.say(o.hello || "The task starts again."); });
+    paint();
+    if (o.hello) api.say(o.hello);
+    return api;
+  }
+
+  /* The front panel of a device: a display with rows of fixed width, lamps and keys. */
+  function device(parent, o) {
+    style();
+    const rows = o.rows || 4, cols = o.cols || 20;
+    const el = h("div", {class: "fdev", tabindex: "0", role: "group", "aria-label": o.model + (o.tag ? ", " + o.tag : "")});
+    const lcd = h("pre", {class: "flcd " + (o.lcd || "green"), "aria-live": "polite", "aria-label": "Display of the " + o.model});
+    const leds = {}, ledBox = h("div", {class: "fleds"});
+    (o.leds || []).forEach(([name, color]) => { const d = h("span", {class: "fled", style: `--lc:${color}`}, h("i", {}), name); leds[name] = d; ledBox.append(d); });
+    const keyBox = h("div", {class: "fkeys"}), handlers = [];
+    const KEYS = o.keys || ["", "▲", "", "ESC", "◀", "OK", "▶", "", "", "▼", "", ""];
+    const btns = {};
+    KEYS.forEach(k => { if (!k) { keyBox.append(h("span", {})); return; }
+      const name = {"▲": "Up", "▼": "Down", "◀": "Left", "▶": "Right"}[k] || k;
+      const b = h("button", {class: "fkey", type: "button", "aria-label": name}, k); btns[k] = b;
+      b.addEventListener("click", () => { handlers.forEach(f => f(k)); el.focus({preventScroll: true}); }); keyBox.append(b); });
+    const extra = h("div", {class: "fextra"});
+    (o.extra || []).forEach(([label, fn]) => { const b = h("button", {class: "fkey", type: "button"}, label); b.addEventListener("click", fn); btns[label] = b; extra.append(b); });
+    el.append(h("div", {class: "fhead"}, h("span", {class: "fmodel"}, o.model), h("span", {class: "ftag"}, o.tag || "")), lcd);
+    if (o.leds && o.leds.length) el.append(ledBox);
+    if (KEYS.some(k => k)) el.append(keyBox);
+    if (o.extra && o.extra.length) el.append(extra);
+    el.addEventListener("keydown", e => { const k = {ArrowUp: "▲", ArrowDown: "▼", ArrowLeft: "◀", ArrowRight: "▶", Enter: "OK", Escape: "ESC"}[e.key];
+      if (k && btns[k]) { e.preventDefault(); handlers.forEach(f => f(k)); } });
+    parent.append(el);
+    return {
+      el, rows, cols, btns,
+      show(lines) { lcd.textContent = ""; for (let r = 0; r < rows; r++) { const ln = lines[r] == null ? "" : lines[r];
+        if (typeof ln === "string") lcd.append(pad(ln, cols)); else { let used = 0; ln.forEach(seg => { const t = seg.t.slice(0, cols - used); used += t.length;
+          lcd.append(seg.inv ? h("span", {class: "inv"}, h("b", {}, t)) : t); }); lcd.append(" ".repeat(Math.max(0, cols - used))); }
+        if (r < rows - 1) lcd.append("\n"); } },
+      led(name, on, blink) { const d = leds[name]; if (!d) return; d.classList.toggle("on", !!on); d.classList.toggle("blink", !!blink && !!on); },
+      onKey(f) { handlers.push(f); },
+      press(k) { handlers.forEach(f => f(k)); },
+      enable(on) { Object.values(btns).forEach(b => { b.disabled = !on; }); }
+    };
+  }
+  const pad = (s, n) => (s.length > n ? s.slice(0, n) : s + " ".repeat(n - s.length));
+  const line = (label, value, cols) => { value = value == null ? "" : String(value); const room = cols - value.length - 1;
+    return pad(label.slice(0, Math.max(0, room)), Math.max(0, room)) + " " + value; };
+
+  /* The menu of a device. Nodes: {t, kids} a submenu, {t, key, list} a choice, {t, key, num: {min, max, dec, unit}} a
+     number edited digit by digit, {t, show} a value, {t, act, confirm} an action. */
+  function menu(dev, tree, o) {
+    const P = o.params, C = dev.cols, R = dev.rows;
+    let stack = [{node: {t: o.title || "MAIN MENU", kids: tree}, i: 0}], edit = null, confirm = null, flash = null;
+    const top = () => stack[stack.length - 1];
+    const fmtNum = (n, v) => { const d = n.num.dec || 0; return (+v).toFixed(d); };
+    const unit = n => (n.num && n.num.unit) || n.unit || "";
+    const valueOf = n => n.show ? n.show() : n.key == null ? (n.kids ? ">" : "") : n.num ? fmtNum(n, P[n.key]) + (unit(n) ? " " + unit(n) : "") : String(P[n.key]);
+    function render() {
+      if (confirm) { dev.show([pad(confirm.node.t.toUpperCase(), C), "", pad(confirm.text || "Execute now?", C), pad("OK = yes   ESC = no", C)]); return; }
+      if (edit) {
+        const n = edit.node, L = [pad(n.t.toUpperCase(), C), ""];
+        if (n.list) L.push(pad(`< ${n.list[edit.k]} >`, C));
+        else { const s = edit.str, segs = []; for (let i = 0; i < s.length; i++) segs.push({t: s[i], inv: i === edit.pos});
+          segs.push({t: unit(n) ? " " + unit(n) : ""}); L.push(segs); }
+        L.push(pad(n.list ? "▲▼ choose  OK save" : "◀▶ digit ▲▼ change", C));
+        while (L.length < R) L.push("");
+        dev.show(L.slice(0, R)); return; }
+      const t = top(), kids = t.node.kids, first = Math.max(0, Math.min(t.i - (R - 2), kids.length - (R - 1)));
+      const L = [pad((flash || t.node.t).toUpperCase(), C)];
+      for (let r = 0; r < R - 1; r++) { const k = first + r, n = kids[k]; if (!n) { L.push(""); continue; }
+        const mark = k === t.i ? ">" : " ", v = valueOf(n); L.push(mark + line(n.t, v, C - 1)); }
+      dev.show(L); flash = null;
+    }
+    function startEdit(n) {
+      if (n.list) { edit = {node: n, k: Math.max(0, n.list.indexOf(P[n.key]))}; return; }
+      const d = n.num.dec || 0, w = Math.max(fmtNum(n, n.num.max).length, fmtNum(n, P[n.key]).length);
+      let s = fmtNum(n, P[n.key]); while (s.length < w) s = "0" + s;
+      edit = {node: n, str: s, pos: s.length - 1 - (d ? 0 : 0)};
+      if (s[edit.pos] === ".") edit.pos--;
+    }
+    function bump(dir) {
+      const n = edit.node;
+      if (n.list) { edit.k = (edit.k + dir + n.list.length) % n.list.length; return; }
+      const a = edit.str.split(""); let i = edit.pos;
+      let dgt = (+a[i] + dir + 10) % 10; a[i] = String(dgt); edit.str = a.join("");
+    }
+    function move(dir) { if (!edit || edit.node.list) return; let p = edit.pos + dir; if (edit.str[p] === ".") p += dir;
+      if (p >= 0 && p < edit.str.length) edit.pos = p; }
+    function save() {
+      const n = edit.node; let v;
+      if (n.list) v = n.list[edit.k];
+      else { v = parseFloat(edit.str); if (!(v >= n.num.min - 1e-9 && v <= n.num.max + 1e-9)) { const lim = `${fmtNum(n, n.num.min)} to ${fmtNum(n, n.num.max)}`;
+        flash = "OUT OF RANGE"; if (o.onError) o.onError(n, v, lim); edit = null; return; } }
+      const old = P[n.key]; P[n.key] = v; edit = null; flash = "SAVED";
+      if (o.onSet) o.onSet(n.key, v, old, n);
+    }
+    dev.onKey(k => {
+      if (o.locked && o.locked()) { if (o.onLocked) o.onLocked(); return; }
+      if (confirm) { if (k === "OK") { const n = confirm.node; confirm = null; const msg = n.act(); if (msg) flash = msg; } else if (k === "ESC") confirm = null; render(); return; }
+      if (edit) { if (k === "▲") bump(1); else if (k === "▼") bump(-1); else if (k === "◀") move(-1); else if (k === "▶") move(1);
+        else if (k === "OK") save(); else if (k === "ESC") edit = null; render(); return; }
+      const t = top(), kids = t.node.kids;
+      if (k === "▲") t.i = (t.i - 1 + kids.length) % kids.length;
+      else if (k === "▼") t.i = (t.i + 1) % kids.length;
+      else if (k === "ESC" || k === "◀") { if (stack.length > 1) stack.pop(); }
+      else if (k === "OK" || k === "▶") { const n = kids[t.i];
+        if (n.kids) stack.push({node: n, i: 0});
+        else if (n.act && k === "OK") { if (n.confirm) confirm = {node: n, text: n.confirm}; else { const msg = n.act(); if (msg) flash = msg; } }
+        else if ((n.list || n.num) && k === "OK") { if (n.readonly && n.readonly()) flash = "LOCKED"; else startEdit(n); } }
+      render();
+    });
+    render();
+    return {render, params: P, home() { stack = [stack[0]]; stack[0].i = 0; edit = null; confirm = null; render(); },
+      path() { return stack.map(s => s.node.t); }, editing() { return !!edit; }};
+  }
+
+  /* A group of physical actions, such as switching a breaker or applying a padlock. */
+  function procedure(parent, groups, onAct) {
+    style();
+    const box = h("div", {class: "fproc"}), btns = {};
+    groups.forEach(g => { const grp = h("div", {class: "fgrp"}, h("h4", {}, g.t)), row = h("div", {class: "row"});
+      g.actions.forEach(([id, label]) => { const b = h("button", {class: "btn ghost", type: "button"}, label); btns[id] = b;
+        b.addEventListener("click", () => onAct(id)); row.append(b); }); grp.append(row); box.append(grp); });
+    parent.append(box);
+    return {box, btns, act: onAct};
+  }
+
+  /* A number that the student computes and enters, with a check button. */
+  let nEntry = 0;
+  function entry(parent, label, unit, onCheck) {
+    style();
+    const id = "fe" + (++nEntry), inp = h("input", {type: "number", step: "any", id, style: "width:7.5rem"});
+    const b = h("button", {class: "btn", type: "button"}, "Check");
+    b.addEventListener("click", () => onCheck(parseFloat(inp.value)));
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") onCheck(parseFloat(inp.value)); });
+    parent.append(h("div", {class: "ctl", style: "margin:8px 0"}, h("label", {for: id}, label),
+      h("div", {style: "display:flex;gap:8px;align-items:center;flex-wrap:wrap"}, inp, h("span", {}, unit), b)));
+    return {input: inp, button: b, set(v) { inp.value = v; }, check() { onCheck(parseFloat(inp.value)); }};
+  }
+  /* A small table of states. */
+  function table(parent, head) { const t = h("table", {class: "fstate"}); parent.append(h("div", {style: "overflow-x:auto;max-width:100%"}, t));
+    return {el: t, rows(rows) { t.textContent = ""; t.append(h("tr", {}, head.map(c => h("th", {}, c))));
+      rows.forEach(r => t.append(h("tr", {}, r.map(c => h("td", {}, String(c)))))); }}; }
+
+  /* Self-test helpers of the weeks: walk a menu along labels, and type a number in edit mode. */
+  function selected(dev) { const sel = dev.el.querySelector("pre").textContent.split("\n").find(l => l.startsWith(">"));
+    return sel ? sel.slice(1).trim() : ""; }
+  function go(dev, m, labels) {
+    m.home();
+    labels.forEach(lbl => { let guard = 0; while (guard++ < 40 && !selected(dev).startsWith(lbl.slice(0, 12))) dev.press("▼"); dev.press("OK"); });
+  }
+  function typeNumber(dev, value, dec) {
+    const pre = dev.el.querySelector("pre"), shown = () => pre.textContent.split("\n")[2].trim().split(" ")[0];
+    let s = (+value).toFixed(dec || 0); while (s.length < shown().length) s = "0" + s;
+    for (let i = 0; i < 12; i++) dev.press("◀");
+    for (let i = 0; i < s.length; i++) { if (s[i] === ".") continue;
+      for (let j = 0; j < 10 && (pre.querySelector(".inv") || {}).textContent !== s[i]; j++) dev.press("▲");
+      dev.press("▶"); }
+    dev.press("OK");
+  }
+  return {task, device, menu, procedure, entry, table, line, pad, go, typeNumber};
+})();
+window.FIELD = FIELD;
+
+/* Part E, field task: The yearly capacity test of the battery. The BMS estimates 460.0 kWh after three years. The test:
+   Suspend the energy management system (EMS), wait until all racks lie between 20 and 30 °C, charge to 100 percent,
+   rest for 60 minutes, discharge at the rated 250 kW to the lower limit and count the energy: 458.2 kWh in 1 h 50 min.
+   The deviation 458.2/460.0 - 1 = -0.39 percent confirms the estimates. Then the battery returns to the EMS. */
+(function () {
+  const EBMS = 460.0, ETEST = 458.2, PR = 250;
+  const T = FIELD.task("pe-task", {key: "w13:field",
+    hello: "The battery has just finished its night charge in the cheap hours. The EMS dispatches it as every day.",
+    goals: [{id: "prep", t: "Prepare the test: Suspend the energy management system (EMS) and make sure that all racks lie between 20 and 30 °C."},
+            {id: "run", t: "Run the test in its order: A full charge, a rest of 60 minutes and a discharge at 250 kW to the lower limit."},
+            {id: "eval", t: "Enter the deviation of the measured capacity from the estimate of the BMS, in percent."},
+            {id: "restore", t: "Return the battery to the EMS."}],
+    summary: () => `Capacity test: ${ETEST.toFixed(1)} kWh measured against ${EBMS.toFixed(1)} kWh estimated, ${((ETEST / EBMS - 1) * 100).toFixed(2)} %`,
+    closing: "The capacity test confirms the estimates of the BMS, and the model of ageing stands.",
+    onReset: () => { Object.assign(S, DEF()); show(); }});
+  if (!T) return;
+  const DEF = () => ({ems: true, tmax: 31.2, tmin: 24.0, soc: 85, step: "none", rested: false, e: null, clock: 7 * 60, tcheck: false});
+  const S = DEF();
+  const hm = m => { m = Math.round(m); return `${String(Math.floor(m / 60) % 24).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`; };
+  const tempOk = () => S.tmax <= 30 && S.tmin >= 20;
+  const left = h("div", {}), side = h("div", {class: "fside"});
+  T.stage.append(left, side);
+  const D = FIELD.device(left, {model: "Service software", tag: "Battery container, laptop of the engineer", lcd: "blue", rows: 6, cols: 22, keys: [],
+    leds: [["EMS", "#3DDC84"], ["TEST", "#F2B33D"]]});
+  function show() {
+    D.show([FIELD.line("Time", hm(S.clock), 22), FIELD.line("Control", S.ems ? "EMS dispatch" : "service mode", 22),
+      FIELD.line("SOC", `${S.soc.toFixed(0)} %`, 22), FIELD.line("Racks", `${S.tmin.toFixed(1)} to ${S.tmax.toFixed(1)} °C`, 22),
+      FIELD.line("Step", S.step, 22), FIELD.line("Energy out", S.e == null ? "-" : `${S.e.toFixed(1)} kWh`, 22)]);
+    D.led("EMS", S.ems); D.led("TEST", !S.ems, true);
+  }
+  FIELD.procedure(side, [{t: "Test procedure of the maker", actions: [["susp", "Suspend the EMS"], ["temp", "Check the rack temperatures"], ["wait", "Wait 30 minutes"],
+    ["charge", "Charge to 100 %"], ["rest", "Rest 60 minutes"], ["dis", "Discharge at 250 kW to the lower limit"], ["resume", "Return the battery to the EMS"]]}], act);
+  function act(id) {
+    if (id === "susp") { if (!S.ems) return T.say("The EMS is already suspended.");
+      S.ems = false; S.step = "ready"; T.say("The EMS no longer dispatches the battery. The campus runs without it until the test ends."); }
+    else if (id === "temp") { S.step = "temperatures";
+      if (tempOk()) { S.tcheck = true; T.say(`All racks lie between ${S.tmin.toFixed(1)} and ${S.tmax.toFixed(1)} °C, within the band of the test.`, "ok"); }
+      else T.say(`The warmest rack has ${S.tmax.toFixed(1)} °C, above the 30 °C of the test procedure. The air conditioning needs time.`, "bad"); }
+    else if (id === "wait") { S.clock += 30; S.tmax = Math.max(26.1, S.tmax - 5.1); S.tcheck = false; T.say(`It is ${hm(S.clock)}. The air conditioning has cooled the racks.`); }
+    else if (id === "charge") { if (!T.has("prep")) return T.say("Prepare the test first: The EMS suspended and the temperatures checked.", "bad");
+      if (S.soc >= 100) return T.say("The battery is full.");
+      S.clock += 45; S.soc = 100; S.rested = false; S.e = null; S.step = "full"; T.say(`It is ${hm(S.clock)}. The battery is full, the last minutes with a falling current.`); }
+    else if (id === "rest") { if (S.soc < 100) return T.say("Charge the battery fully before the rest.", "bad");
+      S.clock += 60; S.rested = true; S.step = "rested"; T.say(`It is ${hm(S.clock)}. The voltages of the cells have settled.`); }
+    else if (id === "dis") { if (S.soc < 100) return T.say("The test discharges a full battery: Charge it first.", "bad");
+      if (!S.rested) return T.say("The test procedure asks for the rest of 60 minutes first, so that the cells start from settled voltages.", "bad");
+      const min = ETEST / PR * 60; S.clock += min; S.soc = 0; S.e = ETEST; S.rested = false; S.step = "lower limit";
+      T.say(`It is ${hm(S.clock)}. The battery has delivered ${ETEST.toFixed(1)} kWh at 250 kW in ${Math.floor(min / 60)} h ${Math.round(min % 60)} min and stops at its lower limit.`, "ok"); T.goal("run"); }
+    else if (id === "resume") { if (S.ems) return T.say("The EMS already dispatches the battery.");
+      if (!T.has("run")) { S.step = "aborted"; T.say("The test is aborted, and the EMS takes the battery back.", "bad"); }
+      else T.say("The EMS takes the battery back and charges it in the next cheap hours.", T.has("eval") ? "ok" : "");
+      S.ems = true; if (T.has("run") && T.has("eval")) T.goal("restore"); else if (T.has("run")) T.say("Evaluate the test before you close it.", "bad"); }
+    if (!S.ems && S.tcheck && tempOk() && !T.has("prep")) T.goal("prep");
+    show();
+  }
+  side.append(h("div", {class: "fdoc", style: "margin-top:8px"}, h("b", {}, "Estimate of the BMS, end of last month"), h("br"), `Usable capacity: ${EBMS.toFixed(1)} kWh`));
+  FIELD.entry(side, "Deviation of the test from the estimate", "%", v => {
+    if (!T.has("run")) { T.say("Run the test first.", "bad"); return; }
+    const want = (ETEST / EBMS - 1) * 100;
+    if (Math.abs(v - want) < 0.015) { T.say(`${v} %: Correct, ${ETEST.toFixed(1)}/${EBMS.toFixed(1)} − 1. The estimates of the BMS and the model of ageing stand.`, "ok"); T.goal("eval");
+      if (S.ems) T.goal("restore"); }
+    else if (Math.abs(v + want) < 0.015) T.say("The test measured less than the estimate, so the deviation is negative.", "bad");
+    else T.say(`${v} % does not match. Divide the measured energy by the estimate and subtract 1.`, "bad"); });
+  show();
+  window.FIELD_TEST = window.FIELD_TEST || {};
+  window.FIELD_TEST.w13 = () => {
+    ["charge", "susp", "temp", "wait", "temp", "charge", "dis", "rest", "dis"].forEach(act);
+    const e = side.querySelector("input"); e.value = ((ETEST / EBMS - 1) * 100).toFixed(2); e.dispatchEvent(new KeyboardEvent("keydown", {key: "Enter"}));
+    act("resume");
+    return {S: {...S}, complete: T.complete()};
+  };
+})();
+
+initLab(13,"Digital Twins II: What-If Analysis and Predictive Maintenance",[{"q": "What does a what-if analysis with a twin compare?", "options": ["Decisions or conditions that have not been applied yet", "Two sensors of the same quantity", "The twin with its own past", "The prices of two heaters"], "answer": 0, "why": "The twin runs the alternatives instead of the building."}, {"q": "The heating runs 60 kW for 6 hours and is off otherwise. What is the energy of that day?", "options": ["360 kWh", "60 kWh", "10 kWh", "1440 kWh"], "answer": 0, "why": "$E = 60 \\times 6 = 360$ kWh."}, {"q": "At opening the library is at 19.0 °C for 2 hours and at 19.5 °C for 1 more hour. What is the comfort deficit below 20 °C?", "options": ["2.5 K h", "1.5 K h", "3.0 K h", "0.5 K h"], "answer": 0, "why": "$1.0 \\times 2 + 0.5 \\times 1 = 2.5$ K h."}, {"q": "Why can a deep setback at night save energy without a loss of comfort?", "options": ["The optimal start heats early enough before opening, and the cold library loses less heat at night", "The heater becomes stronger", "The visitors heat the library at night", "The thermostat ignores the night"], "answer": 0, "why": "A colder library loses less heat, and the twin starts the heating in time."}, {"q": "Of 400 possible weeks, 32 have a comfort deficit above 1 K h. What is the estimated probability?", "options": ["0.08", "0.32", "0.032", "0.8"], "answer": 0, "why": "$32/400 = 0.08$."}, {"q": "How does the standard error of a Monte Carlo probability change with four times as many runs?", "options": ["It halves", "It quarters", "It stays the same", "It doubles"], "answer": 0, "why": "It shrinks with the square root of the number of runs, and the square root of 4 is 2."}, {"q": "Which strategy replaces the air filters every six months, whether they are clogged or not?", "options": ["Preventive maintenance", "Corrective maintenance", "Condition-based maintenance", "Predictive maintenance"], "answer": 0, "why": "Fixed intervals define preventive maintenance."}, {"q": "A battery has lost 12 percent of its capacity. When does it reach the end of life by convention?", "options": ["When it has lost 20 percent", "Now", "When it has lost 50 percent", "When it stops working"], "answer": 0, "why": "The end of life is the point of 80 percent of the rated capacity."}, {"q": "Why does frequency regulation bring the end of life of the battery forward?", "options": ["It adds cycles, and every cycle adds ageing", "It raises the calendar ageing", "It lowers the rated capacity", "It stops the yearly capacity test"], "answer": 0, "why": "The cycle part $b\\,N$ of the ageing grows with the cycles per day."}, {"q": "An order arrives in time in 96 percent of the futures, one month later in 93 percent. Which is the latest safe order at a level of 95 percent?", "options": ["The earlier of the two months", "The later of the two months", "Neither of them", "Both of them"], "answer": 0, "why": "Only the earlier month reaches the level of 0.95."}],["Which what-if question would you ask the twin of a building that you know?", "How would you explain a probability of 0.063 to the facility manager who wants a yes or a no?", "Which schedule would you choose for the library, and what would you tell the users of the reading room?", "When would you trust the linear model of the ageing, and when not?", "Which part in your own life would profit from a prognosis of its remaining useful life?"]);
 })();</script></body></html>

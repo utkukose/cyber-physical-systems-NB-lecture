@@ -87,6 +87,14 @@
   "text": "Depuru, S. S. S. R., Wang, L., & Devabhaktuni, V. (2011). Smart meters for power grid: Challenges, issues, advantages and status. Renewable and Sustainable Energy Reviews, 15(6), 2736-2742.",
   "link": "https://doi.org/10.1016/j.rser.2011.02.039"
  },
+ "en1434_1": {
+  "text": "European Committee for Standardization. (2022). Thermal energy meters - Part 1: General requirements (EN 1434-1:2022). CEN.",
+  "link": ""
+ },
+ "en50110_1": {
+  "text": "European Committee for Electrotechnical Standardization. (2023). Operation of electrical installations - Part 1: General requirements (EN 50110-1:2023). CENELEC.",
+  "link": ""
+ },
  "goodfellow2015": {
   "text": "Goodfellow, I. J., Shlens, J., & Szegedy, C. (2015). Explaining and harnessing adversarial examples. In 3rd International Conference on Learning Representations (ICLR 2015).",
   "link": "https://arxiv.org/abs/1412.6572"
@@ -159,6 +167,10 @@
   "text": "International Electrotechnical Commission. (2010). Functional safety of electrical/electronic/programmable electronic safety-related systems – Part 1: General requirements (IEC 61508-1:2010, Edition 2.0). IEC.",
   "link": "https://webstore.iec.ch/publication/5515"
  },
+ "iec61724_1": {
+  "text": "International Electrotechnical Commission. (2021). Photovoltaic system performance - Part 1: Monitoring (IEC 61724-1:2021, Edition 2.0). IEC.",
+  "link": ""
+ },
  "iec61850_5": {
   "text": "International Electrotechnical Commission. (2013). Communication networks and systems for power utility automation - Part 5: Communication requirements for functions and device models (IEC 61850-5:2013, Edition 2.0). IEC.",
   "link": ""
@@ -175,12 +187,24 @@
   "text": "International Electrotechnical Commission. (2017). Electric vehicle conductive charging system - Part 1: General requirements (IEC 61851-1:2017, Edition 3.0). IEC.",
   "link": ""
  },
+ "iec61869_2": {
+  "text": "International Electrotechnical Commission. (2012). Instrument transformers - Part 2: Additional requirements for current transformers (IEC 61869-2:2012, Edition 1.0). IEC.",
+  "link": ""
+ },
  "iec62443_3_3": {
   "text": "International Electrotechnical Commission. (2013). Industrial communication networks - Network and system security - Part 3-3: System security requirements and security levels (IEC 62443-3-3:2013, Edition 1.0). IEC.",
   "link": ""
  },
+ "iec62933_2_1": {
+  "text": "International Electrotechnical Commission. (2017). Electrical energy storage (EES) systems - Part 2-1: Unit parameters and testing methods - General specification (IEC 62933-2-1:2017, Edition 1.0). IEC.",
+  "link": ""
+ },
  "ieee1547": {
   "text": "Institute of Electrical and Electronics Engineers. (2018). IEEE Standard for Interconnection and Interoperability of Distributed Energy Resources with Associated Electric Power Systems Interfaces (IEEE Std 1547-2018). IEEE.",
+  "link": ""
+ },
+ "iso9060": {
+  "text": "International Organization for Standardization. (2018). Solar energy - Specification and classification of instruments for measuring hemispherical solar and direct solar radiation (ISO 9060:2018). ISO.",
   "link": ""
  },
  "jardine2006": {
@@ -322,6 +346,10 @@
  "numpy": {
   "text": "Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., Wieser, E., Taylor, J., Berg, S., Smith, N. J., Kern, R., Picus, M., Hoyer, S., van Kerkwijk, M. H., Brett, M., Haldane, A., Fernández del Río, J., Wiebe, M., Peterson, P., Gérard-Marchant, P., Sheppard, K., Reddy, T., Weckesser, W., Abbasi, H., Gohlke, C., & Oliphant, T. E. (2020). Array programming with NumPy. Nature, 585(7825), 357-362.",
   "link": "https://doi.org/10.1038/s41586-020-2649-2"
+ },
+ "ocpp201": {
+  "text": "Open Charge Alliance. (2020). Open Charge Point Protocol 2.0.1. Open Charge Alliance.",
+  "link": "https://openchargealliance.org/protocols/open-charge-point-protocol/"
  },
  "olivares2014": {
   "text": "Olivares, D. E., Mehrizi-Sani, A., Etemadi, A. H., Cañizares, C. A., Iravani, R., Kazerani, M., Hajimiragha, A. H., Gomis-Bellmunt, O., Saeedifard, M., Palma-Behnke, R., Jiménez-Estévez, G. A., & Hatziargyriou, N. D. (2014). Trends in microgrid control. IEEE Transactions on Smart Grid, 5(4), 1905-1919.",

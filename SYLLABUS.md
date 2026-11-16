@@ -50,7 +50,7 @@ The midterm project is released in Week 6 and due at the end of Week 7. The fina
 
 ## Learning activities and workload
 
-Each week combines a lecture page with formulas, worked examples, knowledge checks, an interactive scene, animations and review cards, also available as printable lecture notes. An interactive lab adds a 3D virtual laboratory with the hardware of the week, step-by-step calculators, a self-assessment and reflection prompts. A Colab notebook opens with the Python step of the week and continues with hands-on exercises on the campus microgrid. A development template, application challenges, a weekly task and an optional research assignment complete the week. The overview page of each week lists them together with the study path. The expected workload is seven to ten hours per week, including the class session when the course is taught in person.
+Each week combines a lecture page with formulas, worked examples, knowledge checks, an interactive scene, animations and review cards, also available as printable lecture notes. An interactive lab adds a 3D virtual laboratory with the hardware of the week, step-by-step calculators, a field task with the front panel of a device, a self-assessment and reflection prompts. A Colab notebook opens with the Python step of the week and continues with hands-on exercises on the campus microgrid. A development template, application challenges, a weekly task and an optional research assignment complete the week. The overview page of each week lists them together with the study path. The expected workload is seven to ten hours per week, including the class session when the course is taught in person.
 
 ## Assessment
 

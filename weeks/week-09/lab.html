@@ -208,7 +208,7 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 .wk.soon{border-top-color:var(--line);opacity:.8}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.lec-tools,.tabs,nav,.btn{display:none}}
-</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 9 of 14</p><h1>Energy Optimisation: Economic Dispatch, Battery Scheduling and Demand Response</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-09">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb">Colab notebook</a><a href="Week09_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Energy optimisation lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A runs whole days at the battery container of the campus. Part C opens the car park with its ten chargers. Part B computes the formulas of the lecture step by step, and Part D asks for the values of stage 9 by hand. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its site. Start moves the view closer, and the view returns to the site at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The battery container</h3><p>The battery container of the campus holds the racks of the battery and its inverter. Beside it stand the transformer at the grid connection and the tariff board, which shows the price of each hour. The energy management system replays a whole day hour by hour and records the cost, the peak of the import and the state of charge at midnight.</p>
+</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 9 of 14</p><h1>Energy Optimisation: Economic Dispatch, Battery Scheduling and Demand Response</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-09">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb">Colab notebook</a><a href="Week09_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Energy optimisation lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A runs whole days at the battery container of the campus. Part C opens the car park with its ten chargers. Part B computes the formulas of the lecture step by step, and Part D asks for the values of stage 9 by hand. Part E is a field task with the menu of the load controller of the car park. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its site. Start moves the view closer, and the view returns to the site at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The battery container</h3><p>The battery container of the campus holds the racks of the battery and its inverter. Beside it stand the transformer at the grid connection and the tariff board, which shows the price of each hour. The energy management system replays a whole day hour by hour and records the cost, the peak of the import and the state of charge at midnight.</p>
 <p>Choose the day, the strategy and its settings below the view and press Run the day. A strategy that leaves less energy in the battery than at the start pays 0.15 € for each missing kWh in its corrected cost. Your missions: First, run the clear day without the battery, with the rule of Week 1 and with the optimal schedule. Second, run the cloudy day with the rule of Week 1 at 450 kW and with the optimal schedule. Third, tune the threshold of the rule until its corrected cost on the cloudy day comes within 1 percent of the optimum.</p>
 <div class="three" id="bc-3d"></div>
 <div class="row" id="bc-sl" style="align-items:flex-end;gap:12px;margin:8px 0">
@@ -235,7 +235,10 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <p class="small" id="cp-sum" aria-live="polite"></p>
 <p><button class="btn" id="cp-copy" type="button">Copy the results for Colab</button> <span class="small" id="cp-msg" aria-live="polite"></span></p>
 <textarea id="cp-csv" rows="5" readonly aria-label="Days of the car park as comma-separated values" hidden></textarea>
-<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Demand response</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your runs into MY_CARS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 9 of the microgrid</h3><p>At night the region needs 700 MW, served by the base and the middle unit: Compute the incremental cost λ in €/MWh to two decimals. The battery holds 250 kWh above its minimum, and the import has no peak limit: Compute the saving of the two evening hours in €. Finally, a car arrives at 20:00, leaves at midnight and needs 66 kWh: Compute the cost in € of charging it in its three cheapest hours.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 9: The dispatch of the microgrid</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 9 of the campus microgrid.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Demand response</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your runs into MY_CARS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 9 of the microgrid</h3><p>At night the region needs 700 MW, served by the base and the middle unit: Compute the incremental cost λ in €/MWh to two decimals. The battery holds 250 kWh above its minimum, and the import has no peak limit: Compute the saving of the two evening hours in €. Finally, a car arrives at 20:00, leaves at midnight and needs 66 kWh: Compute the cost in € of charging it in its three cheapest hours.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 9: The dispatch of the microgrid</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-09/NB09_energy_optimisation.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 9 of the campus microgrid.</p></section><section class="labpart" id="pe"><h3>Part E: Field task: The limit of the car park</h3><p>The load controller of the car park arrives with the settings of its maker. Stage 9 gives the smallest limit of the car park in kilowatts, but the controller asks for a current in amperes per phase. It also asks for the fail-safe current, which each charger uses when it loses its controller. In both tests of the controller, ten cars are plugged in.</p>
+<p>The keys work as on the real device. The keys ▲ and ▼ choose a line, OK opens it or starts and saves a change, and the escape key (ESC) goes back. A number changes digit by digit: ◀ and ▶ choose the digit, and ▲ and ▼ change it. On a computer, the arrow keys, Enter and Escape work as well, once the front panel has been clicked.</p>
+<div id="pe-task"></div>
+<p class="backpart"><a href="lecture.html#lab-pe">Back to the lecture: In the field: The limit in amperes</a>, where the text continues after the box of this part.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
 /* Shared runtime of the lecture pages and interactive labs. */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -1850,6 +1853,328 @@ window.OPT = OPT;
     H.set(0, "The car park"); H.set(1, "Three missions"); H.say("Cheapest hours at 18:00: The cars that stay until midnight wait for the cheaper night"); };
   window.PARK_TEST = {start, run, speed(f) { speed = f; }, set(str, cap) { strS.value = str; if (cap != null) { S.cap = cap; capS.setValue(cap); } },
     state: () => ({game, running, rows: data.rows.length, last: data.rows[data.rows.length - 1] || null, done: done()})};
+})();
+
+/* Field tasks: the front panels of real devices with their menus, and work procedures with ordered steps.
+   FIELD.task builds the frame of Part E with its goals and messages, FIELD.device a front panel with a display, lamps
+   and keys, FIELD.menu the menu of a device with lists, numbers edited digit by digit, values and actions, and
+   FIELD.procedure a group of physical actions. */
+const FIELD = (function () {
+  const CSS = `
+.ftask{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:var(--panel)}
+.ftask .fgoals{list-style:none;padding:0;margin:4px 0 10px}
+.ftask .fgoals li{margin:3px 0;padding-left:26px;position:relative}
+.ftask .fgoals li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;border:2px solid #8D99A6}
+.ftask .fgoals li.ok::before{background:#2E8B57;border-color:#2E8B57}
+.ftask .fgoals li.ok::after{content:"";position:absolute;left:5px;top:6px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.ftask .fstage{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:8px 0}
+.ftask .fside{flex:1 1 260px;min-width:240px}
+.ftask .flog{min-height:3.2em;margin:8px 0 4px;padding:8px 10px;border-radius:8px;background:rgba(127,140,155,.12);font-size:.95em}
+.ftask .flog p{margin:2px 0}
+.ftask .flog .bad{color:#B23B3B}.ftask .flog .ok{color:#2E7D4F}
+.ftask .fdone{font-weight:600;color:#2E7D4F}
+.fdev{display:inline-block;max-width:100%;background:linear-gradient(#4E5761,#2C3238);border-radius:12px;padding:10px 12px 12px;
+  color:#E8EDF2;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 8px rgba(0,0,0,.25);outline:none}
+.fdev:focus-visible{box-shadow:0 0 0 3px #F2B33D}
+.fdev .fhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.fdev .fmodel{font-weight:700;font-size:13px;letter-spacing:.02em}
+.fdev .ftag{font-size:11px;color:#AFBBC7}
+.fdev pre.flcd{margin:8px 0;padding:6px 8px;border-radius:5px;border:2px solid #1A1E22;white-space:pre;overflow:hidden;
+  font:600 13px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;box-shadow:inset 0 0 7px rgba(0,0,0,.35)}
+.fdev pre.flcd.green{background:#A9BD93;color:#1B2430}.fdev pre.flcd.blue{background:#16324F;color:#DDEBFA}
+.fdev pre.flcd.white{background:#E9EEF2;color:#1B2430}
+.fdev pre.flcd .inv{background:currentColor}.fdev pre.flcd.green .inv{color:#1B2430}.fdev pre.flcd .inv b{color:#A9BD93;font-weight:600}
+.fdev pre.flcd.blue .inv b{color:#16324F}.fdev pre.flcd.white .inv b{color:#E9EEF2}
+.fdev .fleds{display:flex;flex-wrap:wrap;gap:4px 12px;margin:2px 0 8px}
+.fdev .fled{display:flex;align-items:center;gap:5px;font-size:11px;color:#C9D1D8}
+.fdev .fled i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#3A4047;box-shadow:inset 0 0 2px rgba(0,0,0,.7)}
+.fdev .fled.on i{background:var(--lc);box-shadow:0 0 7px var(--lc)}
+.fdev .fled.blink i{animation:fblink 0.8s steps(2,start) infinite}
+@keyframes fblink{to{visibility:hidden}}
+.fdev .fkeys{display:grid;grid-template-columns:repeat(4,46px);gap:6px}
+.fdev .fkey{height:34px;border-radius:7px;border:1px solid #1A1E22;background:linear-gradient(#66707B,#3E454D);color:#fff;
+  font:600 13px system-ui,sans-serif;cursor:pointer;padding:0}
+.fdev .fkey:active{transform:translateY(1px)}.fdev .fkey:disabled{opacity:.45;cursor:default}
+.fdev .fkey.wide{grid-column:span 2}
+.fdev .fextra{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fdev .fextra .fkey{padding:0 10px;width:auto}
+.fproc{display:flex;flex-direction:column;gap:10px}
+.fproc .fgrp{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fproc .fgrp h4{margin:0 0 6px;font-size:.95em}
+.fproc .fgrp .row{display:flex;flex-wrap:wrap;gap:6px}
+.fproc .btn{font-size:.9em}
+.fstate{border-collapse:collapse;font-size:.92em;margin:6px 0}
+.fstate td,.fstate th{border:1px solid var(--line);padding:3px 8px;text-align:left}
+.fdoc{border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:.92em;background:rgba(255,255,255,.04)}
+`;
+  let styled = false;
+  function style() { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = CSS; document.head.append(s); }
+
+  /* The frame of a field task: goals, a stage for the devices and the messages. */
+  function task(rootId, o) {
+    style();
+    const root = document.getElementById(rootId); if (!root) return null;
+    const saved = store.get(o.key, {});
+    const state = {done: saved.done || {}, complete: !!saved.complete};
+    const box = h("div", {class: "ftask"});
+    const goals = h("ul", {class: "fgoals"});
+    const items = {};
+    o.goals.forEach(g => { const li = h("li", {}, g.t); items[g.id] = li; goals.append(li); });
+    const stage = h("div", {class: "fstage"});
+    const log = h("div", {class: "flog", "aria-live": "polite"});
+    const status = h("p", {class: "small"});
+    const reset = h("button", {class: "btn ghost", type: "button"}, "Start the task again");
+    box.append(h("p", {class: "small"}, "Goals of the task"), goals, stage, log, status, h("p", {}, reset));
+    root.append(box);
+    const lines = [];
+    const api = {
+      stage, box,
+      say(text, kind) { lines.unshift({text, kind: kind || ""}); lines.length = Math.min(lines.length, 4);
+        log.textContent = ""; lines.forEach((l, i) => log.append(h("p", {class: l.kind, style: i ? "opacity:.65" : ""}, l.text))); },
+      goal(id) { if (state.done[id]) return; state.done[id] = true; paint(); save();
+        const g = o.goals.find(x => x.id === id); if (g) api.say("Done: " + g.t, "ok");
+        if (o.goals.every(x => state.done[x.id]) && !state.complete) { state.complete = true; save(); paint();
+          if (window.labLog) labLog.note("Part E", o.summary ? o.summary() : "Field task complete"); } },
+      has(id) { return !!state.done[id]; },
+      complete() { return state.complete; }
+    };
+    function paint() {
+      o.goals.forEach(g => items[g.id].className = state.done[g.id] ? "ok" : "");
+      const n = o.goals.filter(g => state.done[g.id]).length;
+      status.textContent = state.complete ? "" : `Goals reached: ${n} of ${o.goals.length}.`;
+      status.className = "small"; if (state.complete) { status.textContent = "Field task complete. " + (o.closing || ""); status.className = "small fdone"; }
+    }
+    function save() { store.set(o.key, {done: state.done, complete: state.complete}); }
+    reset.addEventListener("click", () => { state.done = {}; state.complete = false; save(); paint(); lines.length = 0; log.textContent = "";
+      if (o.onReset) o.onReset(); api.say(o.hello || "The task starts again."); });
+    paint();
+    if (o.hello) api.say(o.hello);
+    return api;
+  }
+
+  /* The front panel of a device: a display with rows of fixed width, lamps and keys. */
+  function device(parent, o) {
+    style();
+    const rows = o.rows || 4, cols = o.cols || 20;
+    const el = h("div", {class: "fdev", tabindex: "0", role: "group", "aria-label": o.model + (o.tag ? ", " + o.tag : "")});
+    const lcd = h("pre", {class: "flcd " + (o.lcd || "green"), "aria-live": "polite", "aria-label": "Display of the " + o.model});
+    const leds = {}, ledBox = h("div", {class: "fleds"});
+    (o.leds || []).forEach(([name, color]) => { const d = h("span", {class: "fled", style: `--lc:${color}`}, h("i", {}), name); leds[name] = d; ledBox.append(d); });
+    const keyBox = h("div", {class: "fkeys"}), handlers = [];
+    const KEYS = o.keys || ["", "▲", "", "ESC", "◀", "OK", "▶", "", "", "▼", "", ""];
+    const btns = {};
+    KEYS.forEach(k => { if (!k) { keyBox.append(h("span", {})); return; }
+      const name = {"▲": "Up", "▼": "Down", "◀": "Left", "▶": "Right"}[k] || k;
+      const b = h("button", {class: "fkey", type: "button", "aria-label": name}, k); btns[k] = b;
+      b.addEventListener("click", () => { handlers.forEach(f => f(k)); el.focus({preventScroll: true}); }); keyBox.append(b); });
+    const extra = h("div", {class: "fextra"});
+    (o.extra || []).forEach(([label, fn]) => { const b = h("button", {class: "fkey", type: "button"}, label); b.addEventListener("click", fn); btns[label] = b; extra.append(b); });
+    el.append(h("div", {class: "fhead"}, h("span", {class: "fmodel"}, o.model), h("span", {class: "ftag"}, o.tag || "")), lcd);
+    if (o.leds && o.leds.length) el.append(ledBox);
+    if (KEYS.some(k => k)) el.append(keyBox);
+    if (o.extra && o.extra.length) el.append(extra);
+    el.addEventListener("keydown", e => { const k = {ArrowUp: "▲", ArrowDown: "▼", ArrowLeft: "◀", ArrowRight: "▶", Enter: "OK", Escape: "ESC"}[e.key];
+      if (k && btns[k]) { e.preventDefault(); handlers.forEach(f => f(k)); } });
+    parent.append(el);
+    return {
+      el, rows, cols, btns,
+      show(lines) { lcd.textContent = ""; for (let r = 0; r < rows; r++) { const ln = lines[r] == null ? "" : lines[r];
+        if (typeof ln === "string") lcd.append(pad(ln, cols)); else { let used = 0; ln.forEach(seg => { const t = seg.t.slice(0, cols - used); used += t.length;
+          lcd.append(seg.inv ? h("span", {class: "inv"}, h("b", {}, t)) : t); }); lcd.append(" ".repeat(Math.max(0, cols - used))); }
+        if (r < rows - 1) lcd.append("\n"); } },
+      led(name, on, blink) { const d = leds[name]; if (!d) return; d.classList.toggle("on", !!on); d.classList.toggle("blink", !!blink && !!on); },
+      onKey(f) { handlers.push(f); },
+      press(k) { handlers.forEach(f => f(k)); },
+      enable(on) { Object.values(btns).forEach(b => { b.disabled = !on; }); }
+    };
+  }
+  const pad = (s, n) => (s.length > n ? s.slice(0, n) : s + " ".repeat(n - s.length));
+  const line = (label, value, cols) => { value = value == null ? "" : String(value); const room = cols - value.length - 1;
+    return pad(label.slice(0, Math.max(0, room)), Math.max(0, room)) + " " + value; };
+
+  /* The menu of a device. Nodes: {t, kids} a submenu, {t, key, list} a choice, {t, key, num: {min, max, dec, unit}} a
+     number edited digit by digit, {t, show} a value, {t, act, confirm} an action. */
+  function menu(dev, tree, o) {
+    const P = o.params, C = dev.cols, R = dev.rows;
+    let stack = [{node: {t: o.title || "MAIN MENU", kids: tree}, i: 0}], edit = null, confirm = null, flash = null;
+    const top = () => stack[stack.length - 1];
+    const fmtNum = (n, v) => { const d = n.num.dec || 0; return (+v).toFixed(d); };
+    const unit = n => (n.num && n.num.unit) || n.unit || "";
+    const valueOf = n => n.show ? n.show() : n.key == null ? (n.kids ? ">" : "") : n.num ? fmtNum(n, P[n.key]) + (unit(n) ? " " + unit(n) : "") : String(P[n.key]);
+    function render() {
+      if (confirm) { dev.show([pad(confirm.node.t.toUpperCase(), C), "", pad(confirm.text || "Execute now?", C), pad("OK = yes   ESC = no", C)]); return; }
+      if (edit) {
+        const n = edit.node, L = [pad(n.t.toUpperCase(), C), ""];
+        if (n.list) L.push(pad(`< ${n.list[edit.k]} >`, C));
+        else { const s = edit.str, segs = []; for (let i = 0; i < s.length; i++) segs.push({t: s[i], inv: i === edit.pos});
+          segs.push({t: unit(n) ? " " + unit(n) : ""}); L.push(segs); }
+        L.push(pad(n.list ? "▲▼ choose  OK save" : "◀▶ digit ▲▼ change", C));
+        while (L.length < R) L.push("");
+        dev.show(L.slice(0, R)); return; }
+      const t = top(), kids = t.node.kids, first = Math.max(0, Math.min(t.i - (R - 2), kids.length - (R - 1)));
+      const L = [pad((flash || t.node.t).toUpperCase(), C)];
+      for (let r = 0; r < R - 1; r++) { const k = first + r, n = kids[k]; if (!n) { L.push(""); continue; }
+        const mark = k === t.i ? ">" : " ", v = valueOf(n); L.push(mark + line(n.t, v, C - 1)); }
+      dev.show(L); flash = null;
+    }
+    function startEdit(n) {
+      if (n.list) { edit = {node: n, k: Math.max(0, n.list.indexOf(P[n.key]))}; return; }
+      const d = n.num.dec || 0, w = Math.max(fmtNum(n, n.num.max).length, fmtNum(n, P[n.key]).length);
+      let s = fmtNum(n, P[n.key]); while (s.length < w) s = "0" + s;
+      edit = {node: n, str: s, pos: s.length - 1 - (d ? 0 : 0)};
+      if (s[edit.pos] === ".") edit.pos--;
+    }
+    function bump(dir) {
+      const n = edit.node;
+      if (n.list) { edit.k = (edit.k + dir + n.list.length) % n.list.length; return; }
+      const a = edit.str.split(""); let i = edit.pos;
+      let dgt = (+a[i] + dir + 10) % 10; a[i] = String(dgt); edit.str = a.join("");
+    }
+    function move(dir) { if (!edit || edit.node.list) return; let p = edit.pos + dir; if (edit.str[p] === ".") p += dir;
+      if (p >= 0 && p < edit.str.length) edit.pos = p; }
+    function save() {
+      const n = edit.node; let v;
+      if (n.list) v = n.list[edit.k];
+      else { v = parseFloat(edit.str); if (!(v >= n.num.min - 1e-9 && v <= n.num.max + 1e-9)) { const lim = `${fmtNum(n, n.num.min)} to ${fmtNum(n, n.num.max)}`;
+        flash = "OUT OF RANGE"; if (o.onError) o.onError(n, v, lim); edit = null; return; } }
+      const old = P[n.key]; P[n.key] = v; edit = null; flash = "SAVED";
+      if (o.onSet) o.onSet(n.key, v, old, n);
+    }
+    dev.onKey(k => {
+      if (o.locked && o.locked()) { if (o.onLocked) o.onLocked(); return; }
+      if (confirm) { if (k === "OK") { const n = confirm.node; confirm = null; const msg = n.act(); if (msg) flash = msg; } else if (k === "ESC") confirm = null; render(); return; }
+      if (edit) { if (k === "▲") bump(1); else if (k === "▼") bump(-1); else if (k === "◀") move(-1); else if (k === "▶") move(1);
+        else if (k === "OK") save(); else if (k === "ESC") edit = null; render(); return; }
+      const t = top(), kids = t.node.kids;
+      if (k === "▲") t.i = (t.i - 1 + kids.length) % kids.length;
+      else if (k === "▼") t.i = (t.i + 1) % kids.length;
+      else if (k === "ESC" || k === "◀") { if (stack.length > 1) stack.pop(); }
+      else if (k === "OK" || k === "▶") { const n = kids[t.i];
+        if (n.kids) stack.push({node: n, i: 0});
+        else if (n.act && k === "OK") { if (n.confirm) confirm = {node: n, text: n.confirm}; else { const msg = n.act(); if (msg) flash = msg; } }
+        else if ((n.list || n.num) && k === "OK") { if (n.readonly && n.readonly()) flash = "LOCKED"; else startEdit(n); } }
+      render();
+    });
+    render();
+    return {render, params: P, home() { stack = [stack[0]]; stack[0].i = 0; edit = null; confirm = null; render(); },
+      path() { return stack.map(s => s.node.t); }, editing() { return !!edit; }};
+  }
+
+  /* A group of physical actions, such as switching a breaker or applying a padlock. */
+  function procedure(parent, groups, onAct) {
+    style();
+    const box = h("div", {class: "fproc"}), btns = {};
+    groups.forEach(g => { const grp = h("div", {class: "fgrp"}, h("h4", {}, g.t)), row = h("div", {class: "row"});
+      g.actions.forEach(([id, label]) => { const b = h("button", {class: "btn ghost", type: "button"}, label); btns[id] = b;
+        b.addEventListener("click", () => onAct(id)); row.append(b); }); grp.append(row); box.append(grp); });
+    parent.append(box);
+    return {box, btns, act: onAct};
+  }
+
+  /* A number that the student computes and enters, with a check button. */
+  let nEntry = 0;
+  function entry(parent, label, unit, onCheck) {
+    style();
+    const id = "fe" + (++nEntry), inp = h("input", {type: "number", step: "any", id, style: "width:7.5rem"});
+    const b = h("button", {class: "btn", type: "button"}, "Check");
+    b.addEventListener("click", () => onCheck(parseFloat(inp.value)));
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") onCheck(parseFloat(inp.value)); });
+    parent.append(h("div", {class: "ctl", style: "margin:8px 0"}, h("label", {for: id}, label),
+      h("div", {style: "display:flex;gap:8px;align-items:center;flex-wrap:wrap"}, inp, h("span", {}, unit), b)));
+    return {input: inp, button: b, set(v) { inp.value = v; }, check() { onCheck(parseFloat(inp.value)); }};
+  }
+  /* A small table of states. */
+  function table(parent, head) { const t = h("table", {class: "fstate"}); parent.append(h("div", {style: "overflow-x:auto;max-width:100%"}, t));
+    return {el: t, rows(rows) { t.textContent = ""; t.append(h("tr", {}, head.map(c => h("th", {}, c))));
+      rows.forEach(r => t.append(h("tr", {}, r.map(c => h("td", {}, String(c)))))); }}; }
+
+  /* Self-test helpers of the weeks: walk a menu along labels, and type a number in edit mode. */
+  function selected(dev) { const sel = dev.el.querySelector("pre").textContent.split("\n").find(l => l.startsWith(">"));
+    return sel ? sel.slice(1).trim() : ""; }
+  function go(dev, m, labels) {
+    m.home();
+    labels.forEach(lbl => { let guard = 0; while (guard++ < 40 && !selected(dev).startsWith(lbl.slice(0, 12))) dev.press("▼"); dev.press("OK"); });
+  }
+  function typeNumber(dev, value, dec) {
+    const pre = dev.el.querySelector("pre"), shown = () => pre.textContent.split("\n")[2].trim().split(" ")[0];
+    let s = (+value).toFixed(dec || 0); while (s.length < shown().length) s = "0" + s;
+    for (let i = 0; i < 12; i++) dev.press("◀");
+    for (let i = 0; i < s.length; i++) { if (s[i] === ".") continue;
+      for (let j = 0; j < 10 && (pre.querySelector(".inv") || {}).textContent !== s[i]; j++) dev.press("▲");
+      dev.press("▶"); }
+    dev.press("OK");
+  }
+  return {task, device, menu, procedure, entry, table, line, pad, go, typeNumber};
+})();
+window.FIELD = FIELD;
+
+/* Part E, field task: The limit of stage 9 entered in the load controller of the car park, which works in amperes per
+   phase. 88 kW at 230 V on three phases are 88000/690 = 127.5 A, so 127 A (87.6 kW); 128 A would give 88.3 kW. When the
+   chargers lose the controller, each falls back to its fail-safe current: Ten chargers at 12 A draw 82.8 kW, at 13 A
+   already 89.7 kW. The control pilot cannot announce less than 6 A, the minimum of a charging car. */
+(function () {
+  const U = 230, N = 10, LIM = 88, IMIN = 6, ICAR = 32;
+  const kw = i => 3 * U * i / 1000;
+  const T = FIELD.task("pe-task", {key: "w9:field",
+    hello: "The load controller of the car park runs with the settings of its maker. Ten cars are plugged in for the evening.",
+    goals: [{id: "limit", t: "Convert the limit of 88 kW of stage 9 into amperes per phase and enter it, not one ampere above the limit."},
+            {id: "fs", t: "Set the fail-safe current, so that ten chargers without their controller stay within 88 kW and the cars still charge."},
+            {id: "test", t: "Run both tests of the controller: The evening at 19:00 and the loss of the controller."}],
+    summary: () => `Load controller: ${P.imax} A per phase (${kw(P.imax).toFixed(1)} kW), fail-safe ${P.fs} A per charger (${(N * kw(P.fs)).toFixed(1)} kW for ten)`,
+    closing: "The car park keeps the limit of stage 9, also when its controller fails.",
+    onReset: () => { Object.assign(P, DEF()); tests.length = 0; done.clear(); paint(); M.home(); }});
+  if (!T) return;
+  const DEF = () => ({imax: 160, fs: 32});
+  const P = DEF(), tests = [], done = new Set();
+  let now = null;
+  const left = h("div", {}), side = h("div", {class: "fside"});
+  T.stage.append(left, side);
+  const D = FIELD.device(left, {model: "Load controller", tag: "Cabinet of the car park", lcd: "blue",
+    leds: [["ONLINE", "#3DDC84"], ["LIMIT", "#F2B33D"]]});
+  D.led("ONLINE", true);
+  const M = FIELD.menu(D, [
+    {t: "Status", kids: [{t: "Cars plugged in", show: () => String(N)}, {t: "I per phase", show: () => (now ? `${now.i.toFixed(0)} A` : "-")},
+                         {t: "P car park", show: () => (now ? `${now.p.toFixed(1)} kW` : "-")}]},
+    {t: "Settings", kids: [{t: "Max current", key: "imax", num: {min: 0, max: 400, dec: 0, unit: "A"}},
+                           {t: "Fail-safe", key: "fs", num: {min: 0, max: 32, dec: 0, unit: "A"}},
+                           {t: "Min per car", show: () => `${IMIN} A`}, {t: "Voltage", show: () => `3 x ${U} V`}]},
+    {t: "Tests", kids: [{t: "Evening 19:00", act: () => run("evening")}, {t: "Controller lost", act: () => run("lost")}]}
+  ], {params: P, title: "Main menu",
+    onSet: (k, v) => { done.clear();
+      if (k === "imax") { T.say(`Saved: Max current ${v} A per phase, that is ${kw(v).toFixed(1)} kW.`);
+        if (v === 127) T.goal("limit"); else if (kw(v) > LIM) T.say(`${v} A give ${kw(v).toFixed(1)} kW, above the limit of ${LIM} kW.`, "bad"); }
+      else { T.say(`Saved: Fail-safe current ${v} A per charger, ${(N * kw(v)).toFixed(1)} kW for ten chargers.`);
+        if (v < IMIN) T.say(`Below ${IMIN} A the pilot cannot tell a car to charge, so the cars would stop.`, "bad");
+        else if (N * kw(v) > LIM) T.say(`Ten chargers would draw ${(N * kw(v)).toFixed(1)} kW without their controller, above ${LIM} kW.`, "bad");
+        else { T.say(v === 12 ? "12 A is the largest safe fail-safe current." : `Safe, but ${v} A charge the cars slower than necessary when the controller fails.`, "ok"); T.goal("fs"); } } },
+    onError: (n, v, lim) => T.say(`The controller refuses ${v}: The range of ${n.t} is ${lim}.`, "bad")});
+  side.append(h("div", {class: "fdoc"}, h("b", {}, "Stage 9, the car park"), h("br"), "Smallest limit that fills every car in time: 88 kW", h("br"),
+    "Ten chargers of 22 kW, 32 A on three phases of 230 V"));
+  const tab = FIELD.table(side, ["Test", "Current per phase", "Power", "Within 88 kW"]);
+  function paint() { tab.rows(tests.map(t => [t.name, `${t.i.toFixed(0)} A`, `${t.p.toFixed(1)} kW`, t.p <= LIM + 1e-9 ? "yes" : "no"])); }
+  function run(kind) {
+    let i;
+    if (kind === "evening") { i = Math.min(P.imax, N * ICAR); D.led("ONLINE", true); }
+    else { i = N * Math.min(ICAR, P.fs); D.led("ONLINE", false); setTimeout(() => D.led("ONLINE", true), 1500); }
+    const p = kw(i), per = i / N;
+    now = {i, p}; tests.push({name: kind === "evening" ? "Evening 19:00" : "Controller lost", i, p}); paint();
+    D.led("LIMIT", kind === "evening" && P.imax < N * ICAR);
+    if (per > 0 && per < IMIN) T.say(`Each car would get ${per.toFixed(1)} A, below the ${IMIN} A of the pilot: The cars stop charging.`, "bad");
+    else if (p > LIM + 1e-9) T.say(`${kind === "evening" ? "The evening" : "Without the controller, the car park"} draws ${p.toFixed(1)} kW, above the limit of ${LIM} kW.`, "bad");
+    else { T.say(`${kind === "evening" ? "The evening" : "Without the controller, the car park"} draws ${p.toFixed(1)} kW, ${per.toFixed(1)} A per car.`, "ok");
+      if (kind === "evening" ? P.imax === 127 : (P.fs >= IMIN && N * kw(P.fs) <= LIM)) done.add(kind); }
+    if (done.has("evening") && done.has("lost") && T.has("limit") && T.has("fs")) T.goal("test");
+    return "TEST DONE";
+  }
+  paint();
+  window.FIELD_TEST = window.FIELD_TEST || {};
+  window.FIELD_TEST.w9 = () => {
+    FIELD.go(D, M, ["Tests", "Evening 19:00"]);
+    FIELD.go(D, M, ["Settings", "Max current"]); FIELD.typeNumber(D, 127, 0);
+    FIELD.go(D, M, ["Settings", "Fail-safe"]); FIELD.typeNumber(D, 12, 0);
+    FIELD.go(D, M, ["Tests", "Evening 19:00"]); FIELD.go(D, M, ["Tests", "Controller lost"]);
+    return {P: {...P}, tests: tests.map(t => [t.name, t.p]), complete: T.complete()};
+  };
 })();
 
 initLab(9,"Energy Optimisation: Economic Dispatch, Battery Scheduling and Demand Response",[{"q": "What makes an optimisation problem a linear program?", "options": ["A linear objective and linear constraints", "A single variable", "No constraints", "Integer variables"], "answer": 0, "why": "Both the objective and all constraints must be linear."}, {"q": "Why does `linprog` receive the saving with a minus sign?", "options": ["It minimises, and maximising a saving equals minimising its negative", "Savings are always negative", "It cannot handle positive numbers", "To speed it up"], "answer": 0, "why": "$\\max f = -\\min(-f)$."}, {"q": "Two units run within their limits at the optimum of a dispatch. What holds for their incremental costs?", "options": ["They are equal", "The cheaper unit has the higher one", "They add up to the price", "They are zero"], "answer": 0, "why": "Otherwise shifting a MW between them would lower the cost."}, {"q": "Units 1 and 2 run at their limits, and unit 3 has the incremental cost 60 + 0.5 P at P = 100 MW. What is λ?", "options": ["110 €/MWh", "60 €/MWh", "160 €/MWh", "50 €/MWh"], "answer": 0, "why": "$60 + 0.5 \\times 100 = 110$."}, {"q": "What does the peak charge reward?", "options": ["A flat import without high peaks", "A high export", "Charging at noon", "A full battery at midnight"], "answer": 0, "why": "It costs 0.30 € per kW of the highest import of the day."}, {"q": "Why is the energy left in the battery at midnight priced in the comparison?", "options": ["A plan that empties the battery borrows energy that the next day must buy back", "Batteries age at midnight", "The price is zero at midnight", "The inverter needs it"], "answer": 0, "why": "Without the correction, emptying the battery would look like a saving."}, {"q": "On which day does a fixed threshold for the battery lose most against the optimum?", "options": ["On a day unlike the one for which it was tuned", "On the day for which it was tuned", "Always on sunny days", "Never"], "answer": 0, "why": "The cloudy day empties the battery too early."}, {"q": "A car arrives at 21:00 and leaves at midnight with 44 kWh to charge. How many hours of 22 kW does it need?", "options": ["2", "3", "1", "4"], "answer": 0, "why": "$44/22 = 2$ hours, chosen among 21:00, 22:00 and 23:00."}, {"q": "Why does a limit of power for the car park barely change the cost?", "options": ["It does not move charging out of the dear hours", "It stops the cars", "It raises the price", "It always misses departures"], "answer": 0, "why": "Without prices, the limit only caps the power."}, {"q": "What does model predictive control add to a daily schedule?", "options": ["It solves the plan again every hour with new forecasts", "It removes the constraints", "It learns without a model", "It plans only one hour"], "answer": 0, "why": "Only the first step of each plan is applied before the next solution."}],["Which strategy at the battery container surprised you most, and why?", "How would you explain to the facility manager why the rule of Week 1 fails on a cloudy day?", "What did the smallest limit of the car park tell you about the connection that it needs?", "Which result of stage 9 would you show first to the finance office of the campus?", "Which decision in your own week could you plan as a linear program?"]);

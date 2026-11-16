@@ -208,7 +208,7 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 .wk.soon{border-top-color:var(--line);opacity:.8}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.lec-tools,.tabs,nav,.btn{display:none}}
-</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 14 of 14</p><h1>Dependability, Safety and Verification</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-14">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-14/NB14_dependability_safety_verification.ipynb">Colab notebook</a><a href="Week14_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Safety and verification lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A tests the transfer logic of the island controller on a test bench. Part C chooses the design of the island supply in the electrical room and simulates 50,000 years of outages. Part B computes the losses of the critical supply step by step, and Part D asks for three values by hand. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its site. Start moves the view closer, and the view returns to the site at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The transfer test bench</h3><p>The transfer test bench holds a model of the island supply of the campus. A grid simulator feeds the breaker at the point of common coupling. Two island controllers on the rail command the breaker and the inverter of the battery, and a beacon warns if the inverter energises the grid. A screen shows the trace of every test in steps of 100 ms.</p>
+</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 14 of 14</p><h1>Dependability, Safety and Verification</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-14">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-14/NB14_dependability_safety_verification.ipynb">Colab notebook</a><a href="Week14_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Safety and verification lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A tests the transfer logic of the island controller on a test bench. Part C chooses the design of the island supply in the electrical room and simulates 50,000 years of outages. Part B computes the losses of the critical supply step by step, and Part D asks for three values by hand. Part E is a field task at the battery inverter under the five safety rules. Part E is a field task at the battery inverter under the five safety rules. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its site. Start moves the view closer, and the view returns to the site at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The transfer test bench</h3><p>The transfer test bench checks the transfer logic before it goes into the electrical room, as in a factory acceptance test. The two real island controllers sit on the rail between simulators. A grid simulator stands for the city grid and an inverter simulator for the inverter of the battery. A breaker simulator stands for the breaker Q0 at the point of common coupling. A beacon warns if the inverter energises the grid. A screen shows the trace of every test in steps of 100 ms.</p>
 <p>Choose the version of the transfer logic and a fault below the view, and press Run the test. Your missions: First, run the first version without a fault. Second, find the fault with which the first version forms the grid while the breaker is closed. Third, run the same fault with the corrected version and check that it stops safely.</p>
 <div class="three" id="tb-3d"></div>
 <div class="row" style="align-items:flex-end;gap:12px;margin:8px 0">
@@ -237,7 +237,9 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <p class="small" id="er-sum" aria-live="polite"></p>
 <p><button class="btn" id="er-copy" type="button">Copy the results for Colab</button> <span class="small" id="er-msg" aria-live="polite"></span></p>
 <textarea id="er-csv" rows="5" readonly aria-label="Designs of the island supply as comma-separated values" hidden></textarea>
-<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Fault trees</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-14/NB14_dependability_safety_verification.ipynb#scrollTo=sec-3" target="_blank" rel="noopener">Continue in Colab, section 3</a>: Paste your designs into MY_DESIGNS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 14 of the microgrid</h3><p>A part has a failure rate of 0.1 per year: Compute its reliability after 5 years. A part fails on average once a year, a mean time to failure (MTTF) of 8760 h, and its repair takes 24 h: Compute its availability. Three parts with a reliability of 0.9 each vote two out of three: Compute the reliability of the vote.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 14: The safety case</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-14/NB14_dependability_safety_verification.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 14 of the campus microgrid.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Fault trees</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-14/NB14_dependability_safety_verification.ipynb#scrollTo=sec-3" target="_blank" rel="noopener">Continue in Colab, section 3</a>: Paste your designs into MY_DESIGNS and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 14 of the microgrid</h3><p>A part has a failure rate of 0.1 per year: Compute its reliability after 5 years. A part fails on average once a year, a mean time to failure (MTTF) of 8760 h, and its repair takes 24 h: Compute its availability. Three parts with a reliability of 0.9 each vote two out of three: Compute the reliability of the vote.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 14: The safety case</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-14/NB14_dependability_safety_verification.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 14 of the campus microgrid.</p></section><section class="labpart" id="pe"><h3>Part E: Field task: Replacing the fan of the inverter</h3><p>The inverter of the battery reports a failed fan in its power section, and an engineer replaces it. The inverter hangs on the breaker Q3 of its alternating-current (AC) side and on the switch S1 of its direct-current (DC) side. The work follows the five safety rules of the lecture. The buttons below are the actions at the switchgear, at the inverter and at the place of work. The two-pole voltage tester shows each measurement, and the label on the inverter names its supplies.</p>
+<div id="pe-task"></div>
+<p class="backpart"><a href="lecture.html#lab-pe">Back to the lecture: In the field: Working on the dead inverter</a>, where the text continues after the box of this part.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
 /* Shared runtime of the lecture pages and interactive labs. */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -1694,10 +1696,10 @@ window.CPSKIT = CPSKIT;
   gsd.mesh.position.set(-0.8, Y + 0.12, -0.718); G.scene.add(gsd.mesh);
   const tagG = label3D("Grid simulator", {scale: 0.0009}); tagG.position.set(-0.8, Y + 0.31, -0.86); G.scene.add(tagG);
   /* the breaker Q0 at the point of common coupling, with a lever */
-  const q0 = K.dinDevice(G, {at: [-0.55, U.railY, RZ], w: 0.17, h: 0.24, d: 0.1, title: "Breaker Q0", lines: ["Point of common coupling"], band: "#B53F2E", terms: 3,
+  const q0 = K.dinDevice(G, {at: [-0.55, U.railY, RZ], w: 0.17, h: 0.24, d: 0.1, title: "Breaker simulator", lines: ["Q0, point of common coupling"], band: "#B53F2E", terms: 3,
     leds: [["CLOSED", 0xE53935], ["OPEN", 0x3DDC84], ["STUCK", 0xF2B33D]]});
   const lever = K.box(G, 0.035, 0.075, 0.03, 0x1B2430, 0.4); lever.geometry.translate(0, 0.0375, 0); lever.position.set(-0.55, U.railY + 0.085, RZ + 0.125); G.scene.add(lever);
-  const tagQ = label3D("Breaker Q0", {scale: 0.0009}); tagQ.position.set(-0.6, U.railY + 0.26, RZ + 0.08); G.scene.add(tagQ);
+  const tagQ = label3D("Breaker simulator Q0", {scale: 0.0009}); tagQ.position.set(-0.6, U.railY + 0.26, RZ + 0.08); G.scene.add(tagQ);
   /* the island controllers A and B */
   const ctlDraw = name => (x, cw, ch) => { const s = cur();
     x.fillStyle = "#101820"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#8CF5B8"; x.font = `700 40px ${K.MONO}`; x.textBaseline = "middle";
@@ -1711,12 +1713,12 @@ window.CPSKIT = CPSKIT;
   /* the inverter of the battery */
   const inv = K.box(G, 0.3, 0.42, 0.26, 0x1E6FA8, 0.45, 0.2, 0.012); inv.position.set(0.3, Y + 0.21, -1.08); G.scene.add(inv);
   const invd = L.panel(G, 0.22, 0.12, [660, 360], (x, cw, ch) => { const s = cur();
-    x.fillStyle = "#0E151C"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#C9D1D8"; x.font = `700 40px ${K.F}`; x.textBaseline = "middle"; x.fillText("BATTERY INVERTER", 20, 42);
+    x.fillStyle = "#0E151C"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#C9D1D8"; x.font = `700 40px ${K.F}`; x.textBaseline = "middle"; x.fillText("INVERTER SIMULATOR", 20, 42);
     const col = {follow: "#8CF5B8", form: s[2] ? "#FF8A80" : "#F2C14E", off: "#A9B6C2"}[s[3]];
     x.font = `700 72px ${K.MONO}`; x.fillStyle = col; x.fillText(s[3] === "form" ? "FORMS GRID" : s[3] === "follow" ? "FOLLOWS" : "OFF", 20, 160);
     x.font = `500 32px ${K.F}`; x.fillStyle = "#A9B6C2"; x.fillText(s[3] === "form" ? "Voltage and frequency set by the battery" : s[3] === "follow" ? "Feeds in with the grid" : "No output", 20, 280); });
   invd.mesh.position.set(0.3, Y + 0.3, -0.949); G.scene.add(invd.mesh);
-  const tagI = label3D("Battery inverter", {scale: 0.0009}); tagI.position.set(0.3, Y + 0.08, -0.93); G.scene.add(tagI);
+  const tagI = label3D("Inverter simulator", {scale: 0.0009}); tagI.position.set(0.3, Y + 0.08, -0.93); G.scene.add(tagI);
   /* the beacon for back-feed into the grid */
   const pole = K.cyl(G, 0.012, 0.012, 0.12, 0x56616D, 0.4, 0.5); pole.position.set(0.3, Y + 0.48, -1.08); G.scene.add(pole);
   const dome = new T.Mesh(new T.SphereGeometry(0.045, 20, 14), new T.MeshStandardMaterial({color: 0x7A1F1F, roughness: 0.3, emissive: 0x000000}));
@@ -1780,7 +1782,7 @@ window.CPSKIT = CPSKIT;
   runB.addEventListener("click", run); startB.addEventListener("click", start);
   [lS, fS].forEach(e => e.addEventListener("change", () => { if (!running) { R.version = +lS.value; R.fault = fS.value; R.trace = [S.INIT]; R.k = 0; redraw(); } }));
   document.getElementById("tb-clr").addEventListener("click", () => { if (running) return; data = {rows: []}; save(); table(); sayP.textContent = ""; });
-  G.renderer.domElement.setAttribute("aria-label", "A laboratory bench with a grid simulator, the breaker Q0 of the point of common coupling with its lever and lamps, two island controllers on a DIN rail, a blue battery inverter, a red alarm beacon and a screen with the trace of the test.");
+  G.renderer.domElement.setAttribute("aria-label", "A test bench with a grid simulator, a breaker simulator for the breaker Q0 of the point of common coupling with its lever and lamps, two island controllers on a DIN rail, a blue inverter simulator, a red alarm beacon and a screen with the trace of the test.");
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
   redraw();
   window.SHOT_PREP = window.SHOT_PREP || {};
@@ -1950,6 +1952,361 @@ window.CPSKIT = CPSKIT;
     H.say(`${s.losses} losses in ${S.YEARS} years: ${(s.losses / S.YEARS).toFixed(4)} per year, below the target`); };
   window.ROOM_TEST = {start, run, speed(f) { speed = f; }, set(reserve, n, months) { rS.value = reserve ? "1" : "0"; cS.value = String(n); tS.value = String(months); readDesign(); },
     state: () => ({game, running, rows: data.rows.length, last: data.rows[data.rows.length - 1] || null, done: done()})};
+})();
+
+/* Field tasks: the front panels of real devices with their menus, and work procedures with ordered steps.
+   FIELD.task builds the frame of Part E with its goals and messages, FIELD.device a front panel with a display, lamps
+   and keys, FIELD.menu the menu of a device with lists, numbers edited digit by digit, values and actions, and
+   FIELD.procedure a group of physical actions. */
+const FIELD = (function () {
+  const CSS = `
+.ftask{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:var(--panel)}
+.ftask .fgoals{list-style:none;padding:0;margin:4px 0 10px}
+.ftask .fgoals li{margin:3px 0;padding-left:26px;position:relative}
+.ftask .fgoals li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;border:2px solid #8D99A6}
+.ftask .fgoals li.ok::before{background:#2E8B57;border-color:#2E8B57}
+.ftask .fgoals li.ok::after{content:"";position:absolute;left:5px;top:6px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.ftask .fstage{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:8px 0}
+.ftask .fside{flex:1 1 260px;min-width:240px}
+.ftask .flog{min-height:3.2em;margin:8px 0 4px;padding:8px 10px;border-radius:8px;background:rgba(127,140,155,.12);font-size:.95em}
+.ftask .flog p{margin:2px 0}
+.ftask .flog .bad{color:#B23B3B}.ftask .flog .ok{color:#2E7D4F}
+.ftask .fdone{font-weight:600;color:#2E7D4F}
+.fdev{display:inline-block;max-width:100%;background:linear-gradient(#4E5761,#2C3238);border-radius:12px;padding:10px 12px 12px;
+  color:#E8EDF2;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 8px rgba(0,0,0,.25);outline:none}
+.fdev:focus-visible{box-shadow:0 0 0 3px #F2B33D}
+.fdev .fhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.fdev .fmodel{font-weight:700;font-size:13px;letter-spacing:.02em}
+.fdev .ftag{font-size:11px;color:#AFBBC7}
+.fdev pre.flcd{margin:8px 0;padding:6px 8px;border-radius:5px;border:2px solid #1A1E22;white-space:pre;overflow:hidden;
+  font:600 13px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;box-shadow:inset 0 0 7px rgba(0,0,0,.35)}
+.fdev pre.flcd.green{background:#A9BD93;color:#1B2430}.fdev pre.flcd.blue{background:#16324F;color:#DDEBFA}
+.fdev pre.flcd.white{background:#E9EEF2;color:#1B2430}
+.fdev pre.flcd .inv{background:currentColor}.fdev pre.flcd.green .inv{color:#1B2430}.fdev pre.flcd .inv b{color:#A9BD93;font-weight:600}
+.fdev pre.flcd.blue .inv b{color:#16324F}.fdev pre.flcd.white .inv b{color:#E9EEF2}
+.fdev .fleds{display:flex;flex-wrap:wrap;gap:4px 12px;margin:2px 0 8px}
+.fdev .fled{display:flex;align-items:center;gap:5px;font-size:11px;color:#C9D1D8}
+.fdev .fled i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#3A4047;box-shadow:inset 0 0 2px rgba(0,0,0,.7)}
+.fdev .fled.on i{background:var(--lc);box-shadow:0 0 7px var(--lc)}
+.fdev .fled.blink i{animation:fblink 0.8s steps(2,start) infinite}
+@keyframes fblink{to{visibility:hidden}}
+.fdev .fkeys{display:grid;grid-template-columns:repeat(4,46px);gap:6px}
+.fdev .fkey{height:34px;border-radius:7px;border:1px solid #1A1E22;background:linear-gradient(#66707B,#3E454D);color:#fff;
+  font:600 13px system-ui,sans-serif;cursor:pointer;padding:0}
+.fdev .fkey:active{transform:translateY(1px)}.fdev .fkey:disabled{opacity:.45;cursor:default}
+.fdev .fkey.wide{grid-column:span 2}
+.fdev .fextra{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fdev .fextra .fkey{padding:0 10px;width:auto}
+.fproc{display:flex;flex-direction:column;gap:10px}
+.fproc .fgrp{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fproc .fgrp h4{margin:0 0 6px;font-size:.95em}
+.fproc .fgrp .row{display:flex;flex-wrap:wrap;gap:6px}
+.fproc .btn{font-size:.9em}
+.fstate{border-collapse:collapse;font-size:.92em;margin:6px 0}
+.fstate td,.fstate th{border:1px solid var(--line);padding:3px 8px;text-align:left}
+.fdoc{border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:.92em;background:rgba(255,255,255,.04)}
+`;
+  let styled = false;
+  function style() { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = CSS; document.head.append(s); }
+
+  /* The frame of a field task: goals, a stage for the devices and the messages. */
+  function task(rootId, o) {
+    style();
+    const root = document.getElementById(rootId); if (!root) return null;
+    const saved = store.get(o.key, {});
+    const state = {done: saved.done || {}, complete: !!saved.complete};
+    const box = h("div", {class: "ftask"});
+    const goals = h("ul", {class: "fgoals"});
+    const items = {};
+    o.goals.forEach(g => { const li = h("li", {}, g.t); items[g.id] = li; goals.append(li); });
+    const stage = h("div", {class: "fstage"});
+    const log = h("div", {class: "flog", "aria-live": "polite"});
+    const status = h("p", {class: "small"});
+    const reset = h("button", {class: "btn ghost", type: "button"}, "Start the task again");
+    box.append(h("p", {class: "small"}, "Goals of the task"), goals, stage, log, status, h("p", {}, reset));
+    root.append(box);
+    const lines = [];
+    const api = {
+      stage, box,
+      say(text, kind) { lines.unshift({text, kind: kind || ""}); lines.length = Math.min(lines.length, 4);
+        log.textContent = ""; lines.forEach((l, i) => log.append(h("p", {class: l.kind, style: i ? "opacity:.65" : ""}, l.text))); },
+      goal(id) { if (state.done[id]) return; state.done[id] = true; paint(); save();
+        const g = o.goals.find(x => x.id === id); if (g) api.say("Done: " + g.t, "ok");
+        if (o.goals.every(x => state.done[x.id]) && !state.complete) { state.complete = true; save(); paint();
+          if (window.labLog) labLog.note("Part E", o.summary ? o.summary() : "Field task complete"); } },
+      has(id) { return !!state.done[id]; },
+      complete() { return state.complete; }
+    };
+    function paint() {
+      o.goals.forEach(g => items[g.id].className = state.done[g.id] ? "ok" : "");
+      const n = o.goals.filter(g => state.done[g.id]).length;
+      status.textContent = state.complete ? "" : `Goals reached: ${n} of ${o.goals.length}.`;
+      status.className = "small"; if (state.complete) { status.textContent = "Field task complete. " + (o.closing || ""); status.className = "small fdone"; }
+    }
+    function save() { store.set(o.key, {done: state.done, complete: state.complete}); }
+    reset.addEventListener("click", () => { state.done = {}; state.complete = false; save(); paint(); lines.length = 0; log.textContent = "";
+      if (o.onReset) o.onReset(); api.say(o.hello || "The task starts again."); });
+    paint();
+    if (o.hello) api.say(o.hello);
+    return api;
+  }
+
+  /* The front panel of a device: a display with rows of fixed width, lamps and keys. */
+  function device(parent, o) {
+    style();
+    const rows = o.rows || 4, cols = o.cols || 20;
+    const el = h("div", {class: "fdev", tabindex: "0", role: "group", "aria-label": o.model + (o.tag ? ", " + o.tag : "")});
+    const lcd = h("pre", {class: "flcd " + (o.lcd || "green"), "aria-live": "polite", "aria-label": "Display of the " + o.model});
+    const leds = {}, ledBox = h("div", {class: "fleds"});
+    (o.leds || []).forEach(([name, color]) => { const d = h("span", {class: "fled", style: `--lc:${color}`}, h("i", {}), name); leds[name] = d; ledBox.append(d); });
+    const keyBox = h("div", {class: "fkeys"}), handlers = [];
+    const KEYS = o.keys || ["", "▲", "", "ESC", "◀", "OK", "▶", "", "", "▼", "", ""];
+    const btns = {};
+    KEYS.forEach(k => { if (!k) { keyBox.append(h("span", {})); return; }
+      const name = {"▲": "Up", "▼": "Down", "◀": "Left", "▶": "Right"}[k] || k;
+      const b = h("button", {class: "fkey", type: "button", "aria-label": name}, k); btns[k] = b;
+      b.addEventListener("click", () => { handlers.forEach(f => f(k)); el.focus({preventScroll: true}); }); keyBox.append(b); });
+    const extra = h("div", {class: "fextra"});
+    (o.extra || []).forEach(([label, fn]) => { const b = h("button", {class: "fkey", type: "button"}, label); b.addEventListener("click", fn); btns[label] = b; extra.append(b); });
+    el.append(h("div", {class: "fhead"}, h("span", {class: "fmodel"}, o.model), h("span", {class: "ftag"}, o.tag || "")), lcd);
+    if (o.leds && o.leds.length) el.append(ledBox);
+    if (KEYS.some(k => k)) el.append(keyBox);
+    if (o.extra && o.extra.length) el.append(extra);
+    el.addEventListener("keydown", e => { const k = {ArrowUp: "▲", ArrowDown: "▼", ArrowLeft: "◀", ArrowRight: "▶", Enter: "OK", Escape: "ESC"}[e.key];
+      if (k && btns[k]) { e.preventDefault(); handlers.forEach(f => f(k)); } });
+    parent.append(el);
+    return {
+      el, rows, cols, btns,
+      show(lines) { lcd.textContent = ""; for (let r = 0; r < rows; r++) { const ln = lines[r] == null ? "" : lines[r];
+        if (typeof ln === "string") lcd.append(pad(ln, cols)); else { let used = 0; ln.forEach(seg => { const t = seg.t.slice(0, cols - used); used += t.length;
+          lcd.append(seg.inv ? h("span", {class: "inv"}, h("b", {}, t)) : t); }); lcd.append(" ".repeat(Math.max(0, cols - used))); }
+        if (r < rows - 1) lcd.append("\n"); } },
+      led(name, on, blink) { const d = leds[name]; if (!d) return; d.classList.toggle("on", !!on); d.classList.toggle("blink", !!blink && !!on); },
+      onKey(f) { handlers.push(f); },
+      press(k) { handlers.forEach(f => f(k)); },
+      enable(on) { Object.values(btns).forEach(b => { b.disabled = !on; }); }
+    };
+  }
+  const pad = (s, n) => (s.length > n ? s.slice(0, n) : s + " ".repeat(n - s.length));
+  const line = (label, value, cols) => { value = value == null ? "" : String(value); const room = cols - value.length - 1;
+    return pad(label.slice(0, Math.max(0, room)), Math.max(0, room)) + " " + value; };
+
+  /* The menu of a device. Nodes: {t, kids} a submenu, {t, key, list} a choice, {t, key, num: {min, max, dec, unit}} a
+     number edited digit by digit, {t, show} a value, {t, act, confirm} an action. */
+  function menu(dev, tree, o) {
+    const P = o.params, C = dev.cols, R = dev.rows;
+    let stack = [{node: {t: o.title || "MAIN MENU", kids: tree}, i: 0}], edit = null, confirm = null, flash = null;
+    const top = () => stack[stack.length - 1];
+    const fmtNum = (n, v) => { const d = n.num.dec || 0; return (+v).toFixed(d); };
+    const unit = n => (n.num && n.num.unit) || n.unit || "";
+    const valueOf = n => n.show ? n.show() : n.key == null ? (n.kids ? ">" : "") : n.num ? fmtNum(n, P[n.key]) + (unit(n) ? " " + unit(n) : "") : String(P[n.key]);
+    function render() {
+      if (confirm) { dev.show([pad(confirm.node.t.toUpperCase(), C), "", pad(confirm.text || "Execute now?", C), pad("OK = yes   ESC = no", C)]); return; }
+      if (edit) {
+        const n = edit.node, L = [pad(n.t.toUpperCase(), C), ""];
+        if (n.list) L.push(pad(`< ${n.list[edit.k]} >`, C));
+        else { const s = edit.str, segs = []; for (let i = 0; i < s.length; i++) segs.push({t: s[i], inv: i === edit.pos});
+          segs.push({t: unit(n) ? " " + unit(n) : ""}); L.push(segs); }
+        L.push(pad(n.list ? "▲▼ choose  OK save" : "◀▶ digit ▲▼ change", C));
+        while (L.length < R) L.push("");
+        dev.show(L.slice(0, R)); return; }
+      const t = top(), kids = t.node.kids, first = Math.max(0, Math.min(t.i - (R - 2), kids.length - (R - 1)));
+      const L = [pad((flash || t.node.t).toUpperCase(), C)];
+      for (let r = 0; r < R - 1; r++) { const k = first + r, n = kids[k]; if (!n) { L.push(""); continue; }
+        const mark = k === t.i ? ">" : " ", v = valueOf(n); L.push(mark + line(n.t, v, C - 1)); }
+      dev.show(L); flash = null;
+    }
+    function startEdit(n) {
+      if (n.list) { edit = {node: n, k: Math.max(0, n.list.indexOf(P[n.key]))}; return; }
+      const d = n.num.dec || 0, w = Math.max(fmtNum(n, n.num.max).length, fmtNum(n, P[n.key]).length);
+      let s = fmtNum(n, P[n.key]); while (s.length < w) s = "0" + s;
+      edit = {node: n, str: s, pos: s.length - 1 - (d ? 0 : 0)};
+      if (s[edit.pos] === ".") edit.pos--;
+    }
+    function bump(dir) {
+      const n = edit.node;
+      if (n.list) { edit.k = (edit.k + dir + n.list.length) % n.list.length; return; }
+      const a = edit.str.split(""); let i = edit.pos;
+      let dgt = (+a[i] + dir + 10) % 10; a[i] = String(dgt); edit.str = a.join("");
+    }
+    function move(dir) { if (!edit || edit.node.list) return; let p = edit.pos + dir; if (edit.str[p] === ".") p += dir;
+      if (p >= 0 && p < edit.str.length) edit.pos = p; }
+    function save() {
+      const n = edit.node; let v;
+      if (n.list) v = n.list[edit.k];
+      else { v = parseFloat(edit.str); if (!(v >= n.num.min - 1e-9 && v <= n.num.max + 1e-9)) { const lim = `${fmtNum(n, n.num.min)} to ${fmtNum(n, n.num.max)}`;
+        flash = "OUT OF RANGE"; if (o.onError) o.onError(n, v, lim); edit = null; return; } }
+      const old = P[n.key]; P[n.key] = v; edit = null; flash = "SAVED";
+      if (o.onSet) o.onSet(n.key, v, old, n);
+    }
+    dev.onKey(k => {
+      if (o.locked && o.locked()) { if (o.onLocked) o.onLocked(); return; }
+      if (confirm) { if (k === "OK") { const n = confirm.node; confirm = null; const msg = n.act(); if (msg) flash = msg; } else if (k === "ESC") confirm = null; render(); return; }
+      if (edit) { if (k === "▲") bump(1); else if (k === "▼") bump(-1); else if (k === "◀") move(-1); else if (k === "▶") move(1);
+        else if (k === "OK") save(); else if (k === "ESC") edit = null; render(); return; }
+      const t = top(), kids = t.node.kids;
+      if (k === "▲") t.i = (t.i - 1 + kids.length) % kids.length;
+      else if (k === "▼") t.i = (t.i + 1) % kids.length;
+      else if (k === "ESC" || k === "◀") { if (stack.length > 1) stack.pop(); }
+      else if (k === "OK" || k === "▶") { const n = kids[t.i];
+        if (n.kids) stack.push({node: n, i: 0});
+        else if (n.act && k === "OK") { if (n.confirm) confirm = {node: n, text: n.confirm}; else { const msg = n.act(); if (msg) flash = msg; } }
+        else if ((n.list || n.num) && k === "OK") { if (n.readonly && n.readonly()) flash = "LOCKED"; else startEdit(n); } }
+      render();
+    });
+    render();
+    return {render, params: P, home() { stack = [stack[0]]; stack[0].i = 0; edit = null; confirm = null; render(); },
+      path() { return stack.map(s => s.node.t); }, editing() { return !!edit; }};
+  }
+
+  /* A group of physical actions, such as switching a breaker or applying a padlock. */
+  function procedure(parent, groups, onAct) {
+    style();
+    const box = h("div", {class: "fproc"}), btns = {};
+    groups.forEach(g => { const grp = h("div", {class: "fgrp"}, h("h4", {}, g.t)), row = h("div", {class: "row"});
+      g.actions.forEach(([id, label]) => { const b = h("button", {class: "btn ghost", type: "button"}, label); btns[id] = b;
+        b.addEventListener("click", () => onAct(id)); row.append(b); }); grp.append(row); box.append(grp); });
+    parent.append(box);
+    return {box, btns, act: onAct};
+  }
+
+  /* A number that the student computes and enters, with a check button. */
+  let nEntry = 0;
+  function entry(parent, label, unit, onCheck) {
+    style();
+    const id = "fe" + (++nEntry), inp = h("input", {type: "number", step: "any", id, style: "width:7.5rem"});
+    const b = h("button", {class: "btn", type: "button"}, "Check");
+    b.addEventListener("click", () => onCheck(parseFloat(inp.value)));
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") onCheck(parseFloat(inp.value)); });
+    parent.append(h("div", {class: "ctl", style: "margin:8px 0"}, h("label", {for: id}, label),
+      h("div", {style: "display:flex;gap:8px;align-items:center;flex-wrap:wrap"}, inp, h("span", {}, unit), b)));
+    return {input: inp, button: b, set(v) { inp.value = v; }, check() { onCheck(parseFloat(inp.value)); }};
+  }
+  /* A small table of states. */
+  function table(parent, head) { const t = h("table", {class: "fstate"}); parent.append(h("div", {style: "overflow-x:auto;max-width:100%"}, t));
+    return {el: t, rows(rows) { t.textContent = ""; t.append(h("tr", {}, head.map(c => h("th", {}, c))));
+      rows.forEach(r => t.append(h("tr", {}, r.map(c => h("td", {}, String(c)))))); }}; }
+
+  /* Self-test helpers of the weeks: walk a menu along labels, and type a number in edit mode. */
+  function selected(dev) { const sel = dev.el.querySelector("pre").textContent.split("\n").find(l => l.startsWith(">"));
+    return sel ? sel.slice(1).trim() : ""; }
+  function go(dev, m, labels) {
+    m.home();
+    labels.forEach(lbl => { let guard = 0; while (guard++ < 40 && !selected(dev).startsWith(lbl.slice(0, 12))) dev.press("▼"); dev.press("OK"); });
+  }
+  function typeNumber(dev, value, dec) {
+    const pre = dev.el.querySelector("pre"), shown = () => pre.textContent.split("\n")[2].trim().split(" ")[0];
+    let s = (+value).toFixed(dec || 0); while (s.length < shown().length) s = "0" + s;
+    for (let i = 0; i < 12; i++) dev.press("◀");
+    for (let i = 0; i < s.length; i++) { if (s[i] === ".") continue;
+      for (let j = 0; j < 10 && (pre.querySelector(".inv") || {}).textContent !== s[i]; j++) dev.press("▲");
+      dev.press("▶"); }
+    dev.press("OK");
+  }
+  return {task, device, menu, procedure, entry, table, line, pad, go, typeNumber};
+})();
+window.FIELD = FIELD;
+
+/* Part E, field task: The fan of the power section of the battery inverter is replaced under the five safety rules of
+   EN 50110-1: Disconnect completely, secure against reconnection, verify the absence of voltage at the place of work,
+   earth and short-circuit, protect against adjacent live parts. The sources are the AC breaker Q3 (400 V), the DC switch
+   S1 of the battery (760 V) and the auxiliary supply F10 (230 V) of the fans. The DC link discharges with a time constant
+   of 2 minutes, 760 V x e^-5 = 5 V after 10 minutes. The rules are lifted in the reverse order. */
+(function () {
+  const SW = {q3: "Q3, AC 400 V", s1: "S1, DC 760 V", f10: "F10, auxiliary 230 V"};
+  const T = FIELD.task("pe-task", {key: "w14:field",
+    hello: "The inverter reports a failed fan in its power section. It runs, and the battery is connected.",
+    goals: [{id: "dead", t: "Make the place of work dead with the five safety rules of EN 50110-1, in their order."},
+            {id: "fan", t: "Replace the fan of the power section."},
+            {id: "back", t: "Return the inverter to service in the reverse order."}],
+    summary: () => "Fan replaced under the five safety rules: Q3, S1 and F10 open and locked, absence of voltage verified with a tested tester, earthed and covered",
+    closing: "The fan is new, and nobody touched a live part.",
+    onReset: () => { Object.assign(S, DEF()); paint(); }});
+  if (!T) return;
+  const DEF = () => ({open: {q3: false, s1: false, f10: false}, lock: {q3: false, s1: false, f10: false}, tdc: 0, proven: 0, dead: {}, verified: false,
+    earth: false, cover: false, fan: false, read: "-"});
+  const S = DEF();
+  const vdc = () => (S.open.s1 ? 760 * Math.exp(-S.tdc / 2) : 760);
+  const left = h("div", {}), side = h("div", {class: "fside"});
+  T.stage.append(left, side);
+  const V = FIELD.device(left, {model: "Two-pole voltage tester", tag: "Category III, 1000 V", lcd: "white", rows: 2, cols: 18, keys: [],
+    leds: [[">50 V", "#FF4D4D"]]});
+  left.append(h("div", {class: "fdoc", style: "max-width:300px;margin-top:10px"}, h("b", {}, "Label of the inverter"), h("br"),
+    "Danger: Capacitors. Wait 10 minutes after disconnection.", h("br"), "Supplies: Q3, AC 400 V; S1, DC 760 V"));
+  const pr = FIELD.procedure(side, [
+    {t: "1 Disconnect", actions: [["q3", "Open Q3"], ["s1", "Open S1"], ["f10", "Open F10"]]},
+    {t: "2 Secure: Padlock and tag", actions: [["lq3", "Lock Q3"], ["ls1", "Lock S1"], ["lf10", "Lock F10"]]},
+    {t: "3 Verify at the place of work", actions: [["wait", "Wait 10 minutes"], ["prove", "Test the tester on the proving unit"], ["mac", "Measure the AC terminals"],
+      ["mdc", "Measure the DC link"], ["mfan", "Measure the fan terminals"]]},
+    {t: "4 and 5 Earth, short-circuit and cover", actions: [["earth", "Earth and short-circuit the AC terminals"], ["cover", "Cover the battery side of S1"]]},
+    {t: "Work", actions: [["fan", "Replace the fan"]]}], act);
+  const tab = FIELD.table(side, ["Item", "State"]);
+  const allOpen = () => Object.values(S.open).every(Boolean), allLocked = () => Object.values(S.lock).every(Boolean);
+  function reading(v, ac) { return v < 12 ? "< 12 V" : `${v.toFixed(0)} V ${ac ? "AC" : "DC"}`; }
+  function measure(id) {
+    const v = id === "mac" ? (S.open.q3 ? 0 : 400) : id === "mdc" ? vdc() : (S.open.f10 ? 0 : 230);
+    const where = {mac: "AC terminals L1-L2", mdc: "DC link + to -", mfan: "Fan terminals L-N"}[id];
+    S.read = reading(v, id !== "mdc"); V.show([FIELD.pad(where, 18), " ".repeat(Math.max(0, 18 - S.read.length)) + S.read]); V.led(">50 V", v >= 50);
+    if (!S.proven) { T.say("The tester was not tested before this measurement. A broken tester shows no voltage anywhere: Test it on the proving unit first.", "bad"); return; }
+    if (v >= 12) { delete S.dead[id];
+      T.say(id === "mfan" ? "230 V at the fan: The fans run from the auxiliary supply F10, which the label does not name." : id === "mdc" ? `The DC link still holds ${v.toFixed(0)} V. Wait until the capacitors have discharged.` : "400 V at the AC terminals: Q3 is still closed.", "bad"); return; }
+    S.dead[id] = S.proven; T.say(`${where}: ${S.read}.`);
+  }
+  function act(id) {
+    const sw = id.replace(/^l/, "");
+    if (["q3", "s1", "f10"].includes(id)) {
+      if (S.open[id]) {                                                // closing a switch
+        if (!S.fan) return T.say("The work is not finished.", "bad");
+        if (S.lock[id]) return T.say(`Remove the padlock of ${id.toUpperCase()} first.`, "bad");
+        if (S.earth && id === "q3") return T.say("Stop: Closing Q3 onto the earthing set would cause a short circuit. Remove the earthing set first.", "bad");
+        if (S.earth || S.cover) return T.say("Clear the place of work first: The cover and the earthing set come off before any switch closes.", "bad");
+        S.open[id] = false; S.verified = false; T.say(`${SW[id]} is closed.`);
+        if (!S.open.q3 && !S.open.s1 && !S.open.f10) { T.say("The inverter starts, and its new fan runs.", "ok"); T.goal("back"); }
+      } else { S.open[id] = true; if (id === "s1") S.tdc = 0; T.say(`${SW[id]} is open.` + (id === "s1" ? " The capacitors of the DC link start to discharge." : "")); }
+    } else if (["lq3", "ls1", "lf10"].includes(id)) {
+      if (S.lock[sw]) { if (S.earth || S.cover) return T.say("The padlocks come off last, after the cover and the earthing set.", "bad");
+        if (!S.fan) return T.say("The padlocks stay on while the work goes on.", "bad");
+        S.lock[sw] = false; T.say(`The padlock and the tag of ${sw.toUpperCase()} are removed.`); }
+      else { if (!S.open[sw]) return T.say(`Open ${sw.toUpperCase()} first: A padlock secures a switch in its open position.`, "bad");
+        S.lock[sw] = true; T.say(`${sw.toUpperCase()} is locked open, with a tag that names the engineer.`); }
+    } else if (id === "wait") { if (!S.open.s1) return T.say("The DC link discharges only after S1 is open.", "bad");
+      S.tdc += 10; T.say(`Ten minutes later: The DC link has ${vdc() < 12 ? "discharged" : vdc().toFixed(0) + " V"}.`); }
+    else if (id === "prove") { S.proven++; V.show([FIELD.pad("Proving unit", 18), " ".repeat(10) + "690 V AC"]); V.led(">50 V", true);
+      const done = ["mac", "mdc", "mfan"].every(m => S.dead[m] && S.dead[m] < S.proven);
+      if (done && allOpen() && allLocked()) { S.verified = true; T.say("The tester works after the measurements too: The absence of voltage is verified.", "ok"); }
+      else T.say("The tester shows the voltage of the proving unit: It works."); }
+    else if (["mac", "mdc", "mfan"].includes(id)) measure(id);
+    else if (id === "earth") { if (S.earth) { if (!S.fan) return T.say("The earthing set stays on while the work goes on.", "bad");
+        if (S.cover) return T.say("Lift the rules in the reverse order: The cover first.", "bad"); S.earth = false; return paint(T.say("The earthing set is removed.")); }
+      if (!S.verified) return T.say("Stop: Earth only after the absence of voltage is verified, or the earthing set may meet a live conductor.", "bad");
+      S.earth = true; T.say("The AC terminals are earthed and short-circuited, in case the campus grid comes back through Q3."); }
+    else if (id === "cover") { if (S.cover) { if (!S.fan) return T.say("The cover stays on while the work goes on.", "bad"); S.cover = false; return paint(T.say("The cover is removed.")); }
+      if (!S.earth) return T.say("Follow the order of the rules: Earth and short-circuit first, then cover.", "bad");
+      S.cover = true; T.say("An insulating cover shields the battery side of S1, which stays live at 760 V."); }
+    else if (id === "fan") {
+      if (S.fan) return T.say("The new fan is in.");
+      const miss = [!allOpen() && "disconnect all three supplies", !allLocked() && "lock all three switches", !S.verified && "verify the absence of voltage with a tested tester",
+        !S.earth && "earth and short-circuit", !S.cover && "cover the live parts nearby"].filter(Boolean);
+      if (miss.length) return T.say("Stop: The place of work is not safe yet. Still to do: " + miss.join(", ") + ".", "bad");
+      S.fan = true; T.say("The old fan is out and the new one in. Now lift the rules in the reverse order.", "ok"); T.goal("fan"); }
+    if (allOpen() && allLocked() && S.verified && S.earth && S.cover) T.goal("dead");
+    paint();
+  }
+  function paint() {
+    ["q3", "s1", "f10"].forEach(k => { pr.btns[k].textContent = (S.open[k] ? "Close " : "Open ") + k.toUpperCase(); pr.btns["l" + k].textContent = (S.lock[k] ? "Unlock " : "Lock ") + k.toUpperCase(); });
+    pr.btns.earth.textContent = S.earth ? "Remove the earthing set" : "Earth and short-circuit the AC terminals";
+    pr.btns.cover.textContent = S.cover ? "Remove the cover" : "Cover the battery side of S1";
+    tab.rows([...["q3", "s1", "f10"].map(k => [SW[k], (S.open[k] ? "open" : "closed") + (S.lock[k] ? ", locked and tagged" : "")]),
+      ["DC link", S.open.s1 ? `${vdc().toFixed(0)} V` : "760 V"], ["Tester tested", `${S.proven} times`], ["Absence of voltage", S.verified ? "verified" : "not verified"],
+      ["Earthing set", S.earth ? "on" : "off"], ["Cover", S.cover ? "on" : "off"], ["Fan", S.fan ? "new" : "failed"]]);
+  }
+  V.show(["", ""]); paint();
+  window.FIELD_TEST = window.FIELD_TEST || {};
+  window.FIELD_TEST.w14 = () => {
+    ["fan", "q3", "s1", "lq3", "ls1", "prove", "mac", "mdc", "mfan", "f10", "lf10", "wait", "mdc", "mfan", "earth", "prove", "earth", "cover", "fan",
+     "q3", "lq3", "cover", "earth", "lq3", "ls1", "lf10", "f10", "s1", "q3"].forEach(act);
+    return {S: JSON.parse(JSON.stringify(S)), complete: T.complete()};
+  };
 })();
 
 initLab(14,"Dependability, Safety and Verification",[{"q": "A line of code with a wrong comparison runs and sets a wrong mode, and the island does not form. Which term describes the wrong mode?", "options": ["An error", "A fault", "A failure", "A hazard"], "answer": 0, "why": "The code is the fault, the wrong mode is the error, and the missing island is the failure."}, {"q": "What does a model checker return when a safety rule fails?", "options": ["A counterexample, a path from the start to an unsafe state", "A probability of failure", "A list of all test cases", "A corrected program"], "answer": 0, "why": "The counterexample shows how the unsafe state can be reached."}, {"q": "Why can a model checker prove a safety rule that tests can only support?", "options": ["It checks every reachable state of the model", "It runs faster than tests", "It uses the real controller", "It needs no model"], "answer": 0, "why": "Tests cover chosen scenarios; the model checker covers all states of its model."}, {"q": "A part has a failure rate of 0.2 per year. What is its reliability after one year?", "options": ["0.819", "0.8", "0.2", "0.181"], "answer": 0, "why": "$e^{-0.2} = 0.819$."}, {"q": "Two parts with a reliability of 0.9 each work in parallel. What is the reliability of the pair?", "options": ["0.99", "0.81", "0.9", "0.95"], "answer": 0, "why": "$1 - 0.1^2 = 0.99$."}, {"q": "A part fails on average every 1000 h, and its repair takes 10 h. What is its availability?", "options": ["0.990", "0.999", "0.900", "0.010"], "answer": 0, "why": "$1000/(1000 + 10) = 0.990$."}, {"q": "A controller has hidden faults at 0.2 per year and a proof test every 6 months. What is its mean unavailability?", "options": ["0.05", "0.1", "0.2", "0.025"], "answer": 0, "why": "$q = \\lambda\\tau/2 = 0.2 \\times 0.5/2 = 0.05$."}, {"q": "Why does a second controller help less than the square of the unavailability of one suggests?", "options": ["Common causes can stop both at once", "The second controller is slower", "Proof tests cost money", "The breaker fails more often"], "answer": 0, "why": "The beta factor gives a share of the failures to causes that hit both controllers."}, {"q": "Three independent basic events of an OR gate have the probabilities 0.1, 0.05 and 0.02. What is the probability of the top event?", "options": ["0.1621", "0.17", "0.0001", "0.1"], "answer": 0, "why": "$1 - 0.9 \\times 0.95 \\times 0.98 = 1 - 0.8379 = 0.1621$."}, {"q": "What does the runtime monitor of the battery do when the schedule asks for too much discharge?", "options": ["It allows only the discharge that keeps the reserve", "It stops the battery for the day", "It changes the prices", "It asks the optimiser for a new plan and waits"], "answer": 0, "why": "It clips the command to $(e_{t-1} - e_{res})\\eta$ and lets everything else pass."}],["Which safety rule of a system that you use every day would you like to see checked in every state?", "How would you explain the difference between a proof for a model and a proof for the real system?", "Which design of the island supply would you choose, and how would you justify its cost?", "Where in your own work could a simple monitor guard a complex program?", "Looking back over the fourteen weeks, which method of the course will you use first, and for what?"]);

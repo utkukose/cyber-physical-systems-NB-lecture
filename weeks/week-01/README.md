@@ -19,7 +19,7 @@ Each material has its own role. Start with the lecture page; the study path belo
 |---|---|---|
 | Lecture page | The concepts of the week, with a 3D scene, an animation, discussion questions, knowledge checks, the development templates, review cards and the references | [Lecture page](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-01/lecture.html) |
 | Colab notebook | Python step 1: Values, variables, lists and decisions, then five hands-on sections that compute the balance of a day with a battery rule, evaluate the models of the sun and the wind, run the loop of the battery for several gains and compute stage 1 of the campus microgrid, with exercises | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-01/NB01_cps_foundations.ipynb) |
-| Interactive lab | Foundations lab: Four parts, among them two 3D virtual laboratories (the campus on the model table and the battery controller on the bench), step-by-step calculators, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-01/lab.html) |
+| Interactive lab | Foundations lab: Five parts, among them two 3D virtual laboratories (the campus on the model table and the battery controller on the bench), a field task with the controller of the battery on site, step-by-step calculators, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-01/lab.html) |
 | PDF lecture notes | The Python step and the lecture in one printable file | [PDF notes](Week01_Lecture_Notes.pdf) |
 
 <table><tr><td width="50%"><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-01/NB01_cps_foundations.ipynb"><img src="screenshots/nb_1.png" alt="A figure from the Colab notebook of week 1"></a><br><sub>From the Colab notebook</sub></td><td width="50%"><a href="https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-01/lab.html"><img src="screenshots/lab.png" alt="Interactive lab of week 1"></a><br><sub>The interactive lab</sub></td></tr></table>
@@ -37,8 +37,9 @@ By the end of the week, students are expected to explain what makes a system cyb
 | 3 | Work through the two virtual laboratories of the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-01/lab.html), Parts A and C, and solve Parts B and D | 1 hour 30 minutes |
 | 4 | Work through Sections 1 to 4 of the Colab notebook with your own results and solve the exercises | 2 hours |
 | 5 | Run one development template of the week and use the application switch of Section 5 | 45 minutes |
-| 6 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-01/lab.html) (tab: Check yourself) | 20 minutes |
-| 7 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
+| 6 | Do the field task of Part E in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-01/lab.html): Check the sign of the meter and close the loop on site | 30 minutes |
+| 7 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-01/lab.html) (tab: Check yourself) | 20 minutes |
+| 8 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
 
 ## Live session plan
 
@@ -53,7 +54,7 @@ The week runs as one synchronous session of about three hours in class or online
 | 1:35 to 1:45 | Break |
 | 1:45 to 2:05 | Lecture page, part 3: The models of the sun and the wind with Part B and Section 2 |
 | 2:05 to 2:35 | Lecture page, part 4: Closing the loop with the animation, the battery controller of Part C and Section 3 |
-| 2:35 to 3:00 | The development templates and the engineering side, the campus microgrid, stage 1 with Part D and Section 4, and the closing section on learning machines. After the session: Section 5, the self-assessment, the PDF notes and the weekly task |
+| 2:35 to 3:00 | The development templates and the engineering side, the campus microgrid, stage 1 with Part D and Section 4, and the closing section on learning machines. After the session: Section 5, the field task of Part E, the self-assessment, the PDF notes and the weekly task |
 
 ## Weekly task and submission
 

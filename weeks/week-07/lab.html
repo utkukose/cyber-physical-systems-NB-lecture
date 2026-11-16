@@ -208,7 +208,7 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 .wk.soon{border-top-color:var(--line);opacity:.8}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.lec-tools,.tabs,nav,.btn{display:none}}
-</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 7 of 14</p><h1>Embedded Computing and Real-Time Scheduling: RM, EDF and the PLC Scan Cycle</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-07">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb">Colab notebook</a><a href="Week07_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Real-time lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A records the schedule of the controller of the battery container on a bench with a logic analyzer. Part C opens the cabinet of the programmable logic controller (PLC) of the main switchboard. Part B computes the formulas of the lecture step by step, and Part D asks for the values of stage 7 by hand. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its room. Start moves the view to the bench or the cabinet, and the view returns to the room at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The controller bench</h3><p>The controller bench holds the embedded controller of the battery container with its real-time operating system. Each task sets one output pin while it runs, and a logic analyzer records the four pins. The screen shows 200 ms, two hyperperiods, with the releases as grey marks and every missed deadline as a red cross.</p>
+</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 7 of 14</p><h1>Embedded Computing and Real-Time Scheduling: RM, EDF and the PLC Scan Cycle</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-07">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb">Colab notebook</a><a href="Week07_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Real-time lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part A records the schedule of the controller of the battery container on a bench with a logic analyzer. Part C opens the cabinet of the programmable logic controller (PLC) of the main switchboard. Part B computes the formulas of the lecture step by step, and Part D asks for the values of stage 7 by hand. Part E is a field task with the PLC and its programming software, as on site. In the calculator every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts A and C can be copied into the Colab notebook. Each laboratory first shows its room. Start moves the view to the bench or the cabinet, and the view returns to the room at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The controller bench</h3><p>The controller bench holds the embedded controller of the battery container with its real-time operating system. Each task sets one output pin while it runs, and a logic analyzer records the four pins. The screen shows 200 ms, two hyperperiods, with the releases as grey marks and every missed deadline as a red cross.</p>
 <p>Choose the scheduler, the execution time of the battery management task and the Modbus task below the view and press Run. Your missions: First, run three tasks and four tasks under rate-monotonic (RM) scheduling with 5 ms for battery management. Second, find the execution time at which RM misses a deadline while the utilization stays below 1, and run the same case under earliest deadline first (EDF). Third, overload the processor and run it under both schedulers to compare which tasks miss their deadlines.</p>
 <div class="three" id="cb-3d"></div>
 <div class="row" style="align-items:flex-end;gap:12px;margin:8px 0">
@@ -234,7 +234,9 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <p class="small" id="pc-sum" aria-live="polite"></p>
 <p><button class="btn" id="pc-copy" type="button">Copy the results for Colab</button> <span class="small" id="pc-msg" aria-live="polite"></span></p>
 <textarea id="pc-csv" rows="5" readonly aria-label="Runs of the PLC of the main switchboard as comma-separated values" hidden></textarea>
-<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: The PLC scan cycle</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your runs into MY_PLC and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 7 of the microgrid</h3><p>A faster driver lets the Modbus task finish in 6 ms instead of 9 ms, with 5 ms for battery management. Compute the utilization of the four tasks to two decimals. Then compute the response time of the Modbus task under RM in ms. Finally, compute the worst reaction of a PLC with a scan time of 12 ms, an input filter of 3 ms and a relay of 6 ms.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 7: Real-time tasks of the microgrid controller</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 7 of the campus microgrid.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: The PLC scan cycle</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your runs into MY_PLC and compare them with the model.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 7 of the microgrid</h3><p>A faster driver lets the Modbus task finish in 6 ms instead of 9 ms, with 5 ms for battery management. Compute the utilization of the four tasks to two decimals. Then compute the response time of the Modbus task under RM in ms. Finally, compute the worst reaction of a PLC with a scan time of 12 ms, an input filter of 3 ms and a relay of 6 ms.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 7: Real-time tasks of the microgrid controller</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 7 of the campus microgrid.</p></section><section class="labpart" id="pe"><h3>Part E: Field task: A program change on the PLC</h3><p>The PLC of Part C switches the car park feeder with the program Q0 := I0. The operator of the campus asks for a change, and the engineer brings a laptop with the programming software. Its editor holds the new program with three gaps to fill. The CPU module of the PLC has a key for each of its two modes, run and stop. The online monitor of the laptop shows the variables of the running program.</p>
+<div id="pe-task"></div>
+<p class="backpart"><a href="lecture.html#lab-pe">Back to the lecture: In the field: Changing the program of the PLC</a>, where the text continues after the box of this part.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
 /* Shared runtime of the lecture pages and interactive labs. */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -1862,6 +1864,368 @@ window.RT = RT;
     H.set(0, "The PLC cabinet"); H.set(1, "Three missions"); H.say("Scan time 20 ms: the longest of 20 reactions stays below the worst case of 49 ms"); };
   window.PLC_TEST = {start, run, speed(f) { speed = f; }, set(k) { S.k = k; kS.setValue(k); redraw(); },
     state: () => ({game, running, rows: data.rows.length, last: data.rows[data.rows.length - 1] || null, done: done(), stopped: S.stopped})};
+})();
+
+/* Field tasks: the front panels of real devices with their menus, and work procedures with ordered steps.
+   FIELD.task builds the frame of Part E with its goals and messages, FIELD.device a front panel with a display, lamps
+   and keys, FIELD.menu the menu of a device with lists, numbers edited digit by digit, values and actions, and
+   FIELD.procedure a group of physical actions. */
+const FIELD = (function () {
+  const CSS = `
+.ftask{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:var(--panel)}
+.ftask .fgoals{list-style:none;padding:0;margin:4px 0 10px}
+.ftask .fgoals li{margin:3px 0;padding-left:26px;position:relative}
+.ftask .fgoals li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;border:2px solid #8D99A6}
+.ftask .fgoals li.ok::before{background:#2E8B57;border-color:#2E8B57}
+.ftask .fgoals li.ok::after{content:"";position:absolute;left:5px;top:6px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.ftask .fstage{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:8px 0}
+.ftask .fside{flex:1 1 260px;min-width:240px}
+.ftask .flog{min-height:3.2em;margin:8px 0 4px;padding:8px 10px;border-radius:8px;background:rgba(127,140,155,.12);font-size:.95em}
+.ftask .flog p{margin:2px 0}
+.ftask .flog .bad{color:#B23B3B}.ftask .flog .ok{color:#2E7D4F}
+.ftask .fdone{font-weight:600;color:#2E7D4F}
+.fdev{display:inline-block;max-width:100%;background:linear-gradient(#4E5761,#2C3238);border-radius:12px;padding:10px 12px 12px;
+  color:#E8EDF2;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 8px rgba(0,0,0,.25);outline:none}
+.fdev:focus-visible{box-shadow:0 0 0 3px #F2B33D}
+.fdev .fhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.fdev .fmodel{font-weight:700;font-size:13px;letter-spacing:.02em}
+.fdev .ftag{font-size:11px;color:#AFBBC7}
+.fdev pre.flcd{margin:8px 0;padding:6px 8px;border-radius:5px;border:2px solid #1A1E22;white-space:pre;overflow:hidden;
+  font:600 13px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;box-shadow:inset 0 0 7px rgba(0,0,0,.35)}
+.fdev pre.flcd.green{background:#A9BD93;color:#1B2430}.fdev pre.flcd.blue{background:#16324F;color:#DDEBFA}
+.fdev pre.flcd.white{background:#E9EEF2;color:#1B2430}
+.fdev pre.flcd .inv{background:currentColor}.fdev pre.flcd.green .inv{color:#1B2430}.fdev pre.flcd .inv b{color:#A9BD93;font-weight:600}
+.fdev pre.flcd.blue .inv b{color:#16324F}.fdev pre.flcd.white .inv b{color:#E9EEF2}
+.fdev .fleds{display:flex;flex-wrap:wrap;gap:4px 12px;margin:2px 0 8px}
+.fdev .fled{display:flex;align-items:center;gap:5px;font-size:11px;color:#C9D1D8}
+.fdev .fled i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#3A4047;box-shadow:inset 0 0 2px rgba(0,0,0,.7)}
+.fdev .fled.on i{background:var(--lc);box-shadow:0 0 7px var(--lc)}
+.fdev .fled.blink i{animation:fblink 0.8s steps(2,start) infinite}
+@keyframes fblink{to{visibility:hidden}}
+.fdev .fkeys{display:grid;grid-template-columns:repeat(4,46px);gap:6px}
+.fdev .fkey{height:34px;border-radius:7px;border:1px solid #1A1E22;background:linear-gradient(#66707B,#3E454D);color:#fff;
+  font:600 13px system-ui,sans-serif;cursor:pointer;padding:0}
+.fdev .fkey:active{transform:translateY(1px)}.fdev .fkey:disabled{opacity:.45;cursor:default}
+.fdev .fkey.wide{grid-column:span 2}
+.fdev .fextra{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fdev .fextra .fkey{padding:0 10px;width:auto}
+.fproc{display:flex;flex-direction:column;gap:10px}
+.fproc .fgrp{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fproc .fgrp h4{margin:0 0 6px;font-size:.95em}
+.fproc .fgrp .row{display:flex;flex-wrap:wrap;gap:6px}
+.fproc .btn{font-size:.9em}
+.fstate{border-collapse:collapse;font-size:.92em;margin:6px 0}
+.fstate td,.fstate th{border:1px solid var(--line);padding:3px 8px;text-align:left}
+.fdoc{border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:.92em;background:rgba(255,255,255,.04)}
+`;
+  let styled = false;
+  function style() { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = CSS; document.head.append(s); }
+
+  /* The frame of a field task: goals, a stage for the devices and the messages. */
+  function task(rootId, o) {
+    style();
+    const root = document.getElementById(rootId); if (!root) return null;
+    const saved = store.get(o.key, {});
+    const state = {done: saved.done || {}, complete: !!saved.complete};
+    const box = h("div", {class: "ftask"});
+    const goals = h("ul", {class: "fgoals"});
+    const items = {};
+    o.goals.forEach(g => { const li = h("li", {}, g.t); items[g.id] = li; goals.append(li); });
+    const stage = h("div", {class: "fstage"});
+    const log = h("div", {class: "flog", "aria-live": "polite"});
+    const status = h("p", {class: "small"});
+    const reset = h("button", {class: "btn ghost", type: "button"}, "Start the task again");
+    box.append(h("p", {class: "small"}, "Goals of the task"), goals, stage, log, status, h("p", {}, reset));
+    root.append(box);
+    const lines = [];
+    const api = {
+      stage, box,
+      say(text, kind) { lines.unshift({text, kind: kind || ""}); lines.length = Math.min(lines.length, 4);
+        log.textContent = ""; lines.forEach((l, i) => log.append(h("p", {class: l.kind, style: i ? "opacity:.65" : ""}, l.text))); },
+      goal(id) { if (state.done[id]) return; state.done[id] = true; paint(); save();
+        const g = o.goals.find(x => x.id === id); if (g) api.say("Done: " + g.t, "ok");
+        if (o.goals.every(x => state.done[x.id]) && !state.complete) { state.complete = true; save(); paint();
+          if (window.labLog) labLog.note("Part E", o.summary ? o.summary() : "Field task complete"); } },
+      has(id) { return !!state.done[id]; },
+      complete() { return state.complete; }
+    };
+    function paint() {
+      o.goals.forEach(g => items[g.id].className = state.done[g.id] ? "ok" : "");
+      const n = o.goals.filter(g => state.done[g.id]).length;
+      status.textContent = state.complete ? "" : `Goals reached: ${n} of ${o.goals.length}.`;
+      status.className = "small"; if (state.complete) { status.textContent = "Field task complete. " + (o.closing || ""); status.className = "small fdone"; }
+    }
+    function save() { store.set(o.key, {done: state.done, complete: state.complete}); }
+    reset.addEventListener("click", () => { state.done = {}; state.complete = false; save(); paint(); lines.length = 0; log.textContent = "";
+      if (o.onReset) o.onReset(); api.say(o.hello || "The task starts again."); });
+    paint();
+    if (o.hello) api.say(o.hello);
+    return api;
+  }
+
+  /* The front panel of a device: a display with rows of fixed width, lamps and keys. */
+  function device(parent, o) {
+    style();
+    const rows = o.rows || 4, cols = o.cols || 20;
+    const el = h("div", {class: "fdev", tabindex: "0", role: "group", "aria-label": o.model + (o.tag ? ", " + o.tag : "")});
+    const lcd = h("pre", {class: "flcd " + (o.lcd || "green"), "aria-live": "polite", "aria-label": "Display of the " + o.model});
+    const leds = {}, ledBox = h("div", {class: "fleds"});
+    (o.leds || []).forEach(([name, color]) => { const d = h("span", {class: "fled", style: `--lc:${color}`}, h("i", {}), name); leds[name] = d; ledBox.append(d); });
+    const keyBox = h("div", {class: "fkeys"}), handlers = [];
+    const KEYS = o.keys || ["", "▲", "", "ESC", "◀", "OK", "▶", "", "", "▼", "", ""];
+    const btns = {};
+    KEYS.forEach(k => { if (!k) { keyBox.append(h("span", {})); return; }
+      const name = {"▲": "Up", "▼": "Down", "◀": "Left", "▶": "Right"}[k] || k;
+      const b = h("button", {class: "fkey", type: "button", "aria-label": name}, k); btns[k] = b;
+      b.addEventListener("click", () => { handlers.forEach(f => f(k)); el.focus({preventScroll: true}); }); keyBox.append(b); });
+    const extra = h("div", {class: "fextra"});
+    (o.extra || []).forEach(([label, fn]) => { const b = h("button", {class: "fkey", type: "button"}, label); b.addEventListener("click", fn); btns[label] = b; extra.append(b); });
+    el.append(h("div", {class: "fhead"}, h("span", {class: "fmodel"}, o.model), h("span", {class: "ftag"}, o.tag || "")), lcd);
+    if (o.leds && o.leds.length) el.append(ledBox);
+    if (KEYS.some(k => k)) el.append(keyBox);
+    if (o.extra && o.extra.length) el.append(extra);
+    el.addEventListener("keydown", e => { const k = {ArrowUp: "▲", ArrowDown: "▼", ArrowLeft: "◀", ArrowRight: "▶", Enter: "OK", Escape: "ESC"}[e.key];
+      if (k && btns[k]) { e.preventDefault(); handlers.forEach(f => f(k)); } });
+    parent.append(el);
+    return {
+      el, rows, cols, btns,
+      show(lines) { lcd.textContent = ""; for (let r = 0; r < rows; r++) { const ln = lines[r] == null ? "" : lines[r];
+        if (typeof ln === "string") lcd.append(pad(ln, cols)); else { let used = 0; ln.forEach(seg => { const t = seg.t.slice(0, cols - used); used += t.length;
+          lcd.append(seg.inv ? h("span", {class: "inv"}, h("b", {}, t)) : t); }); lcd.append(" ".repeat(Math.max(0, cols - used))); }
+        if (r < rows - 1) lcd.append("\n"); } },
+      led(name, on, blink) { const d = leds[name]; if (!d) return; d.classList.toggle("on", !!on); d.classList.toggle("blink", !!blink && !!on); },
+      onKey(f) { handlers.push(f); },
+      press(k) { handlers.forEach(f => f(k)); },
+      enable(on) { Object.values(btns).forEach(b => { b.disabled = !on; }); }
+    };
+  }
+  const pad = (s, n) => (s.length > n ? s.slice(0, n) : s + " ".repeat(n - s.length));
+  const line = (label, value, cols) => { value = value == null ? "" : String(value); const room = cols - value.length - 1;
+    return pad(label.slice(0, Math.max(0, room)), Math.max(0, room)) + " " + value; };
+
+  /* The menu of a device. Nodes: {t, kids} a submenu, {t, key, list} a choice, {t, key, num: {min, max, dec, unit}} a
+     number edited digit by digit, {t, show} a value, {t, act, confirm} an action. */
+  function menu(dev, tree, o) {
+    const P = o.params, C = dev.cols, R = dev.rows;
+    let stack = [{node: {t: o.title || "MAIN MENU", kids: tree}, i: 0}], edit = null, confirm = null, flash = null;
+    const top = () => stack[stack.length - 1];
+    const fmtNum = (n, v) => { const d = n.num.dec || 0; return (+v).toFixed(d); };
+    const unit = n => (n.num && n.num.unit) || n.unit || "";
+    const valueOf = n => n.show ? n.show() : n.key == null ? (n.kids ? ">" : "") : n.num ? fmtNum(n, P[n.key]) + (unit(n) ? " " + unit(n) : "") : String(P[n.key]);
+    function render() {
+      if (confirm) { dev.show([pad(confirm.node.t.toUpperCase(), C), "", pad(confirm.text || "Execute now?", C), pad("OK = yes   ESC = no", C)]); return; }
+      if (edit) {
+        const n = edit.node, L = [pad(n.t.toUpperCase(), C), ""];
+        if (n.list) L.push(pad(`< ${n.list[edit.k]} >`, C));
+        else { const s = edit.str, segs = []; for (let i = 0; i < s.length; i++) segs.push({t: s[i], inv: i === edit.pos});
+          segs.push({t: unit(n) ? " " + unit(n) : ""}); L.push(segs); }
+        L.push(pad(n.list ? "▲▼ choose  OK save" : "◀▶ digit ▲▼ change", C));
+        while (L.length < R) L.push("");
+        dev.show(L.slice(0, R)); return; }
+      const t = top(), kids = t.node.kids, first = Math.max(0, Math.min(t.i - (R - 2), kids.length - (R - 1)));
+      const L = [pad((flash || t.node.t).toUpperCase(), C)];
+      for (let r = 0; r < R - 1; r++) { const k = first + r, n = kids[k]; if (!n) { L.push(""); continue; }
+        const mark = k === t.i ? ">" : " ", v = valueOf(n); L.push(mark + line(n.t, v, C - 1)); }
+      dev.show(L); flash = null;
+    }
+    function startEdit(n) {
+      if (n.list) { edit = {node: n, k: Math.max(0, n.list.indexOf(P[n.key]))}; return; }
+      const d = n.num.dec || 0, w = Math.max(fmtNum(n, n.num.max).length, fmtNum(n, P[n.key]).length);
+      let s = fmtNum(n, P[n.key]); while (s.length < w) s = "0" + s;
+      edit = {node: n, str: s, pos: s.length - 1 - (d ? 0 : 0)};
+      if (s[edit.pos] === ".") edit.pos--;
+    }
+    function bump(dir) {
+      const n = edit.node;
+      if (n.list) { edit.k = (edit.k + dir + n.list.length) % n.list.length; return; }
+      const a = edit.str.split(""); let i = edit.pos;
+      let dgt = (+a[i] + dir + 10) % 10; a[i] = String(dgt); edit.str = a.join("");
+    }
+    function move(dir) { if (!edit || edit.node.list) return; let p = edit.pos + dir; if (edit.str[p] === ".") p += dir;
+      if (p >= 0 && p < edit.str.length) edit.pos = p; }
+    function save() {
+      const n = edit.node; let v;
+      if (n.list) v = n.list[edit.k];
+      else { v = parseFloat(edit.str); if (!(v >= n.num.min - 1e-9 && v <= n.num.max + 1e-9)) { const lim = `${fmtNum(n, n.num.min)} to ${fmtNum(n, n.num.max)}`;
+        flash = "OUT OF RANGE"; if (o.onError) o.onError(n, v, lim); edit = null; return; } }
+      const old = P[n.key]; P[n.key] = v; edit = null; flash = "SAVED";
+      if (o.onSet) o.onSet(n.key, v, old, n);
+    }
+    dev.onKey(k => {
+      if (o.locked && o.locked()) { if (o.onLocked) o.onLocked(); return; }
+      if (confirm) { if (k === "OK") { const n = confirm.node; confirm = null; const msg = n.act(); if (msg) flash = msg; } else if (k === "ESC") confirm = null; render(); return; }
+      if (edit) { if (k === "▲") bump(1); else if (k === "▼") bump(-1); else if (k === "◀") move(-1); else if (k === "▶") move(1);
+        else if (k === "OK") save(); else if (k === "ESC") edit = null; render(); return; }
+      const t = top(), kids = t.node.kids;
+      if (k === "▲") t.i = (t.i - 1 + kids.length) % kids.length;
+      else if (k === "▼") t.i = (t.i + 1) % kids.length;
+      else if (k === "ESC" || k === "◀") { if (stack.length > 1) stack.pop(); }
+      else if (k === "OK" || k === "▶") { const n = kids[t.i];
+        if (n.kids) stack.push({node: n, i: 0});
+        else if (n.act && k === "OK") { if (n.confirm) confirm = {node: n, text: n.confirm}; else { const msg = n.act(); if (msg) flash = msg; } }
+        else if ((n.list || n.num) && k === "OK") { if (n.readonly && n.readonly()) flash = "LOCKED"; else startEdit(n); } }
+      render();
+    });
+    render();
+    return {render, params: P, home() { stack = [stack[0]]; stack[0].i = 0; edit = null; confirm = null; render(); },
+      path() { return stack.map(s => s.node.t); }, editing() { return !!edit; }};
+  }
+
+  /* A group of physical actions, such as switching a breaker or applying a padlock. */
+  function procedure(parent, groups, onAct) {
+    style();
+    const box = h("div", {class: "fproc"}), btns = {};
+    groups.forEach(g => { const grp = h("div", {class: "fgrp"}, h("h4", {}, g.t)), row = h("div", {class: "row"});
+      g.actions.forEach(([id, label]) => { const b = h("button", {class: "btn ghost", type: "button"}, label); btns[id] = b;
+        b.addEventListener("click", () => onAct(id)); row.append(b); }); grp.append(row); box.append(grp); });
+    parent.append(box);
+    return {box, btns, act: onAct};
+  }
+
+  /* A number that the student computes and enters, with a check button. */
+  let nEntry = 0;
+  function entry(parent, label, unit, onCheck) {
+    style();
+    const id = "fe" + (++nEntry), inp = h("input", {type: "number", step: "any", id, style: "width:7.5rem"});
+    const b = h("button", {class: "btn", type: "button"}, "Check");
+    b.addEventListener("click", () => onCheck(parseFloat(inp.value)));
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") onCheck(parseFloat(inp.value)); });
+    parent.append(h("div", {class: "ctl", style: "margin:8px 0"}, h("label", {for: id}, label),
+      h("div", {style: "display:flex;gap:8px;align-items:center;flex-wrap:wrap"}, inp, h("span", {}, unit), b)));
+    return {input: inp, button: b, set(v) { inp.value = v; }, check() { onCheck(parseFloat(inp.value)); }};
+  }
+  /* A small table of states. */
+  function table(parent, head) { const t = h("table", {class: "fstate"}); parent.append(h("div", {style: "overflow-x:auto;max-width:100%"}, t));
+    return {el: t, rows(rows) { t.textContent = ""; t.append(h("tr", {}, head.map(c => h("th", {}, c))));
+      rows.forEach(r => t.append(h("tr", {}, r.map(c => h("td", {}, String(c)))))); }}; }
+
+  /* Self-test helpers of the weeks: walk a menu along labels, and type a number in edit mode. */
+  function selected(dev) { const sel = dev.el.querySelector("pre").textContent.split("\n").find(l => l.startsWith(">"));
+    return sel ? sel.slice(1).trim() : ""; }
+  function go(dev, m, labels) {
+    m.home();
+    labels.forEach(lbl => { let guard = 0; while (guard++ < 40 && !selected(dev).startsWith(lbl.slice(0, 12))) dev.press("▼"); dev.press("OK"); });
+  }
+  function typeNumber(dev, value, dec) {
+    const pre = dev.el.querySelector("pre"), shown = () => pre.textContent.split("\n")[2].trim().split(" ")[0];
+    let s = (+value).toFixed(dec || 0); while (s.length < shown().length) s = "0" + s;
+    for (let i = 0; i < 12; i++) dev.press("◀");
+    for (let i = 0; i < s.length; i++) { if (s[i] === ".") continue;
+      for (let j = 0; j < 10 && (pre.querySelector(".inv") || {}).textContent !== s[i]; j++) dev.press("▲");
+      dev.press("▶"); }
+    dev.press("OK");
+  }
+  return {task, device, menu, procedure, entry, table, line, pad, go, typeNumber};
+})();
+window.FIELD = FIELD;
+
+/* Part E, field task: A change of the program of the PLC of the main switchboard. The car park feeder (output Q0,
+   contactor Q2) shall close only 10 s after the grid returns (input I0, auxiliary contact of Q1). In structured text:
+   TON_1(IN := I0, PT := T#10S); Q0 := TON_1.Q. The download needs STOP, which switches the outputs off. A force of I0
+   then tests the change: FALSE opens Q0 in the next scan, TRUE closes it after 10 s. The forces are removed at the end. */
+(function () {
+  const T = FIELD.task("pe-task", {key: "w7:field",
+    hello: "6:00, maintenance window: No car charges. The PLC runs the old program Q0 := I0.",
+    goals: [{id: "code", t: "Complete the program of the work order in the editor and compile it without errors."},
+            {id: "load", t: "Switch the PLC to STOP, download the program and switch it back to RUN."},
+            {id: "test", t: "Test with a force of I0: FALSE opens the feeder at once, and TRUE closes it after 10 s."},
+            {id: "unforce", t: "Remove the force at the end: The FORCE lamp goes off."}],
+    summary: () => `PLC program changed to ${loaded === "new" ? "TON_1(IN := " + C.b1 + ", PT := " + C.b2 + "); Q0 := " + C.b3 : "the old program"}; test ${T.has("test") ? "passed" : "not passed"}`,
+    closing: "The new program runs, tested with a force that has been removed again.",
+    onReset: () => { Object.assign(C, CDEF()); Object.assign(S, SDEF()); compiled = null; loaded = "old"; sels.forEach((s, i) => { s.value = [C.b1, C.b2, C.b3][i]; }); show(); }});
+  if (!T) return;
+  const CDEF = () => ({b1: "NOT I0", b2: "T#10MS", b3: "I0"});
+  const SDEF = () => ({run: true, force: null, et: 0, q: true, q0: true, t: 0, tFalse: null, dropAt: null, tTrue: null, closeAt: null});
+  const C = CDEF(), S = SDEF();
+  let compiled = null, loaded = "old";
+  const PT = {"T#10S": 10, "T#10MS": 0.01, "T#10M": 600};
+  const left = h("div", {}), side = h("div", {class: "fside"});
+  T.stage.append(left, side);
+  const D = FIELD.device(left, {model: "PLC, CPU module", tag: "Main switchboard", lcd: "green", rows: 3, cols: 20, keys: [],
+    leds: [["RUN", "#3DDC84"], ["STOP", "#F2B33D"], ["FORCE", "#F2B33D"], ["ERROR", "#FF4D4D"]],
+    extra: [["RUN", () => mode(true)], ["STOP", () => mode(false)]]});
+  /* the editor of the laptop */
+  const code = h("pre", {class: "fdoc", style: "white-space:pre-wrap;font:13px/1.5 ui-monospace,Consolas,monospace;margin:0 0 6px"});
+  const opt = (id, list, val) => { const s = h("select", {"aria-label": id}); list.forEach(o => s.append(h("option", {value: o}, o))); s.value = val;
+    s.addEventListener("change", () => { C[id] = s.value; compiled = null; }); return s; };
+  const sels = [opt("b1", ["NOT I0", "I0", "Q0"], C.b1), opt("b2", ["T#10MS", "T#10S", "T#10M"], C.b2), opt("b3", ["I0", "TON_1.Q", "TON_1.ET"], C.b3)];
+  code.append("VAR_GLOBAL\n  I0 AT %IX0.0 : BOOL;  (* auxiliary contact of Q1 *)\n  Q0 AT %QX0.0 : BOOL;  (* contactor Q2, car park *)\nEND_VAR\n",
+    "PROGRAM CARPARK\nVAR\n  TON_1 : TON;\nEND_VAR\nTON_1(IN := ", sels[0], ", PT := ", sels[1], ");\nQ0 := ", sels[2], ";\nEND_PROGRAM");
+  side.append(h("div", {class: "fdoc", style: "margin-bottom:6px"}, h("b", {}, "Work order"), h("br"),
+    "After an outage, the car park feeder closes 10 s after the grid returns. It opens at once when the grid is lost."), code);
+  FIELD.procedure(side, [{t: "Laptop with the programming software", actions: [["compile", "Compile"], ["download", "Download to the PLC"]]},
+    {t: "Online monitor", actions: [["f0", "Force I0 = FALSE"], ["f1", "Force I0 = TRUE"], ["unforce", "Remove the force"]]}], act);
+  const mon = FIELD.table(side, ["Variable", "Value"]);
+  function i0() { return S.force == null ? true : S.force; }
+  function scan(dt) {
+    S.t += dt;
+    if (!S.run) { S.q0 = false; S.et = 0; S.q = false; return; }
+    if (loaded === "old") { S.q0 = i0(); return; }
+    const inp = C.lb1 === "I0" ? i0() : C.lb1 === "NOT I0" ? !i0() : S.q0;
+    if (inp) { S.et = Math.min(PT[C.lb2], S.et + dt); S.q = S.et >= PT[C.lb2] - 1e-9; } else { S.et = 0; S.q = false; }
+    const before = S.q0;
+    S.q0 = C.lb3 === "TON_1.Q" ? S.q : i0();
+    if (before && !S.q0 && S.tFalse != null && S.dropAt == null) S.dropAt = S.t - S.tFalse;
+    if (!before && S.q0 && S.tTrue != null && S.closeAt == null) { S.closeAt = S.t - S.tTrue; judge(); }
+  }
+  function judge() {
+    const drop = S.dropAt, close = S.closeAt;
+    if (drop != null && drop <= 0.2 && Math.abs(close - 10) < 0.2) { T.say(`Q0 opened ${drop.toFixed(1)} s after FALSE and closed ${close.toFixed(1)} s after TRUE, as the work order asks.`, "ok"); T.goal("test"); }
+    else if (close != null) T.say(`Q0 closed ${close.toFixed(2)} s after TRUE${drop != null ? ` and opened ${drop.toFixed(1)} s after FALSE` : ""}. The work order asks for 10 s: Check the program.`, "bad");
+  }
+  function mode(run) {
+    if (S.run === run) return;
+    S.run = run; if (!run) { S.q0 = false; T.say("The PLC is in STOP. All outputs are off: Q2 opens, and the car park is without power until RUN."); }
+    else { S.et = 0; T.say(loaded === "new" ? "The PLC runs the new program. The grid is there, so the timer starts, and Q2 closes after its preset time." : "The PLC runs the old program again.");
+      if (loaded === "new") T.goal("load"); }
+    show();
+  }
+  function act(id) {
+    if (id === "compile") {
+      if (C.b3 === "TON_1.ET") { compiled = "error"; T.say("Compiler: Error in line 3: Type mismatch, TON_1.ET is of type TIME and Q0 of type BOOL.", "bad"); }
+      else { compiled = "ok"; T.say("Compiler: 0 errors, 0 warnings."); T.goal("code"); }
+    } else if (id === "download") {
+      if (compiled !== "ok") { T.say("Compile the program without errors before the download.", "bad"); return; }
+      if (S.run) { T.say("The PLC refuses a download in RUN: Switch it to STOP first.", "bad"); return; }
+      loaded = "new"; C.lb1 = C.b1; C.lb2 = C.b2; C.lb3 = C.b3; S.tFalse = S.dropAt = S.tTrue = S.closeAt = null; T.say("Download complete. The PLC holds the new program and waits in STOP.");
+    } else if (id === "f0" || id === "f1") {
+      if (!S.run) { T.say("The PLC is in STOP: Its program does not run, so a force tests nothing.", "bad"); return; }
+      if (id === "f0" && !S.q0 && S.force == null) { T.say("Q0 is still FALSE. Wait until the feeder has closed, so that the test shows it opening. If it never closes, check the program.", "bad"); return; }
+      S.force = id === "f1";
+      if (!S.force) { S.tFalse = S.t; S.dropAt = null; S.tTrue = S.closeAt = null; T.say("I0 is forced to FALSE, as if the grid breaker Q1 had opened."); }
+      else { if (S.tFalse == null) { T.say("Force I0 to FALSE first, then to TRUE, as in an outage and the return of the grid.", "bad"); S.force = null; return; }
+        S.tTrue = S.t; S.closeAt = null; T.say("I0 is forced to TRUE, as if the grid had returned. Watch TON_1.ET."); }
+    } else if (id === "unforce") {
+      if (S.force == null) { T.say("No force is active."); return; }
+      S.force = null; T.say("The force is removed. I0 shows the real breaker again.");
+      if (T.has("test")) T.goal("unforce");
+    }
+    show();
+  }
+  function show() {
+    D.led("RUN", S.run); D.led("STOP", !S.run); D.led("FORCE", S.force != null, true); D.led("ERROR", false);
+    D.show([FIELD.line(S.run ? "RUN" : "STOP", "CYCLE 3 ms", 20), FIELD.line("PROGRAM", loaded === "new" ? "V1.1" : "V1.0", 20),
+      FIELD.line("FORCE", S.force == null ? "none" : "I0 = " + (S.force ? "TRUE" : "FALSE"), 20)]);
+    const on = v => (v ? "TRUE" : "FALSE");
+    mon.rows([["I0", on(i0()) + (S.force != null ? " (forced)" : "")], ["TON_1.ET", loaded === "new" && S.run ? `T#${S.et.toFixed(1)}S` : "-"],
+      ["TON_1.Q", loaded === "new" && S.run ? on(S.q) : "-"], ["Q0, contactor Q2", on(S.q0) + (S.q0 ? ", car park on" : ", car park off")]]);
+  }
+  show();
+  let timer = setInterval(() => { scan(0.1); show(); }, 100);
+  document.addEventListener("visibilitychange", () => { clearInterval(timer); if (!document.hidden) timer = setInterval(() => { scan(0.1); show(); }, 100); });
+  window.FIELD_TEST = window.FIELD_TEST || {};
+  window.FIELD_TEST.w7 = () => {
+    clearInterval(timer);
+    sels[0].value = "I0"; sels[0].dispatchEvent(new Event("change")); sels[1].value = "T#10S"; sels[1].dispatchEvent(new Event("change"));
+    sels[2].value = "TON_1.ET"; sels[2].dispatchEvent(new Event("change")); act("compile"); const err = compiled;
+    sels[2].value = "TON_1.Q"; sels[2].dispatchEvent(new Event("change")); act("compile");
+    act("download"); const refused = loaded === "old";
+    D.btns.STOP.click(); act("download"); D.btns.RUN.click();
+    for (let k = 0; k < 110; k++) scan(0.1);
+    act("f0"); scan(0.1); scan(0.1); act("f1"); for (let k = 0; k < 105; k++) scan(0.1); act("unforce"); show();
+    timer = setInterval(() => { scan(0.1); show(); }, 100);
+    return {err, refused, drop: S.dropAt, close: S.closeAt, complete: T.complete()};
+  };
 })();
 
 initLab(7,"Embedded Computing and Real-Time Scheduling: RM, EDF and the PLC Scan Cycle",[{"q": "A task needs 2 ms every 8 ms. What is its utilization?", "options": ["0.25", "4", "0.5", "0.16"], "answer": 0, "why": "$C/T = 2/8 = 0.25$."}, {"q": "Which task gets the highest priority under RM?", "options": ["The one with the shortest period", "The one with the longest execution time", "The one released last", "The most important one for the user"], "answer": 0, "why": "Rate-monotonic priorities follow the rates, the inverse of the periods."}, {"q": "Four tasks have $U = 0.80$, above the bound of 0.757. What follows for RM?", "options": ["Nothing yet: An exact test such as the response-time analysis must decide", "A deadline is missed for sure", "EDF must be used", "The tasks are overloaded"], "answer": 0, "why": "The bound is sufficient, not necessary."}, {"q": "What does $\\lceil R_i/T_j \\rceil$ count in the response-time analysis?", "options": ["The jobs of the higher-priority task released during the response time", "The deadlines missed", "The idle milliseconds", "The jobs of task i"], "answer": 0, "why": "Each of these jobs preempts task i once."}, {"q": "When does EDF meet every deadline of periodic tasks with deadlines equal to their periods?", "options": ["If and only if U ≤ 1", "If U is below the bound of Liu and Layland", "Never in practice", "Only for harmonic periods"], "answer": 0, "why": "Liu and Layland proved this condition."}, {"q": "With 8 ms for battery management, the protection logic misses deadlines under EDF. Why not under RM?", "options": ["Under RM it keeps the highest priority whatever the other tasks do", "RM runs faster", "RM drops the battery management task", "RM ignores deadlines"], "answer": 0, "why": "Fixed priorities isolate the tasks of high priority from an overload below them."}, {"q": "What is the hyperperiod of tasks with periods of 4, 6 and 10 ms?", "options": ["60 ms", "240 ms", "20 ms", "10 ms"], "answer": 0, "why": "The least common multiple of 4, 6 and 10 is 60."}, {"q": "A PLC has a scan time of 10 ms, an input filter of 2 ms and a relay of 8 ms. What is its worst reaction?", "options": ["30 ms", "20 ms", "10 ms", "40 ms"], "answer": 0, "why": "$2 \\times 10 + 2 + 8 = 30$ ms."}, {"q": "Why do 20 random trips rarely show the worst reaction of a PLC?", "options": ["The worst case needs a trip just after a read, which is rare", "The PLC hides the worst case", "The relay is faster under load", "The watchdog removes long reactions"], "answer": 0, "why": "The reaction depends on the moment of the trip within the scan."}, {"q": "What does priority inheritance prevent?", "options": ["An unbounded priority inversion", "Every preemption", "The use of locks", "Missed deadlines in every overload"], "answer": 0, "why": "The holder of the lock runs at the high priority until it releases the lock."}],["Which case on the controller bench of Part A surprised you most, and why?", "How would you explain to a colleague why RM is often preferred although EDF can use the whole processor?", "What did the longest of 20 reactions in Part C tell you, and what did it not tell you?", "Which result of stage 7 would you report first to the engineer who commissions the battery container?", "Where in your own daily life do you schedule tasks with deadlines, and which rule do you follow?"]);

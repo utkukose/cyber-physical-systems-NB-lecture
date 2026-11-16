@@ -19,7 +19,7 @@ Each material has its own role. Start with the lecture page; the study path belo
 |---|---|---|
 | Lecture page | The concepts of the week, with a 3D scene, an animation, discussion questions, knowledge checks, the development templates, review cards and the references | [Lecture page](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-07/lecture.html) |
 | Colab notebook | Python step 7: Tasks and time, then six hands-on sections that describe the tasks of the controller, compute their response times under RM, compare RM with EDF, follow the scan cycle of the PLC and compute stage 7 of the campus microgrid, with exercises | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb) |
-| Interactive lab | Real-time lab: Four parts, among them two 3D virtual laboratories (the controller bench with a logic analyzer and the PLC cabinet of the main switchboard), a step-by-step calculator, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-07/lab.html) |
+| Interactive lab | Real-time lab: Five parts, among them two 3D virtual laboratories (the controller bench with a logic analyzer and the PLC cabinet of the main switchboard), a field task with a program change on the PLC, a step-by-step calculator, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-07/lab.html) |
 | PDF lecture notes | The Python step and the lecture in one printable file | [PDF notes](Week07_Lecture_Notes.pdf) |
 
 <table><tr><td width="50%"><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-07/NB07_realtime_scheduling.ipynb"><img src="screenshots/nb_1.png" alt="A figure from the Colab notebook of week 7"></a><br><sub>From the Colab notebook</sub></td><td width="50%"><a href="https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-07/lab.html"><img src="screenshots/lab.png" alt="Interactive lab of week 7"></a><br><sub>The interactive lab</sub></td></tr></table>
@@ -37,8 +37,9 @@ By the end of the week, students are expected to describe periodic tasks by thei
 | 3 | Work through the two virtual laboratories of the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-07/lab.html), Parts A and C, and solve Parts B and D | 1 hour 30 minutes |
 | 4 | Work through Sections 1 to 5 of the Colab notebook with your own results and solve the exercises | 2 hours |
 | 5 | Run one development template of the week and use the application switch of Section 6 | 45 minutes |
-| 6 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-07/lab.html) (tab: Check yourself) | 20 minutes |
-| 7 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
+| 6 | Do the field task of Part E in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-07/lab.html): Change and test the program of the PLC | 30 minutes |
+| 7 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-07/lab.html) (tab: Check yourself) | 20 minutes |
+| 8 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
 
 ## Live session plan
 
@@ -53,7 +54,7 @@ The week runs as one synchronous session of about three hours in class or online
 | 1:30 to 1:40 | Break |
 | 1:40 to 2:10 | Lecture page, part 3: Earliest deadline first, the controller bench of Part A, the calculator of Part B and Section 3 |
 | 2:10 to 2:40 | Lecture page, part 4: The PLC scan cycle with the animation, the PLC cabinet of Part C and Section 4 |
-| 2:40 to 3:00 | The development templates and the engineering side, the campus microgrid, stage 7 with Part D and Section 5, and the closing section on learning to schedule. After the session: Section 6, the self-assessment, the PDF notes and the weekly task |
+| 2:40 to 3:00 | The development templates and the engineering side, the campus microgrid, stage 7 with Part D and Section 5, and the closing section on learning to schedule. After the session: Section 6, the field task of Part E, the self-assessment, the PDF notes and the weekly task |
 
 ## Weekly task and submission
 

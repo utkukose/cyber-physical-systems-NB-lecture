@@ -19,7 +19,7 @@ Each material has its own role. Start with the lecture page; the study path belo
 |---|---|---|
 | Lecture page | The concepts of the week, with a 3D scene, an animation, discussion questions, knowledge checks, the development templates, the course in review, review cards and the references | [Lecture page](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-14/lecture.html) |
 | Colab notebook | Python step 14: Organised and tested code, then six hands-on sections that check the transfer logic of the island controller in every state, compute reliability and redundancy, build the fault tree of the critical supply with twelve designs and 50,000 simulated years, test a runtime monitor of the battery and assemble stage 14 of the campus microgrid, with exercises | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-14/NB14_dependability_safety_verification.ipynb) |
-| Interactive lab | Safety and verification lab: Four parts, among them two 3D virtual laboratories (the transfer test bench and the electrical room of the campus), a step-by-step calculator, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-14/lab.html) |
+| Interactive lab | Safety and verification lab: Five parts, among them two 3D virtual laboratories (the transfer test bench and the electrical room of the campus), a field task with the five safety rules at the battery inverter, a step-by-step calculator, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-14/lab.html) |
 | PDF lecture notes | The Python step and the lecture in one printable file | [PDF notes](Week14_Lecture_Notes.pdf) |
 
 <table><tr><td width="50%"><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-14/NB14_dependability_safety_verification.ipynb"><img src="screenshots/nb_1.png" alt="A figure from the Colab notebook of week 14"></a><br><sub>From the Colab notebook</sub></td><td width="50%"><a href="https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-14/lab.html"><img src="screenshots/lab.png" alt="Interactive lab of week 14"></a><br><sub>The interactive lab</sub></td></tr></table>
@@ -37,8 +37,9 @@ By the end of the week, students are expected to distinguish faults, errors and 
 | 3 | Work through the two virtual laboratories of the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-14/lab.html), Parts A and C, and solve Parts B and D | 1 hour 30 minutes |
 | 4 | Work through Sections 1 to 5 of the Colab notebook with your own results and solve the exercises | 2 hours |
 | 5 | Run one development template of the week and use the application switch of Section 6 | 45 minutes |
-| 6 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-14/lab.html) (tab: Check yourself) | 20 minutes |
-| 7 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
+| 6 | Do the field task of Part E in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-14/lab.html): Replace the fan of the inverter under the five safety rules | 30 minutes |
+| 7 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-14/lab.html) (tab: Check yourself) | 20 minutes |
+| 8 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
 
 ## Live session plan
 
@@ -53,7 +54,7 @@ The week runs as one synchronous session of about three hours in class or online
 | 1:30 to 1:40 | Break |
 | 1:40 to 2:15 | Lecture page, part 3: Hidden faults, common causes and the fault tree, the calculator of Part B, the electrical room of Part C and Section 3 |
 | 2:15 to 2:35 | Lecture page, part 4: Runtime monitoring and the simplex architecture with Section 4 |
-| 2:35 to 3:00 | The development templates and the safety case, the campus microgrid, stage 14 with Part D and Section 5, and the course in review. After the session: Section 6, the self-assessment, the PDF notes and the weekly task |
+| 2:35 to 3:00 | The development templates and the safety case, the campus microgrid, stage 14 with Part D and Section 5, and the course in review. After the session: Section 6, the field task of Part E, the self-assessment, the PDF notes and the weekly task |
 
 ## Weekly task and submission
 

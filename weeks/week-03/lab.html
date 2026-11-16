@@ -208,7 +208,7 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 .wk.soon{border-top-color:var(--line);opacity:.8}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.lec-tools,.tabs,nav,.btn{display:none}}
-</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 3 of 14</p><h1>Discrete and Hybrid Dynamics: State Machines, Thermostats and Protection Relays</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-03">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-03/NB03_discrete_hybrid_dynamics.ipynb">Colab notebook</a><a href="Week03_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Discrete and hybrid dynamics lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part B tests the overcurrent relays of a feeder and of the incomer on a test bench. Part C puts you at the switchboard of the campus during an outage. Parts A and B compute the formulas of the lecture step by step, and Part D asks for the values of stage 3 by hand. In the calculators every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts B and C can be copied into the Colab notebook. Each laboratory first shows its room. Start moves the view to the bench or the switchboard, and the view returns to the room at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The thermostat, step by step</h3><p>The calculator repeats the worked example of the thermostat one step at a time. Its sliders set the band of the hysteresis, the outdoor temperature and the power of the heater. The figure shows six hours of the cycle, with the heater on in the orange bars.</p><div class="stepcalc" id="pa-cycle"></div><p class="backpart"><a href="lecture.html#lab-pa">Back to the lecture: Hybrid automata: The thermostat of the library</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-03/NB03_discrete_hybrid_dynamics.ipynb#scrollTo=sec-2" target="_blank" rel="noopener">Continue in Colab, section 2</a>: Simulate the thermostat and compare its cycle with the formulas.</p></section><section class="labpart" id="pb"><h3>Part B: The relay test bench</h3><p>The relay test bench holds the two overcurrent relays that protect the library. The relay of its feeder has a pickup of 250 A and a time multiplier of 0.10. The relay of the incomer of the transformer has a pickup of 1600 A. Their current transformers turn the pickup current into 1 A, so the test set injects secondary currents of a few amperes. The timer of the test set starts with the injection and stops when the trip contact of a relay closes. The output contacts of these relays add a fixed delay of 20 ms.</p>
+</style><script>MathJax={tex:{inlineMath:[["\\(","\\)"]]},svg:{fontCache:"global"}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><div class="wrap"><header class="top"><p class="course">Cyber-Physical Systems (BIL-435), week 3 of 14</p><h1>Discrete and Hybrid Dynamics: State Machines, Thermostats and Protection Relays</h1><p class="who">Prof. Dr. Utku Kose, Süleyman Demirel University</p><nav><a href="../../index.html">Course home</a><a href="https://github.com/utkukose/cyber-physical-systems-NB-lecture/tree/main/weeks/week-03">Week overview</a><a href="lecture.html">Lecture page</a><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-03/NB03_discrete_hybrid_dynamics.ipynb">Colab notebook</a><a href="Week03_Lecture_Notes.pdf">PDF notes</a></nav></header><h2>Discrete and hybrid dynamics lab</h2><p>Two parts of this interactive lab are virtual laboratories in three dimensions (3D) with the hardware in the foreground. Part B tests the overcurrent relays of a feeder and of the incomer on a test bench. Part C puts you at the switchboard of the campus during an outage. Parts A and B compute the formulas of the lecture step by step, and Part D asks for the values of stage 3 by hand. Part E is a field task with the front panel of the feeder relay and a secondary test set, operated as on site. In the calculators every intermediate value is rounded, and the next step continues with the rounded value. The results of Parts B and C can be copied into the Colab notebook. Each laboratory first shows its room. Start moves the view to the bench or the switchboard, and the view returns to the room at the end. The laboratories work best with a mouse or a touchpad on a computer.</p><div class="tabs" role="tablist"><button aria-selected="true">Explore</button><button aria-selected="false">Check yourself</button><button aria-selected="false">Reflect and export</button></div><section class="tabpanel"><section class="labpart" id="pa"><h3>Part A: The thermostat, step by step</h3><p>The calculator repeats the worked example of the thermostat one step at a time. Its sliders set the band of the hysteresis, the outdoor temperature and the power of the heater. The figure shows six hours of the cycle, with the heater on in the orange bars.</p><div class="stepcalc" id="pa-cycle"></div><p class="backpart"><a href="lecture.html#lab-pa">Back to the lecture: Hybrid automata: The thermostat of the library</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-03/NB03_discrete_hybrid_dynamics.ipynb#scrollTo=sec-2" target="_blank" rel="noopener">Continue in Colab, section 2</a>: Simulate the thermostat and compare its cycle with the formulas.</p></section><section class="labpart" id="pb"><h3>Part B: The relay test bench</h3><p>The relay test bench holds the two overcurrent relays that protect the library. The relay of its feeder has a pickup of 250 A and a time multiplier of 0.10. The relay of the incomer of the transformer has a pickup of 1600 A. Their current transformers turn the pickup current into 1 A, so the test set injects secondary currents of a few amperes. The timer of the test set starts with the injection and stops when the trip contact of a relay closes. The output contacts of these relays add a fixed delay of 20 ms.</p>
 <p>Choose a test below the view and press Inject. Your missions: First, measure the feeder relay at four or more multiples of its pickup and compare the times with the formula of the lecture. Second, send the fault of 5 kA through both relays at once. Find the smallest time multiplier of the incomer that trips at least 0.3 s after the feeder relay.</p>
 <div class="three" id="rb-3d"></div>
 <div class="row" id="rb-ctl" style="align-items:flex-end;gap:12px;margin:8px 0">
@@ -237,7 +237,10 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <p class="small" id="sw-sum" aria-live="polite"></p>
 <p><button class="btn" id="sw-copy" type="button">Copy the event log for Colab</button> <span class="small" id="sw-msg" aria-live="polite"></span></p>
 <textarea id="sw-csv" rows="5" readonly aria-label="The event log of the switchboard as comma-separated values" hidden></textarea>
-<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: The microgrid as a hybrid system</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-03/NB03_discrete_hybrid_dynamics.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your event log into MY_LOG and check your transitions.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 3 of the microgrid</h3><p>The thermostat holds 21 °C with a band of 2 K at 5 °C outside: Compute the on time of the heater of 60 kW in minutes to one decimal. A relay with $TMS = 0.2$ sees a current of ten times its pickup: Compute its trip time in seconds to three decimals. Finally, the island runs 0.15 Hz apart from the returning grid at a phase difference of 300 degrees. Compute the time in seconds until the angle reaches 345 degrees, to two decimals.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 3: Operating modes and protection</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-03/NB03_discrete_hybrid_dynamics.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 3 of the campus microgrid.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+<p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: The microgrid as a hybrid system</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-03/NB03_discrete_hybrid_dynamics.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your event log into MY_LOG and check your transitions.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 3 of the microgrid</h3><p>The thermostat holds 21 °C with a band of 2 K at 5 °C outside: Compute the on time of the heater of 60 kW in minutes to one decimal. A relay with $TMS = 0.2$ sees a current of ten times its pickup: Compute its trip time in seconds to three decimals. Finally, the island runs 0.15 Hz apart from the returning grid at a phase difference of 300 degrees. Compute the time in seconds until the angle reaches 345 degrees, to two decimals.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 3: Operating modes and protection</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-03/NB03_discrete_hybrid_dynamics.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 3 of the campus microgrid.</p></section><section class="labpart" id="pe"><h3>Part E: Field task: Setting the feeder relay</h3><p>The relay of the library feeder in Part B arrives from its maker with default settings. Before the injection tests, the protection engineer enters the protection study through the front panel, as on site. The current transformers (CT) of the feeder have the ratio 250/1 A. The study asks for the standard inverse (SI) curve of the International Electrotechnical Commission (IEC), which the relay calls IEC SI. It also asks for a pickup of 250 A and a time multiplier of 0.10.</p>
+<p>The keys work as on the real relay. The keys ▲ and ▼ choose a line, OK opens it or starts and saves a change, and the escape key (ESC) goes back. A number changes digit by digit: ◀ and ▶ choose the digit, and ▲ and ▼ change it. On a computer, the arrow keys, Enter and Escape work as well, once the front panel has been clicked.</p>
+<div id="pe-task"></div>
+<p class="backpart"><a href="lecture.html#lab-pe">Back to the lecture: In the field: Setting a relay through its front panel</a>, where the text continues after the box of this part.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
 /* Shared runtime of the lecture pages and interactive labs. */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -1887,6 +1890,364 @@ window.CPSKIT = CPSKIT;
       S = {run: 0, soc0: 0.815, soc: 0.151, min: 108, mode: "SHED", grid: false, conn: {car_park: false, B1: false, B2: true, B3: false, B4: false, B5: true}, phi: 0, running: false, acc: 0};
       lastLamp = ""; V3.draw(); H.set(0, "22:46  SHED"); H.set(1, "SoC 0.151"); H.say("The island supplies only the library and the laboratories"); S = null; };
   }
+})();
+
+/* Field tasks: the front panels of real devices with their menus, and work procedures with ordered steps.
+   FIELD.task builds the frame of Part E with its goals and messages, FIELD.device a front panel with a display, lamps
+   and keys, FIELD.menu the menu of a device with lists, numbers edited digit by digit, values and actions, and
+   FIELD.procedure a group of physical actions. */
+const FIELD = (function () {
+  const CSS = `
+.ftask{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:var(--panel)}
+.ftask .fgoals{list-style:none;padding:0;margin:4px 0 10px}
+.ftask .fgoals li{margin:3px 0;padding-left:26px;position:relative}
+.ftask .fgoals li::before{content:"";position:absolute;left:0;top:3px;width:16px;height:16px;border-radius:50%;border:2px solid #8D99A6}
+.ftask .fgoals li.ok::before{background:#2E8B57;border-color:#2E8B57}
+.ftask .fgoals li.ok::after{content:"";position:absolute;left:5px;top:6px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.ftask .fstage{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:8px 0}
+.ftask .fside{flex:1 1 260px;min-width:240px}
+.ftask .flog{min-height:3.2em;margin:8px 0 4px;padding:8px 10px;border-radius:8px;background:rgba(127,140,155,.12);font-size:.95em}
+.ftask .flog p{margin:2px 0}
+.ftask .flog .bad{color:#B23B3B}.ftask .flog .ok{color:#2E7D4F}
+.ftask .fdone{font-weight:600;color:#2E7D4F}
+.fdev{display:inline-block;max-width:100%;background:linear-gradient(#4E5761,#2C3238);border-radius:12px;padding:10px 12px 12px;
+  color:#E8EDF2;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 2px 8px rgba(0,0,0,.25);outline:none}
+.fdev:focus-visible{box-shadow:0 0 0 3px #F2B33D}
+.fdev .fhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.fdev .fmodel{font-weight:700;font-size:13px;letter-spacing:.02em}
+.fdev .ftag{font-size:11px;color:#AFBBC7}
+.fdev pre.flcd{margin:8px 0;padding:6px 8px;border-radius:5px;border:2px solid #1A1E22;white-space:pre;overflow:hidden;
+  font:600 13px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;box-shadow:inset 0 0 7px rgba(0,0,0,.35)}
+.fdev pre.flcd.green{background:#A9BD93;color:#1B2430}.fdev pre.flcd.blue{background:#16324F;color:#DDEBFA}
+.fdev pre.flcd.white{background:#E9EEF2;color:#1B2430}
+.fdev pre.flcd .inv{background:currentColor}.fdev pre.flcd.green .inv{color:#1B2430}.fdev pre.flcd .inv b{color:#A9BD93;font-weight:600}
+.fdev pre.flcd.blue .inv b{color:#16324F}.fdev pre.flcd.white .inv b{color:#E9EEF2}
+.fdev .fleds{display:flex;flex-wrap:wrap;gap:4px 12px;margin:2px 0 8px}
+.fdev .fled{display:flex;align-items:center;gap:5px;font-size:11px;color:#C9D1D8}
+.fdev .fled i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#3A4047;box-shadow:inset 0 0 2px rgba(0,0,0,.7)}
+.fdev .fled.on i{background:var(--lc);box-shadow:0 0 7px var(--lc)}
+.fdev .fled.blink i{animation:fblink 0.8s steps(2,start) infinite}
+@keyframes fblink{to{visibility:hidden}}
+.fdev .fkeys{display:grid;grid-template-columns:repeat(4,46px);gap:6px}
+.fdev .fkey{height:34px;border-radius:7px;border:1px solid #1A1E22;background:linear-gradient(#66707B,#3E454D);color:#fff;
+  font:600 13px system-ui,sans-serif;cursor:pointer;padding:0}
+.fdev .fkey:active{transform:translateY(1px)}.fdev .fkey:disabled{opacity:.45;cursor:default}
+.fdev .fkey.wide{grid-column:span 2}
+.fdev .fextra{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fdev .fextra .fkey{padding:0 10px;width:auto}
+.fproc{display:flex;flex-direction:column;gap:10px}
+.fproc .fgrp{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fproc .fgrp h4{margin:0 0 6px;font-size:.95em}
+.fproc .fgrp .row{display:flex;flex-wrap:wrap;gap:6px}
+.fproc .btn{font-size:.9em}
+.fstate{border-collapse:collapse;font-size:.92em;margin:6px 0}
+.fstate td,.fstate th{border:1px solid var(--line);padding:3px 8px;text-align:left}
+.fdoc{border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:.92em;background:rgba(255,255,255,.04)}
+`;
+  let styled = false;
+  function style() { if (styled) return; styled = true; const s = document.createElement("style"); s.textContent = CSS; document.head.append(s); }
+
+  /* The frame of a field task: goals, a stage for the devices and the messages. */
+  function task(rootId, o) {
+    style();
+    const root = document.getElementById(rootId); if (!root) return null;
+    const saved = store.get(o.key, {});
+    const state = {done: saved.done || {}, complete: !!saved.complete};
+    const box = h("div", {class: "ftask"});
+    const goals = h("ul", {class: "fgoals"});
+    const items = {};
+    o.goals.forEach(g => { const li = h("li", {}, g.t); items[g.id] = li; goals.append(li); });
+    const stage = h("div", {class: "fstage"});
+    const log = h("div", {class: "flog", "aria-live": "polite"});
+    const status = h("p", {class: "small"});
+    const reset = h("button", {class: "btn ghost", type: "button"}, "Start the task again");
+    box.append(h("p", {class: "small"}, "Goals of the task"), goals, stage, log, status, h("p", {}, reset));
+    root.append(box);
+    const lines = [];
+    const api = {
+      stage, box,
+      say(text, kind) { lines.unshift({text, kind: kind || ""}); lines.length = Math.min(lines.length, 4);
+        log.textContent = ""; lines.forEach((l, i) => log.append(h("p", {class: l.kind, style: i ? "opacity:.65" : ""}, l.text))); },
+      goal(id) { if (state.done[id]) return; state.done[id] = true; paint(); save();
+        const g = o.goals.find(x => x.id === id); if (g) api.say("Done: " + g.t, "ok");
+        if (o.goals.every(x => state.done[x.id]) && !state.complete) { state.complete = true; save(); paint();
+          if (window.labLog) labLog.note("Part E", o.summary ? o.summary() : "Field task complete"); } },
+      has(id) { return !!state.done[id]; },
+      complete() { return state.complete; }
+    };
+    function paint() {
+      o.goals.forEach(g => items[g.id].className = state.done[g.id] ? "ok" : "");
+      const n = o.goals.filter(g => state.done[g.id]).length;
+      status.textContent = state.complete ? "" : `Goals reached: ${n} of ${o.goals.length}.`;
+      status.className = "small"; if (state.complete) { status.textContent = "Field task complete. " + (o.closing || ""); status.className = "small fdone"; }
+    }
+    function save() { store.set(o.key, {done: state.done, complete: state.complete}); }
+    reset.addEventListener("click", () => { state.done = {}; state.complete = false; save(); paint(); lines.length = 0; log.textContent = "";
+      if (o.onReset) o.onReset(); api.say(o.hello || "The task starts again."); });
+    paint();
+    if (o.hello) api.say(o.hello);
+    return api;
+  }
+
+  /* The front panel of a device: a display with rows of fixed width, lamps and keys. */
+  function device(parent, o) {
+    style();
+    const rows = o.rows || 4, cols = o.cols || 20;
+    const el = h("div", {class: "fdev", tabindex: "0", role: "group", "aria-label": o.model + (o.tag ? ", " + o.tag : "")});
+    const lcd = h("pre", {class: "flcd " + (o.lcd || "green"), "aria-live": "polite", "aria-label": "Display of the " + o.model});
+    const leds = {}, ledBox = h("div", {class: "fleds"});
+    (o.leds || []).forEach(([name, color]) => { const d = h("span", {class: "fled", style: `--lc:${color}`}, h("i", {}), name); leds[name] = d; ledBox.append(d); });
+    const keyBox = h("div", {class: "fkeys"}), handlers = [];
+    const KEYS = o.keys || ["", "▲", "", "ESC", "◀", "OK", "▶", "", "", "▼", "", ""];
+    const btns = {};
+    KEYS.forEach(k => { if (!k) { keyBox.append(h("span", {})); return; }
+      const name = {"▲": "Up", "▼": "Down", "◀": "Left", "▶": "Right"}[k] || k;
+      const b = h("button", {class: "fkey", type: "button", "aria-label": name}, k); btns[k] = b;
+      b.addEventListener("click", () => { handlers.forEach(f => f(k)); el.focus({preventScroll: true}); }); keyBox.append(b); });
+    const extra = h("div", {class: "fextra"});
+    (o.extra || []).forEach(([label, fn]) => { const b = h("button", {class: "fkey", type: "button"}, label); b.addEventListener("click", fn); btns[label] = b; extra.append(b); });
+    el.append(h("div", {class: "fhead"}, h("span", {class: "fmodel"}, o.model), h("span", {class: "ftag"}, o.tag || "")), lcd);
+    if (o.leds && o.leds.length) el.append(ledBox);
+    if (KEYS.some(k => k)) el.append(keyBox);
+    if (o.extra && o.extra.length) el.append(extra);
+    el.addEventListener("keydown", e => { const k = {ArrowUp: "▲", ArrowDown: "▼", ArrowLeft: "◀", ArrowRight: "▶", Enter: "OK", Escape: "ESC"}[e.key];
+      if (k && btns[k]) { e.preventDefault(); handlers.forEach(f => f(k)); } });
+    parent.append(el);
+    return {
+      el, rows, cols, btns,
+      show(lines) { lcd.textContent = ""; for (let r = 0; r < rows; r++) { const ln = lines[r] == null ? "" : lines[r];
+        if (typeof ln === "string") lcd.append(pad(ln, cols)); else { let used = 0; ln.forEach(seg => { const t = seg.t.slice(0, cols - used); used += t.length;
+          lcd.append(seg.inv ? h("span", {class: "inv"}, h("b", {}, t)) : t); }); lcd.append(" ".repeat(Math.max(0, cols - used))); }
+        if (r < rows - 1) lcd.append("\n"); } },
+      led(name, on, blink) { const d = leds[name]; if (!d) return; d.classList.toggle("on", !!on); d.classList.toggle("blink", !!blink && !!on); },
+      onKey(f) { handlers.push(f); },
+      press(k) { handlers.forEach(f => f(k)); },
+      enable(on) { Object.values(btns).forEach(b => { b.disabled = !on; }); }
+    };
+  }
+  const pad = (s, n) => (s.length > n ? s.slice(0, n) : s + " ".repeat(n - s.length));
+  const line = (label, value, cols) => { value = value == null ? "" : String(value); const room = cols - value.length - 1;
+    return pad(label.slice(0, Math.max(0, room)), Math.max(0, room)) + " " + value; };
+
+  /* The menu of a device. Nodes: {t, kids} a submenu, {t, key, list} a choice, {t, key, num: {min, max, dec, unit}} a
+     number edited digit by digit, {t, show} a value, {t, act, confirm} an action. */
+  function menu(dev, tree, o) {
+    const P = o.params, C = dev.cols, R = dev.rows;
+    let stack = [{node: {t: o.title || "MAIN MENU", kids: tree}, i: 0}], edit = null, confirm = null, flash = null;
+    const top = () => stack[stack.length - 1];
+    const fmtNum = (n, v) => { const d = n.num.dec || 0; return (+v).toFixed(d); };
+    const unit = n => (n.num && n.num.unit) || n.unit || "";
+    const valueOf = n => n.show ? n.show() : n.key == null ? (n.kids ? ">" : "") : n.num ? fmtNum(n, P[n.key]) + (unit(n) ? " " + unit(n) : "") : String(P[n.key]);
+    function render() {
+      if (confirm) { dev.show([pad(confirm.node.t.toUpperCase(), C), "", pad(confirm.text || "Execute now?", C), pad("OK = yes   ESC = no", C)]); return; }
+      if (edit) {
+        const n = edit.node, L = [pad(n.t.toUpperCase(), C), ""];
+        if (n.list) L.push(pad(`< ${n.list[edit.k]} >`, C));
+        else { const s = edit.str, segs = []; for (let i = 0; i < s.length; i++) segs.push({t: s[i], inv: i === edit.pos});
+          segs.push({t: unit(n) ? " " + unit(n) : ""}); L.push(segs); }
+        L.push(pad(n.list ? "▲▼ choose  OK save" : "◀▶ digit ▲▼ change", C));
+        while (L.length < R) L.push("");
+        dev.show(L.slice(0, R)); return; }
+      const t = top(), kids = t.node.kids, first = Math.max(0, Math.min(t.i - (R - 2), kids.length - (R - 1)));
+      const L = [pad((flash || t.node.t).toUpperCase(), C)];
+      for (let r = 0; r < R - 1; r++) { const k = first + r, n = kids[k]; if (!n) { L.push(""); continue; }
+        const mark = k === t.i ? ">" : " ", v = valueOf(n); L.push(mark + line(n.t, v, C - 1)); }
+      dev.show(L); flash = null;
+    }
+    function startEdit(n) {
+      if (n.list) { edit = {node: n, k: Math.max(0, n.list.indexOf(P[n.key]))}; return; }
+      const d = n.num.dec || 0, w = Math.max(fmtNum(n, n.num.max).length, fmtNum(n, P[n.key]).length);
+      let s = fmtNum(n, P[n.key]); while (s.length < w) s = "0" + s;
+      edit = {node: n, str: s, pos: s.length - 1 - (d ? 0 : 0)};
+      if (s[edit.pos] === ".") edit.pos--;
+    }
+    function bump(dir) {
+      const n = edit.node;
+      if (n.list) { edit.k = (edit.k + dir + n.list.length) % n.list.length; return; }
+      const a = edit.str.split(""); let i = edit.pos;
+      let dgt = (+a[i] + dir + 10) % 10; a[i] = String(dgt); edit.str = a.join("");
+    }
+    function move(dir) { if (!edit || edit.node.list) return; let p = edit.pos + dir; if (edit.str[p] === ".") p += dir;
+      if (p >= 0 && p < edit.str.length) edit.pos = p; }
+    function save() {
+      const n = edit.node; let v;
+      if (n.list) v = n.list[edit.k];
+      else { v = parseFloat(edit.str); if (!(v >= n.num.min - 1e-9 && v <= n.num.max + 1e-9)) { const lim = `${fmtNum(n, n.num.min)} to ${fmtNum(n, n.num.max)}`;
+        flash = "OUT OF RANGE"; if (o.onError) o.onError(n, v, lim); edit = null; return; } }
+      const old = P[n.key]; P[n.key] = v; edit = null; flash = "SAVED";
+      if (o.onSet) o.onSet(n.key, v, old, n);
+    }
+    dev.onKey(k => {
+      if (o.locked && o.locked()) { if (o.onLocked) o.onLocked(); return; }
+      if (confirm) { if (k === "OK") { const n = confirm.node; confirm = null; const msg = n.act(); if (msg) flash = msg; } else if (k === "ESC") confirm = null; render(); return; }
+      if (edit) { if (k === "▲") bump(1); else if (k === "▼") bump(-1); else if (k === "◀") move(-1); else if (k === "▶") move(1);
+        else if (k === "OK") save(); else if (k === "ESC") edit = null; render(); return; }
+      const t = top(), kids = t.node.kids;
+      if (k === "▲") t.i = (t.i - 1 + kids.length) % kids.length;
+      else if (k === "▼") t.i = (t.i + 1) % kids.length;
+      else if (k === "ESC" || k === "◀") { if (stack.length > 1) stack.pop(); }
+      else if (k === "OK" || k === "▶") { const n = kids[t.i];
+        if (n.kids) stack.push({node: n, i: 0});
+        else if (n.act && k === "OK") { if (n.confirm) confirm = {node: n, text: n.confirm}; else { const msg = n.act(); if (msg) flash = msg; } }
+        else if ((n.list || n.num) && k === "OK") { if (n.readonly && n.readonly()) flash = "LOCKED"; else startEdit(n); } }
+      render();
+    });
+    render();
+    return {render, params: P, home() { stack = [stack[0]]; stack[0].i = 0; edit = null; confirm = null; render(); },
+      path() { return stack.map(s => s.node.t); }, editing() { return !!edit; }};
+  }
+
+  /* A group of physical actions, such as switching a breaker or applying a padlock. */
+  function procedure(parent, groups, onAct) {
+    style();
+    const box = h("div", {class: "fproc"}), btns = {};
+    groups.forEach(g => { const grp = h("div", {class: "fgrp"}, h("h4", {}, g.t)), row = h("div", {class: "row"});
+      g.actions.forEach(([id, label]) => { const b = h("button", {class: "btn ghost", type: "button"}, label); btns[id] = b;
+        b.addEventListener("click", () => onAct(id)); row.append(b); }); grp.append(row); box.append(grp); });
+    parent.append(box);
+    return {box, btns, act: onAct};
+  }
+
+  /* A number that the student computes and enters, with a check button. */
+  let nEntry = 0;
+  function entry(parent, label, unit, onCheck) {
+    style();
+    const id = "fe" + (++nEntry), inp = h("input", {type: "number", step: "any", id, style: "width:7.5rem"});
+    const b = h("button", {class: "btn", type: "button"}, "Check");
+    b.addEventListener("click", () => onCheck(parseFloat(inp.value)));
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") onCheck(parseFloat(inp.value)); });
+    parent.append(h("div", {class: "ctl", style: "margin:8px 0"}, h("label", {for: id}, label),
+      h("div", {style: "display:flex;gap:8px;align-items:center;flex-wrap:wrap"}, inp, h("span", {}, unit), b)));
+    return {input: inp, button: b, set(v) { inp.value = v; }, check() { onCheck(parseFloat(inp.value)); }};
+  }
+  /* A small table of states. */
+  function table(parent, head) { const t = h("table", {class: "fstate"}); parent.append(h("div", {style: "overflow-x:auto;max-width:100%"}, t));
+    return {el: t, rows(rows) { t.textContent = ""; t.append(h("tr", {}, head.map(c => h("th", {}, c))));
+      rows.forEach(r => t.append(h("tr", {}, r.map(c => h("td", {}, String(c)))))); }}; }
+
+  /* Self-test helpers of the weeks: walk a menu along labels, and type a number in edit mode. */
+  function selected(dev) { const sel = dev.el.querySelector("pre").textContent.split("\n").find(l => l.startsWith(">"));
+    return sel ? sel.slice(1).trim() : ""; }
+  function go(dev, m, labels) {
+    m.home();
+    labels.forEach(lbl => { let guard = 0; while (guard++ < 40 && !selected(dev).startsWith(lbl.slice(0, 12))) dev.press("▼"); dev.press("OK"); });
+  }
+  function typeNumber(dev, value, dec) {
+    const pre = dev.el.querySelector("pre"), shown = () => pre.textContent.split("\n")[2].trim().split(" ")[0];
+    let s = (+value).toFixed(dec || 0); while (s.length < shown().length) s = "0" + s;
+    for (let i = 0; i < 12; i++) dev.press("◀");
+    for (let i = 0; i < s.length; i++) { if (s[i] === ".") continue;
+      for (let j = 0; j < 10 && (pre.querySelector(".inv") || {}).textContent !== s[i]; j++) dev.press("▲");
+      dev.press("▶"); }
+    dev.press("OK");
+  }
+  return {task, device, menu, procedure, entry, table, line, pad, go, typeNumber};
+})();
+window.FIELD = FIELD;
+
+/* Part E, field task: The settings of the feeder relay through its front panel, checked with a secondary injection.
+   The relay arrives with the defaults of its maker: CT 100/5 A, function 51 off, curve IEC VI, pickup 1.00 x In, TMS 1.00.
+   The protection study asks for CT 250/1 A, IEC SI (standard inverse), 250 A and TMS 0.10. An injection of 2.00 A then
+   trips after 0.10 x 0.14 / (2^0.02 - 1) + 0.020 = 1.023 s. */
+(function () {
+  const T = FIELD.task("pe-task", {key: "w3:field", hello: "The relay is in service mode with the defaults of its maker.",
+    goals: [{id: "ct", t: "Enter the ratio of the current transformers, 250/1 A, under Settings, System data."},
+            {id: "set", t: "Set the function 51 under Settings, Protection: On, curve IEC SI, pickup 250 A, time multiplier 0.10."},
+            {id: "inj", t: "Inject 2.00 A, twice the pickup, with the test set: The relay trips after about 1.02 s."},
+            {id: "rec", t: "Read the trip record under Records, then reset the trip lamp with RESET."}],
+    summary: () => `Relay set to CT ${P.ct_pri}/${P.ct_sec}, 51 ${P.f51}, ${P.curve}, ${P.pickup.toFixed(2)} x In, TMS ${P.tms.toFixed(2)}; last trip ${last ? last.t.toFixed(3) + " s" : "none"}`,
+    closing: "The settings of the study are in the relay and confirmed by an injection.",
+    onReset: () => { Object.assign(P, DEF()); last = null; trip = false; seenRec = false; R.led("TRIP", false); R.led("START", false); M.home(); TS.home(); }});
+  if (!T) return;
+  const DEF = () => ({ct_pri: 100, ct_sec: "5 A", f51: "Off", curve: "IEC VI", pickup: 1.0, tms: 1.0});
+  const P = DEF(), Q = {amps: 1.0, phase: "L1"};
+  let last = null, trip = false, seenRec = false;
+  const left = h("div", {}), side = h("div", {class: "fside"});
+  T.stage.append(left, side);
+  const R = FIELD.device(left, {model: "Overcurrent relay 51", tag: "Feeder of the library", lcd: "green",
+    leds: [["READY", "#3DDC84"], ["START", "#F2B33D"], ["TRIP", "#FF4D4D"]],
+    extra: [["RESET", () => { if (!trip) { T.say("RESET clears the trip lamp after a trip. There is nothing to reset now."); return; }
+      trip = false; R.led("TRIP", false); T.say("The trip lamp is reset.");
+      if (seenRec) T.goal("rec"); else T.say("Read the trip record under Records before the reset, as the test protocol asks.", "bad"); }]]});
+  R.led("READY", true);
+  const prim = () => +(P.pickup * P.ct_pri).toFixed(1);
+  const M = FIELD.menu(R, [
+    {t: "Measurements", kids: [
+      {t: "I L1 prim.", show: () => `${measured().toFixed(0)} A`},
+      {t: "I L1 sec.", show: () => `${(inj ? Q.amps : 0).toFixed(2)} A`},
+      {t: "Ratio", show: () => `${P.ct_pri}/${P.ct_sec.split(" ")[0]}`}]},
+    {t: "Settings", kids: [
+      {t: "System data", kids: [
+        {t: "CT primary", key: "ct_pri", num: {min: 1, max: 5000, dec: 0, unit: "A"}},
+        {t: "CT secondary", key: "ct_sec", list: ["1 A", "5 A"]}]},
+      {t: "Protection", kids: [
+        {t: "51 I>", key: "f51", list: ["Off", "On"]},
+        {t: "Curve", key: "curve", list: ["IEC SI", "IEC VI", "IEC EI", "DT"]},
+        {t: "Pickup I>", key: "pickup", num: {min: 0.1, max: 4, dec: 2, unit: "xIn"}},
+        {t: "= primary", show: () => `${prim()} A`},
+        {t: "TMS", key: "tms", num: {min: 0.05, max: 1, dec: 2}}]}]},
+    {t: "Records", kids: [
+      {t: "Last trip", show: () => (last ? "51 " + last.phase : "none")},
+      {t: "Time", show: () => (last ? last.t.toFixed(3) + " s" : "-")},
+      {t: "Current", show: () => (last ? last.prim.toFixed(0) + " A" : "-")}]},
+    {t: "Test", kids: [{t: "LED test", act: () => { ["READY", "START", "TRIP"].forEach(n => R.led(n, true)); setTimeout(() => { R.led("START", false); R.led("TRIP", trip); }, 900); return "LED TEST"; }}]}
+  ], {params: P, title: "Main menu",
+    onSet: (k, v) => { T.say(`Saved: ${({ct_pri: "CT primary", ct_sec: "CT secondary", f51: "Function 51", curve: "Curve", pickup: "Pickup", tms: "TMS"})[k]} = ${typeof v === "number" ? v : v}${k === "pickup" ? ` x In, ${prim()} A primary` : ""}.`); check(); },
+    onError: (n, v, lim) => T.say(`The relay refuses ${v}: The range of ${n.t} is ${lim}. A pickup is set in multiples of the rated current In, not in amperes.`, "bad")});
+  let inj = false;
+  const measured = () => (inj ? Q.amps * P.ct_pri / parseFloat(P.ct_sec) : 0);
+  /* the protection study and the test set */
+  side.append(h("div", {class: "fdoc"}, h("b", {}, "Protection study, feeder of the library"), h("br"),
+    "Current transformers: 250/1 A", h("br"), "Function 51: Standard inverse (IEC SI)", h("br"), "Pickup: 250 A primary", h("br"),
+    "Time multiplier: 0.10", h("br"), "Output contact: 20 ms"));
+  const TSD = FIELD.device(side, {model: "Secondary test set", tag: "Current output to the relay", lcd: "blue", rows: 4, cols: 20});
+  TSD.el.style.marginTop = "10px";
+  const TS = FIELD.menu(TSD, [
+    {t: "Current", key: "amps", num: {min: 0, max: 20, dec: 2, unit: "A"}},
+    {t: "Phase", key: "phase", list: ["L1", "L2", "L3"]},
+    {t: "Inject", act: () => inject()},
+    {t: "Timer", show: () => (last && last.fresh ? last.t.toFixed(3) + " s" : "-")}
+  ], {params: Q, title: "Test set"});
+  function curveTime(m) {
+    if (P.curve === "IEC SI") return P.tms * 0.14 / (Math.pow(m, 0.02) - 1);
+    if (P.curve === "IEC VI") return P.tms * 13.5 / (m - 1);
+    if (P.curve === "IEC EI") return P.tms * 80 / (m * m - 1);
+    return P.tms;
+  }
+  function inject() {
+    inj = true; const sec = parseFloat(P.ct_sec), m = Q.amps / (P.pickup * sec);
+    if (last) last.fresh = false;
+    if (P.f51 !== "On") { inj = false; T.say(`Injection of ${Q.amps.toFixed(2)} A: The relay does not trip within 10 s. Is the function 51 switched on?`, "bad"); return "NO TRIP 10 S"; }
+    if (m <= 1.0) { inj = false; T.say(`Injection of ${Q.amps.toFixed(2)} A: Below the pickup of ${(P.pickup * sec).toFixed(2)} A secondary, so the relay does not start.`, "bad"); return "NO TRIP 10 S"; }
+    const t = curveTime(m) + 0.02, prim = Q.amps * P.ct_pri / sec;
+    R.led("START", true); setTimeout(() => R.led("START", false), 600);
+    trip = true; R.led("TRIP", true); last = {t, phase: Q.phase, prim, amps: Q.amps, fresh: true}; inj = false; seenRec = false;
+    const ok = settingsOk() && Math.abs(Q.amps - 2) < 0.005;
+    T.say(`Injection of ${Q.amps.toFixed(2)} A, ${m.toFixed(2)} times the pickup: The relay trips after ${t.toFixed(3)} s.` + (ok ? " The formula gives 1.003 s plus 0.020 s of the contact." : ""), ok ? "ok" : "");
+    if (ok) T.goal("inj"); else if (Math.abs(Q.amps - 2) < 0.005) T.say("The time does not match the study. Check the ratio, the curve, the pickup and the TMS.", "bad");
+    return "TRIP " + t.toFixed(3) + " S";
+  }
+  const settingsOk = () => P.ct_pri === 250 && P.ct_sec === "1 A" && P.f51 === "On" && P.curve === "IEC SI" && Math.abs(P.pickup - 1) < 1e-9 && Math.abs(P.tms - 0.1) < 1e-9;
+  function check() {
+    if (P.ct_pri === 250 && P.ct_sec === "1 A") T.goal("ct");
+    if (settingsOk()) T.goal("set");
+  }
+  const watch = () => { const p = M.path(); if (trip && p.includes("Records")) seenRec = true; };
+  R.onKey(watch);
+  /* self-test: the full procedure through the keys */
+  window.FIELD_TEST = window.FIELD_TEST || {};
+  window.FIELD_TEST.w3 = () => {
+    FIELD.go(R, M, ["Settings", "System data", "CT primary"]); FIELD.typeNumber(R, 250, 0);
+    FIELD.go(R, M, ["Settings", "System data", "CT secondary"]); R.press("▼"); R.press("OK");
+    if (P.ct_sec !== "1 A") { R.press("OK"); R.press("▼"); R.press("OK"); }
+    FIELD.go(R, M, ["Settings", "Protection", "51 I>"]); R.press("▲"); R.press("OK");
+    FIELD.go(R, M, ["Settings", "Protection", "Curve"]); for (let i = 0; i < 3; i++) R.press("▲"); R.press("OK");
+    FIELD.go(R, M, ["Settings", "Protection", "TMS"]); FIELD.typeNumber(R, 0.1, 2);
+    FIELD.go(TSD, TS, ["Current"]); FIELD.typeNumber(TSD, 2, 2);
+    FIELD.go(TSD, TS, ["Inject"]);
+    FIELD.go(R, M, ["Records"]); R.btns.RESET.click();
+    return {settings: {...P}, last, complete: T.complete()};
+  };
 })();
 
 initLab(3,"Discrete and Hybrid Dynamics: State Machines, Thermostats and Protection Relays",[{"q": "A state machine has 4 states and 6 events. How many pairs of a state and an event can its table cover?", "options": ["24", "10", "4", "6"], "answer": 0, "why": "$4 \\times 6 = 24$."}, {"q": "What does a deterministic state machine guarantee?", "options": ["At most one next state for each pair of a state and an event", "That every event changes the state", "That every state can be reached", "That it never stops"], "answer": 0, "why": "Determinism concerns the transition function, not reachability."}, {"q": "In which state of a charger is the contactor closed?", "options": ["C, with +6 V on the pilot", "A, with +12 V", "B, with +9 V", "F, with -12 V"], "answer": 0, "why": "Only in state C does the car ask for energy."}, {"q": "Which current does a duty cycle of 50 percent on the pilot announce?", "options": ["30 A", "50 A", "16 A", "32 A"], "answer": 0, "why": "$50 \\times 0.6 = 30$ A."}, {"q": "What does the guard of a hybrid automaton do?", "options": ["It enables a transition when a condition on the continuous state holds", "It integrates the flow", "It resets the clock of the computer", "It stores the trace"], "answer": 0, "why": "Guards connect the continuous state with the discrete transitions."}, {"q": "A thermostat with a band of 2 K holds 21 °C. At which temperature does it switch the heater on?", "options": ["20 °C", "19 °C", "21 °C", "22 °C"], "answer": 0, "why": "$T_{lo} = 21 - 2/2 = 20$ °C."}, {"q": "What does a larger time multiplier setting do to the curve of an overcurrent relay?", "options": ["It scales all trip times up", "It raises the pickup current", "It makes the curve less inverse", "It removes the delay"], "answer": 0, "why": "TMS multiplies the whole curve."}, {"q": "At $M = 2$ and $TMS = 0.1$, after how long does a standard inverse relay trip?", "options": ["About 1.0 s", "About 0.1 s", "About 10 s", "About 0.3 s"], "answer": 0, "why": "$0.014/(2^{0.02} - 1) = 1.003$ s."}, {"q": "Why does the controller shed loads when it forms the island?", "options": ["The load must fit the inverter of the battery", "To charge the battery", "To keep the PCC closed", "To raise the frequency"], "answer": 0, "why": "The inverter can carry 250 kW at most."}, {"q": "What does model learning construct?", "options": ["A state machine from observations of a black box", "A neural network for images", "A table of relay settings", "A differential equation from first principles"], "answer": 0, "why": "It learns the states and transitions from inputs and outputs."}],["Which event of the charger surprised you in the scene of the lecture, and why did the table ignore it?", "How did the margin of Part B change with the time multiplier of the incomer?", "What did you do first when the campus went dark in Part C, and what would an automatic controller do?", "Which result of stage 3 would you report first to the facility manager of the campus?", "How would you explain a hybrid automaton to someone who knows only state machines?"]);

@@ -9,7 +9,7 @@ Prof. Dr. Utku Kose, Süleyman Demirel University
 
 </div>
 
-How a digital twin answers questions about alternatives and about the future. The week puts the twin of the library into a closed loop with its thermostat. It compares heating schedules over the observed week and over 300 possible weeks drawn by Monte Carlo simulation. It then predicts the remaining useful life (RUL) of the battery of the campus, with its uncertainty, from three years of capacity tests. Finally, it plans the order of new modules. Two virtual laboratories in three dimensions (3D), the plant room of the library and the battery container, complete the week. **Estimated study time:** 8 to 9 hours.
+How a digital twin answers questions about alternatives and about the future. The week puts the twin of the library into a closed loop with its thermostat. It compares heating schedules over the observed week and over 300 possible weeks drawn by Monte Carlo simulation. It then predicts the remaining useful life (RUL) of the battery of the campus, with its uncertainty, from three years of monthly capacity estimates. Finally, it plans the order of new modules. Two virtual laboratories in three dimensions (3D), the plant room of the library and the battery container, complete the week. **Estimated study time:** 8 to 9 hours.
 
 ## Materials of the week
 
@@ -19,14 +19,14 @@ Each material has its own role. Start with the lecture page; the study path belo
 |---|---|---|
 | Lecture page | The concepts of the week, with a 3D scene, an animation, discussion questions, knowledge checks, the development templates, review cards and the references | [Lecture page](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-13/lecture.html) |
 | Colab notebook | Python step 13: Scenarios and Monte Carlo, then six hands-on sections that compare heating schedules with the twin of the library, run them over 300 possible weeks, fit the ageing of the battery, predict its end of life with the uncertainty, plan the order of new modules and compute stage 13 of the campus microgrid, with exercises | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb) |
-| Interactive lab | What-if and maintenance lab: Four parts, among them two 3D virtual laboratories (the plant room of the library and the battery container of the campus), a step-by-step calculator, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-13/lab.html) |
+| Interactive lab | What-if and maintenance lab: Five parts, among them two 3D virtual laboratories (the plant room of the library and the battery container of the campus), a field task with the yearly capacity test of the battery, a step-by-step calculator, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-13/lab.html) |
 | PDF lecture notes | The Python step and the lecture in one printable file | [PDF notes](Week13_Lecture_Notes.pdf) |
 
 <table><tr><td width="50%"><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-13/NB13_digital_twin_whatif_maintenance.ipynb"><img src="screenshots/nb_1.png" alt="A figure from the Colab notebook of week 13"></a><br><sub>From the Colab notebook</sub></td><td width="50%"><a href="https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-13/lab.html"><img src="screenshots/lab.png" alt="Interactive lab of week 13"></a><br><sub>The interactive lab</sub></td></tr></table>
 
 ## Learning outcomes
 
-By the end of the week, students are expected to run a calibrated twin in a closed loop to compare decisions and to check it against observed data first. They should estimate probabilities and quantiles with the Monte Carlo method and state their standard error. They should also be able to distinguish corrective, preventive, condition-based and predictive maintenance. Finally, they should be able to predict the remaining useful life (RUL) of a battery from capacity tests, with its uncertainty. On that basis, they should plan the order of spare parts with a stated probability of arriving in time. In Python, students are expected to loop over scenarios and to draw random numbers with NumPy.
+By the end of the week, students are expected to run a calibrated twin in a closed loop to compare decisions and to check it against observed data first. They should estimate probabilities and quantiles with the Monte Carlo method and state their standard error. They should also be able to distinguish corrective, preventive, condition-based and predictive maintenance. Finally, they should be able to predict the remaining useful life (RUL) of a battery from capacity estimates, with its uncertainty. On that basis, they should plan the order of spare parts with a stated probability of arriving in time. In Python, students are expected to loop over scenarios and to draw random numbers with NumPy.
 
 ## Study path
 
@@ -37,8 +37,9 @@ By the end of the week, students are expected to run a calibrated twin in a clos
 | 3 | Work through the two virtual laboratories of the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-13/lab.html), Parts A and C, and solve Parts B and D | 1 hour 30 minutes |
 | 4 | Work through Sections 1 to 5 of the Colab notebook with your own results and solve the exercises | 2 hours |
 | 5 | Run one development template of the week and use the application switch of Section 6 | 45 minutes |
-| 6 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-13/lab.html) (tab: Check yourself) | 20 minutes |
-| 7 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
+| 6 | Do the field task of Part E in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-13/lab.html): Run the yearly capacity test of the battery | 30 minutes |
+| 7 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-13/lab.html) (tab: Check yourself) | 20 minutes |
+| 8 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
 
 ## Live session plan
 
@@ -53,7 +54,7 @@ The week runs as one synchronous session of about three hours in class or online
 | 1:30 to 1:40 | Break |
 | 1:40 to 2:10 | Lecture page, part 3: Predictive maintenance and the remaining useful life, the calculator of Part B and Section 3 |
 | 2:10 to 2:40 | Lecture page, part 4: The uncertainty of the remaining useful life with the 3D scene A fan of futures, the battery container of Part C and Section 4 |
-| 2:40 to 3:00 | The development templates and the engineering side, the campus microgrid, stage 13 with Part D and Section 5, and the closing section on learning machines. After the session: Section 6, the self-assessment, the PDF notes and the weekly task |
+| 2:40 to 3:00 | The development templates and the engineering side, the campus microgrid, stage 13 with Part D and Section 5, and the closing section on learning machines. After the session: Section 6, the field task of Part E, the self-assessment, the PDF notes and the weekly task |
 
 ## Weekly task and submission
 

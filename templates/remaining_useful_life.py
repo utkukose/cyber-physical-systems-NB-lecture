@@ -1,17 +1,18 @@
-"""The remaining useful life (RUL) of a battery from its capacity tests: A least-squares fit of calendar and cycle
+"""The remaining useful life (RUL) of a battery from its capacity readings: A least-squares fit of calendar and cycle
 ageing, 1 - Q/Q0 = a sqrt(t) + b N, the end of life from a quadratic equation in sqrt(t), a Monte Carlo distribution of
 the end of life from the uncertainty of the fit and the latest safe order of spare parts.
 
 Week: 13
-Inputs: a file of comma-separated values with the columns years (age at the test), efc (equivalent full cycles up to the
-test) and capacity_kwh, one row per test; the rated capacity Q0 (kWh); the cycles per day from now on; the share of the
+Inputs: a file of comma-separated values with the columns years (age at the reading), efc (equivalent full cycles up to
+the reading) and capacity_kwh, one row per reading; a reading is a monthly capacity estimate of the battery management
+system or the result of a capacity test; the rated capacity Q0 (kWh); the cycles per day from now on; the share of the
 capacity lost at the end of life (0.2 for 80 percent); the lead time of the spare parts (months) and the required
 probability that they arrive in time.
 Outputs: a and b with their standard errors and their correlation, the root mean square error (RMSE) of the fit in kWh,
 the end of life and the RUL in years, the 5, 50 and 95 percent quantiles of the end of life over 2000 futures, and the
-latest month after the last test to order the spare parts.
-Example: python remaining_useful_life.py [tests.csv] [cycles_per_day]
-Without a file, the example builds 36 monthly tests of a battery of 500 kWh that makes about one cycle per day. Requires
+latest month after the last reading to order the spare parts.
+Example: python remaining_useful_life.py [capacity.csv] [cycles_per_day]
+Without a file, the example builds 36 monthly estimates of a battery of 500 kWh that makes about one cycle per day. Requires
 NumPy.
 """
 import csv
@@ -26,8 +27,8 @@ LEAD_MONTHS = 6     # lead time of the spare parts
 LEVEL = 0.95        # required probability that the spare parts arrive in time
 
 
-def example_tests(seed=13, months=36, a_true=0.025, b_true=0.00004):
-    """Monthly capacity tests of a battery with more cycles in summer and a noise of 1.5 kWh."""
+def example_readings(seed=13, months=36, a_true=0.025, b_true=0.00004):
+    """Monthly capacity estimates of a battery with more cycles in summer and a noise of 1.5 kWh."""
     rng = np.random.default_rng(seed)
     rows, cycles = [], 0.0
     for m in range(months):
@@ -39,17 +40,17 @@ def example_tests(seed=13, months=36, a_true=0.025, b_true=0.00004):
     return {c: np.array(v) for c, v in zip(("years", "efc", "capacity_kwh"), zip(*rows))}
 
 
-def load_tests(path):
-    """Reads the capacity tests from a file of comma-separated values."""
+def load_readings(path):
+    """Reads the capacity readings from a file of comma-separated values."""
     with open(path, newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     return {c: np.array([float(r[c]) for r in rows]) for c in ("years", "efc", "capacity_kwh")}
 
 
-def fit_ageing(tests):
+def fit_ageing(readings):
     """Least squares of 1 - Q/Q0 = a sqrt(t) + b N. Returns a, b, their covariance and the RMSE in kWh."""
-    X = np.column_stack([np.sqrt(tests["years"]), tests["efc"]])
-    y = 1 - tests["capacity_kwh"] / Q0
+    X = np.column_stack([np.sqrt(readings["years"]), readings["efc"]])
+    y = 1 - readings["capacity_kwh"] / Q0
     (a, b), *_ = np.linalg.lstsq(X, y, rcond=None)
     resid = y - X @ np.array([a, b])
     s2 = resid @ resid / (len(y) - 2)                # variance of the residuals
@@ -92,13 +93,13 @@ def latest_order(ends, t_now, lead_months=LEAD_MONTHS, level=LEVEL):
 
 
 def main():
-    tests = load_tests(sys.argv[1]) if len(sys.argv) > 1 else example_tests()
+    readings = load_readings(sys.argv[1]) if len(sys.argv) > 1 else example_readings()
     per_day = float(sys.argv[2]) if len(sys.argv) > 2 else 1.0
-    t_now, n_now = float(tests["years"][-1]), float(tests["efc"][-1])
-    a, b, cov, rmse = fit_ageing(tests)
+    t_now, n_now = float(readings["years"][-1]), float(readings["efc"][-1])
+    a, b, cov, rmse = fit_ageing(readings)
     se_a, se_b = np.sqrt(np.diag(cov))
-    print(f"{len(tests['years'])} tests, the last after {t_now:.2f} years and {n_now:.1f} cycles: "
-          f"{tests['capacity_kwh'][-1]:.1f} kWh")
+    print(f"{len(readings['years'])} readings, the last after {t_now:.2f} years and {n_now:.1f} cycles: "
+          f"{readings['capacity_kwh'][-1]:.1f} kWh")
     print(f"a = {a:.5f} ± {se_a:.5f} per square root of a year, b = {b:.3e} ± {se_b:.1e} per cycle, "
           f"correlation {cov[0, 1] / (se_a * se_b):.3f}, RMSE {rmse:.2f} kWh")
     eol = end_of_life(a, b, per_day, t_now, n_now)

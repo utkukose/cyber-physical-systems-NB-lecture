@@ -19,7 +19,7 @@ Each material has its own role. Start with the lecture page; the study path belo
 |---|---|---|
 | Lecture page | The concepts of the week, with a 3D scene, an animation, discussion questions, knowledge checks, the development templates, review cards and the references | [Lecture page](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-08/lecture.html) |
 | Colab notebook | Python step 8: Bytes, bits and binary messages, then six hands-on sections that build Modbus frames with their CRC and poll cycles, match MQTT topics and count the traffic, compute repeated trip messages and simulate a queue, run the frequency loop through a delayed network and compute stage 8 of the campus microgrid, with exercises | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-08/NB08_networks_communication.ipynb) |
-| Interactive lab | Networks and communication lab: Four parts, among them three 3D virtual laboratories (the Modbus bench, the MQTT broker and frequency control over the network), step-by-step calculators, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-08/lab.html) |
+| Interactive lab | Networks and communication lab: Five parts, among them three 3D virtual laboratories (the Modbus bench, the MQTT broker and frequency control over the network), a field task with a new meter on the bus, step-by-step calculators, a self-assessment and an exportable learning log | [Interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-08/lab.html) |
 | PDF lecture notes | The Python step and the lecture in one printable file | [PDF notes](Week08_Lecture_Notes.pdf) |
 
 <table><tr><td width="50%"><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-08/NB08_networks_communication.ipynb"><img src="screenshots/nb_1.png" alt="A figure from the Colab notebook of week 8"></a><br><sub>From the Colab notebook</sub></td><td width="50%"><a href="https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-08/lab.html"><img src="screenshots/lab.png" alt="Interactive lab of week 8"></a><br><sub>The interactive lab</sub></td></tr></table>
@@ -37,8 +37,9 @@ By the end of the week, students are expected to explain the layers of a network
 | 3 | Work through the three virtual laboratories of the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-08/lab.html), Parts A, B and C, and solve Part D | 1 hour 30 minutes |
 | 4 | Work through Sections 1 to 5 of the Colab notebook with your own results and solve the exercises | 2 hours |
 | 5 | Run one development template of the week and use the application switch of Section 6 | 45 minutes |
-| 6 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-08/lab.html) (tab: Check yourself) | 20 minutes |
-| 7 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
+| 6 | Do the field task of Part E in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-08/lab.html): Add a meter to the RS-485 bus | 30 minutes |
+| 7 | Take the self-assessment in the [interactive lab](https://utkukose.github.io/cyber-physical-systems-NB-lecture/weeks/week-08/lab.html) (tab: Check yourself) | 20 minutes |
+| 8 | Write the reflection in the interactive lab, export the learning log and complete the weekly task below | 45 minutes |
 
 ## Live session plan
 
@@ -53,7 +54,7 @@ The week runs as one synchronous session of about three hours in class or online
 | 1:30 to 1:40 | Break |
 | 1:40 to 2:05 | Lecture page, part 3: IEC 61850 with the 3D scene A trip in the substation, queues with the animation and Section 3 |
 | 2:05 to 2:35 | Lecture page, part 4: Control over a network and the delay margin, the frequency loop of Part C and Section 4 |
-| 2:35 to 3:00 | The development templates and the comparison of the protocols, the campus microgrid, stage 8 with Part D and Section 5, and the closing section on the edge and the cloud. After the session: Section 6, the self-assessment, the PDF notes and the weekly task |
+| 2:35 to 3:00 | The development templates and the comparison of the protocols, the campus microgrid, stage 8 with Part D and Section 5, and the closing section on the edge and the cloud. After the session: Section 6, the field task of Part E, the self-assessment, the PDF notes and the weekly task |
 
 ## Weekly task and submission
 
