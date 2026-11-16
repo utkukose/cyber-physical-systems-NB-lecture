@@ -15,6 +15,10 @@
   "text": "Bacher, P., & Madsen, H. (2011). Identifying suitable models for the heat dynamics of buildings. Energy and Buildings, 43(7), 1511-1522.",
   "link": "https://doi.org/10.1016/j.enbuild.2011.02.005"
  },
+ "bennett1948": {
+  "text": "Bennett, W. R. (1948). Spectra of quantized signals. Bell System Technical Journal, 27(3), 446-472.",
+  "link": "https://doi.org/10.1002/j.1538-7305.1948.tb01340.x"
+ },
  "brearley2017": {
   "text": "Brearley, B. J., & Prabu, R. R. (2017). A review on issues and approaches for microgrid protection. Renewable and Sustainable Energy Reviews, 67, 988-997.",
   "link": "https://doi.org/10.1016/j.rser.2016.09.047"
@@ -23,9 +27,17 @@
   "text": "Carrillo, C., Obando Montaño, A. F., Cidrás, J., & Díaz-Dorado, E. (2013). Review of power curve modelling for wind turbines. Renewable and Sustainable Energy Reviews, 21, 572-581.",
   "link": "https://doi.org/10.1016/j.rser.2013.01.012"
  },
+ "depuru2011": {
+  "text": "Depuru, S. S. S. R., Wang, L., & Devabhaktuni, V. (2011). Smart meters for power grid: Challenges, issues, advantages and status. Renewable and Sustainable Energy Reviews, 15(6), 2736-2742.",
+  "link": "https://doi.org/10.1016/j.rser.2011.02.039"
+ },
  "gu2003": {
   "text": "Gu, K., Kharitonov, V. L., & Chen, J. (2003). Stability of Time-Delay Systems. Birkhäuser.",
   "link": "https://doi.org/10.1007/978-1-4612-0039-0"
+ },
+ "hart1992": {
+  "text": "Hart, G. W. (1992). Nonintrusive appliance load monitoring. Proceedings of the IEEE, 80(12), 1870-1891.",
+  "link": "https://doi.org/10.1109/5.192069"
  },
  "hayes1950": {
   "text": "Hayes, N. D. (1950). Roots of the transcendental equation associated with a certain difference-differential equation. Journal of the London Mathematical Society, s1-25(3), 226-232.",
@@ -150,6 +162,10 @@
  "rajkumar2010": {
   "text": "Rajkumar, R., Lee, I., Sha, L., & Stankovic, J. (2010). Cyber-physical systems: The next computing revolution. In Proceedings of the 47th Design Automation Conference (pp. 731-736). ACM.",
   "link": "https://doi.org/10.1145/1837274.1837461"
+ },
+ "shannon1949": {
+  "text": "Shannon, C. E. (1949). Communication in the presence of noise. Proceedings of the IRE, 37(1), 10-21.",
+  "link": "https://doi.org/10.1109/JRPROC.1949.232969"
  },
  "shi2016": {
   "text": "Shi, W., Cao, J., Zhang, Q., Li, Y., & Xu, L. (2016). Edge computing: Vision and challenges. IEEE Internet of Things Journal, 3(5), 637-646.",

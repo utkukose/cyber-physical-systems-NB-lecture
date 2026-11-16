@@ -6,9 +6,12 @@ Every reference used anywhere in the course, in alphabetical order of its key. E
 - `astrom1997` Åström, K. J., & Wittenmark, B. (1997). *Computer-Controlled Systems: Theory and Design* (3rd ed.). Prentice Hall.
 - `astrom2021` Åström, K. J., & Murray, R. M. (2021). *Feedback Systems: An Introduction for Scientists and Engineers* (2nd ed.). Princeton University Press.
 - `bacher2011` Bacher, P., & Madsen, H. (2011). Identifying suitable models for the heat dynamics of buildings. *Energy and Buildings*, *43*(7), 1511-1522. <https://doi.org/10.1016/j.enbuild.2011.02.005>
+- `bennett1948` Bennett, W. R. (1948). Spectra of quantized signals. *Bell System Technical Journal*, *27*(3), 446-472. <https://doi.org/10.1002/j.1538-7305.1948.tb01340.x>
 - `brearley2017` Brearley, B. J., & Prabu, R. R. (2017). A review on issues and approaches for microgrid protection. *Renewable and Sustainable Energy Reviews*, *67*, 988-997. <https://doi.org/10.1016/j.rser.2016.09.047>
 - `carrillo2013` Carrillo, C., Obando Montaño, A. F., Cidrás, J., & Díaz-Dorado, E. (2013). Review of power curve modelling for wind turbines. *Renewable and Sustainable Energy Reviews*, *21*, 572-581. <https://doi.org/10.1016/j.rser.2013.01.012>
+- `depuru2011` Depuru, S. S. S. R., Wang, L., & Devabhaktuni, V. (2011). Smart meters for power grid: Challenges, issues, advantages and status. *Renewable and Sustainable Energy Reviews*, *15*(6), 2736-2742. <https://doi.org/10.1016/j.rser.2011.02.039>
 - `gu2003` Gu, K., Kharitonov, V. L., & Chen, J. (2003). *Stability of Time-Delay Systems*. Birkhäuser. <https://doi.org/10.1007/978-1-4612-0039-0>
+- `hart1992` Hart, G. W. (1992). Nonintrusive appliance load monitoring. *Proceedings of the IEEE*, *80*(12), 1870-1891. <https://doi.org/10.1109/5.192069>
 - `hayes1950` Hayes, N. D. (1950). Roots of the transcendental equation associated with a certain difference-differential equation. *Journal of the London Mathematical Society*, *s1-25*(3), 226-232. <https://doi.org/10.1112/jlms/s1-25.3.226>
 - `henzinger1996` Henzinger, T. A. (1996). The theory of hybrid automata. In *Proceedings of the 11th Annual IEEE Symposium on Logic in Computer Science* (pp. 278-292). IEEE. <https://doi.org/10.1109/LICS.1996.561342>
 - `hespanha2007` Hespanha, J. P., Naghshtabrizi, P., & Xu, Y. (2007). A survey of recent results in networked control systems. *Proceedings of the IEEE*, *95*(1), 138-162. <https://doi.org/10.1109/JPROC.2006.887288>
@@ -40,6 +43,7 @@ Every reference used anywhere in the course, in alphabetical order of its key. E
 - `plett2004` Plett, G. L. (2004). Extended Kalman filtering for battery management systems of LiPB-based HEV battery packs. *Journal of Power Sources*, *134*(2), 252-261. <https://doi.org/10.1016/j.jpowsour.2004.02.031>
 - `python` Van Rossum, G., & Drake, F. L. (2009). *Python 3 Reference Manual*. CreateSpace.
 - `rajkumar2010` Rajkumar, R., Lee, I., Sha, L., & Stankovic, J. (2010). Cyber-physical systems: The next computing revolution. In *Proceedings of the 47th Design Automation Conference* (pp. 731-736). ACM. <https://doi.org/10.1145/1837274.1837461>
+- `shannon1949` Shannon, C. E. (1949). Communication in the presence of noise. *Proceedings of the IRE*, *37*(1), 10-21. <https://doi.org/10.1109/JRPROC.1949.232969>
 - `shi2016` Shi, W., Cao, J., Zhang, Q., Li, Y., & Xu, L. (2016). Edge computing: Vision and challenges. *IEEE Internet of Things Journal*, *3*(5), 637-646. <https://doi.org/10.1109/JIOT.2016.2579198>
 - `skoplaki2009` Skoplaki, E., & Palyvos, J. A. (2009). On the temperature dependence of photovoltaic module electrical performance: A review of efficiency/power correlations. *Solar Energy*, *83*(5), 614-624. <https://doi.org/10.1016/j.solener.2008.10.008>
 - `vaandrager2017` Vaandrager, F. (2017). Model learning. *Communications of the ACM*, *60*(2), 86-95. <https://doi.org/10.1145/2967606>
