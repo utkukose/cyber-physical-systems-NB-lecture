@@ -24,6 +24,7 @@ Every reference used anywhere in the course, in alphabetical order of its key. E
 - `chandola2009` Chandola, V., Banerjee, A., & Kumar, V. (2009). Anomaly detection: A survey. *ACM Computing Surveys*, *41*(3), Article 15. <https://doi.org/10.1145/1541880.1541882>
 - `clarke1986` Clarke, E. M., Emerson, E. A., & Sistla, A. P. (1986). Automatic verification of finite-state concurrent systems using temporal logic specifications. *ACM Transactions on Programming Languages and Systems*, *8*(2), 244-263. <https://doi.org/10.1145/5397.5399>
 - `depuru2011` Depuru, S. S. S. R., Wang, L., & Devabhaktuni, V. (2011). Smart meters for power grid: Challenges, issues, advantages and status. *Renewable and Sustainable Energy Reviews*, *15*(6), 2736-2742. <https://doi.org/10.1016/j.rser.2011.02.039>
+- `derler2012` Derler, P., Lee, E. A., & Sangiovanni-Vincentelli, A. (2012). Modeling cyber-physical systems. *Proceedings of the IEEE*, *100*(1), 13-28. <https://doi.org/10.1109/JPROC.2011.2160929>
 - `en1434_1` European Committee for Standardization. (2022). *Thermal energy meters - Part 1: General requirements* (EN 1434-1:2022). CEN.
 - `en50110_1` European Committee for Electrotechnical Standardization. (2023). *Operation of electrical installations - Part 1: General requirements* (EN 50110-1:2023). CENELEC.
 - `goodfellow2015` Goodfellow, I. J., Shlens, J., & Szegedy, C. (2015). Explaining and harnessing adversarial examples. In *3rd International Conference on Learning Representations (ICLR 2015)*. <https://arxiv.org/abs/1412.6572>

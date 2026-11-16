@@ -9,7 +9,7 @@ Prof. Dr. Utku Kose, Süleyman Demirel University
 
 </div>
 
-What makes a system cyber-physical, and how a feedback loop joins sensing, computing and acting. The week introduces the campus microgrid, the project of the course, with its balance of power and energy. It models the solar plant and the wind turbine and closes a first loop that shaves the peak of the import with the battery. Two virtual laboratories in three dimensions (3D) complete the week. **Estimated study time:** 8 to 9 hours.
+What makes a system cyber-physical, why its hardware and software work only together, and how a feedback loop joins sensing, computing and acting. The week introduces the campus microgrid, the project of the course, with its balance of power and energy. It models the solar plant and the wind turbine and closes a first loop that shaves the peak of the import with the battery. Two virtual laboratories in three dimensions (3D) complete the week. **Estimated study time:** 8 to 9 hours.
 
 ## Materials of the week
 
@@ -26,7 +26,7 @@ Each material has its own role. Start with the lecture page; the study path belo
 
 ## Learning outcomes
 
-By the end of the week, students are expected to explain what makes a system cyber-physical and to name its plant, sensors, controllers, actuators and network. They should be able to distinguish open-loop from closed-loop control and compute a proportional action. They should also compute the power balance of a microgrid, its energies and its self-sufficiency, and evaluate simple models of a solar plant and a wind turbine. Finally, they should be able to simulate a first feedback loop and relate its gain to its speed and stability. In Python, students are expected to use variables, lists, loops, decisions and functions.
+By the end of the week, students are expected to explain what makes a system cyber-physical and to recognise such systems in daily life. They should be able to name the plant, sensors, controllers, actuators and network of such a system. They should be able to explain why the hardware and the software of such a system are designed together, with the agreements on units, timing, limits and faults between them. They should be able to distinguish open-loop from closed-loop control and compute a proportional action. They should also compute the power balance of a microgrid, its energies and its self-sufficiency, and evaluate simple models of a solar plant and a wind turbine. Finally, they should be able to simulate a first feedback loop and relate its gain to its speed and stability. In Python, students are expected to use variables, lists, loops, decisions and functions.
 
 ## Study path
 
@@ -47,9 +47,9 @@ The week runs as one synchronous session of about three hours in class or online
 
 | Time | Activity |
 |---|---|
-| 0:00 to 0:20 | Opening: Cyber-physical systems around us and the campus microgrid, the project of the course. Students open the Colab notebook, save a copy in Drive and run Section 0 |
-| 0:20 to 0:45 | Colab, together: Python step 1, ending with the function that computes the import |
-| 0:45 to 1:10 | Lecture page, part 1: What makes a system cyber-physical, with the 3D scene The loop of the campus |
+| 0:00 to 0:15 | Opening: Cyber-physical systems around us and the campus microgrid, the project of the course. Students open the Colab notebook, save a copy in Drive and run Section 0 |
+| 0:15 to 0:40 | Colab, together: Python step 1, ending with the function that computes the import |
+| 0:40 to 1:10 | Lecture page, part 1: What makes a system cyber-physical, with the 3D scene The loop of the campus, then hardware and software together with its discussion questions |
 | 1:10 to 1:35 | Lecture page, part 2: Energy, power and the balance, the model table of Part A and Section 1 |
 | 1:35 to 1:45 | Break |
 | 1:45 to 2:05 | Lecture page, part 3: The models of the sun and the wind with Part B and Section 2 |
