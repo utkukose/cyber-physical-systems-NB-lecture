@@ -1,4 +1,8 @@
 {
+ "alshiekh2018": {
+  "text": "Alshiekh, M., Bloem, R., Ehlers, R., Könighofer, B., Niekum, S., & Topcu, U. (2018). Safe reinforcement learning via shielding. Proceedings of the AAAI Conference on Artificial Intelligence, 32(1), 2669-2678.",
+  "link": "https://doi.org/10.1609/aaai.v32i1.11797"
+ },
  "alur2015": {
   "text": "Alur, R. (2015). Principles of Cyber-Physical Systems. MIT Press.",
   "link": "https://cis.upenn.edu/~alur/pcps.html"
@@ -23,9 +27,17 @@
   "text": "Audsley, N., Burns, A., Richardson, M., Tindell, K., & Wellings, A. J. (1993). Applying new scheduling theory to static priority pre-emptive scheduling. Software Engineering Journal, 8(5), 284-292.",
   "link": "https://doi.org/10.1049/sej.1993.0034"
  },
+ "avizienis2004": {
+  "text": "Avizienis, A., Laprie, J.-C., Randell, B., & Landwehr, C. (2004). Basic concepts and taxonomy of dependable and secure computing. IEEE Transactions on Dependable and Secure Computing, 1(1), 11-33.",
+  "link": "https://doi.org/10.1109/TDSC.2004.2"
+ },
  "bacher2011": {
   "text": "Bacher, P., & Madsen, H. (2011). Identifying suitable models for the heat dynamics of buildings. Energy and Buildings, 43(7), 1511-1522.",
   "link": "https://doi.org/10.1016/j.enbuild.2011.02.005"
+ },
+ "baier2008": {
+  "text": "Baier, C., & Katoen, J.-P. (2008). Principles of Model Checking. MIT Press.",
+  "link": ""
  },
  "bennett1948": {
   "text": "Bennett, W. R. (1948). Spectra of quantized signals. Bell System Technical Journal, 27(3), 446-472.",
@@ -66,6 +78,10 @@
  "chandola2009": {
   "text": "Chandola, V., Banerjee, A., & Kumar, V. (2009). Anomaly detection: A survey. ACM Computing Surveys, 41(3), Article 15.",
   "link": "https://doi.org/10.1145/1541880.1541882"
+ },
+ "clarke1986": {
+  "text": "Clarke, E. M., Emerson, E. A., & Sistla, A. P. (1986). Automatic verification of finite-state concurrent systems using temporal logic specifications. ACM Transactions on Programming Languages and Systems, 8(2), 244-263.",
+  "link": "https://doi.org/10.1145/5397.5399"
  },
  "depuru2011": {
   "text": "Depuru, S. S. S. R., Wang, L., & Devabhaktuni, V. (2011). Smart meters for power grid: Challenges, issues, advantages and status. Renewable and Sustainable Energy Reviews, 15(6), 2736-2742.",
@@ -139,6 +155,10 @@
   "text": "International Electrotechnical Commission. (2025). Programmable controllers - Part 3: Programming languages (IEC 61131-3:2025, Edition 4.0). IEC.",
   "link": ""
  },
+ "iec61508": {
+  "text": "International Electrotechnical Commission. (2010). Functional safety of electrical/electronic/programmable electronic safety-related systems – Part 1: General requirements (IEC 61508-1:2010, Edition 2.0). IEC.",
+  "link": "https://webstore.iec.ch/publication/5515"
+ },
  "iec61850_5": {
   "text": "International Electrotechnical Commission. (2013). Communication networks and systems for power utility automation - Part 5: Communication requirements for functions and device models (IEC 61850-5:2013, Edition 2.0). IEC.",
   "link": ""
@@ -190,6 +210,10 @@
  "kasten1980": {
   "text": "Kasten, F., & Czeplak, G. (1980). Solar and terrestrial radiation dependent on the amount and type of cloud. Solar Energy, 24(2), 177-189.",
   "link": "https://doi.org/10.1016/0038-092X(80)90391-6"
+ },
+ "kelly2004": {
+  "text": "Kelly, T. (2004). A systematic approach to safety case management (SAE Technical Paper 2004-01-1779). SAE International.",
+  "link": "https://doi.org/10.4271/2004-01-1779"
  },
  "kiefer1953": {
   "text": "Kiefer, J. (1953). Sequential minimax search for a maximum. Proceedings of the American Mathematical Society, 4(3), 502-506.",
@@ -347,6 +371,10 @@
   "text": "Rasheed, A., San, O., & Kvamsdal, T. (2020). Digital Twin: Values, challenges and enablers from a modeling perspective. IEEE Access, 8, 21980-22012.",
   "link": "https://doi.org/10.1109/ACCESS.2020.2970143"
  },
+ "rausand2004": {
+  "text": "Rausand, M., & Høyland, A. (2004). System Reliability Theory: Models, Statistical Methods, and Applications (2nd ed.). Wiley.",
+  "link": ""
+ },
  "recht2019": {
   "text": "Recht, B. (2019). A tour of reinforcement learning: The view from continuous control. Annual Review of Control, Robotics, and Autonomous Systems, 2, 253-279.",
   "link": "https://doi.org/10.1146/annurev-control-053018-023825"
@@ -363,9 +391,17 @@
   "text": "Rocabert, J., Luna, A., Blaabjerg, F., & Rodríguez, P. (2012). Control of power converters in AC microgrids. IEEE Transactions on Power Electronics, 27(11), 4734-4749.",
   "link": "https://doi.org/10.1109/TPEL.2012.2199334"
  },
+ "ruijters2015": {
+  "text": "Ruijters, E., & Stoelinga, M. (2015). Fault tree analysis: A survey of the state-of-the-art in modeling, analysis and tools. Computer Science Review, 15-16, 29-62.",
+  "link": "https://doi.org/10.1016/j.cosrev.2015.03.001"
+ },
  "schweppe1970": {
   "text": "Schweppe, F. C., & Wildes, J. (1970). Power system static-state estimation, Part I: Exact model. IEEE Transactions on Power Apparatus and Systems, PAS-89(1), 120-125.",
   "link": "https://doi.org/10.1109/TPAS.1970.292678"
+ },
+ "seshia2022": {
+  "text": "Seshia, S. A., Sadigh, D., & Sastry, S. S. (2022). Toward verified artificial intelligence. Communications of the ACM, 65(7), 46-55.",
+  "link": "https://doi.org/10.1145/3503914"
  },
  "severson2019": {
   "text": "Severson, K. A., Attia, P. M., Jin, N., Perkins, N., Jiang, B., Yang, Z., Chen, M. H., Aykol, M., Herring, P. K., Fraggedakis, D., Bazant, M. Z., Harris, S. J., Chueh, W. C., & Braatz, R. D. (2019). Data-driven prediction of battery cycle life before capacity degradation. Nature Energy, 4(5), 383-391.",
@@ -374,6 +410,10 @@
  "sha1990": {
   "text": "Sha, L., Rajkumar, R., & Lehoczky, J. P. (1990). Priority inheritance protocols: An approach to real-time synchronization. IEEE Transactions on Computers, 39(9), 1175-1185.",
   "link": "https://doi.org/10.1109/12.57058"
+ },
+ "sha2001": {
+  "text": "Sha, L. (2001). Using simplicity to control complexity. IEEE Software, 18(4), 20-28.",
+  "link": "https://doi.org/10.1109/MS.2001.936213"
  },
  "shannon1949": {
   "text": "Shannon, C. E. (1949). Communication in the presence of noise. Proceedings of the IRE, 37(1), 10-21.",
