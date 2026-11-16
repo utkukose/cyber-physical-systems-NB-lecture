@@ -49,9 +49,9 @@ The week runs as one synchronous session of about three hours in class or online
 | 0:00 to 0:15 | Opening: The campus microgrid so far and the question of the week, how the campus decides at the lowest cost. Students open the Colab notebook, save a copy in Drive and run Section 0 |
 | 0:15 to 0:35 | Colab, together: Python step 9, ending with a plan over four hours |
 | 0:35 to 0:55 | Lecture page, part 1: Optimisation problems with the animation of the two evening hours and Section 1 |
-| 0:55 to 1:25 | Lecture page, part 2: Economic dispatch with the 3D scene Equal incremental cost, the calculator of Part B and Section 2 |
+| 0:55 to 1:25 | Lecture page, part 2: Economic dispatch with the 3D scene Equal incremental cost and Section 2 |
 | 1:25 to 1:35 | Break |
-| 1:35 to 2:10 | Lecture page, part 3: Battery scheduling, the battery container of Part A and Section 3 |
+| 1:35 to 2:10 | Lecture page, part 3: Battery scheduling, the battery container of Part A, the calculator of Part B and Section 3 |
 | 2:10 to 2:40 | Lecture page, part 4: Demand response, the car park of Part C and Section 4 |
 | 2:40 to 3:00 | The development templates and the engineering side, the campus microgrid, stage 9 with Part D and Section 5, and the closing section on learning to dispatch. After the session: Section 6, the self-assessment, the PDF notes and the weekly task |
 

@@ -3,6 +3,10 @@
   "text": "Alur, R. (2015). Principles of Cyber-Physical Systems. MIT Press.",
   "link": "https://cis.upenn.edu/~alur/pcps.html"
  },
+ "antonanzas2016": {
+  "text": "Antonanzas, J., Osorio, N., Escobar, R., Urraca, R., Martinez-de-Pison, F. J., & Antonanzas-Torres, F. (2016). Review of photovoltaic power forecasting. Solar Energy, 136, 78-111.",
+  "link": "https://doi.org/10.1016/j.solener.2016.06.069"
+ },
  "astrom1984": {
   "text": "Åström, K. J., & Hägglund, T. (1984). Automatic tuning of simple regulators with specifications on phase and amplitude margins. Automatica, 20(5), 645-651.",
   "link": "https://doi.org/10.1016/0005-1098(84)90014-1"
@@ -47,6 +51,10 @@
   "text": "Cervin, A., Henriksson, D., Lincoln, B., Eker, J., & Årzén, K.-E. (2003). How does control timing affect performance? Analysis and simulation of timing using Jitterbug and TrueTime. IEEE Control Systems Magazine, 23(3), 16-30.",
   "link": "https://doi.org/10.1109/MCS.2003.1200240"
  },
+ "chandola2009": {
+  "text": "Chandola, V., Banerjee, A., & Kumar, V. (2009). Anomaly detection: A survey. ACM Computing Surveys, 41(3), Article 15.",
+  "link": "https://doi.org/10.1145/1541880.1541882"
+ },
  "depuru2011": {
   "text": "Depuru, S. S. S. R., Wang, L., & Devabhaktuni, V. (2011). Smart meters for power grid: Challenges, issues, advantages and status. Renewable and Sustainable Energy Reviews, 15(6), 2736-2742.",
   "link": "https://doi.org/10.1016/j.rser.2011.02.039"
@@ -63,6 +71,10 @@
   "text": "Hart, G. W. (1992). Nonintrusive appliance load monitoring. Proceedings of the IEEE, 80(12), 1870-1891.",
   "link": "https://doi.org/10.1109/5.192069"
  },
+ "hastie2009": {
+  "text": "Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of Statistical Learning: Data Mining, Inference, and Prediction (2nd ed.). Springer.",
+  "link": "https://doi.org/10.1007/978-0-387-84858-7"
+ },
  "hayes1950": {
   "text": "Hayes, N. D. (1950). Roots of the transcendental equation associated with a certain difference-differential equation. Journal of the London Mathematical Society, s1-25(3), 226-232.",
   "link": "https://doi.org/10.1112/jlms/s1-25.3.226"
@@ -75,9 +87,25 @@
   "text": "Hespanha, J. P., Naghshtabrizi, P., & Xu, Y. (2007). A survey of recent results in networked control systems. Proceedings of the IEEE, 95(1), 138-162.",
   "link": "https://doi.org/10.1109/JPROC.2006.887288"
  },
+ "hochreiter1997": {
+  "text": "Hochreiter, S., & Schmidhuber, J. (1997). Long short-term memory. Neural Computation, 9(8), 1735-1780.",
+  "link": "https://doi.org/10.1162/neco.1997.9.8.1735"
+ },
+ "hong2010": {
+  "text": "Hong, T., Gui, M., Baran, M. E., & Willis, H. L. (2010). Modeling and forecasting hourly electric load by multiple linear regression with interactions. In IEEE PES General Meeting. IEEE.",
+  "link": "https://doi.org/10.1109/PES.2010.5589959"
+ },
+ "hong2016": {
+  "text": "Hong, T., & Fan, S. (2016). Probabilistic electric load forecasting: A tutorial review. International Journal of Forecasting, 32(3), 914-938.",
+  "link": "https://doi.org/10.1016/j.ijforecast.2015.11.011"
+ },
  "huangfu2018": {
   "text": "Huangfu, Q., & Hall, J. A. J. (2018). Parallelizing the dual revised simplex method. Mathematical Programming Computation, 10(1), 119-142.",
   "link": "https://doi.org/10.1007/s12532-017-0130-5"
+ },
+ "hyndman2006": {
+  "text": "Hyndman, R. J., & Koehler, A. B. (2006). Another look at measures of forecast accuracy. International Journal of Forecasting, 22(4), 679-688.",
+  "link": "https://doi.org/10.1016/j.ijforecast.2006.03.001"
  },
  "iec60255_151": {
   "text": "International Electrotechnical Commission. (2009). Measuring relays and protection equipment - Part 151: Functional requirements for over/under current protection (IEC 60255-151:2009, Edition 1.0). IEC.",
@@ -127,9 +155,17 @@
   "text": "Karniadakis, G. E., Kevrekidis, I. G., Lu, L., Perdikaris, P., Wang, S., & Yang, L. (2021). Physics-informed machine learning. Nature Reviews Physics, 3(6), 422-440.",
   "link": "https://doi.org/10.1038/s42254-021-00314-5"
  },
+ "kasten1980": {
+  "text": "Kasten, F., & Czeplak, G. (1980). Solar and terrestrial radiation dependent on the amount and type of cloud. Solar Energy, 24(2), 177-189.",
+  "link": "https://doi.org/10.1016/0038-092X(80)90391-6"
+ },
  "kleinrock1975": {
   "text": "Kleinrock, L. (1975). Queueing Systems, Volume 1: Theory. Wiley.",
   "link": ""
+ },
+ "kong2019": {
+  "text": "Kong, W., Dong, Z. Y., Jia, Y., Hill, D. J., Xu, Y., & Zhang, Y. (2019). Short-term residential load forecasting based on LSTM recurrent neural network. IEEE Transactions on Smart Grid, 10(1), 841-851.",
+  "link": "https://doi.org/10.1109/TSG.2017.2753802"
  },
  "kose2017": {
   "text": "Kose, U., & Arslan, A. (2017). Optimization of self-learning in Computer Engineering courses: An intelligent software system supported by Artificial Neural Network and Vortex Optimization Algorithm. Computer Applications in Engineering Education, 25(1), 142-156.",
@@ -194,6 +230,10 @@
  "olivares2014": {
   "text": "Olivares, D. E., Mehrizi-Sani, A., Etemadi, A. H., Cañizares, C. A., Iravani, R., Kazerani, M., Hajimiragha, A. H., Gomis-Bellmunt, O., Saeedifard, M., Palma-Behnke, R., Jiménez-Estévez, G. A., & Hatziargyriou, N. D. (2014). Trends in microgrid control. IEEE Transactions on Smart Grid, 5(4), 1905-1919.",
   "link": "https://doi.org/10.1109/TSG.2013.2295514"
+ },
+ "page1954": {
+  "text": "Page, E. S. (1954). Continuous inspection schemes. Biometrika, 41(1-2), 100-115.",
+  "link": "https://doi.org/10.1093/biomet/41.1-2.100"
  },
  "palensky2011": {
   "text": "Palensky, P., & Dietrich, D. (2011). Demand side management: Demand response, intelligent energy systems, and smart loads. IEEE Transactions on Industrial Informatics, 7(3), 381-388.",
