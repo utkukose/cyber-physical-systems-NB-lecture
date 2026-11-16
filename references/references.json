@@ -11,6 +11,10 @@
   "text": "Åström, K. J., & Murray, R. M. (2021). Feedback Systems: An Introduction for Scientists and Engineers (2nd ed.). Princeton University Press.",
   "link": ""
  },
+ "bacher2011": {
+  "text": "Bacher, P., & Madsen, H. (2011). Identifying suitable models for the heat dynamics of buildings. Energy and Buildings, 43(7), 1511-1522.",
+  "link": "https://doi.org/10.1016/j.enbuild.2011.02.005"
+ },
  "carrillo2013": {
   "text": "Carrillo, C., Obando Montaño, A. F., Cidrás, J., & Díaz-Dorado, E. (2013). Review of power curve modelling for wind turbines. Renewable and Sustainable Energy Reviews, 21, 572-581.",
   "link": "https://doi.org/10.1016/j.rser.2013.01.012"
@@ -42,6 +46,10 @@
  "ji2023": {
   "text": "Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y. J., Madotto, A., & Fung, P. (2023). Survey of hallucination in natural language generation. ACM Computing Surveys, 55(12), 1-38.",
   "link": "https://doi.org/10.1145/3571730"
+ },
+ "karniadakis2021": {
+  "text": "Karniadakis, G. E., Kevrekidis, I. G., Lu, L., Perdikaris, P., Wang, S., & Yang, L. (2021). Physics-informed machine learning. Nature Reviews Physics, 3(6), 422-440.",
+  "link": "https://doi.org/10.1038/s42254-021-00314-5"
  },
  "kleinrock1975": {
   "text": "Kleinrock, L. (1975). Queueing Systems, Volume 1: Theory. Wiley.",
@@ -110,6 +118,10 @@
  "peterson1961": {
   "text": "Peterson, W. W., & Brown, D. T. (1961). Cyclic codes for error detection. Proceedings of the IRE, 49(1), 228-235.",
   "link": "https://doi.org/10.1109/JRPROC.1961.287814"
+ },
+ "plett2004": {
+  "text": "Plett, G. L. (2004). Extended Kalman filtering for battery management systems of LiPB-based HEV battery packs. Journal of Power Sources, 134(2), 252-261.",
+  "link": "https://doi.org/10.1016/j.jpowsour.2004.02.031"
  },
  "python": {
   "text": "Van Rossum, G., & Drake, F. L. (2009). Python 3 Reference Manual. CreateSpace.",
