@@ -43,6 +43,10 @@
   "text": "Buttazzo, G. C. (2011). Hard Real-Time Computing Systems: Predictable Scheduling Algorithms and Applications (3rd ed.). Springer.",
   "link": "https://doi.org/10.1007/978-1-4614-0676-1"
  },
+ "cardenas2008": {
+  "text": "Cárdenas, A. A., Amin, S., & Sastry, S. (2008). Secure control: Towards survivable cyber-physical systems. In 2008 The 28th International Conference on Distributed Computing Systems Workshops (pp. 495-500). IEEE.",
+  "link": "https://doi.org/10.1109/ICDCS.Workshops.2008.40"
+ },
  "carrillo2013": {
   "text": "Carrillo, C., Obando Montaño, A. F., Cidrás, J., & Díaz-Dorado, E. (2013). Review of power curve modelling for wind turbines. Renewable and Sustainable Energy Reviews, 21, 572-581.",
   "link": "https://doi.org/10.1016/j.rser.2013.01.012"
@@ -58,6 +62,10 @@
  "depuru2011": {
   "text": "Depuru, S. S. S. R., Wang, L., & Devabhaktuni, V. (2011). Smart meters for power grid: Challenges, issues, advantages and status. Renewable and Sustainable Energy Reviews, 15(6), 2736-2742.",
   "link": "https://doi.org/10.1016/j.rser.2011.02.039"
+ },
+ "goodfellow2015": {
+  "text": "Goodfellow, I. J., Shlens, J., & Szegedy, C. (2015). Explaining and harnessing adversarial examples. In 3rd International Conference on Learning Representations (ICLR 2015).",
+  "link": "https://arxiv.org/abs/1412.6572"
  },
  "gu2003": {
   "text": "Gu, K., Kharitonov, V. L., & Chen, J. (2003). Stability of Time-Delay Systems. Birkhäuser.",
@@ -103,6 +111,10 @@
   "text": "Huangfu, Q., & Hall, J. A. J. (2018). Parallelizing the dual revised simplex method. Mathematical Programming Computation, 10(1), 119-142.",
   "link": "https://doi.org/10.1007/s12532-017-0130-5"
  },
+ "humayed2017": {
+  "text": "Humayed, A., Lin, J., Li, F., & Luo, B. (2017). Cyber-physical systems security - A survey. IEEE Internet of Things Journal, 4(6), 1802-1831.",
+  "link": "https://doi.org/10.1109/JIOT.2017.2703172"
+ },
  "hyndman2006": {
   "text": "Hyndman, R. J., & Koehler, A. B. (2006). Another look at measures of forecast accuracy. International Journal of Forecasting, 22(4), 679-688.",
   "link": "https://doi.org/10.1016/j.ijforecast.2006.03.001"
@@ -129,6 +141,10 @@
  },
  "iec61851_1": {
   "text": "International Electrotechnical Commission. (2017). Electric vehicle conductive charging system - Part 1: General requirements (IEC 61851-1:2017, Edition 3.0). IEC.",
+  "link": ""
+ },
+ "iec62443_3_3": {
+  "text": "International Electrotechnical Commission. (2013). Industrial communication networks - Network and system security - Part 3-3: System security requirements and security levels (IEC 62443-3-3:2013, Edition 1.0). IEC.",
   "link": ""
  },
  "ieee1547": {
@@ -159,6 +175,10 @@
   "text": "Kasten, F., & Czeplak, G. (1980). Solar and terrestrial radiation dependent on the amount and type of cloud. Solar Energy, 24(2), 177-189.",
   "link": "https://doi.org/10.1016/0038-092X(80)90391-6"
  },
+ "kim2011": {
+  "text": "Kim, T. T., & Poor, H. V. (2011). Strategic protection against data injection attacks on power grids. IEEE Transactions on Smart Grid, 2(2), 326-333.",
+  "link": "https://doi.org/10.1109/TSG.2011.2119336"
+ },
  "kleinrock1975": {
   "text": "Kleinrock, L. (1975). Queueing Systems, Volume 1: Theory. Wiley.",
   "link": ""
@@ -183,6 +203,10 @@
   "text": "Kurose, J. F., & Ross, K. W. (2021). Computer Networking: A Top-Down Approach (8th ed.). Pearson.",
   "link": "https://www.pearson.com/store/p/computer-networking/P100002980218/9780136681557"
  },
+ "langner2011": {
+  "text": "Langner, R. (2011). Stuxnet: Dissecting a cyberwarfare weapon. IEEE Security & Privacy, 9(3), 49-51.",
+  "link": "https://doi.org/10.1109/MSP.2011.67"
+ },
  "lasseter2004": {
   "text": "Lasseter, R. H., & Paigi, P. (2004). Microgrid: A conceptual solution. In 2004 IEEE 35th Annual Power Electronics Specialists Conference (pp. 4285-4290). IEEE.",
   "link": "https://doi.org/10.1109/PESC.2004.1354758"
@@ -203,6 +227,10 @@
   "text": "Liu, C. L., & Layland, J. W. (1973). Scheduling algorithms for multiprogramming in a hard-real-time environment. Journal of the ACM, 20(1), 46-61.",
   "link": "https://doi.org/10.1145/321738.321743"
  },
+ "liu2009": {
+  "text": "Liu, Y., Ning, P., & Reiter, M. K. (2009). False data injection attacks against state estimation in electric power grids. In Proceedings of the 16th ACM Conference on Computer and Communications Security (pp. 21-32). ACM.",
+  "link": "https://doi.org/10.1145/1653662.1653666"
+ },
  "mao2016": {
   "text": "Mao, H., Alizadeh, M., Menache, I., & Kandula, S. (2016). Resource management with deep reinforcement learning. In Proceedings of the 15th ACM Workshop on Hot Topics in Networks (pp. 50-56). ACM.",
   "link": "https://doi.org/10.1145/3005745.3005750"
@@ -210,6 +238,14 @@
  "matplotlib": {
   "text": "Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. Computing in Science & Engineering, 9(3), 90-95.",
   "link": "https://doi.org/10.1109/MCSE.2007.55"
+ },
+ "mo2009": {
+  "text": "Mo, Y., & Sinopoli, B. (2009). Secure control against replay attacks. In 2009 47th Annual Allerton Conference on Communication, Control, and Computing (Allerton) (pp. 911-918). IEEE.",
+  "link": "https://doi.org/10.1109/ALLERTON.2009.5394956"
+ },
+ "mo2015": {
+  "text": "Mo, Y., Weerakkody, S., & Sinopoli, B. (2015). Physical authentication of control systems: Designing watermarked control inputs to detect counterfeit sensor outputs. IEEE Control Systems Magazine, 35(1), 93-109.",
+  "link": "https://doi.org/10.1109/MCS.2014.2364724"
  },
  "modbus_app": {
   "text": "Modbus Organization. (2012). MODBUS Application Protocol Specification V1.1b3. Modbus Organization.",
@@ -230,6 +266,10 @@
  "olivares2014": {
   "text": "Olivares, D. E., Mehrizi-Sani, A., Etemadi, A. H., Cañizares, C. A., Iravani, R., Kazerani, M., Hajimiragha, A. H., Gomis-Bellmunt, O., Saeedifard, M., Palma-Behnke, R., Jiménez-Estévez, G. A., & Hatziargyriou, N. D. (2014). Trends in microgrid control. IEEE Transactions on Smart Grid, 5(4), 1905-1919.",
   "link": "https://doi.org/10.1109/TSG.2013.2295514"
+ },
+ "ozay2016": {
+  "text": "Ozay, M., Esnaola, I., Yarman Vural, F. T., Kulkarni, S. R., & Poor, H. V. (2016). Machine learning methods for attack detection in the smart grid. IEEE Transactions on Neural Networks and Learning Systems, 27(8), 1773-1786.",
+  "link": "https://doi.org/10.1109/TNNLS.2015.2404803"
  },
  "page1954": {
   "text": "Page, E. S. (1954). Continuous inspection schemes. Biometrika, 41(1-2), 100-115.",
@@ -271,6 +311,10 @@
   "text": "Revach, G., Shlezinger, N., Ni, X., López Escoriza, A., van Sloun, R. J. G., & Eldar, Y. C. (2022). KalmanNet: Neural network aided Kalman filtering for partially known dynamics. IEEE Transactions on Signal Processing, 70, 1532-1547.",
   "link": "https://doi.org/10.1109/TSP.2022.3158588"
  },
+ "rfc2104": {
+  "text": "Krawczyk, H., Bellare, M., & Canetti, R. (1997). HMAC: Keyed-Hashing for Message Authentication (RFC 2104). RFC Editor.",
+  "link": "https://doi.org/10.17487/RFC2104"
+ },
  "rocabert2012": {
   "text": "Rocabert, J., Luna, A., Blaabjerg, F., & Rodríguez, P. (2012). Control of power converters in AC microgrids. IEEE Transactions on Power Electronics, 27(11), 4734-4749.",
   "link": "https://doi.org/10.1109/TPEL.2012.2199334"
@@ -294,6 +338,14 @@
  "skoplaki2009": {
   "text": "Skoplaki, E., & Palyvos, J. A. (2009). On the temperature dependence of photovoltaic module electrical performance: A review of efficiency/power correlations. Solar Energy, 83(5), 614-624.",
   "link": "https://doi.org/10.1016/j.solener.2008.10.008"
+ },
+ "stouffer2023": {
+  "text": "Stouffer, K., Pease, M., Tang, C., Zimmerman, T., Pillitteri, V., Lightman, S., Hahn, A., Saravia, S., Sherule, A., & Thompson, M. (2023). Guide to Operational Technology (OT) Security (NIST Special Publication 800-82r3). National Institute of Standards and Technology.",
+  "link": "https://doi.org/10.6028/NIST.SP.800-82r3"
+ },
+ "teixeira2015": {
+  "text": "Teixeira, A., Shames, I., Sandberg, H., & Johansson, K. H. (2015). A secure control framework for resource-limited adversaries. Automatica, 51, 135-148.",
+  "link": "https://doi.org/10.1016/j.automatica.2014.10.067"
  },
  "vaandrager2017": {
   "text": "Vaandrager, F. (2017). Model learning. Communications of the ACM, 60(2), 86-95.",

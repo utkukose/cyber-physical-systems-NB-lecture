@@ -41,7 +41,7 @@ Basic programming in any language and first-year mathematics, in particular func
 | 8 | Networks and Communication: Modbus, MQTT, IEC 61850 and Control over Networks | Step 8: Bytes, bits and binary messages |
 | 9 | Energy Optimisation: Economic Dispatch, Battery Scheduling and Demand Response | Step 9: Optimisation with SciPy |
 | 10 | Learning from Data: Load and Generation Forecasting, Anomaly Detection | Step 10: Fitting and forecasting |
-| 11 | Security of Cyber-Physical Systems: False Data Injection and Defences | Step 11: Detecting the unusual |
+| 11 | Security of Cyber-Physical Systems: False Data Injection and Defences | Step 11: Hashes and keys |
 | 12 | Digital Twins I: Synchronisation and Calibration | Step 12: A twin as a class |
 | 13 | Digital Twins II: What-If Analysis and Predictive Maintenance | Step 13: Scenarios and Monte Carlo |
 | 14 | Dependability, Safety and Verification | Step 14: Organised and tested code |
