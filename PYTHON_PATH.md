@@ -6,7 +6,7 @@ Every week of the course has one Python step in its Colab notebook, right after 
 |---|---|---|---|
 | 1 | Values, variables, lists and decisions | Values, variables and units · Lists of devices and loops · Decisions with if · Functions | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-01/NB01_cps_foundations.ipynb#scrollTo=python-step) |
 | 2 | Simulation loops with NumPy | Arrays and time vectors · Arithmetic on whole arrays · The Euler step in a loop · Plots of trajectories | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-02/NB02_continuous_dynamics.ipynb#scrollTo=python-step) |
-| 3 | States and transitions | dictionaries as tables, state machines, events | in preparation |
+| 3 | States and transitions | Dictionaries as tables · Tuples as keys: A transition table · Sets: The states that can be reached · Formatted traces | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-03/NB03_discrete_hybrid_dynamics.ipynb#scrollTo=python-step) |
 | 4 | Signals as arrays | sampling, rounding and quantisation, random noise, moving averages | in preparation |
 | 5 | Functions for controllers | functions with state, closures, step responses | in preparation |
 | 6 | Matrices and the Kalman filter | matrix products, inverse and transpose, a filter loop | in preparation |
