@@ -1208,16 +1208,24 @@ var LABKIT = window.LABKIT || (function () {
     return (who || []).map(w => { const p = row.userData.seat(w.chair), q = Object.assign({}, w); delete q.chair;
       return human(G, Object.assign({pose: "sit", at: [p.x, 0, p.z], face: o.face || 0}, q)); });
   }
-  /* A game is first seen from the room. play(true) flies the camera to the play view o.view and fixes it there, and
-     play(false) flies back to the view of the room. The objects in o.hide, such as the figure that stands where the
-     camera goes, are hidden while the game runs. jump(view) sets a view at once, for the screenshots. */
+  /* A bench is first seen from the room. play(true) flies the camera to the work view o.view, and play(false) flies
+     back to the view of the room. The camera stays free for rotating and zooming, and the button Missions of the view
+     tools returns to the work view. The objects in o.hide, such as the figure that stands where the camera goes, are
+     hidden while the missions run. jump(view) sets a view at once, for the screenshots. */
   function stage(G, o) {
     const fly = flyer(G, o.speed || 1.5), home = {camera: G.camera.position.toArray(), target: G.controls.target.toArray()};
+    let back = null;
     const st = {on: false, home,
       play(v, cb) {
         if (v === st.on) { if (cb) cb(); return; }
         st.on = v; (o.hide || []).forEach(x => { (x.group || x).visible = !v; });
-        lock(G, v); if (G.toolsEl) G.toolsEl.classList.toggle("off", v);
+        if (v && !back && G.toolsEl) {
+          back = document.createElement("button"); back.type = "button"; back.textContent = "Missions";
+          back.title = "View: the work place of the missions"; back.setAttribute("aria-label", back.title);
+          back.addEventListener("click", e => { e.stopPropagation(); fly(o.view.camera, o.view.target); G.redraw(); });
+          G.toolsEl.append(back);
+        }
+        if (back) back.hidden = !v;
         const t = v ? o.view : home; fly(t.camera, t.target, cb); G.redraw();
       },
       jump(view) { G.camera.position.set(...view.camera); G.controls.target.set(...view.target); G.controls.update(); G.redraw(); }};
