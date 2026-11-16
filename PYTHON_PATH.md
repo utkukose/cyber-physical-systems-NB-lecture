@@ -1,6 +1,6 @@
 # Python path
 
-Every week of the course has one Python step in its Colab notebook, right after the setup section. Each step explains a group of Python fundamentals with the campus microgrid and closes with a quick check and three exercises. The hands-on sections of the same Colab notebook use it immediately. Students who have never programmed first run the [start-here Colab notebook](start-here/README.md).
+Every week of the course has one Python step in its Colab notebook, right after the setup section. Each step explains a group of Python fundamentals with the campus microgrid and closes with a quick check and three exercises. The hands-on sections of the same Colab notebook use it immediately. Students who have never programmed first run the [start-here Colab notebook](start-here/NB00_start_here.ipynb).
 
 | Week | Python step | Topics | Open |
 |---|---|---|---|

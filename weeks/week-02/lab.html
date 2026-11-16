@@ -143,7 +143,7 @@ code.tex{font-size:.8rem;white-space:pre-wrap;word-break:break-word}
 .sn-ro{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.86rem;color:var(--steel);margin:4px 0 0}
 .sn-ro b{font-family:var(--mono);color:var(--ink);font-weight:600;font-size:.84rem}
 .sn-ro .readout{flex:1 1 100%}
-/* Interface clinic: mock screens of the clinic app, before and after */
+/* Mock screens of an interface, before and after */
 .uiclinic{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c1);border-radius:10px;padding:12px 14px;margin:1.4rem 0}
 .uiclinic>p.small{margin:0 0 8px}
 .ui-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
@@ -1483,7 +1483,7 @@ window.CPSKIT = CPSKIT;
       {key: "t", label: "Time (h)", min: 0.5, max: 24, step: 0.5, value: 3, d: 1}],
     presets: [{label: "Lecture: 5 °C, 40 kW, from 15 °C, 3 h", values: {To: 5, P: 40, T0: 15, t: 3}},
       {label: "Preheating: 60 kW from 15 °C", values: {To: 5, P: 60, T0: 15, t: 5.5}},
-      {label: "Heater off: cooling from 21 °C", values: {To: 5, P: 0, T0: 21, t: 12}}],
+      {label: "Heater off: Cooling from 21 °C", values: {To: 5, P: 0, T0: 21, t: 12}}],
     steps(v) {
       const tau = 12, Tss = r2(v.To + 0.4 * v.P), ex = r3(Math.exp(-v.t / tau)), Tt = r2(Tss + (v.T0 - Tss) * ex);
       const s = [
@@ -1517,7 +1517,7 @@ window.CPSKIT = CPSKIT;
       const rocof = r3(-v.P / v.M), Dt = 12 + v.K, fin = r3(-v.P / Dt), tc = r3(v.M / Dt);
       const s = [
         {t: "The initial rate of change of frequency.", m: `RoCoF = -\\frac{${v.P}}{${v.M}} = ${f3(rocof)}\\ \\text{Hz/s}`, q: {label: "RoCoF in Hz/s", ans: rocof, tol: 0.0015}},
-        {t: "The total damping: the loads plus the droop of the battery.", m: `D + K = 12 + ${v.K} = ${Dt}\\ \\text{kW/Hz}`},
+        {t: "The total damping: The loads plus the droop of the battery.", m: `D + K = 12 + ${v.K} = ${Dt}\\ \\text{kW/Hz}`},
         {t: "The final deviation and the time constant.", m: `\\Delta f_{ss} = -\\frac{${v.P}}{${Dt}} = ${f3(fin)}\\ \\text{Hz},\\quad \\frac{M}{D + K} = ${f3(tc)}\\ \\text{s}`, q: {label: "Final deviation in Hz", ans: fin, tol: 0.0015}}];
       if (fin < -2.5) { const tt = r2(tc * Math.log(fin / (fin + 2.5)));
         s.push({t: "The final deviation lies below -2.5 Hz, so the under-frequency relay at 47.5 Hz trips first.", m: `t_{trip} = ${f3(tc)} \\ln\\frac{${f3(-fin)}}{${f3(-fin)} - 2.5} = ${f2(tt)}\\ \\text{s}`, q: {label: "Trip time in s", ans: tt, tol: 0.011}}); }
@@ -1533,7 +1533,7 @@ window.CPSKIT = CPSKIT;
       }}
   });
   partNumbers("pd-n", {
-    title: "Part D", key: "w2:pd",
+    title: "Part D", key: "w2:pd", button: "Check the values",
     fields: [{label: "State of charge after 2 h at 150 kW", short: "State of charge", answer: 0.168, tol: 0.0015},
       {label: "Steady state of the library (°C)", short: "Steady state", answer: 18, tol: 0.06},
       {label: "RoCoF after 44 kW (Hz/s)", short: "RoCoF", answer: -0.55, tol: 0.0015}],
@@ -1578,7 +1578,7 @@ window.CPSKIT = CPSKIT;
   L.room(G, {w: 7, d: 6, z0: -1.6, h: 3.0, wall: 0xEFE9DF, dado: 0xD8CBB4, floorTile: "#B99C78", windows: [{x: -2.2, y: 1.7, w: 1.4, h: 1.2}]});
   L.shelf(G, {at: [2.4, 0, -1.55], w: 1.6, h: 2.0, seed: 4}); L.shelf(G, {at: [-3.0, 0, -0.2], face: Math.PI / 2, w: 1.6, h: 2.0, seed: 7});
   [[-0.6, 0.4], [1.0, 0.4]].forEach(([x, z]) => { L.table(G, {at: [x, 0, z], w: 1.4, d: 0.8, color: 0xA07B57}); [-0.4, 0.4].forEach(dx => L.chair(G, {at: [x + dx, 0, z + 0.6], face: Math.PI, color: 0x6B4E37})); });
-  L.sign(G, "Library: reading room", {at: [0.35, 2.2, -1.54], w: 1.5, h: 0.24, bg: "#7A5C3A"});
+  L.sign(G, "Library: Reading room", {at: [0.35, 2.2, -1.54], w: 1.5, h: 0.24, bg: "#7A5C3A"});
   /* the fan coil under the window: an outlet grille, a fan behind a round opening and a status display */
   const fc = K.box(G, 1.3, 0.6, 0.28, 0xF2F4F6, 0.5, 0.1, 0.02); fc.position.set(-2.1, 0.4, -1.42); G.scene.add(fc);
   const grille = new T3.Mesh(new T3.PlaneGeometry(1.15, 0.12), new T3.MeshBasicMaterial({color: 0x39424C})); grille.rotation.x = -Math.PI / 2; grille.position.set(-2.1, 0.705, -1.42); G.scene.add(grille);
@@ -1589,7 +1589,7 @@ window.CPSKIT = CPSKIT;
   const fcd = K.screen(G, {at: [-2.42, 0.45, -1.275], w: 0.3, h: 0.13, px: [480, 208], draw: (x, cw, ch) => { x.fillStyle = "#101820"; x.fillRect(0, 0, cw, ch);
     x.fillStyle = heatOn ? "#FFB74D" : "#7E8A96"; x.font = `700 74px ${K.MONO}`; x.textBaseline = "middle"; x.fillText(heatOn ? `${P.pw} kW` : "OFF", 24, 80);
     x.font = `600 34px ${K.F}`; x.fillStyle = "#C9D1D8"; x.fillText("HEATER", 26, 168); }});
-  const tagF = label3D("Fan coil heater: up to 60 kW", {scale: 0.0012}); tagF.position.set(-2.1, 0.98, -1.4); G.scene.add(tagF);
+  const tagF = label3D("Fan coil heater: Up to 60 kW", {scale: 0.0012}); tagF.position.set(-2.1, 0.98, -1.4); G.scene.add(tagF);
   /* the thermostat, the data logger and the wall screen */
   let st = {T: [21], k: 0, done: false};
   const thermo = K.screen(G, {at: [-1.15, 1.42, -1.58], w: 0.2, h: 0.125, px: [320, 200], draw: (x, cw, ch) => { x.fillStyle = "#F4F6F8"; x.fillRect(0, 0, cw, ch);
@@ -1696,7 +1696,7 @@ window.CPSKIT = CPSKIT;
     const mk = K.box(G, 0.026, 0.04, 0.01, 0xF2B33D, 0.5); mk.position.set(-0.06 + i * 0.03, 0.08, 0); wheel.add(mk); return [d, mk]; });
   const guard = new T.Mesh(new T.CylinderGeometry(0.125, 0.125, 0.16, 32, 1, true, 0, Math.PI), new T.MeshStandardMaterial({color: 0xF2F4F6, transparent: true, opacity: 0.35, side: T.DoubleSide}));
   guard.rotation.z = Math.PI / 2; guard.position.set(-0.45, Y + 0.12, -0.95); guard.userData.noShadow = true; G.scene.add(guard);
-  const tagM = label3D("Flywheel: inertia M", {scale: 0.0009}); tagM.position.set(-0.45, Y + 0.3, -0.95); G.scene.add(tagM);
+  const tagM = label3D("Flywheel: Inertia M", {scale: 0.0009}); tagM.position.set(-0.45, Y + 0.3, -0.95); G.scene.add(tagM);
   /* the load bank with three switches and lamps */
   const bank = K.box(G, 0.36, 0.26, 0.24, 0xD9DEE2, 0.5, 0.2, 0.01); bank.position.set(0.2, Y + 0.13, -1.0); G.scene.add(bank);
   for (let i = 0; i < 6; i++) { const g2 = K.box(G, 0.3, 0.006, 0.006, 0x8C969F, 0.4, 0.6); g2.position.set(0.2, Y + 0.05 + i * 0.03, -0.875); G.scene.add(g2); }
@@ -1767,7 +1767,7 @@ window.CPSKIT = CPSKIT;
   window.SHOT_PREP = window.SHOT_PREP || {};
   window.SHOT_PREP["fw-3d"] = () => { STG.jump(PLAY); const n = Math.round(TEND / DT); st = {df: new Float64Array(n + 1), k: 0, trip: 0, done: false, M: 80, P: 66, K: 0, n};
     for (let k = 0; k < 3500; k++) st.df[k + 1] = st.df[k] + DT * (-D * st.df[k] - 66) / 80; st.k = 3500; lamps.forEach(l => l.material.color.set(0xFFD27A)); meter.screen.redraw(); scr.panel.redraw();
-    H.set(0, "The flywheel bench"); H.set(1, "Four steps, twice the inertia, the droop"); H.say("66 kW on, droop off: the frequency falls toward the trip"); };
+    H.set(0, "The flywheel bench"); H.set(1, "Four steps, twice the inertia, the droop"); H.say("66 kW on, droop off: The frequency falls toward the trip"); };
   window.FLY_TEST = {start, run, speed(f) { speed = f; }, set(M, P, k) { mS.value = String(M); pS.value = String(P); kS.value = k ? "1" : "0"; setDiscs(M); },
     state: () => ({game, running, rows: data.rows.length, last: data.rows.length ? data.rows[data.rows.length - 1] : null, done: done()})};
 })();

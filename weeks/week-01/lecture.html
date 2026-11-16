@@ -143,7 +143,7 @@ code.tex{font-size:.8rem;white-space:pre-wrap;word-break:break-word}
 .sn-ro{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.86rem;color:var(--steel);margin:4px 0 0}
 .sn-ro b{font-family:var(--mono);color:var(--ink);font-weight:600;font-size:.84rem}
 .sn-ro .readout{flex:1 1 100%}
-/* Interface clinic: mock screens of the clinic app, before and after */
+/* Mock screens of an interface, before and after */
 .uiclinic{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c1);border-radius:10px;padding:12px 14px;margin:1.4rem 0}
 .uiclinic>p.small{margin:0 0 8px}
 .ui-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
@@ -1563,7 +1563,7 @@ window.CAMPUS = CAMPUS;
     const H = S.hist.slice(-12), bw = (cw - l - r) / 12;
     H.forEach((v, i) => { x.fillStyle = v > TARGET + 5 ? "#5FB2F0" : "#7EE0A1"; const y = Yv(Math.min(700, Math.max(200, v))); x.fillRect(l + i * bw + 8, y, bw - 16, ch - b - y);
       x.fillStyle = "#FFFFFF"; x.font = `600 22px ${K.MONO}`; x.textAlign = "center"; x.fillText(String(Math.round(v)), l + i * bw + bw / 2, y - 16); x.textAlign = "left"; });
-    x.fillStyle = S.open ? "#FFB84D" : "#7EE0A1"; x.font = `700 30px ${K.F}`; x.fillText(S.open ? "Loop open: set point frozen" : "Loop closed", l, ch - 30);
+    x.fillStyle = S.open ? "#FFB84D" : "#7EE0A1"; x.font = `700 30px ${K.F}`; x.fillText(S.open ? "Loop open: Set point frozen" : "Loop closed", l, ch - 30);
   }});
   const act = document.getElementById("lo-act"), mode = document.getElementById("lo-mode"), say = document.getElementById("lo-say");
   const ro = readout(document.getElementById("lo-ro"), ["Buildings and chargers", "Solar and wind", "Battery", "Import", "Error"]);
@@ -1581,11 +1581,11 @@ window.CAMPUS = CAMPUS;
     const e = grid() - TARGET;
     const finish = () => { if (!S.open) S.bat = Math.max(-250, Math.min(250, S.bat + GAIN * e)); S.hist.push(grid()); [0, 1, 2].forEach(i => ctl.led(i, false)); S.busy = false; show();
       say.textContent = S.open ? `The loop is open: The controller ignored the error of ${e.toFixed(1)} kW and kept ${S.bat.toFixed(1)} kW. The import stays at ${grid().toFixed(1)} kW.`
-        : `Sense: the import was ${(e + TARGET).toFixed(1)} kW, an error of ${e.toFixed(1)} kW. Compute: 0.5 × ${e.toFixed(1)} = ${(GAIN * e).toFixed(1)} kW more from the battery. Act: the import is now ${grid().toFixed(1)} kW.`; };
+        : `Sense: The import was ${(e + TARGET).toFixed(1)} kW, an error of ${e.toFixed(1)} kW. Compute: 0.5 × ${e.toFixed(1)} = ${(GAIN * e).toFixed(1)} kW more from the battery. Act: The import is now ${grid().toFixed(1)} kW.`; };
     if (fast || reduced()) { finish(); return; }
-    S.busy = true; ctl.led(0, true); say.textContent = "Sense: the meter at the transformer sends the import to the controller.";
-    PK.send([{c: dSense}], {color: 0x5FB2F0, dur: 0.9, size: 0.012, done: () => { ctl.led(0, false); ctl.led(1, true); say.textContent = `Compute: the error is ${e.toFixed(1)} kW, and the controller adds 0.5 times the error to the set point.`;
-      setTimeout(() => { if (S.open) { finish(); return; } ctl.led(1, false); ctl.led(2, true); say.textContent = "Act: the new set point travels to the inverter of the battery.";
+    S.busy = true; ctl.led(0, true); say.textContent = "Sense: The meter at the transformer sends the import to the controller.";
+    PK.send([{c: dSense}], {color: 0x5FB2F0, dur: 0.9, size: 0.012, done: () => { ctl.led(0, false); ctl.led(1, true); say.textContent = `Compute: The error is ${e.toFixed(1)} kW, and the controller adds 0.5 times the error to the set point.`;
+      setTimeout(() => { if (S.open) { finish(); return; } ctl.led(1, false); ctl.led(2, true); say.textContent = "Act: The new set point travels to the inverter of the battery.";
         PK.send([{c: dAct}], {color: 0x3DDC84, dur: 1.1, size: 0.012, done: finish}); }, 700); }});
   }
   function setCloud(on) { S.cloud = on; S.pv = on ? 80 : 260; cloud.visible = on; bC.setAttribute("aria-pressed", String(on)); bC.classList.toggle("ghost", !on);

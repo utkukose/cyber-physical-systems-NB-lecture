@@ -143,7 +143,7 @@ code.tex{font-size:.8rem;white-space:pre-wrap;word-break:break-word}
 .sn-ro{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.86rem;color:var(--steel);margin:4px 0 0}
 .sn-ro b{font-family:var(--mono);color:var(--ink);font-weight:600;font-size:.84rem}
 .sn-ro .readout{flex:1 1 100%}
-/* Interface clinic: mock screens of the clinic app, before and after */
+/* Mock screens of an interface, before and after */
 .uiclinic{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c1);border-radius:10px;padding:12px 14px;margin:1.4rem 0}
 .uiclinic>p.small{margin:0 0 8px}
 .ui-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
@@ -1453,12 +1453,12 @@ window.CPSKIT = CPSKIT;
   const OUT = {A: [12, "open", "no car"], B: [9, "open", "car connected"], C: [6, "closed", "charging"], F: [-12, "open", "fault"]};
   const SAY = {
     "A|plug": "plug: The car pulls the pilot down from +12 V to +9 V. The charger moves to state B and announces 32 A with a duty cycle of 53.3 percent.",
-    "B|ready": "ready: The car asks for energy and pulls the pilot to +6 V. The charger closes its contactor: state C, 22 kW flow.",
-    "C|full": "full: The battery of the car is full, the pilot returns to +9 V and the contactor opens: state B.",
-    "B|unplug": "unplug: The cable leaves the car, and the pilot returns to +12 V: state A.",
-    "C|unplug": "unplug while charging: The pilot jumps to +12 V, and the charger opens its contactor at once: state A.",
-    "A|fault": "fault: The charger is not available and drives the pilot to -12 V: state F.", "B|fault": "fault: The charger is not available and drives the pilot to -12 V: state F.",
-    "C|fault": "fault: The contactor opens, and the pilot goes to -12 V: state F.", "F|reset": "reset: The fault is cleared, and the charger waits for a car: state A."};
+    "B|ready": "ready: The car asks for energy and pulls the pilot to +6 V. The charger closes its contactor: State C, 22 kW flow.",
+    "C|full": "full: The battery of the car is full, the pilot returns to +9 V and the contactor opens: State B.",
+    "B|unplug": "unplug: The cable leaves the car, and the pilot returns to +12 V: State A.",
+    "C|unplug": "unplug while charging: The pilot jumps to +12 V, and the charger opens its contactor at once: State A.",
+    "A|fault": "fault: The charger is not available and drives the pilot to -12 V: State F.", "B|fault": "fault: The charger is not available and drives the pilot to -12 V: State F.",
+    "C|fault": "fault: The contactor opens, and the pilot goes to -12 V: State F.", "F|reset": "reset: The fault is cleared, and the charger waits for a car: State A."};
   const S = {s: "A", last: null, ignored: false, trace: ["A"], plugged: false};
   let G = null, ch = null, band = null;
   const act = document.getElementById("ch-act"), say = document.getElementById("ch-say"), cv = document.getElementById("ch-cv");
@@ -1511,7 +1511,7 @@ window.CPSKIT = CPSKIT;
     x.fillStyle = "#C9D1D8"; x.font = `600 24px ${K.MONO}`; x.fillText(S.s === "C" ? "32 A  22 kW" : (S.s === "B" ? "32 A offered" : "0 A"), 18, 150);
   }});
   band = ch.group.children[1];
-  const tag = label3D("Charger: control pilot of IEC 61851-1", {scale: 0.0016}); tag.position.set(2.75, 1.75, -0.85); G.scene.add(tag);
+  const tag = label3D("Charger: Control pilot of IEC 61851-1", {scale: 0.0016}); tag.position.set(2.75, 1.75, -0.85); G.scene.add(tag);
   /* the cable: in the holster when unplugged, to the inlet of the car when plugged */
   let cable = null, dots = [];
   function setCable(plugged) {
@@ -1585,7 +1585,7 @@ window.CPSKIT = CPSKIT;
   });
   function show() {
     S = sim(); const lo = S.lo, hi = S.hi, tss = P.tout + R * PH;
-    if (tss <= hi) { ro("On time", "the heater never reaches the upper threshold"); ro("Off time", "none: the heater runs all the time"); ro("Switchings a day", "0"); ro("Average power", `${PH} kW, and the room cools below ${lo.toFixed(2)} °C`); }
+    if (tss <= hi) { ro("On time", "the heater never reaches the upper threshold"); ro("Off time", "None: The heater runs all the time"); ro("Switchings a day", "0"); ro("Average power", `${PH} kW, and the room cools below ${lo.toFixed(2)} °C`); }
     else { const ton = TAU * Math.log((tss - lo) / (tss - hi)), toff = TAU * Math.log((hi - P.tout) / (lo - P.tout));
       ro("On time", `${(60 * ton).toFixed(1)} min`); ro("Off time", `${(60 * toff).toFixed(1)} min`); ro("Switchings a day", (48 / (ton + toff)).toFixed(1));
       ro("Average power", `${(PH * ton / (ton + toff)).toFixed(1)} kW`); }

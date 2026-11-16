@@ -143,7 +143,7 @@ code.tex{font-size:.8rem;white-space:pre-wrap;word-break:break-word}
 .sn-ro{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.86rem;color:var(--steel);margin:4px 0 0}
 .sn-ro b{font-family:var(--mono);color:var(--ink);font-weight:600;font-size:.84rem}
 .sn-ro .readout{flex:1 1 100%}
-/* Interface clinic: mock screens of the clinic app, before and after */
+/* Mock screens of an interface, before and after */
 .uiclinic{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c1);border-radius:10px;padding:12px 14px;margin:1.4rem 0}
 .uiclinic>p.small{margin:0 0 8px}
 .ui-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
@@ -240,14 +240,14 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <p>Find the largest delay at which the frequency still settles. Set the delay and the gain below the view and press Plug in the cars. The trace on the screen shows the frequency deviation. The run ends as settled, as growing or as tripped, when the under-frequency relay disconnects the loads below 47.5 Hz. Try as many delays as you need, then enter your estimate of the boundary.</p>
 <div class="three" id="lp-3d"></div>
 <div class="row" id="lp-ctl" style="align-items:flex-end;gap:12px;margin:8px 0"></div>
-<p><button class="btn" id="lp-run" type="button" disabled>Plug in the cars</button> <span class="ctl" style="display:inline-block;min-width:220px;margin-left:12px"><label for="lp-est">Your boundary (s)</label> <input type="number" step="any" id="lp-est" style="width:7rem" disabled> <button class="btn ghost" id="lp-chk" type="button" disabled>Check my boundary</button></span></p>
+<p><button class="btn" id="lp-run" type="button" disabled>Plug in the cars</button> <span class="ctl" style="display:inline-block;min-width:220px;margin-left:12px"><label for="lp-est">Your boundary (s)</label> <input type="number" step="any" id="lp-est" style="width:7rem" disabled> <button class="btn ghost" id="lp-chk" type="button" disabled>Check the boundary</button></span></p>
 <p><button class="btn" id="lp-start" type="button">Start the experiment</button> <button class="btn ghost" id="lp-clr" type="button">Clear the results</button></p>
 <p class="small" id="lp-say" aria-live="polite"></p>
 <div class="tablewrap"><table><thead><tr><th>Trial</th><th>Delay (s)</th><th>Gain (kW/Hz)</th><th>Lowest deviation (Hz)</th><th>Outcome</th></tr></thead><tbody id="lp-tb"></tbody></table></div>
 <p class="small" id="lp-sum" aria-live="polite"></p>
 <p><button class="btn" id="lp-copy" type="button">Copy the results for Colab</button> <span class="small" id="lp-msg" aria-live="polite"></span></p>
 <textarea id="lp-csv" rows="5" readonly aria-label="Trials of the frequency loop as comma-separated values" hidden></textarea>
-<p>The calculator below repeats the worked example of the delay margin one step at a time. Its sliders set the inertia, the damping and the gain. The figure shows the delay margin against the gain.</p><div class="stepcalc" id="pc-margin"></div><p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Control over a network</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-08/NB08_networks_communication.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your trials into MY_LOOP and compare your boundary with the delay margin.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 8 of the microgrid</h3><p>The battery container polls a meter with 10 registers, an inverter with 20 and a battery management system with 40 at 19200 baud, each with a reply delay of 5 ms. The Colab notebook gives a poll cycle of 129.6 ms; check it to one decimal. Then add the loop delay through the campus server: Half of a sampling period of 0.2 s, 0.15 s up, 0.05 s in the controller and 0.10 s down. Finally, compute the share of the delay margin of 1.072 s that the loop keeps, in percent to one decimal.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 8: The communication design with a delay budget</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-08/NB08_networks_communication.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 8 of the campus microgrid.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
+<p>The calculator below repeats the worked example of the delay margin one step at a time. Its sliders set the inertia, the damping and the gain. The figure shows the delay margin against the gain.</p><div class="stepcalc" id="pc-margin"></div><p class="backpart"><a href="lecture.html#lab-pc">Back to the lecture: Control over a network</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-08/NB08_networks_communication.ipynb#scrollTo=sec-4" target="_blank" rel="noopener">Continue in Colab, section 4</a>: Paste your trials into MY_LOOP and compare your boundary with the delay margin.</p></section><section class="labpart" id="pd"><h3>Part D: By hand: Stage 8 of the microgrid</h3><p>The battery container polls a meter with 10 registers, an inverter with 20 and a battery management system with 40. The line runs at 19200 baud, and each device replies after 5 ms. The Colab notebook gives a poll cycle of 129.6 ms. Check it to one decimal. Then add the loop delay through the campus server: Half of a sampling period of 0.2 s, 0.15 s up, 0.05 s in the controller and 0.10 s down. Finally, compute the share of the delay margin of 1.072 s that the loop keeps, in percent to one decimal.</p><div id="pd-n"></div><p class="backpart"><a href="lecture.html#lab-pd">Back to the lecture: The campus microgrid, stage 8: The communication design with a delay budget</a>, where the text continues after the box of this part.<br><a href="https://colab.research.google.com/github/utkukose/cyber-physical-systems-NB-lecture/blob/main/weeks/week-08/NB08_networks_communication.ipynb#scrollTo=sec-5" target="_blank" rel="noopener">Continue in Colab, section 5</a>: Compute the results of stage 8 of the campus microgrid.</p></section></section><section class="tabpanel" hidden><p>Answer each question, rate your confidence and check the answer. The self-assessment is for your own practice and does not count towards the grade. Results stay in this browser.</p><div id="quiz"></div></section><section class="tabpanel" hidden><p>Write a short answer to each question. The text is saved in this browser and is included when you export the learning log, together with the results of the practice parts.</p><div id="reflect"></div></section><footer class="sig"><p><strong>Prof. Dr. Utku Kose</strong><br>Full Professor, Department of Computer Engineering, Süleyman Demirel University, Isparta, Türkiye<br>Founding Director, AI Application and Research Center (YAZEM), Süleyman Demirel University<br>Head of the Computer Science Division, Department of Computer Engineering, Süleyman Demirel University<br>Additional affiliations: University of North Dakota (USA), Universidad Panamericana (Mexico City, Mexico), Vel Tech University (Chennai, India)<br>IEEE Senior Member, ACM Professional Member<br><a href="https://orcid.org/0000-0002-9652-6415">ORCID 0000-0002-9652-6415</a> | <a href="https://www.utkukose.com">utkukose.com</a> | <a href="https://github.com/utkukose">github.com/utkukose</a><br><a href="mailto:utkukose@sdu.edu.tr">utkukose@sdu.edu.tr</a> | <a href="mailto:utku.kose@und.edu">utku.kose@und.edu</a> | <a href="mailto:ukose@up.edu.mx">ukose@up.edu.mx</a> | <a href="mailto:utkukose@gmail.com">utkukose@gmail.com</a></p><p>This course is updated in line with current developments in the field. First version: November 2026. Course materials licensed under CC BY 4.0. Code licensed under MIT.</p></footer></div><script>window.COURSE_PREFIX="cps";</script><script>"use strict";
 /* Shared runtime of the lecture pages and interactive labs. */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -1490,7 +1490,7 @@ window.CPSKIT = CPSKIT;
       {key: "bi", label: "Baud rate", options: BAUDS.map(String), value: 1},
       {key: "n", label: "Registers read, N", min: 1, max: 60, step: 1, value: 10, d: 0},
       {key: "tr", label: "Reply delay of the device (ms)", min: 0, max: 20, step: 1, value: 5, d: 0}],
-    presets: [{label: "Lecture: meter, 9600 baud", values: {bi: 1, n: 10, tr: 5}},
+    presets: [{label: "Lecture: Meter, 9600 baud", values: {bi: 1, n: 10, tr: 5}},
       {label: "The BMS at 19200 baud", values: {bi: 2, n: 40, tr: 5}},
       {label: "Fast line, 115200 baud", values: {bi: 4, n: 10, tr: 5}}],
     steps(v) {
@@ -1503,13 +1503,13 @@ window.CPSKIT = CPSKIT;
          q: {label: "Response in ms", ans: rs, tol: 0.006}},
         {t: r > 19200 ? "Above 19200 baud the silence is fixed at 1.75 ms." : "The silence between frames: 3.5 character times.",
          m: r > 19200 ? "t_{3.5} = 1.75\\ \\text{ms}" : `t_{3.5} = 3.5 \\times ${f3(tc)} = ${f3(t35)}\\ \\text{ms}`, q: {label: "t3.5 in ms", ans: t35, tol: 0.0015}},
-        {t: "One transaction: request, response, two silences and the reply delay.", m: `T_{dev} = ${f3(rq)} + ${f2(rs)} + 2 \\times ${f3(t35)} + ${v.tr} = ${f2(T)}\\ \\text{ms}`,
+        {t: "One transaction: Request, response, two silences and the reply delay.", m: `T_{dev} = ${f3(rq)} + ${f2(rs)} + 2 \\times ${f3(t35)} + ${v.tr} = ${f2(T)}\\ \\text{ms}`,
          q: {label: "T_dev in ms", ans: T, tol: 0.006}},
-        {t: "The share of the transaction that a higher baud rate can shrink: the frames themselves.", m: `\\frac{${f3(rq)} + ${f2(rs)}}{${f2(T)}} = ${f3(share)}`},
+        {t: "The share of the transaction that a higher baud rate can shrink: The frames themselves.", m: `\\frac{${f3(rq)} + ${f2(rs)}}{${f2(T)}} = ${f3(share)}`},
         {t: "The poll cycle of the container at this baud rate and reply delay: 10, 20 and 40 registers.", m: `T_{cycle} = ${f2(one(10))} + ${f2(one(20))} + ${f2(one(40))} = ${f2(cyc)}\\ \\text{ms}`,
          q: {label: "T_cycle in ms", ans: cyc, tol: 0.011}}];
     },
-    viz: {aspect: 0.22, label: "The transaction on the line: request, silence, reply delay, response and silence",
+    viz: {aspect: 0.22, label: "The transaction on the line: Request, silence, reply delay, response and silence",
       draw(ctx, w, hh, v) {
         const C = COL(), r = BAUDS[v.bi], tc = 11 / r * 1000, t35 = r > 19200 ? 1.75 : 3.5 * tc;
         const parts = [["request", 8 * tc, C.c[1]], ["t3.5", t35, C.line], ["reply delay", v.tr, C.grid], ["response", (5 + 2 * v.n) * tc, C.c[0]], ["t3.5", t35, C.line]];
@@ -1532,7 +1532,7 @@ window.CPSKIT = CPSKIT;
     steps(v) {
       const a = r3(v.D / v.M), b = r4(v.K / v.M);
       if (b <= a) return [{t: "The two constants of the loop.", m: `a = \\frac{${v.D}}{${v.M}} = ${f3(a)},\\quad b = \\frac{${v.K}}{${v.M}} = ${f4(b)}`},
-        {t: "Here b is not larger than a: the loop is stable for every delay.", m: `b = ${f4(b)} \\le a = ${f3(a)}`}];
+        {t: "Here b is not larger than a: The loop is stable for every delay.", m: `b = ${f4(b)} \\le a = ${f3(a)}`}];
       const ratio = r3(-a / b), ac = r3(Math.acos(ratio)), b2 = r4(b * b), a2 = r4(a * a), w2 = r4(b2 - a2), om = r3(Math.sqrt(w2)), tau = r3(ac / om), fin = r3(-66 / (v.D + v.K));
       return [
         {t: "The two constants of the loop, in 1/s.", m: `a = \\frac{D}{M} = \\frac{${v.D}}{${v.M}} = ${f3(a)},\\quad b = \\frac{K}{M} = \\frac{${v.K}}{${v.M}} = ${f4(b)}`, q: {label: "b", ans: b, tol: 0.00015}},
@@ -1550,7 +1550,7 @@ window.CPSKIT = CPSKIT;
       }}
   });
   partNumbers("pd-n", {
-    title: "Part D", key: "w8:pd",
+    title: "Part D", key: "w8:pd", button: "Check the values",
     fields: [{label: "Poll cycle at 19200 baud (ms)", short: "Poll cycle", answer: 129.6, tol: 0.15},
       {label: "Loop delay through the campus server (s)", short: "Loop delay", answer: 0.40, tol: 0.006},
       {label: "Share of the delay margin kept (%)", short: "Margin kept", answer: 62.7, tol: 0.15}],
@@ -1764,7 +1764,7 @@ window.CPSKIT = CPSKIT;
     {sub: "logger", text: "The data logger stores everything that is published on the campus.", want: ["campus/#"]},
     {sub: "dashboard", text: "The dashboard of building 2 shows every value of building 2, and nothing else.", want: ["campus/b2/#"]},
     {sub: "battery", text: "The battery controller needs every power value that a meter measures, at the buildings and at the PCC.", want: ["campus/+/meter/power"]},
-    {sub: "battery", text: "A second screen of the battery controller shows everything about the battery: its BMS and its inverter.", want: ["campus/bat/#"]},
+    {sub: "battery", text: "A second screen of the battery controller shows everything about the battery: Its BMS and its inverter.", want: ["campus/bat/#"]},
     {sub: "dashboard", text: "The main dashboard plots every power value on the campus, whatever device publishes it.", want: ["campus/+/+/power"]},
     {sub: "battery", qos: true, text: "The battery controller sends 10 commands to the battery inverter through the broker, and each must arrive exactly once. Choose the quality of service and type how many packets cross the broker for the 10 commands, both hops together."}];
   const NAMES = {logger: "Data logger", dashboard: "Dashboard", battery: "Battery controller"};
@@ -1973,7 +1973,7 @@ window.CPSKIT = CPSKIT;
     for (let f = 1; f >= -2.5; f -= 0.5) { x.beginPath(); x.moveTo(l, Y(f)); x.lineTo(cw - r, Y(f)); x.stroke(); x.textAlign = "right"; x.fillText((50 + f).toFixed(1), l - 10, Y(f)); }
     for (let s = 0; s <= TEND; s += 5) { x.textAlign = "center"; x.fillText(`${s} s`, X(s), ch - b + 24); }
     x.textAlign = "left"; x.strokeStyle = "#E57373"; x.setLineDash([8, 6]); x.beginPath(); x.moveTo(l, Y(-2.5)); x.lineTo(cw - r, Y(-2.5)); x.stroke(); x.setLineDash([]);
-    x.fillStyle = "#E57373"; x.fillText("47.5 Hz: under-frequency trip", l + 8, Y(-2.5) - 14);
+    x.fillStyle = "#E57373"; x.fillText("47.5 Hz: Under-frequency trip", l + 8, Y(-2.5) - 14);
     x.strokeStyle = "#9FB3C6"; x.setLineDash([4, 6]); x.beginPath(); x.moveTo(l, Y(-STEP / (D + P.K))); x.lineTo(cw - r, Y(-STEP / (D + P.K))); x.stroke(); x.setLineDash([]);
     if (tr.t.length > 1) { x.strokeStyle = "#5FD3F0"; x.lineWidth = 3; x.beginPath();
       tr.t.forEach((s, i) => { const y = Y(Math.max(-2.6, Math.min(1.0, tr.f[i]))); i ? x.lineTo(X(s), y) : x.moveTo(X(s), y); }); x.stroke();
@@ -1996,7 +1996,7 @@ window.CPSKIT = CPSKIT;
     const lag = Math.round(P.tau / DT), n = Math.round(TEND / DT), df = new Float64Array(n + 1);
     sim = {k: 0, lag, n, df, tau: P.tau, K: P.K, carsIn: false}; tr = {t: [0], f: [0], out: ""}; cont.lamp(0x3DDC84); relay.material.color.set(0x3DDC84);
     cars.forEach((c, i) => { c.position.z = 7; }); chg.forEach((c, i) => { chgOn[i] = false; c.panel.redraw(); });
-    H.say(`Delay ${P.tau.toFixed(2)} s, gain ${P.K} kW/Hz: the cars arrive`); scr.panel.redraw();
+    H.say(`Delay ${P.tau.toFixed(2)} s, gain ${P.K} kW/Hz: The cars arrive`); scr.panel.redraw();
   }
   G.onTick(dt => {
     if (!sim) return false;
@@ -2023,7 +2023,7 @@ window.CPSKIT = CPSKIT;
     if (out === "tripped") { relay.material.color.set(0xE53935); chg.forEach((c, i) => { chgOn[i] = false; c.panel.redraw(); }); cont.lamp(0xE53935); }
     data.rows.push({trial: data.rows.length + 1, delay_s: Math.round(s.tau * 100) / 100, gain_kw_hz: s.K, outcome: out, lowest_hz: Math.round(Math.max(-9.999, lowest) * 1000) / 1000}); save(); table();
     H.big(out === "settled" ? "✓ settled" : (out === "growing" ? "✗ growing" : "✗ tripped"), out === "settled" ? "#2E8B57" : "#B53F2E", 1300);
-    H.say(out === "settled" ? "Settled: try a longer delay" : "Unstable: try a shorter delay");
+    H.say(out === "settled" ? "Settled: Try a longer delay" : "Unstable: Try a shorter delay");
     sayP.textContent = `Trial ${data.rows.length}: delay ${s.tau.toFixed(2)} s, gain ${s.K} kW/Hz, ${out}. ` + (out === "settled" ? `The frequency settles at ${(50 - STEP / (D + s.K)).toFixed(3)} Hz.` :
       "The controller acts on information that is too old and pushes the frequency the wrong way.");
     runB.disabled = false; sTau.disabled = false; sK.disabled = false; estI.disabled = false; chkB.disabled = false;

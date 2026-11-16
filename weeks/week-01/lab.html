@@ -143,7 +143,7 @@ code.tex{font-size:.8rem;white-space:pre-wrap;word-break:break-word}
 .sn-ro{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.86rem;color:var(--steel);margin:4px 0 0}
 .sn-ro b{font-family:var(--mono);color:var(--ink);font-weight:600;font-size:.84rem}
 .sn-ro .readout{flex:1 1 100%}
-/* Interface clinic: mock screens of the clinic app, before and after */
+/* Mock screens of an interface, before and after */
 .uiclinic{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c1);border-radius:10px;padding:12px 14px;margin:1.4rem 0}
 .uiclinic>p.small{margin:0 0 8px}
 .ui-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
@@ -218,7 +218,7 @@ textarea{width:100%;min-height:6em;border:1px solid var(--line);border-radius:4p
 <div class="row" style="align-items:flex-end;gap:12px;margin:8px 0">
 <div class="ctl" style="min-width:220px"><label for="tb-a1">Lowest threshold that holds, sunny (kW)</label><input type="number" step="5" id="tb-a1" style="width:7rem" disabled></div>
 <div class="ctl" style="min-width:220px"><label for="tb-a2">Lowest threshold that holds, cloudy (kW)</label><input type="number" step="5" id="tb-a2" style="width:7rem" disabled></div>
-<div><button class="btn ghost" id="tb-chk" type="button" disabled>Check my thresholds</button></div>
+<div><button class="btn ghost" id="tb-chk" type="button" disabled>Check the thresholds</button></div>
 </div>
 <p><button class="btn" id="tb-start" type="button">Start the experiment</button> <button class="btn ghost" id="tb-clr" type="button">Clear the results</button></p>
 <p class="small" id="tb-say" aria-live="polite"></p>
@@ -1599,7 +1599,7 @@ window.CAMPUS = CAMPUS;
       const es = [e0]; for (let k = 1; k <= 4; k++) es.push(r2(es[k - 1] * q));
       const cls = K >= 2 ? "The loop is unstable: |1 - K| is at least 1, so the error grows." : (K > 1 ? "The import overshoots and oscillates around the target while it settles." : (K === 1 ? "The error vanishes in one step." : "The error shrinks without changing its sign."));
       return [
-        {t: "The first error: the import without the battery minus the target.", m: `e[0] = ${v.net} - ${v.tg} = ${e0}\\ \\text{kW}`, q: {label: "e[0] in kW", ans: e0, tol: 0.006}},
+        {t: "The first error: The import without the battery minus the target.", m: `e[0] = ${v.net} - ${v.tg} = ${e0}\\ \\text{kW}`, q: {label: "e[0] in kW", ans: e0, tol: 0.006}},
         {t: "The first step of the controller and the new import.", m: `P_{bat}[1] = 0 + ${f1(K)} \\times ${e0} = ${f2(b1)},\\quad P_{grid}[1] = ${v.net} - ${f2(b1)} = ${f2(g1)}\\ \\text{kW}`, q: {label: "P_grid[1] in kW", ans: g1, tol: 0.006}},
         {t: "Each step multiplies the error by 1 - K.", m: `1 - K = ${f2(q)},\\quad e[k]:\\ ${es.map(f2).join(",\\ ")}`, q: {label: "e[4] in kW", ans: es[4], tol: 0.011}},
         {t: cls, m: `P_{grid}[4] = ${v.tg} + ${f2(es[4])} = ${f2(v.tg + es[4])}\\ \\text{kW},\\quad |1 - K| = ${f2(Math.abs(q))}`}];
@@ -1613,7 +1613,7 @@ window.CAMPUS = CAMPUS;
       }}
   });
   partNumbers("pd-n", {
-    title: "Part D", key: "w1:pd",
+    title: "Part D", key: "w1:pd", button: "Check the values",
     fields: [{label: "Import at noon (kW)", short: "Import", answer: 233.7, tol: 0.06},
       {label: "Self-sufficiency of the day", short: "Self-sufficiency", answer: 0.324, tol: 0.0015},
       {label: "Cut of the peak (kW)", short: "Cut", answer: 135.7, tol: 0.06}],
@@ -1688,7 +1688,7 @@ window.CAMPUS = CAMPUS;
       x.fillText(`${Math.round(100 * soc)} %`, cw - r + 60, t - 24); x.font = `500 22px ${K.F}`; x.fillText("charge", cw - r + 60, ch - b + 30); x.textAlign = "left";
       if (n >= 24) { const pk = Math.max(...res.map(d => d.grid)); x.fillStyle = pk <= th + 0.5 ? "#7EE0A1" : "#FF8A80"; x.font = `700 32px ${K.F}`;
         x.fillText(pk <= th + 0.5 ? `Peak held: ${pk.toFixed(1)} kW` : `Peak not held: ${pk.toFixed(1)} kW`, l + 10, t + 10); } }
-    x.fillStyle = "#A9B6C2"; x.font = `500 22px ${K.F}`; x.fillText("faint: without the battery; white: with the rule", l, ch - 28);
+    x.fillStyle = "#A9B6C2"; x.font = `500 22px ${K.F}`; x.fillText("Faint: Without the battery. White: With the rule", l, ch - 28);
   }});
   const STG = L.stage(G, {view: PLAY});
   const H = L.hud(box, 2); H.set(0, "Press Start for the experiment");
@@ -1716,7 +1716,7 @@ window.CAMPUS = CAMPUS;
     H.big(held ? "✓ peak held" : "✗ battery empty", held ? "#2E8B57" : "#B53F2E", 1300);
     sayP.textContent = held ? `The peak stayed at ${r1(pk)} kW. Try a lower threshold.` : `The battery ran empty, and the import reached ${r1(pk)} kW. Try a higher threshold.`;
     runB.disabled = false; sl.disabled = false; wS.disabled = false; a1.disabled = false; a2.disabled = false; chk.disabled = false;
-    if (window.labLog) labLog.note("Part A", `${wS.value} day, threshold ${th} kW: peak ${r1(pk)} kW`);
+    if (window.labLog) labLog.note("Part A", `${wS.value} day, threshold ${th} kW: Peak ${r1(pk)} kW`);
   }
   function check() {
     const v1 = parseFloat(a1.value), v2 = parseFloat(a2.value), ok1 = v1 === 445, ok2 = v2 === 490;

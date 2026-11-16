@@ -143,7 +143,7 @@ code.tex{font-size:.8rem;white-space:pre-wrap;word-break:break-word}
 .sn-ro{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.86rem;color:var(--steel);margin:4px 0 0}
 .sn-ro b{font-family:var(--mono);color:var(--ink);font-weight:600;font-size:.84rem}
 .sn-ro .readout{flex:1 1 100%}
-/* Interface clinic: mock screens of the clinic app, before and after */
+/* Mock screens of an interface, before and after */
 .uiclinic{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c1);border-radius:10px;padding:12px 14px;margin:1.4rem 0}
 .uiclinic>p.small{margin:0 0 8px}
 .ui-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
@@ -1480,7 +1480,7 @@ window.CPSKIT = CPSKIT;
       {key: "h", label: "Band of the hysteresis (K)", min: 0.2, max: 3, step: 0.1, value: 1, d: 1},
       {key: "To", label: "Outdoor temperature (°C)", min: -2, max: 15, step: 1, value: 5, d: 0},
       {key: "P", label: "Power of the heater (kW)", min: 30, max: 60, step: 5, value: 60, d: 0}],
-    presets: [{label: "Lecture: band 1 K at 5 °C, 60 kW", values: {h: 1, To: 5, P: 60}},
+    presets: [{label: "Lecture: Band 1 K at 5 °C, 60 kW", values: {h: 1, To: 5, P: 60}},
       {label: "Half the band", values: {h: 0.5, To: 5, P: 60}}, {label: "A cold night at -2 °C", values: {h: 1, To: -2, P: 60}}],
     steps(v) {
       const lo = r2(21 - v.h / 2), hi = r2(21 + v.h / 2), tss = r2(v.To + 0.4 * v.P);
@@ -1490,10 +1490,10 @@ window.CPSKIT = CPSKIT;
       if (tss <= hi) { s.push({t: "The steady state does not lie above the upper threshold: The heater runs all the time and never switches off.", m: `${f2(tss)} \\le ${f2(hi)}`}); return s; }
       const lnOn = r4(Math.log((tss - lo) / (tss - hi))), ton = r3(12 * lnOn), lnOff = r4(Math.log((hi - v.To) / (lo - v.To))), toff = r3(12 * lnOff);
       const cyc = r3(ton + toff), sw = r1(48 / cyc), pav = r1(v.P * ton / cyc);
-      s.push({t: "The on time: from the lower to the upper threshold with the heater on, with the logarithm rounded to four decimals.",
+      s.push({t: "The on time: From the lower to the upper threshold with the heater on, with the logarithm rounded to four decimals.",
         m: `t_{on} = 12 \\ln\\frac{${f2(tss)} - ${f2(lo)}}{${f2(tss)} - ${f2(hi)}} = 12 \\times ${f4(lnOn)} = ${f3(ton)}\\ \\text{h} = ${f1(60 * ton)}\\ \\text{min}`,
         q: {label: "On time in min", ans: r1(60 * ton), tol: 0.06}});
-      s.push({t: "The off time: from the upper to the lower threshold while the room cools toward the outdoor temperature.",
+      s.push({t: "The off time: From the upper to the lower threshold while the room cools toward the outdoor temperature.",
         m: `t_{off} = 12 \\ln\\frac{${f2(hi)} - ${v.To}}{${f2(lo)} - ${v.To}} = 12 \\times ${f4(lnOff)} = ${f3(toff)}\\ \\text{h} = ${f1(60 * toff)}\\ \\text{min}`,
         q: {label: "Off time in min", ans: r1(60 * toff), tol: 0.06}});
       s.push({t: "One cycle holds two switchings: The switchings a day and the average power of the heater.",
@@ -1501,7 +1501,7 @@ window.CPSKIT = CPSKIT;
         q: {label: "Switchings a day", ans: sw, tol: 0.06}});
       return s;
     },
-    viz: {aspect: 0.3, label: "One cycle of the thermostat: the heater on from the lower to the upper threshold, then off",
+    viz: {aspect: 0.3, label: "One cycle of the thermostat: The heater on from the lower to the upper threshold, then off",
       draw(ctx, w, hh, v) {
         const C = COL(), lo = 21 - v.h / 2, hi = 21 + v.h / 2, tss = v.To + 0.4 * v.P;
         const f = frame(ctx, w, hh, {x0: 0, x1: 6, y0: 19, y1: 23, xticks: 6, yticks: 4, xlabel: "hours", ylabel: "°C"});
@@ -1519,7 +1519,7 @@ window.CPSKIT = CPSKIT;
       {key: "I", label: "Fault current I (A)", min: 500, max: 10000, step: 250, value: 5000, d: 0},
       {key: "Is", label: "Pickup current I_s (A)", min: 100, max: 2000, step: 50, value: 250, d: 0},
       {key: "tms", label: "Time multiplier TMS", min: 0.05, max: 1, step: 0.01, value: 0.1, d: 2}],
-    presets: [{label: "Lecture: feeder, 5 kA, 250 A, TMS 0.10", values: {I: 5000, Is: 250, tms: 0.1}},
+    presets: [{label: "Lecture: Feeder, 5 kA, 250 A, TMS 0.10", values: {I: 5000, Is: 250, tms: 0.1}},
       {label: "Incomer: 5 kA, 1600 A, TMS 0.09", values: {I: 5000, Is: 1600, tms: 0.09}},
       {label: "M = 6, TMS 0.2", values: {I: 1500, Is: 250, tms: 0.2}}],
     steps(v) {
@@ -1602,7 +1602,7 @@ window.CPSKIT = CPSKIT;
   tsd.mesh.position.set(-0.71, Y + 0.12, -0.709); G.scene.add(tsd.mesh);
   const sockets = [0x2B2F35, 0xC62828, 0x2B2F35, 0xC62828].map((c, i) => { const s = K.cyl(G, 0.012, 0.012, 0.02, c, 0.5, 0.1, 14); s.rotation.x = Math.PI / 2; s.position.set(-0.53 + (i % 2) * 0.045, Y + 0.16 - Math.floor(i / 2) * 0.07, -0.705); G.scene.add(s); return s; });
   const knob = K.cyl(G, 0.02, 0.022, 0.02, 0xD6DADF, 0.4, 0.2, 20); knob.rotation.x = Math.PI / 2; knob.position.set(-0.86, Y + 0.05, -0.705); G.scene.add(knob);
-  const tagT = label3D("Test set: secondary injection", {scale: 0.0009}); tagT.position.set(-0.66, Y + 0.3, -0.86); G.scene.add(tagT);
+  const tagT = label3D("Test set: Secondary injection", {scale: 0.0009}); tagT.position.set(-0.66, Y + 0.3, -0.86); G.scene.add(tagT);
   /* the two relays and their breaker simulators on the rail */
   const relayDraw = (name, Is, tmsFn) => (x, cw, ch) => { x.fillStyle = "#101820"; x.fillRect(0, 0, cw, ch); x.fillStyle = "#8CF5B8"; x.font = `700 42px ${K.MONO}`; x.textBaseline = "middle";
     x.fillText(name, 14, 44); x.font = `500 32px ${K.MONO}`; x.fillStyle = "#C9D1D8"; x.fillText(`Is ${Is} A  CT ${Is}/1`, 14, 104); x.fillText(`IEC SI  TMS ${tmsFn().toFixed(2)}`, 14, 152); };
@@ -1683,7 +1683,7 @@ window.CPSKIT = CPSKIT;
     [q1, q2].forEach(q => { q.led(0, false); q.led(1, true); });
     const saved = data.rows; data.rows = [2, 5, 10, 20].map((M, i) => ({test: i + 1, relay: "feeder", multiple: M, tms: 0.1, trip_s: Math.round((curve(M, 0.1) + DELAY) * 1000) / 1000}))
       .concat([{test: 5, relay: "incomer", multiple: 3.125, tms: 0.09, trip_s: 0.567}]); scr.panel.redraw(); tsd.redraw(); data.rows = saved;
-    H.set(0, "The relay test bench"); H.set(1, "Four multiples, then the margin of 0.3 s"); H.say("Fault of 5 kA: feeder 0.247 s, incomer 0.567 s, margin 0.320 s"); };
+    H.set(0, "The relay test bench"); H.set(1, "Four multiples, then the margin of 0.3 s"); H.say("Fault of 5 kA: Feeder 0.247 s, incomer 0.567 s, margin 0.320 s"); };
   window.RELAY_TEST = {start, run, speed(f) { speed = f; }, set(test, M, tms) { testS.value = test; mS.value = String(M); tmsS.value = tms.toFixed(2); mS.disabled = test === "both"; r2.screen.redraw(); },
     state: () => ({game, running, rows: data.rows.length, last: data.rows[data.rows.length - 1] || null, margins: margins(), done: done()})};
 })();
@@ -1745,7 +1745,7 @@ window.CPSKIT = CPSKIT;
     if (closing && S.mode === "SHED" && !CRIT.includes(f)) { sayP.textContent = `In SHED, the controller keeps ${NAMES[f]} open: Only the library and the laboratories stay supplied.`; return; }
     S.conn[f] = closing; log(`${closing ? "close" : "open"} ${f}`, S.mode, S.mode);
     if ((S.mode === "ISLAND" || S.mode === "SHED") && closing && load() - wind() > 250) { sayP.textContent = `Closing ${NAMES[f]} raises the load to ${load().toFixed(1)} kW, beyond the inverter: It trips, and the campus goes dark.`; trans("overload", "DARK"); return; }
-    if (S.mode === "ISLAND" && FEEDERS.every(x => !S.conn[x] || CRIT.includes(x))) { trans("shed to critical", "SHED"); sayP.textContent = "Only the library and the laboratories stay supplied: mode SHED."; return; }
+    if (S.mode === "ISLAND" && FEEDERS.every(x => !S.conn[x] || CRIT.includes(x))) { trans("shed to critical", "SHED"); sayP.textContent = "Only the library and the laboratories stay supplied: Mode SHED."; return; }
     sayP.textContent = `${NAMES[f]} ${closing ? "closed" : "opened"}. Load ${load().toFixed(1)} kW, wind ${wind().toFixed(1)} kW.`; ui();
   }
   function form() {
